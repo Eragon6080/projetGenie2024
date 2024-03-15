@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
 {% extends "basic.html" %}
-{% load static %}
 <head>
     <title>Form</title>
+
 </head>
 <body>
 
 
 {% block content%}
-<div class="container text-center">
-    <div class="row align-items-center">
-        <div class="col"/>
-        <div class="col">
-            <form id="myForm">
+<div class="col-auto"></div>
+<div class="col-auto">
+    <!-- l'enchainement des classes de bootsrap permet d'aligner les éléments au centre -->
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="row align-self-center">
+            <form  id="myForm">
                 <h2>Création d'un sujet</h2>
                 <div class="row g-3 align-items-center">
                     <div class="col-auto">
@@ -54,10 +55,10 @@
 
                 </div>
             </form>
-        </div>
-        <div class="col"></div>
     </div>
 </div>
+</div>
+<div class="col-auto"></div>
 {% endblock content%}
 
 </body>
