@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% extends "basic.html" %}
+{% load static %}
+<head>
+    <title>Form</title>
+</head>
+<body>
+
+
+{% block content%}
+<div class="container text-center">
+    <div class="row align-items-center">
+        <div class="col"/>
+        <div class="col">
+            <form id="myForm">
+                <h2>Création d'un sujet</h2>
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="titleForm" class="form-label">Titre</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" aria-describedby="titleHelp" id="titleForm" placeholder="Titre">
+                    </div>
+                </div>
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="descriptionArea" class="form-label">Description</label>
+                    </div>
+                    <div class="col">
+                        <textarea class="form-control" id="descriptionArea" rows="3" placeholder="Sujet"></textarea>
+                    </div>
+                    <div class="col"/>
+                </div>
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="Destinations" class="form-label">Destinations/Places</label>
+                    </div>
+                    <div class="col">
+                        <textarea class="form-control" id="Destinations" rows="3" placeholder="Sujet"></textarea>
+                    </div>
+                    <div class="col"/>
+                </div>
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                         <label for="formFile" class="form-label"/>
+                    </div>
+                    <div class="col-auto">
+                        <input class="form-control" type="file" id="formFile">
+                    </div>
+                    <div class="col-auto">
+                        <div class="text-form">Optionnel</div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock content%}
+
+</body>
+</html>
