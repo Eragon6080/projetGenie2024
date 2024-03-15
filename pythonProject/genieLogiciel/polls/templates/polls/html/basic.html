@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/basic.css' %}">
+    <link rel="stylesheet" href="{% static 'css/submitForm.css' %}">
+</head>
+<body>
+<header id="myOwnheader">
+  <nav class="navbar navbar-expand-lg" >
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+      <a class="navbar-brand" href="#">Titre à gauche</a>
+      <a class="navbar-brand m-auto" id="pimsTitle" href="#">PIMS</a>
+      <a class="navbar-brand justify-content-end" href="#">Titre à droite</a>
+  </div>
+</nav>
+</header>
+
+<nav class="navbar navbar-expand-lg flex-column" style=" left: 0; top: 0; height: 100%; overflow: auto;">
+
+    <div class="container-fluid  ">
+        <div id="titleLeftColumn" class="position-fixed start-0 top-0">
+            <img src="{% static 'image/logo.png'%}" alt="logo de l'unamur">
+        </div>
+    </div>
+        <!-- Les classes permettent de rester à gaucge -->
+    <div class="d-flex myOwncolumn justify-content-start align-items-center text-center" id="navbarNavAltMarkup">
+        <div class="navbar-nav flex-column w-100">
+            <a class="nav-link cader" aria-current="page" href="#">Home</a>
+            <a class="nav-link cader" href="#">Features</a>
+            <a class="nav-link cader" href="#">Pricing</a>
+            <a class="nav-link cader" aria-disabled="true">Disabled</a>
+        </div>
+    </div>
+  </div>
+</nav>
+{% block content%}
+{%endblock content%}
+</body>
+</html>
