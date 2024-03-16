@@ -37,6 +37,7 @@ body{
     color: rgb(116,200,64);
     font-size: 48pt;
     font-family: Inter;
+    margin-left: 15%;
 }
 #titleLeftColumn{
     z-index: 9999;
@@ -51,4 +52,11 @@ body{
     object-fit: fill;
     margin-left: 9%;
     margin-bottom: 2%;
+}
+.textIntroduce{
+    text-align: center;
+    font-size: 13pt;
+    font-family: Regular;
+    color: black;
+
 }

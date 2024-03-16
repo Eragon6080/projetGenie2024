@@ -15,8 +15,22 @@
   <nav class="navbar navbar-expand-lg" >
   <div class="container-fluid d-flex justify-content-between align-items-center">
       <a class="navbar-brand" href="#">Titre à gauche</a>
-      <a class="navbar-brand m-auto" id="pimsTitle" href="#">PIMS</a>
-      <a class="navbar-brand justify-content-end" href="#">Titre à droite</a>
+      <a class="navbar-brand " id="pimsTitle" href="#">PIMS</a>
+      <div class="d-flex align-items-end">
+          <!-- l'image est à remplacer par une icône de la personne-->
+          <div class="col-auto ">
+            <img src="{% static 'image/logo.png'%}" alt="logo de l'unamur" style="height:130%; width:30%" class="align-items-end">
+          </div>
+          <div class="col-auto align-items-start">
+              <div class="row">
+                  <p class="navbar-brand justify-content-start textIntroduce" >Nom de la personne</p>
+              </div>
+              <div class="row align-items-start">
+                  <p class="navbar-brand justify-content-start textIntroduce" >Rôle</p>
+              </div>
+          </div>
+
+      </div>
   </div>
 </nav>
 </header>
@@ -37,7 +51,6 @@
             <a class="nav-link cader" aria-disabled="true">Disabled</a>
         </div>
     </div>
-  </div>
 </nav>
 {% block content%}
 {%endblock content%}
