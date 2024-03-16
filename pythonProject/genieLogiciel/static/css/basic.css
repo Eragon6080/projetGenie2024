@@ -43,11 +43,12 @@ body{
     background-color:  rgb(116,200,64); /* Définit la couleur d'arrière-plan en vert */
     background-size: cover; /* Fait en sorte que l'image d'arrière-plan couvre tout l'élément */
     image: url('../image/logo.png');
-    width: 13%;
-    height: 22%;
-
+    width: 10%;
+    height: 16%;
 }
 #titleLeftColumn img{
     width: 80%;
     object-fit: fill;
+    margin-left: 9%;
+    margin-bottom: 2%;
 }
