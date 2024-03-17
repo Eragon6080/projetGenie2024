@@ -1,14 +1,30 @@
-from django.http import HttpResponse
+import logging
+
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.template import loader
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from .forms import SubmitForm
+
 
 
 # Create your views here.
 
 def index(request) -> HttpResponse:
+
+    logger = logging.getLogger()
+    if request.method == 'POST':
+        form = SubmitForm(request.POST)
+
+        if form.is_valid():
+            logger.warning("cc")
+            return HttpResponseRedirect("polls/ok")
+
+    else:
+        form = SubmitForm()
     context = {
         'prenom': "Matthys",
-        'role': "Etudiant"
+        'role': "Etudiant",
+        "form": form
     }
     return render(request, 'submitSubject.html', context)
 
@@ -26,3 +42,13 @@ def cours(request) -> HttpResponse:
         'role': "Etudiant"
     }
     return render(request, 'cours.html', context)
+
+
+
+
+
+def ok(request) -> HttpResponse:
+    context = {
+        'response': "votre formulaire a bien été soumis"
+    }
+    return render(request, 'ok.html', context=context)

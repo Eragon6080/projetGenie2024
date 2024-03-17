@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
-{% extends "basic.html" %}
+ {% extends "basic.html" %}
 <head>
+
     <title>Form</title>
 
 </head>
 <body>
-
 
 {% block content%}
 <div class="col-auto"></div>
@@ -14,45 +14,49 @@
     <!-- l'enchainement des classes de bootsrap permet d'aligner les éléments au centre -->
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="row align-self-center">
-            <form  id="myForm">
+            <form  id="myForm" action="../polls/" method="post">
+                {{ form }}
+                {% csrf_token %}
                 <h2>Création d'un sujet</h2>
                 <div class="row g-3 align-items-center">
                     <div class="col-auto">
-                        <label for="titleForm" class="form-label">Titre</label>
+                        <label for="{{form.Title.id_for_label}}" class="form-label">Titre</label>
                     </div>
                     <div class="col-auto">
-                        <input type="text" class="form-control" aria-describedby="titleHelp" id="titleForm" placeholder="Titre">
+                        <input type="text" class="form-control" aria-describedby="titleHelp" id="{{form.Title.id_for_label}}" placeholder="Titre">
                     </div>
                 </div>
                 <div class="row g-3 align-items-center">
                     <div class="col-auto">
-                        <label for="descriptionArea" class="form-label">Description</label>
+                        <label for="{{form.description.id_for_label}}" class="form-label">Description</label>
                     </div>
                     <div class="col">
-                        <textarea class="form-control" id="descriptionArea" rows="3" placeholder="Sujet"></textarea>
+                        <textarea class="form-control" id="{{form.description.id_for_label}}" rows="3" placeholder="Sujet"></textarea>
                     </div>
                     <div class="col"/>
                 </div>
                 <div class="row g-3 align-items-center">
                     <div class="col-auto">
-                        <label for="Destinations" class="form-label">Destinations/Places</label>
+                        <label for="{{form.destination.id_for_label}}" class="form-label">Destinations/Places</label>
                     </div>
                     <div class="col">
-                        <textarea class="form-control" id="Destinations" rows="3" placeholder="Sujet"></textarea>
+                        <textarea class="form-control" id="{{form.destination.id_for_label}}" rows="3" placeholder="Sujet"></textarea>
                     </div>
                     <div class="col"/>
                 </div>
                 <div class="row g-3 align-items-center">
                     <div class="col-auto">
-                         <label for="formFile" class="form-label"/>
+                         <label for="{{form.file.id_for_label}}" class="form-label"/>
                     </div>
                     <div class="col-auto">
-                        <input class="form-control" type="file" id="formFile">
+                        <input class="form-control" type="file" id="{{form.file.id_for_label}}">
                     </div>
                     <div class="col-auto">
                         <div class="text-form">Optionnel</div>
                     </div>
-
+                </div>
+                <div class="col-12 align-items-center">
+                    <button type="submit" class="btn"  id="myButton">Validation</button>
                 </div>
             </form>
     </div>

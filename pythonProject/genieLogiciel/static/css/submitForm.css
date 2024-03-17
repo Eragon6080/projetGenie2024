@@ -3,3 +3,14 @@
     padding: 10px;
     width: 100%; /* 100% of the width of the parent element */
 }
+#myButton{
+    background-color: #55C243;
+    color: white;
+    background-size:cover;
+    padding: 10px;
+    cursor: pointer;
+    margin:0 auto;
+}
+#myButton:hover{
+    background-color: #3F8C2D;
+}
