@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+   
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <img src="{% static 'img/pims_nobackground.png %}" alt="PIMS">
+        </div>
+        <h1>Utilisez votre eID et non votre adresse email</h1>
+        <form id="login-form">
+            <div class="form-group">
+                <input type="text" id="username" name="username" placeholder="eID" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Log In</button>
+            </div>
+        </form>
+    </div>
+    <div class="sidebar">
+        <h2>Besoin d'aide ?</h2>
+        <p>Pour toute autre question sur l'utilisation de la plateforme Pims, contactez l'équipe PIms</p>
+        <p><a href="mailto:votre@email.com">✉️ </a> ou 📞: 081/725075</p>
+    </div>
+
+</body>
+</html>
