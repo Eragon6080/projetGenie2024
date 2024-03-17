@@ -1,0 +1,22 @@
+
+/* Style pour l'en-tête du tableau */
+th{
+    background-color: rgb(105,105,105); /* Couleur de fond grise foncée */
+    color: white; /* Couleur de texte blanche */
+    border: 1px solid black; /* Bordure noire */
+}
+
+/* Style pour les cellules du tableau */
+.myTable td, .myTable th {
+    border: 1px solid black; /* Bordure noire */
+    padding: 10px; /* Espacement à l'intérieur des cellules */
+}
+
+/* Style pour le tableau */
+.myTable {
+    border-collapse: separate; /* Sépare les cellules */
+    border-spacing: 2px; /* Espacement entre les cellules */
+}
+tbody tr:nth-child(1) {
+    font-decoration:underline; /* Couleur de fond grise claire pour les lignes impaires */
+}

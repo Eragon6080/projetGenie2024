@@ -2,18 +2,20 @@ import logging
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.views.decorators.csrf import csrf_exempt
 from .forms import SubmitForm
-
 
 
 # Create your views here.
 
+@csrf_exempt
 def index(request) -> HttpResponse:
-
     logger = logging.getLogger()
+    print("cc")
     if request.method == 'POST':
         form = SubmitForm(request.POST)
+        response = form.description
+        logger.warning(response)
 
         if form.is_valid():
             logger.warning("cc")
@@ -21,6 +23,7 @@ def index(request) -> HttpResponse:
 
     else:
         form = SubmitForm()
+
     context = {
         'prenom': "Matthys",
         'role': "Etudiant",
@@ -42,9 +45,6 @@ def cours(request) -> HttpResponse:
         'role': "Etudiant"
     }
     return render(request, 'cours.html', context)
-
-
-
 
 
 def ok(request) -> HttpResponse:
