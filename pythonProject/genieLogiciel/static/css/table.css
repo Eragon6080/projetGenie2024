@@ -30,3 +30,41 @@ tr:nth-child(even) {
 
     text-decoration: underline;
 }
+.progress-container {
+    width: 100%;
+}
+
+.progress-list {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.progress-step {
+    text-align: center;
+}
+
+.progress-circle {
+    width: 50px;
+    height: 50px;
+    background: #ccc;
+    border-radius: 50%;
+    line-height: 50px;
+    margin-bottom: 0.5rem;
+}
+
+.progress-circle.active {
+      color: rgb(116,200,64);
+}
+
+.progress-text {
+    font-size: 0.8rem;
+}
+#barContainer {
+    margin-bottom: 10rem !important;
+}
+.custom-progress{
+    background-color: rgb(116,200,64) !important;
+}
