@@ -11,26 +11,19 @@ from .forms import SubmitForm
 @csrf_exempt
 def index(request) -> HttpResponse:
     logger = logging.getLogger()
-    print("cc")
     if request.method == 'POST':
         form = SubmitForm(request.POST)
-        response = form.description
-        logger.warning(response)
-
         if form.is_valid():
-            logger.warning("cc")
-            return HttpResponseRedirect("polls/ok")
-
+            logger.info("form is valid")
+            return HttpResponseRedirect("../polls/ok")
     else:
         form = SubmitForm()
-
     context = {
         'prenom': "Matthys",
         'role': "Etudiant",
         "form": form
     }
     return render(request, 'submitSubject.html', context)
-
 
 # obliger de passer tous les élements nécessaires dans le context donc, attention aux id
 

@@ -8,9 +8,9 @@
 <body>
 {% block content%}
 <div class="col-auto"></div>
-<div class="col-auto d-flex align-items-center justify-content-center" style="height: 100vh;">
-    <div class="table-responsive mx-auto">
-        <table class="table myTable">
+<div class="col-12 d-flex align-items-center justify-content-center" style="height: 100vh;">
+    <div class="table-responsive">
+        <table class="table-striped">
             <thead>
                 <tr>
                     <th scope="col">Titre des sujets</th>
@@ -21,7 +21,7 @@
             <tbody>
                 {% for topic in topics %}
                 <tr>
-                    <td class="myTitle">{{ topic.title }}</td>
+                    <td class="myTableTitle">{{ topic.title }}</td>
                     <td>{{ topic.description }}</td>
                     <td>{{ topic.student }}</td>
                 </tr>

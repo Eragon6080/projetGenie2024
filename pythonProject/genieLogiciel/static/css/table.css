@@ -1,22 +1,32 @@
-
-/* Style pour l'en-tête du tableau */
-th{
-    background-color: rgb(105,105,105); /* Couleur de fond grise foncée */
-    color: white; /* Couleur de texte blanche */
-    border: 1px solid black; /* Bordure noire */
+/* Réinitialisez certains styles par défaut */
+table {
+    border-collapse: collapse;
+    width: 100%;
 }
 
-/* Style pour les cellules du tableau */
-.myTable td, .myTable th {
-    border: 1px solid black; /* Bordure noire */
-    padding: 10px; /* Espacement à l'intérieur des cellules */
+th, td {
+    padding: 8px;
+    text-align: left;
+    border: black 1px solid;
 }
 
-/* Style pour le tableau */
-.myTable {
-    border-collapse: separate; /* Sépare les cellules */
-    border-spacing: 2px; /* Espacement entre les cellules */
+/* Style pour la ligne d'en-tête */
+thead {
+    background-color: rgb(105,105,105);
+    color: white;
+    font-family: Regular;
+    font-size: 15pt;
 }
-tbody tr:nth-child(1) {
-    font-decoration:underline; /* Couleur de fond grise claire pour les lignes impaires */
+
+/* Style pour les lignes paires */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.myTableTitle{
+    text-align: center;
+    border: 1px solid black;
+    background-color: #9F9F9F;
+    font-weight: bold;
+
+    text-decoration: underline;
 }
