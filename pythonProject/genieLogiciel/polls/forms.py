@@ -2,6 +2,7 @@ from django import forms
 
 from django import forms
 
+# fichier servant à réaliser les forms
 
 class SubmitForm(forms.Form):
     title = forms.CharField(

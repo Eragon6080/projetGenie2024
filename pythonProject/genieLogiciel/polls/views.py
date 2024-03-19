@@ -30,10 +30,16 @@ def index(request) -> HttpResponse:
 
 def cours(request) -> HttpResponse:
     context = {
-        'cours1': "IDS",
-        'description1': "INFOB331",
-        'cours2': "Mémoire",
-        'description2': "INFOB332",
+        'cours': [
+            {
+                'title': "IDS",
+                'UE': "INFOB331"},
+            {
+                'title': "Mémoire",
+                'UE': "INFOB332"
+            }
+
+        ],
         'title': 'Cours',
         'prenom': "Matthys",
         'role': "Etudiant"
@@ -46,7 +52,6 @@ def ok(request) -> HttpResponse:
         'response': "votre formulaire a bien été soumis"
     }
     return render(request, 'ok.html', context=context)
-
 
 
 @csrf_exempt
