@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 
-def topic(request) -> HttpResponse:
+def topics(request, code) -> HttpResponse:
     context = {
         'topics' : [
             {
