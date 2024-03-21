@@ -15,10 +15,14 @@
 
 <body>
 <header id="myOwnheader">
-  <nav class="navbar navbar-expand-lg" >
+  <nav class="navbar navbar-expand-lg py-0" >
     <div class="container-fluid d-flex justify-content-between align-items-center">
+        {% if noSideBar %}
         <span></span>
-        <div class="navbar-brand d-flex align-items-center" id="pimsTitle"><img src="{% static 'image/LApims.png'%}" alt="pimsLogo" style="width:50%"></div>
+        {% else %}
+        <a class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><span class="navbar-toggler-icon"></span></a>
+        {% endif %}
+        <div class="navbar-brand d-flex align-items-center" id="pimsTitle"><a href="/course/"><img src="{% static 'image/LApims.png'%}" alt="pimsLogo" style="width:50%"></a></div>
         <div class="d-flex align-items-start">
             <!-- l'image est à remplacer par une icône de la personne-->
             <div class="row">
@@ -40,9 +44,13 @@
 </header>
 
 
+{% if not noSideBar %}
+<div class="offcanvas offcanvas-start show" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
 {% block sidebar %}
 
 {% endblock sidebar %}
+</div>
+{% endif %}
 
 
 {% block content %}

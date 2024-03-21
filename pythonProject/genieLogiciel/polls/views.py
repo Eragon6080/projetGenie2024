@@ -43,7 +43,8 @@ def home(request) -> HttpResponse:
         ],
         'title': 'Cours',
         'prenom': "Matthys",
-        'role': "Etudiant"
+        'role': "Etudiant",
+        'noSideBar': 'true'
     }
     return render(request, 'home.html', context)
 

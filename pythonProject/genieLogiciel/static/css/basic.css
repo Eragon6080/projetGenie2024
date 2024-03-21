@@ -1,13 +1,5 @@
 /* colonne à gauche*/
-.myOwncolumn{
-    background-color: rgb(105,105,105);
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100%;
-    overflow: auto;
-    width: 10vw;
-}
+
 .cader{
     text-align: center;
     border: 1px solid black;
@@ -31,6 +23,7 @@ body{
     padding: 10px;
     margin: 0px;
     position: fixed;
+    height:10px;
     width: 100%;
 }
 #pimsTitle{
@@ -42,16 +35,13 @@ body{
 #titleLeftColumn{
     z-index: 9999;
     background-color:  rgb(116,200,64); /* Définit la couleur d'arrière-plan en vert */
-    background-size: cover; /* Fait en sorte que l'image d'arrière-plan couvre tout l'élément */
-    image: url('../image/logo.png');
-    width: 10%;
-    height: 16%;
+    background-size: cover; /* Fait en sorte que l'image d'arrière-plan couvre tout l'élément */;
 }
+
+
 #titleLeftColumn img{
-    width: 80%;
     object-fit: fill;
-    margin-left: 9%;
-    margin-bottom: 2%;
+    
 }
 .textIntroduce{
     text-align: center;
