@@ -1,5 +1,6 @@
-/* colonne à gauche*/
 
+
+/* colonne à gauche*/
 .cader{
     text-align: center;
     border: 1px solid black;
@@ -17,21 +18,19 @@
 body{
     background-color: #FFFFFF;
 }
-#myOwnheader{
+
+.myOwnheader{
     background-color: rgb(105,105,105);
-    text-align: center;
     padding: 10px;
     margin: 0px;
-    position: fixed;
-    height:10px;
-    width: 100%;
+    height: 5vw;
+
 }
-#pimsTitle{
-    color: rgb(116,200,64);
-    font-size: 48pt;
-    font-family: Inter;
-    margin-left: 15%;
+
+.pimsTitle{
+    justify-content: center;
 }
+
 #titleLeftColumn{
     z-index: 9999;
     background-color:  rgb(116,200,64); /* Définit la couleur d'arrière-plan en vert */

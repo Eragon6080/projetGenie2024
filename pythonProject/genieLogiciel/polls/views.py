@@ -9,22 +9,7 @@ from .forms import SubmitForm, ConnectForm
 
 # Create your views here.
 
-@csrf_exempt
-def addTopic(request, code) -> HttpResponse:
-    logger = logging.getLogger()
-    if request.method == 'POST':
-        form = SubmitForm(request.POST)
-        if form.is_valid():
-            logger.info("form is valid")
-            return HttpResponseRedirect("ok/")
-    else:
-        form = SubmitForm()
-    context = {
-        'prenom': "Matthys",
-        'role': "Etudiant",
-        "form": form
-    }
-    return render(request, 'submitSubject.html', context)
+
 
 
 # obliger de passer tous les élements nécessaires dans le context donc, attention aux id

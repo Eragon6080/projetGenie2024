@@ -14,23 +14,23 @@
 </head>
 
 <body>
-<header id="myOwnheader">
-  <nav class="navbar navbar-expand-lg py-0" >
+<header>
+  <nav class="navbar navbar-expand-lg py-0" style="background-color: #9F9F9F;">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         {% if noSideBar %}
         <span></span>
         {% else %}
-        <a class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><span class="navbar-toggler-icon"></span></a>
+        <a class="btn btn-light navbar-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><span class="navbar-toggler-icon"></span></a>
         {% endif %}
-        <div class="navbar-brand d-flex align-items-center" id="pimsTitle"><a href="/course/"><img src="{% static 'image/LApims.png'%}" alt="pimsLogo" style="width:50%"></a></div>
-        <div class="d-flex align-items-start">
+        <a class="navbar-brand d-flex justify-content-center" href="/course/"><img src="{% static 'image/LApims.png'%}" alt="pimsLogo" style="width:50%"></a>
+        <div class="d-flex">
             <!-- l'image est à remplacer par une icône de la personne-->
             <div class="row">
-              <div class="col-auto d-flex align-items-center">
-                <img src="{% static 'image/profile-user.png'%}" alt="logo de l'unamur" height="50px" >
+              <div class="col-auto d-flex">
+                <img src="{% static 'image/profile-user.png'%}" alt="logo de l'unamur" style="width: 40px;" >
               </div>
-              <div class="col-auto">
-                <div class="row">
+              <div class="d-flex col-auto justify-content-center">
+                <div class="row ">
                     <p class="text-light">{{prenom}}</p>
                 </div>
                 <div class="row">

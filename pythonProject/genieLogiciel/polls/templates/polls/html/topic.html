@@ -14,7 +14,10 @@
 
 </div>
 <div class="offcanvas-body">
-    <div class="d-flex justify-content-start align-items-center text-center" >
+    <div class="col" >
+        <div>
+            <p class="h4">{{ UE }}</p>
+        </div>
         <div class="navbar-nav w-100">
             <a class="nav-link cader" aria-current="page" href="#">Administration</a>
             <a class="nav-link cader active" href="../topics/">Topics</a>
@@ -31,13 +34,14 @@
 
 {% block content%}
 <div class="container vh-100 d-flex flex-column justify-content-center">
+
     <div class="row justify-content-center">
         <div class="col-8">
-            <div class="progress-container vh-25 d-flex align-items-end" id="barContainer">
-                <div class="progress w-100">
+            <div class="progress-container vh-25 d-flex" id="barContainer">
+                <div class="progress w-100" style="height: 20px;">
                     <div class="progress-bar custom-progress" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                         <div class="progress-step">
-                            <span class="progress-circle active">1</span>
+                            <span class="progress-circle active" style="height: 30px;">1</span>
                         </div>
                     </div>
                     <div class="progress-bar custom-progress" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
@@ -59,6 +63,9 @@
             </div>
         </div>
     </div>
+
+
+
     <div class="row justify-content-center">
         <div class="col-8">
             <div class="table-container d-flex justify-content-center">
