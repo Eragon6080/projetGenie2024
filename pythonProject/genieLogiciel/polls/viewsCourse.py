@@ -6,6 +6,7 @@ from .forms import SubmitForm, ConnectForm
 
 
 def topics(request, code) -> HttpResponse:
+
     context = {
         'topics' : [
             {

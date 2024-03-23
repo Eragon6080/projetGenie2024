@@ -1,37 +1,36 @@
 import logging
+from _ast import Await
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
+
+from .UE import get_all_ue, get_all_course
 from django.views.decorators.csrf import csrf_exempt
-from .forms import SubmitForm, ConnectForm
+from .forms import ConnectForm
 
 
 # Create your views here.
 
 
-
-
 # obliger de passer tous les élements nécessaires dans le context donc, attention aux id
 
 def home(request) -> HttpResponse:
+    courses_query = get_all_course()
+    courses = []
+    for cours in courses_query:
+        courses.append(cours)
     context = {
-        'cours': [
-            {
-                'title': "IDS",
-                'UE': "INFOB331"},
-            {
-                'title': "Mémoire",
-                'UE': "INFOB332"
-            }
-
-        ],
+        'cours': courses,
         'title': 'Cours',
         'prenom': "Matthys",
         'role': "Etudiant",
         'noSideBar': 'true'
     }
+    print(context['cours'])
+
+
     return render(request, 'home.html', context)
+
 
 def course(request, code) -> HttpResponse:
     return render(request, 'course.html', {})
