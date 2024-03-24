@@ -1,14 +1,16 @@
 import logging
+
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from .forms import SubmitForm, ConnectForm
 
 
+@login_required(login_url='/polls')
 def topics(request, code) -> HttpResponse:
-
     context = {
-        'topics' : [
+        'topics': [
             {
                 'title': 'Topic 1',
                 'description': 'Content 1',
@@ -34,6 +36,8 @@ def topics(request, code) -> HttpResponse:
     }
     return render(request, "topic.html", context)
 
+
+@login_required(login_url='/polls')
 @csrf_exempt
 def addTopic(request, code) -> HttpResponse:
     logger = logging.getLogger()

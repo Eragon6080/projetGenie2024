@@ -31,7 +31,7 @@ class SubmitForm(forms.Form):
 
 
 class ConnectForm(forms.Form):
-    eid = forms.CharField(label="eid", max_length=100, required=True,
-                          widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'eid'}))
+    email = forms.CharField(label="email", max_length=100, required=True,
+                          widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'email'}))
     password = forms.CharField(label="password", max_length=100, required=True,
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'password'}))

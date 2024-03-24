@@ -5,6 +5,7 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser, BaseUserManager
 from django.db import models
 
 
@@ -52,13 +53,40 @@ class Periode(models.Model):
         db_table = 'periode'
 
 
-class Personne(models.Model):
+class PersonneManager(BaseUserManager):
+    def create_user(self, mail, password=None, **extra_fields):
+        if not mail:
+            raise ValueError('The Email field must be set')
+        mail = self.normalize_email(mail)
+        user = self.model(mail=mail, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(email, password, **extra_fields)
+
+
+class Personne(AbstractBaseUser, PermissionsMixin):
     idpersonne = models.AutoField(primary_key=True)
     nom = models.TextField()
     prenom = models.TextField()
-    mail = models.TextField(unique=True)
-    motdepasse = models.TextField()
-    rolepersonne = models.TextField()
+    mail = models.TextField(unique=True,db_column='mail')
+    password = models.TextField(db_column='password')
+    role = models.TextField(db_column='role')
+    is_active = models.BooleanField(default=True,db_column='is_active'),
+    is_staff = models.BooleanField(default=False,db_column='is_staff'),
+    last_login = models.DateTimeField(null=True, blank=True,db_column='last_login')  # Ajoutez ce champ
+    is_superuser = models.BooleanField(default=False,db_column='is_superuser')
+
+    objects = PersonneManager()
+
+    USERNAME_FIELD = 'mail'
+    PASSWORD_FIELD = 'password'
+
+    REQUIRED_FIELDS = []
 
     class Meta:
         managed = False
