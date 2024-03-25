@@ -26,7 +26,7 @@ class SubmitForm(forms.Form):
     file = forms.FileField(
         label='File',
         required=False,
-        widget=forms.FileInput(attrs={'class': 'form-control'})
+        widget=forms.FileInput(attrs={'class': 'form-control','type':'file','placeholder': 'Fichier'})
     )
 
 

@@ -24,6 +24,7 @@ def home(request) -> HttpResponse:
     courses_query = get_all_course()
     courses = []
     for cours in courses_query:
+        print(cours)
         courses.append(cours)
     context = {
         'cours': courses,
@@ -38,13 +39,6 @@ def home(request) -> HttpResponse:
 def course(request, code) -> HttpResponse:
     return render(request, 'course.html', {})
 
-
-@login_required(login_url='/polls')
-def ok(request) -> HttpResponse:
-    context = {
-        'response': "votre formulaire a bien été soumis"
-    }
-    return render(request, 'ok.html', context=context)
 
 
 @csrf_exempt

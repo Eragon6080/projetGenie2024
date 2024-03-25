@@ -27,14 +27,15 @@
 </div>
 {% endblock sidebar%}
 
-
+{% if user.role ==  "prof"%}
 {% block content%}
+
 <div class="col-auto"></div>
 <div class="col-auto">
     <!-- l'enchainement des classes de bootsrap permet d'aligner les éléments au centre -->
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="row align-self-center">
-        <form  id="myForm" action="../polls/subject" method="post">
+        <form  id="myForm" action="/polls/course/{{UE}}/new" method="post" enctype="multipart/form-data">
             <h2 id="creationTitle">Création d'un sujet</h2>
             <div class="row g-3 align-items-center">
                 <div class="col-auto">
@@ -77,9 +78,8 @@
         </form>
     </div>
 </div>
+
 <div class="col-auto"></div>
+
 {% endblock content%}
-
-
-</body>
-</html>
+    {% endif %}

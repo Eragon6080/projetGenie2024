@@ -6,8 +6,10 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser, BaseUserManager
+from django.core.files.storage import FileSystemStorage
 from django.db import models
 
+fs = FileSystemStorage(location='/document/fichier')
 
 class Cours(models.Model):
     idcours = models.AutoField(primary_key=True)
@@ -106,11 +108,12 @@ class Professeur(models.Model):
 
 class Sujet(models.Model):
     idsujet = models.AutoField(primary_key=True)
-    titre = models.TextField()
-    descriptif = models.TextField()
-    fichier = models.TextField(blank=True, null=True)
-    idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode')
-    idprof = models.ForeignKey(Professeur, models.DO_NOTHING, db_column='idprof')
+    titre = models.TextField(db_column='titre')
+    descriptif = models.TextField(db_column='descriptif')
+    destination = models.TextField(db_column='destination')
+    fichier = models.FileField(storage=fs,upload_to='sujets/',blank=True, null=True,db_column='fichier')
+    idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode',default=1)
+    idprof = models.ForeignKey(Professeur, models.DO_NOTHING, db_column='idprof',default=1)
 
     class Meta:
         managed = False
