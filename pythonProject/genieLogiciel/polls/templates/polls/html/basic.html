@@ -22,24 +22,40 @@
         {% else %}
         <a class="btn btn-light navbar-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><span class="navbar-toggler-icon"></span></a>
         {% endif %}
-        <a class="navbar-brand d-flex justify-content-center" href="/course/"><img src="{% static 'image/LApims.png'%}" alt="pimsLogo" style="width:50%"></a>
+        <a class="navbar-brand d-flex justify-content-center" href="/polls/course/"><img src="{% static 'image/LApims.png'%}" alt="pimsLogo" style="width:50%"></a>
         <div class="d-flex">
             <!-- l'image est à remplacer par une icône de la personne-->
             {% if user.is_authenticated %}
             <div class="row">
               <div class="col-auto d-flex justify-content-center">
-                <img src="{% static 'image/profile-user.png'%}" alt="logo de l'unamur" style="width: 40px;" >
+                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                  <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                      <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{% static 'image/profile-user.png'%}" alt="profile picture" style="width: 40px;" >
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                    
+                  
+                
               </div>
               <div class="d-flex col-auto justify-content-center">
                 <div class="row ">
-                    <p class="text-light">{{user.prenom}}</p>
+                    <p class="text-light">{{user.prenom}} {{user.nom}}</p>
                 </div>
 
                 <div class="row">
                     <p class="text-light" >{{user.role}}</p>
                 </div>
-                  <div class="col-auto d-flex justify-content-center">
-                    <a href="{% url 'logout' %}" class="btn btn-red">Déconnexion</a>
+                  <div class="col-auto d-flex align-items-center justify-content-center">
+                    <a href="{% url 'logout' %}" class="btn "><i class="fa fa-sign-out"></i></a>
                 </div>
               </div>
                 {%endif%}
