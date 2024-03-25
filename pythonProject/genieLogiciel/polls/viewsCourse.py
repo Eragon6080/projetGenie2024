@@ -43,13 +43,14 @@ def topics(request, code) -> HttpResponse:
 def addTopic(request, code) -> HttpResponse:
     logger = logging.getLogger()
     if request.method == 'POST':
-        form = SubmitForm(request.POST,request.FILES)
+        form = SubmitForm(request.POST, request.FILES)
 
         if form.is_valid():
             logger.info("form is valid")
             sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
                           destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'])
-            print(request.FILES)
+
+
             sujet.save()
 
             return HttpResponseRedirect("../../ok")
@@ -67,4 +68,4 @@ def addTopic(request, code) -> HttpResponse:
 
 @login_required(login_url="/polls")
 def ok(request) -> HttpResponse:
-    return render(request, "ok.html", context={ok:'Votre sujet a été validé'})
+    return render(request, "ok.html", context={ok: 'Votre sujet a été validé'})
