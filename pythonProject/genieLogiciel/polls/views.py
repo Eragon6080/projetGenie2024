@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
-from .UE import get_all_course
+from .queries import get_all_course
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ConnectForm
 

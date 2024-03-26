@@ -42,7 +42,9 @@ def topics(request, code) -> HttpResponse:
 @csrf_exempt
 def addTopic(request, code) -> HttpResponse:
     logger = logging.getLogger()
+    
     if request.method == 'POST':
+        
         form = SubmitForm(request.POST, request.FILES)
 
         if form.is_valid():
@@ -56,6 +58,7 @@ def addTopic(request, code) -> HttpResponse:
             return HttpResponseRedirect("../../ok")
     else:
         form = SubmitForm()
+
     context = {
         'UE': code,
         'title': 'Cours',
@@ -67,5 +70,6 @@ def addTopic(request, code) -> HttpResponse:
 
 
 @login_required(login_url="/polls")
+@csrf_exempt
 def ok(request) -> HttpResponse:
     return render(request, "ok.html", context={ok: 'Votre sujet a été validé'})
