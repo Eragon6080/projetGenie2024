@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from .forms import SubmitForm, ConnectForm
+from .forms import SubmitForm
 from .models import Sujet
 
 
@@ -51,7 +51,6 @@ def addTopic(request, code) -> HttpResponse:
             logger.info("form is valid")
             sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
                           destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'])
-
 
             sujet.save()
 
