@@ -48,10 +48,13 @@ def login(request) -> HttpResponse:
         if form.is_valid():
 
             user = authenticate(request, mail=form.cleaned_data['email'], password=form.cleaned_data['password'])
+            print(user.role)
             if user is not None and user.is_authenticated:
                 auth_login(request, user)
-
-                return HttpResponseRedirect(redirect_to="course/")
+                if 'admin' in user.role['role']:
+                    return HttpResponseRedirect(redirect_to="admin/")
+                else:
+                    return HttpResponseRedirect(redirect_to="course/")
             else:
                 form = ConnectForm()
     else:

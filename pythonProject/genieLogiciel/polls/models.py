@@ -26,6 +26,11 @@ def validate_email(value):
         raise ValidationError(u'Invalid email address.')
 
 
+def validate_block(value):
+    if value < 1 or value > 6:
+        raise ValidationError(u'Invalid block number.')
+
+
 # fonction pour définir le chemin de dépôt des fichiers pour un délivrable
 def get_upload_path(instance, filename):
     # Récupérer le nom de la personne
@@ -50,10 +55,10 @@ class Cours(models.Model):
 
 
 class Etudiant(models.Model):
-    idetudiant = models.AutoField(primary_key=True, db_column='idEtudiant')
-    bloc = models.IntegerField(db_column='bloc', choices=[1, 2, 3, 4, 5])
-    idpersonne = models.ForeignKey('Personne', models.DO_NOTHING, db_column='idPersonne')
-    idsujet = models.ForeignKey('Sujet', models.DO_NOTHING, db_column='idSujet',unique=True)
+    idetudiant = models.AutoField(primary_key=True, db_column='idetudiant')
+    bloc = models.IntegerField(db_column='bloc', validators=[validate_block])
+    idpersonne = models.ForeignKey('Personne', models.DO_NOTHING, db_column='idpersonne')
+    idsujet = models.ForeignKey('Sujet', models.DO_NOTHING, db_column='idsujet', unique=True)
 
     class Meta:
         managed = False
@@ -62,8 +67,8 @@ class Etudiant(models.Model):
 
 class Inscription(models.Model):
     idinscription = models.AutoField(primary_key=True)
-    idetudiant = models.ForeignKey(Etudiant, models.DO_NOTHING, db_column='idEtudiant')
-    idcours = models.ForeignKey(Cours, models.DO_NOTHING, db_column='idCours')
+    idetudiant = models.ForeignKey(Etudiant, models.DO_NOTHING, db_column='idetudiant')
+    idcours = models.ForeignKey(Cours, models.DO_NOTHING, db_column='idcours')
 
     class Meta:
         managed = False
@@ -71,7 +76,7 @@ class Inscription(models.Model):
 
 
 class Periode(models.Model):
-    idperiode = models.AutoField(primary_key=True, db_column='idPeriode')
+    idperiode = models.AutoField(primary_key=True, db_column='idperiode')
     annee = models.IntegerField(db_column='annee')
 
     class Meta:
@@ -80,9 +85,9 @@ class Periode(models.Model):
 
 
 class Delivrable(models.Model):
-    idDelivrable = models.AutoField(primary_key=True, db_column='idDelivrable')
+    idDelivrable = models.AutoField(primary_key=True, db_column='iddelivrable')
     fichier = models.FileField(db_column='fichier', upload_to=get_upload_path, blank=True, null=True)
-    typeFichier = models.TextField(db_column='typeFichier', validators=[validate_file_extension])
+    typeFichier = models.TextField(db_column='typefichier', validators=[validate_file_extension])
 
     nom_personne: str
     nom_cours: str
@@ -99,11 +104,11 @@ class Delivrable(models.Model):
 
 
 class Etape(models.Model):
-    idEtape = models.AutoField(primary_key=True, db_column='idEtape')
+    idEtape = models.AutoField(primary_key=True, db_column='idetape')
     delai = models.DateTimeField(db_column='delai')
     description = models.TextField(db_column='description')
-    idPeriode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idPeriode')
-    idDelivrable = models.ForeignKey('Delivrable', models.DO_NOTHING, db_column='idDelivrable')
+    idPeriode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode')
+    idDelivrable = models.ForeignKey('Delivrable', models.DO_NOTHING, db_column='iddelivrable')
 
 
 class PersonneManager(BaseUserManager):
@@ -123,12 +128,12 @@ class PersonneManager(BaseUserManager):
 
 
 class Personne(AbstractBaseUser, PermissionsMixin):
-    idpersonne = models.AutoField(primary_key=True, db_column='idPersonne')
+    idpersonne = models.AutoField(primary_key=True, db_column='idpersonne')
     nom = models.TextField(db_column='nom')
     prenom = models.TextField(db_column='prenom')
     mail = models.TextField(unique=True, db_column='mail', validators=[validate_email])
     password = models.TextField(db_column='password')
-    role = models.JSONField(db_column='role', default=dict[{'role': ['etudiant']}])
+    role = models.JSONField(db_column='role',default=list, blank=True, null=True)
     is_active = models.BooleanField(default=True, db_column='is_active'),
     is_staff = models.BooleanField(default=False, db_column='is_staff'),
     last_login = models.DateTimeField(null=True, blank=True, db_column='last_login')  # Ajoutez ce champ
@@ -147,10 +152,10 @@ class Personne(AbstractBaseUser, PermissionsMixin):
 
 
 class Professeur(models.Model):
-    idprof = models.AutoField(primary_key=True, db_column='idProf')
+    idprof = models.AutoField(primary_key=True, db_column='idprof')
     specialite = models.TextField(db_column='specialite')
-    idpersonne = models.ForeignKey(Personne, models.DO_NOTHING, db_column='idPersonne')
-    idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idPeriode')
+    idpersonne = models.ForeignKey(Personne, models.DO_NOTHING, db_column='idpersonne')
+    idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode')
 
     class Meta:
         managed = False
@@ -158,7 +163,7 @@ class Professeur(models.Model):
 
 
 class Sujet(models.Model):
-    idsujet = models.AutoField(primary_key=True, db_column='idSujet')
+    idsujet = models.AutoField(primary_key=True, db_column='idsujet')
     titre = models.TextField(db_column='titre')
     descriptif = models.TextField(db_column='descriptif')
     destination = models.TextField(db_column='destination')
@@ -167,7 +172,7 @@ class Sujet(models.Model):
                                validators=[validate_file_extension])
     idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode', default=1)
     idprof = models.ForeignKey(Professeur, models.DO_NOTHING, db_column='idprof', default=1)
-    idCours = models.ForeignKey(Cours, models.DO_NOTHING, db_column='idCours', default=1)
+    idCours = models.ForeignKey(Cours, models.DO_NOTHING, db_column='idcours', default=1)
 
     class Meta:
         managed = False
