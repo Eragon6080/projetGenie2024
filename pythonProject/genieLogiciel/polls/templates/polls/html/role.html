@@ -28,105 +28,114 @@
 {% endblock sidebar%}
 
 {% block content%}
-<div class="col-auto"></div>
-<div class="col-auto">
-    {% if 'admin' in user.role.role %}
-    {% if admin_people %}
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="table-container d-flex justify-content-center">
-                <div class="table-responsive">
-                    <table class="table-striped text-center">
-                        <thead>
-                            <tr>
-                                {% for field in admin_and_superviseur_title %}
-                                <th>{{ field }}</th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for admin in admin_people %}
-                            <tr>
-                                <td class="myTableTitle">{{admin.nom}}</td>
-                                <td>{{ admin.prenom }}</td>
-                                <td>{{ admin.mail }}</td>
-                                <td>{% for role in admin.role.role%}
-                                    {{ role }}
-                                    {%endfor%}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-    </div>
-    {% endif %}
-    {% if superviseur_people %}
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="table-container d-flex justify-content-center">
-                <div class="table-responsive">
-                    <table class="table-striped text-center">
-                        <thead>
-                            <tr>
-                                {% for field in admin_and_superviseur_title %}
-                                <th>{{ field }}</th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for superviseur in superviseur_people %}
-                            <tr>
-                                <td class="myTableTitle">{{superviseur.nom}}</td>
-                                <td>{{ superviseur.prenom }}</td>
-                                <td>{{ superviseur.mail }}</td>
-                                <td>{% for role in superviseur.role.role%}
-                                    {{ role }}
-                                    {%endfor%}
-                                </td>
-
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-    </div>
-    {% endif %}
-    {% if etudiant_people %}
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="table-container d-flex justify-content-center">
-                <div class="table-responsive">
-                    <table class="table-striped text-center">
-                        <thead>
-                            <tr>
-                                {% for field in etudiant_title %}
-                                <th>{{ field }}</th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for etudiant in etudiant_people %}
-                            <tr>
-                                <td class="myTableTitle">{{etudiant.idpersonne.nom}}</td>
-                                <td>{{ etudiant.idpersonne.prenom }}</td>
-                                <td>{{ etudiant.idpersonne.mail }}</td>
-                                <td>{{etudiant.bloc}}</td>
-                                <td>{% for role in etudiant.idpersonne.role.role%}
-                                    {{ role }}
-                                    {%endfor%}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        {% endif %}
-        {% if professeur_people %}
-        <div class="container d-flex justify-content-center align-items-center vh-100">
+<div class="container d-flex flex-column justify-content-center align-items-center vh-100">
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-6 d-flex align-items-center">
+            <!-- Tableau Admin -->
+            {% if 'admin' in user.role.role %}
+            {% if admin_people %}
             <div class="table-container d-flex justify-content-center">
-                    <div class="table-responsive">
-                        <table class="table-striped text-center">
+                <!-- Votre code de tableau ici -->
+                <table class="table-striped text-center">
+                            <thead>
+                                <tr>
+                                    {% for field in admin_and_superviseur_title %}
+                                    <th>{{ field }}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for admin in admin_people %}
+                                <tr>
+                                    <td class="myTableTitle">{{admin.nom}}</td>
+                                    <td>{{ admin.prenom }}</td>
+                                    <td>{{ admin.mail }}</td>
+                                    <td>{% for role in admin.role.role%}
+                                        {{ role }}
+                                        {%endfor%}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+        <div class="col-md-6 d-flex align-items-center">
+            <!-- Tableau Superviseur -->
+            {% if 'admin' in user.role.role %}
+            {% if superviseur_people %}
+            <div class="table-container d-flex justify-content-center">
+                <!-- Votre code de tableau ici -->
+                <table class="table-striped text-center">
+                            <thead>
+                                <tr>
+                                    {% for field in admin_and_superviseur_title %}
+                                    <th>{{ field }}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sup in superviseur_people %}
+                                <tr>
+                                    <td class="myTableTitle">{{sup.nom}}</td>
+                                    <td>{{ sup.prenom }}</td>
+                                    <td>{{ sup.mail }}</td>
+                                    <td>{% for role in sup.role.role%}
+                                        {{ role }}
+                                        {%endfor%}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-6 d-flex align-items-center">
+            <!-- Tableau Etudiant -->
+            {% if 'admin' in user.role.role %}
+            {% if etudiant_people %}
+            <div class="table-container d-flex justify-content-center">
+                <!-- Votre code de tableau ici -->
+                <table class="table-striped text-center">
+                            <thead>
+                                <tr>
+                                    {% for field in etudiant_title %}
+                                    <th>{{ field }}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for etu in etudiant_people %}
+                                <tr>
+                                    <td class="myTableTitle">{{etu.idpersonne.nom}}</td>
+                                    <td>{{ etu.idpersonne.prenom }}</td>
+                                    <td>{{ etu.idpersonne.mail }}</td>
+                                    <td>{{ etu.bloc}}</td>
+                                    <td>{% for role in etu.idpersonne.role.role%}
+                                        {{ role }}
+                                        {%endfor%}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+        <div class="col-md-6 d-flex align-items-center">
+            <!-- Tableau Professeur -->
+            {% if 'admin' in user.role.role %}
+            {% if professeur_people %}
+            <div class="table-container d-flex justify-content-center">
+                <!-- Votre code de tableau ici -->
+                <table class="table-striped text-center">
                             <thead>
                                 <tr>
                                     {% for field in professeur_title %}
@@ -149,11 +158,12 @@
                                 {% endfor %}
                             </tbody>
                         </table>
-                    </div>
             </div>
+            {% endif %}
+            {% endif %}
         </div>
-        {% endif %}
-    {% endif %}
+    </div>
 </div>
-<div class="col-auto"></div>
 {% endblock content%}
+</body>
+
