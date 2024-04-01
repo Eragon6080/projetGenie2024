@@ -35,7 +35,7 @@ def topics(request, code) -> HttpResponse:
         'prenom': "Matthys",
         'role': "Etudiant"
     }
-    return render(request, "topic.html", context)
+    return render(request, "otherRole/topic.html", context)
 
 
 @login_required(login_url='/polls')
@@ -65,10 +65,10 @@ def addTopic(request, code) -> HttpResponse:
         'role': "Etudiant",
         "form": form
     }
-    return render(request, 'submitSubject.html', context)
+    return render(request, 'otherRole/submitSubject.html', context)
 
 
 @login_required(login_url="/polls")
 @csrf_exempt
 def ok(request) -> HttpResponse:
-    return render(request, "ok.html", context={ok: 'Votre sujet a été validé'})
+    return render(request, "ohterRole/ok.html", context={ok: 'Votre sujet a été validé'})

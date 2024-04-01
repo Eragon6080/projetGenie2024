@@ -30,12 +30,12 @@ def home(request) -> HttpResponse:
         'noSideBar': 'true'
     }
 
-    return render(request, 'home.html', context)
+    return render(request, 'otherRole/home.html', context)
 
 
 @login_required(login_url='/polls')
 def course(request, code) -> HttpResponse:
-    return render(request, 'course.html', {})
+    return render(request, 'otherRole/course.html', {})
 
 
 @csrf_exempt

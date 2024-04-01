@@ -50,6 +50,6 @@ def role(request) -> HttpResponse:
             "professeur_title": professeur_title
         }
 
-        return render(request, 'role.html', context)
+        return render(request, 'admin/role.html', context)
     else:
         return HttpResponseRedirect(redirect_to="course/")

@@ -1,31 +1,5 @@
-{% extends "basic.html" %}
+{% extends "admin/adminTemplate.html" %}
 {% load static %}
-<head>
-    <title>Rôle</title>
-</head>
-<body>
-
-{% block sidebar %}
-<div class="offcanvas-header">
-    <img src="{% static 'image/logo.png'%}" alt="UNamur" style="width:30%">
-    <img src="{% static 'image/LApims.png'%}" alt="pimsLogo" style="width:50%">
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-
-</div>
-<div class="offcanvas-body">
-    <div class="col">
-        <div>
-            <a class="h4 text-align-center" href="/polls/admin"><p>Administration</p></a>
-        </div>
-        <div class="navbar-nav w-100">
-            <a class="nav-link cader" aria-current="page" href="/polls/admin/role">Rôle</a>
-            <a class="nav-link cader" href="#">A définir</a>
-            <a class="nav-link cader" href="#">A définir</a>
-            <a class="nav-link cader active" href="#">A définir</a>
-        </div>
-   </div>
-</div>
-{% endblock sidebar%}
 
 {% block content%}
 <div class="container d-flex flex-column justify-content-center align-items-center vh-100">

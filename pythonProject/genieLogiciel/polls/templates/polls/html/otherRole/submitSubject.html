@@ -1,31 +1,6 @@
-{% extends "basic.html" %}
-{% load static %}
-<head>
-    <title>Form</title>
-</head>
-<body>
+{% extends "otherRole/otherRoleTemplate.html" %}
 
-{% block sidebar %}
-<div class="offcanvas-header">
-    <img src="{% static 'image/logo.png'%}" alt="UNamur" style="width:30%">
-    <img src="{% static 'image/LApims.png'%}" alt="pimsLogo" style="width:50%">
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 
-</div>
-<div class="offcanvas-body">
-    <div class="col">
-        <div>
-            <p class="h4">{{ UE }}</p>
-        </div>
-        <div class="navbar-nav w-100">
-            <a class="nav-link cader" aria-current="page" href="#">Administration</a>
-            <a class="nav-link cader" href="../topics/">Topics</a>
-            <a class="nav-link cader" href="#">My topics</a>
-            <a class="nav-link cader active" href="../new/">Add topic</a>
-        </div>
-   </div>
-</div>
-{% endblock sidebar%}
 
 {% if user.role ==  "prof"%}
 {% block content%}
