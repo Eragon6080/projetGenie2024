@@ -58,7 +58,7 @@ class Etudiant(models.Model):
     idetudiant = models.AutoField(primary_key=True, db_column='idetudiant')
     bloc = models.IntegerField(db_column='bloc', validators=[validate_block])
     idpersonne = models.ForeignKey('Personne', models.DO_NOTHING, db_column='idpersonne')
-    idsujet = models.ForeignKey('Sujet', models.DO_NOTHING, db_column='idsujet', unique=True)
+    idsujet = models.ForeignKey('Sujet', models.DO_NOTHING, db_column='idsujet')
 
     class Meta:
         managed = False

@@ -67,3 +67,5 @@ def login(request) -> HttpResponse:
 def logout(request):
     auth_logout(request)
     return redirect('/polls')
+def yes(request):
+    return render(request,'suivi.html',{})
