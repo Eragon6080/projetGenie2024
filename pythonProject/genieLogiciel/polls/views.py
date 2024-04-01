@@ -13,7 +13,6 @@ from django.views.decorators.csrf import csrf_exempt
 from .forms import ConnectForm
 
 
-
 # Create your views here.
 
 
@@ -30,7 +29,6 @@ def home(request) -> HttpResponse:
         'cours': courses,
         'noSideBar': 'true'
     }
-    print(context['cours'])
 
     return render(request, 'home.html', context)
 
@@ -38,7 +36,6 @@ def home(request) -> HttpResponse:
 @login_required(login_url='/polls')
 def course(request, code) -> HttpResponse:
     return render(request, 'course.html', {})
-
 
 
 @csrf_exempt

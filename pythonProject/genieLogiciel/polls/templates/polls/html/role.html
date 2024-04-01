@@ -1,0 +1,159 @@
+{% extends "basic.html" %}
+{% load static %}
+<head>
+    <title>Rôle</title>
+</head>
+<body>
+
+{% block sidebar %}
+<div class="offcanvas-header">
+    <img src="{% static 'image/logo.png'%}" alt="UNamur" style="width:30%">
+    <img src="{% static 'image/LApims.png'%}" alt="pimsLogo" style="width:50%">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+</div>
+<div class="offcanvas-body">
+    <div class="col">
+        <div>
+            <a class="h4 text-align-center" href="/polls/admin"><p>Administration</p></a>
+        </div>
+        <div class="navbar-nav w-100">
+            <a class="nav-link cader" aria-current="page" href="/polls/admin/role">Rôle</a>
+            <a class="nav-link cader" href="#">A définir</a>
+            <a class="nav-link cader" href="#">A définir</a>
+            <a class="nav-link cader active" href="#">A définir</a>
+        </div>
+   </div>
+</div>
+{% endblock sidebar%}
+
+{% block content%}
+<div class="col-auto"></div>
+<div class="col-auto">
+    {% if 'admin' in user.role.role %}
+    {% if admin_people %}
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="table-container d-flex justify-content-center">
+                <div class="table-responsive">
+                    <table class="table-striped text-center">
+                        <thead>
+                            <tr>
+                                {% for field in admin_and_superviseur_title %}
+                                <th>{{ field }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for admin in admin_people %}
+                            <tr>
+                                <td class="myTableTitle">{{admin.nom}}</td>
+                                <td>{{ admin.prenom }}</td>
+                                <td>{{ admin.mail }}</td>
+                                <td>{% for role in admin.role.role%}
+                                    {{ role }}
+                                    {%endfor%}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+    {% endif %}
+    {% if superviseur_people %}
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="table-container d-flex justify-content-center">
+                <div class="table-responsive">
+                    <table class="table-striped text-center">
+                        <thead>
+                            <tr>
+                                {% for field in admin_and_superviseur_title %}
+                                <th>{{ field }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for superviseur in superviseur_people %}
+                            <tr>
+                                <td class="myTableTitle">{{superviseur.nom}}</td>
+                                <td>{{ superviseur.prenom }}</td>
+                                <td>{{ superviseur.mail }}</td>
+                                <td>{% for role in superviseur.role.role%}
+                                    {{ role }}
+                                    {%endfor%}
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+    {% endif %}
+    {% if etudiant_people %}
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="table-container d-flex justify-content-center">
+                <div class="table-responsive">
+                    <table class="table-striped text-center">
+                        <thead>
+                            <tr>
+                                {% for field in etudiant_title %}
+                                <th>{{ field }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for etudiant in etudiant_people %}
+                            <tr>
+                                <td class="myTableTitle">{{etudiant.idpersonne.nom}}</td>
+                                <td>{{ etudiant.idpersonne.prenom }}</td>
+                                <td>{{ etudiant.idpersonne.mail }}</td>
+                                <td>{{etudiant.bloc}}</td>
+                                <td>{% for role in etudiant.idpersonne.role.role%}
+                                    {{ role }}
+                                    {%endfor%}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+        {% if professeur_people %}
+        <div class="container d-flex justify-content-center align-items-center vh-100">
+            <div class="table-container d-flex justify-content-center">
+                    <div class="table-responsive">
+                        <table class="table-striped text-center">
+                            <thead>
+                                <tr>
+                                    {% for field in professeur_title %}
+                                    <th>{{ field }}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for prof in professeur_people %}
+                                <tr>
+                                    <td class="myTableTitle">{{prof.idpersonne.nom}}</td>
+                                    <td>{{ prof.idpersonne.prenom }}</td>
+                                    <td>{{ prof.idpersonne.mail }}</td>
+                                    <td>{{prof.specialite}}</td>
+                                    <td>{% for role in prof.idpersonne.role.role%}
+                                        {{ role }}
+                                        {%endfor%}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+</div>
+<div class="col-auto"></div>
+{% endblock content%}
