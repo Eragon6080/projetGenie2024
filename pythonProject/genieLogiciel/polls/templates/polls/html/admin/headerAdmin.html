@@ -1,0 +1,49 @@
+{% load static %}
+  <nav class="navbar navbar-expand-lg py-0" style="background-color: #9F9F9F;">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        {% if noSideBar %}
+        <span></span>
+        {% else %}
+        <a class="btn btn-light navbar-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><span class="navbar-toggler-icon"></span></a>
+        {% endif %}
+        <a class="navbar-brand d-flex justify-content-center" href="/polls/admin/"><img src="{% static 'image/LApims.png'%}" alt="pimsLogo" style="width:50%"></a>
+        <div class="d-flex">
+            <!-- l'image est à remplacer par une icône de la personne-->
+            {% if user.is_authenticated %}
+            <div class="row">
+              <div class="col-auto d-flex justify-content-center">
+                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                  <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                      <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{% static 'image/profile-user.png'%}" alt="profile picture" style="width: 40px;" >
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+
+
+
+              </div>
+              <div class="d-flex col-auto justify-content-center">
+                <div class="row ">
+                    <p class="text-light">{{user.prenom}} {{user.nom}}</p>
+                </div>
+
+                <div class="row">
+                    <p class="text-light" >{{user.role.role|first}}</p>
+                </div>
+                  <div class="col-auto d-flex align-items-center justify-content-center">
+                    <a href="{% url 'logout' %}" class="btn "><i class="fa fa-sign-out"></i></a>
+                </div>
+              </div>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+  </nav>
