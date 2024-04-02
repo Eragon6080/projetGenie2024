@@ -3,7 +3,22 @@
 
 {% block content%}
 <div class="container d-flex flex-column justify-content-center align-items-center vh-100">
-    <div class="row justify-content-center mb-4">
+    
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Views
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="./admin">Admin</a></li>
+          <li><a class="dropdown-item" href="./professor">Professeur / Superviseur</a></li>
+          <li><a class="dropdown-item" href="./student">Etudiant</a></li>
+        </ul>
+    </div>
+
+
+
+    
+        {% if current_view == "admin" %}
         <div class="col-md-6 d-flex align-items-center">
             <!-- Tableau Admin -->
             {% if 'admin' in user.role.role %}
@@ -36,29 +51,50 @@
             {% endif %}
             {% endif %}
         </div>
+        {% endif %}
+
+        {% if current_view == "professor" %}
         <div class="col-md-6 d-flex align-items-center">
-            <!-- Tableau Superviseur -->
+            <!-- Tableau Prof/Superviseur -->
             {% if 'admin' in user.role.role %}
-            {% if superviseur_people %}
+            {% if professeur_superviseur_people %}
             <div class="table-container d-flex justify-content-center">
                 <!-- Votre code de tableau ici -->
                 <table class="table-striped text-center">
                             <thead>
                                 <tr>
-                                    {% for field in admin_and_superviseur_title %}
+                                    {% for field in manage_roles_title %}
                                     <th>{{ field }}</th>
                                     {% endfor %}
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for sup in superviseur_people %}
+                                {% for sup in professeur_superviseur_people %}
                                 <tr>
                                     <td class="myTableTitle">{{sup.nom}}</td>
                                     <td>{{ sup.prenom }}</td>
                                     <td>{{ sup.mail }}</td>
-                                    <td>{% for role in sup.role.role%}
-                                        {{ role }}
-                                        {%endfor%}
+                                    <td>
+                                        {% if "professeur" in sup.role.role%}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                        </div>
+                                        {% else %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if "superviseur" in sup.role.role%}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                        </div>
+                                        {% else %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        </div>
+                                        {% endif %}
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -68,8 +104,9 @@
             {% endif %}
             {% endif %}
         </div>
-    </div>
-    <div class="row justify-content-center mb-4">
+        {% endif %}
+
+        {% if current_view == "student" %}
         <div class="col-md-6 d-flex align-items-center">
             <!-- Tableau Etudiant -->
             {% if 'admin' in user.role.role %}
@@ -103,40 +140,10 @@
             {% endif %}
             {% endif %}
         </div>
-        <div class="col-md-6 d-flex align-items-center">
-            <!-- Tableau Professeur -->
-            {% if 'admin' in user.role.role %}
-            {% if professeur_people %}
-            <div class="table-container d-flex justify-content-center">
-                <!-- Votre code de tableau ici -->
-                <table class="table-striped text-center">
-                            <thead>
-                                <tr>
-                                    {% for field in professeur_title %}
-                                    <th>{{ field }}</th>
-                                    {% endfor %}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for prof in professeur_people %}
-                                <tr>
-                                    <td class="myTableTitle">{{prof.idpersonne.nom}}</td>
-                                    <td>{{ prof.idpersonne.prenom }}</td>
-                                    <td>{{ prof.idpersonne.mail }}</td>
-                                    <td>{{prof.specialite}}</td>
-                                    <td>{% for role in prof.idpersonne.role.role%}
-                                        {{ role }}
-                                        {%endfor%}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-            </div>
-            {% endif %}
-            {% endif %}
-        </div>
-    </div>
+        {% endif %}
+    
+    
+    
 </div>
 {% endblock content%}
 </body>

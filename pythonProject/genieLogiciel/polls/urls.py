@@ -11,5 +11,6 @@ urlpatterns = [
     path("logout/", views.logout, name="logout"),
     path("admin/",adminViews.admin,name="admin"),
     path("admin/role/",adminViews.role,name="role"),
-     path("suivi/",views.yes,name="yes")
+    path("admin/role/<str:view>", adminViews.role,name="roleView"),
+    path("suivi/",views.yes,name="yes")
 ]
