@@ -1,19 +1,24 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django import forms
+
 
 from .queries import get_Professeur_People, get_Etudiant_People, get_All_People
+from .forms import AdminRoleForm
+
 
 
 @login_required(login_url='/polls')
 def admin(request) -> HttpResponse:
-    return render(request, 'admin.html', {})
+    return render(request, 'admin/admin.html', {})
 
 
 @login_required(login_url='/polls')
 def role(request, view = "admin") -> HttpResponse:
     user = request.user  # nécessaire pour demander la variable user
-    if 'admin' in user.role['role']:
+    if 'admin' in user.role['role']:    
+  
         list_admin = []
         list_professeur = []
         list_etudiant = []
@@ -32,7 +37,7 @@ def role(request, view = "admin") -> HttpResponse:
             if 'superviseur' in i.role['role']:
                 list_superviseur.append(i)
             if "superviseur" in i.role['role'] or "professeur" in i.role['role']:
-                list_professeur_superviseur.append(i)
+                list_professeur_superviseur.append([i])
 
         for i in professeur_people:
             list_professeur.append(i)
@@ -43,6 +48,26 @@ def role(request, view = "admin") -> HttpResponse:
         etudiant_title = ["Nom", "Prenom", "Email", "Bloc", "Rôle"]
         professeur_title = ["Nom", "Prenom", "Email", "Specialité","Rôle"]
         manage_roles_title = ["Nom", "Prenom", "Email", "Professeur", "Superviseur"]
+
+        
+
+        
+        for pers in list_professeur_superviseur :
+            # persFields = {}
+            # persFields['prof'] = forms.BooleanField(initial=False, required=False)
+            # persFields['sup'] = forms.BooleanField(required=False)
+            RoleForm = type('RoleForm'+str(pers[0].idpersonne), (AdminRoleForm,), {})
+            roleForm = RoleForm()
+            pers.append(roleForm)
+
+        print(list_professeur_superviseur)
+
+        
+        if request.method == 'POST':
+            for personne in list_professeur_superviseur:
+                roleForm = RoleForm(request.POST)
+                print(personne[0].idpersonne, roleForm['prof'].data)
+            
 
         context = {
             "roles": roles,
