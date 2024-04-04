@@ -1,7 +1,7 @@
 from django.db.models import Q, TextField, JSONField
 from django.db.models.functions import Cast
 
-from .models import Ue, Cours, Personne, Professeur, Etudiant
+from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet
 
 
 def get_all_ue():
@@ -52,3 +52,15 @@ def get_Etudiant_People():
         Retourne une liste des étudiants
     """
     return Etudiant.objects.all()
+
+def get_all_subjects():
+    """
+    Retourne la liste de tous les sujets
+    """
+    return Sujet.objects.all()
+
+def get_subject(idue:str):
+    """
+    Retourne un sujet en particulier
+    """
+    return Sujet.objects.get(idsujet=idue)
