@@ -1,8 +1,7 @@
 from django import forms
 
-from django import forms
-
 # fichier servant à réaliser les forms
+
 
 class SubmitForm(forms.Form):
     title = forms.CharField(
@@ -35,3 +34,10 @@ class ConnectForm(forms.Form):
                           widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'email'}))
     password = forms.CharField(label="password", max_length=100, required=True,
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'password'}))
+    
+
+class AdminRoleForm(forms.Form):
+    # Dynamic form created in adminViews
+    
+    prof = forms.BooleanField(required=False)
+    sup = forms.BooleanField(required=False)

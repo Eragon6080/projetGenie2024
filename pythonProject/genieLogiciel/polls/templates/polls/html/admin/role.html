@@ -1,7 +1,9 @@
 {% extends "admin/adminTemplate.html" %}
 {% load static %}
 
-{% block content%}
+
+{% block content %}
+
 <div class="container d-flex flex-column justify-content-center align-items-center vh-100">
     
     <div class="dropdown">
@@ -39,9 +41,9 @@
                                     <td class="myTableTitle">{{admin.nom}}</td>
                                     <td>{{ admin.prenom }}</td>
                                     <td>{{ admin.mail }}</td>
-                                    <td>{% for role in admin.role.role%}
+                                    <td>{% for role in admin.role.role %}
                                         {{ role }}
-                                        {%endfor%}
+                                        {% endfor %}
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -58,49 +60,56 @@
             <!-- Tableau Prof/Superviseur -->
             {% if 'admin' in user.role.role %}
             {% if professeur_superviseur_people %}
+            <form method="post">
+            {% csrf_token %}
             <div class="table-container d-flex justify-content-center">
                 <!-- Votre code de tableau ici -->
                 <table class="table-striped text-center">
-                            <thead>
-                                <tr>
-                                    {% for field in manage_roles_title %}
-                                    <th>{{ field }}</th>
-                                    {% endfor %}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for sup in professeur_superviseur_people %}
-                                <tr>
-                                    <td class="myTableTitle">{{sup.nom}}</td>
-                                    <td>{{ sup.prenom }}</td>
-                                    <td>{{ sup.mail }}</td>
-                                    <td>
-                                        {% if "professeur" in sup.role.role%}
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
-                                        </div>
-                                        {% else %}
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        </div>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if "superviseur" in sup.role.role%}
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
-                                        </div>
-                                        {% else %}
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        </div>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                    <thead>
+                        <tr>
+                            {% for field in manage_roles_title %}
+                            <th>{{ field }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {% for pers in professeur_superviseur_people %}
+                        
+                        <tr>
+                            <td class="myTableTitle">{{pers.0.nom}}</td>
+                            <td>{{ pers.0.prenom }}</td>
+                            <td>{{ pers.0.mail }}</td>
+                            
+                            <td>
+                                {% if "professeur" in pers.0.role.role %}
+                                    {{ pers.1.prof }}
+                                {% else %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                </div>
+                                
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if "superviseur" in pers.0.role.role %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                </div>
+                                {% else %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
+            
+            <button type="submit">Save</button>
+            </form>
             {% endif %}
             {% endif %}
         </div>
@@ -145,6 +154,6 @@
     
     
 </div>
-{% endblock content%}
-</body>
+{% endblock %}
+
 
