@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
-from .queries import get_all_course
+from .queries import get_all_course, find_student_by_id_personne, find_professeur_by_id_personne
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ConnectForm
 
@@ -67,5 +67,23 @@ def login(request) -> HttpResponse:
 def logout(request):
     auth_logout(request)
     return redirect('/polls')
+
+
 def yes(request):
-    return render(request,'suivi.html',{})
+    return render(request, 'suivi.html', {})
+
+
+@login_required(login_url='/polls')
+def fiche(request):
+    user = request.user
+    student = find_student_by_id_personne(user.idpersonne)
+    if student is None:
+        personne = find_professeur_by_id_personne(user.idpersonne)
+    else:
+        personne = student
+    context = {
+        'user': user,
+        'personne': personne,
+        'noSideBar': 'true'
+    }
+    return render(request, 'otherRole/fiche.html', context)
