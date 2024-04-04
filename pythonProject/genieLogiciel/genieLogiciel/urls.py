@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib import admin
 from django.urls import path, include
 
+from .views import redirectToPolls
+
 urlpatterns = [
-    path('polls/', include('polls.urls'))
+    path('polls/', include('polls.urls')),
+    path("",redirectToPolls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
