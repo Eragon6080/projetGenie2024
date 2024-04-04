@@ -12,7 +12,5 @@ urlpatterns = [
     path("admin/",adminViews.admin,name="admin"),
     path("admin/role/",adminViews.role,name="role"),
     path("admin/role/<str:view>", adminViews.role,name="roleView"),
-    path("suivi/",views.yes,name="yes"),
-    path("modify/list",viewsProf.modifyList,name="modifyList"),
-    path("modify/<int:idSujet>",viewsProf.modifySubject,name="modifySubject")
+    path("suivi/",views.yes,name="yes")
 ]
