@@ -1,0 +1,38 @@
+{% extends "basic.html" %}
+{% load static %}
+
+{% block headerBar %}
+{% include "otherRole/headerOtherRole.html"%}
+{% endblock headerBar%}
+{% block content  %}
+<div class="container d-flex flex-column justify-content-center align-items-center vh-100">
+    <div class="justify-content-center mb-5">
+        <img class="card-img-top text-center" src="https://www.pngitem.com/pimgs/m/42-424789_wikipedia-logo-wikipedia-hd-png-download.png" alt="Card image cap" style="width:25vw; height: 25vh;"/>
+    </div>
+        <div class="card" style="width:40vw">
+            <div class="card-header border bgunamur">
+                <h5 >{{user.nom}} {{user.prenom}}</h5>
+            </div>
+            <div class="card-header border bg-white">
+                <h5 class="card-title w-100">Adresse-mail</h5>
+                <p class="card-text">{{user.mail}}</p>
+            </div>
+            <div class="card-header border">
+                <h5 class="card-title">Rôle</h5>
+                <p class="card-text">{%for role in user.role.role%}<span>{{role}}</span>, {%endfor%}</p>
+            </div>
+            {% if 'professeur' in user.role.role %}
+            <div class="card-header border bg-white">
+                <h5 class="card-title w-100">Spécialité</h5>
+                <p class="card-text">personne.specialite</p>
+            </div>
+            {%else%}
+            <div class="card-header border bgunamur">
+                <h5 class="card-title w-100">Bloc</h5>
+                <p class="card-text">{{personne.bloc}}</p>
+            </div>
+            {% endif %}
+
+        </div>
+</div>
+{% endblock content%}
