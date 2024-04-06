@@ -73,31 +73,31 @@ WSGI_APPLICATION = 'genieLogiciel.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 AUTH_USER_MODEL = 'polls.Personne'
 
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': 'admin',
-#        'USER': 'admin',
-#        'PASSWORD': 'admin',
-#        'HOST': 'localhost',
-#        'PORT': '5432'
-
-#      }
-# }
-
-###### Pour Luis ########
-
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql_psycopg2',
-       'NAME': 'postgres',
-       'USER': 'postgres',
-       'PASSWORD': 'admin',
-       'HOST': 'localhost',
-       'PORT': '5432'
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'admin',
+        'USER': 'admin',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5432'
 
     }
 }
+
+###### Pour Luis ########
+
+# DATABASES = {
+#  'default': {
+#       'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#      'NAME': 'postgres',
+#      'USER': 'postgres',
+#     'PASSWORD': 'admin',
+#    'HOST': 'localhost',
+#   'PORT': '5432'
+
+# }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -116,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-AUTHENTICATION_BACKENDS = ['polls.backends.EmailBackend',]
+AUTHENTICATION_BACKENDS = ['polls.backends.EmailBackend', ]
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -143,4 +143,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
-

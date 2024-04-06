@@ -44,10 +44,10 @@ def role(request, view = "admin") -> HttpResponse:
         for i in etudiant_people:
             list_etudiant.append(i)
 
-        admin_and_superviseur_title = ["Nom", "Prenom", "Email", "Rôle"]
-        etudiant_title = ["Nom", "Prenom", "Email", "Bloc", "Rôle"]
-        professeur_title = ["Nom", "Prenom", "Email", "Specialité","Rôle"]
-        manage_roles_title = ["Nom", "Prenom", "Email", "Professeur", "Superviseur"]
+        admin_and_superviseur_title = ["Nom Prénom", "Email", "Rôle"]
+        etudiant_title = ["Nom Prénom", "Email", "Bloc", "Rôle"]
+        professeur_title = ["Nom Prénom", "Email", "Specialité","Rôle"]
+        manage_roles_title = ["Nom Prénom", "Email", "Professeur", "Superviseur"]
 
         
 

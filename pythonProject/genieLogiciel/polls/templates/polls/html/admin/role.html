@@ -38,8 +38,7 @@
                             <tbody>
                                 {% for admin in admin_people %}
                                 <tr>
-                                    <td class="myTableTitle">{{admin.nom}}</td>
-                                    <td>{{ admin.prenom }}</td>
+                                    <td class="myTableTitle"><a href="../../../polls/fiche"> {{admin.nom}} {{ admin.prenom }}</a></td>
                                     <td>{{ admin.mail }}</td>
                                     <td>{% for role in admin.role.role %}
                                         {{ role }}
@@ -77,8 +76,7 @@
                         {% for pers in professeur_superviseur_people %}
                         
                         <tr>
-                            <td class="myTableTitle">{{pers.0.nom}}</td>
-                            <td>{{ pers.0.prenom }}</td>
+                            <td class="myTableTitle"><a href="../../../polls/fiche/">{{pers.0.nom}} {{ pers.0.prenom }}</a></td>
                             <td>{{ pers.0.mail }}</td>
                             
                             <td>
@@ -133,8 +131,7 @@
                             <tbody>
                                 {% for etu in etudiant_people %}
                                 <tr>
-                                    <td class="myTableTitle">{{etu.idpersonne.nom}}</td>
-                                    <td>{{ etu.idpersonne.prenom }}</td>
+                                    <td class="myTableTitle"><a href="../../../polls/fiche">{{etu.idpersonne.nom}} {{ etu.idpersonne.prenom }}</a></td>
                                     <td>{{ etu.idpersonne.mail }}</td>
                                     <td>{{ etu.bloc}}</td>
                                     <td>{% for role in etu.idpersonne.role.role%}
