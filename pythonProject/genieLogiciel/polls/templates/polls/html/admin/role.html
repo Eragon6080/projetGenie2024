@@ -62,6 +62,7 @@
             {% if professeur_superviseur_people %}
             <form method="post">
             {% csrf_token %}
+            {{ formset.management_form }}
             <div class="table-container d-flex justify-content-center">
                 <!-- Votre code de tableau ici -->
                 <table class="table-striped text-center">
@@ -82,25 +83,10 @@
                             <td>{{ pers.0.mail }}</td>
                             
                             <td>
-                                {% if "professeur" in pers.0.role.role %}
-                                    {{ pers.1.prof }}
-                                {% else %}
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                </div>
-                                
-                                {% endif %}
+                                {{ pers.1.prof }}
                             </td>
                             <td>
-                                {% if "superviseur" in pers.0.role.role %}
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
-                                </div>
-                                {% else %}
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                </div>
-                                {% endif %}
+                                {{ pers.1.sup }}
                             </td>
                         </tr>
                         {% endfor %}

@@ -1,4 +1,7 @@
+from typing import Any
 from django import forms
+from django.forms import BaseFormSet
+from .models import Personne
 
 # fichier servant à réaliser les forms
 
@@ -37,7 +40,25 @@ class ConnectForm(forms.Form):
     
 
 class AdminRoleForm(forms.Form):
-    # Dynamic form created in adminViews
-    
-    prof = forms.BooleanField(required=False)
-    sup = forms.BooleanField(required=False)
+    # Dynamic form created in adminViews.py
+    def __init__(self, idpersonne, pers, *args, **kwargs):
+        self.idpersonne = idpersonne
+        super().__init__(*args, **kwargs)
+        
+        if 'professeur' in pers.role['role']:
+            self.fields['prof'] = forms.BooleanField(initial=True, required=False)
+        else:
+            self.fields['prof'] = forms.BooleanField(required=False)
+        
+        if 'superviseur' in pers.role['role']:
+            self.fields['sup'] = forms.BooleanField(initial=True, required=False)
+        else:  
+            self.fields['sup'] = forms.BooleanField(required=False)
+
+
+class BaseRoleFormSet(BaseFormSet):
+    def get_form_kwargs(self, index):
+        kwargs = super().get_form_kwargs(index)
+        idpersonne = kwargs['list_id'][index]
+        pers = kwargs['list_pers'][index]
+        return {'idpersonne': idpersonne, 'pers': pers}

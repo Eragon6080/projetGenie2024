@@ -73,31 +73,31 @@ WSGI_APPLICATION = 'genieLogiciel.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 AUTH_USER_MODEL = 'polls.Personne'
 
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': 'admin',
-#        'USER': 'admin',
-#        'PASSWORD': 'admin',
-#        'HOST': 'localhost',
-#        'PORT': '5432'
-
-#      }
-# }
-
-###### Pour Luis ########
-
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-       'NAME': 'postgres',
-       'USER': 'postgres',
+       'NAME': 'admin',
+       'USER': 'admin',
        'PASSWORD': 'admin',
        'HOST': 'localhost',
        'PORT': '5432'
 
-    }
+     }
 }
+
+###### Pour Luis ########
+
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'postgres',
+#        'USER': 'postgres',
+#        'PASSWORD': 'admin',
+#        'HOST': 'localhost',
+#        'PORT': '5432'
+
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

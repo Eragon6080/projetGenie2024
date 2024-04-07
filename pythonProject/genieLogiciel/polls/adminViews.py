@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django import forms
+from django.forms.formsets import formset_factory
 
 
 from .queries import get_Professeur_People, get_Etudiant_People, get_All_People
-from .forms import AdminRoleForm
+from .forms import AdminRoleForm, BaseRoleFormSet
+from .models import Personne
 
 
 
@@ -50,26 +51,45 @@ def role(request, view = "admin") -> HttpResponse:
         manage_roles_title = ["Nom", "Prenom", "Email", "Professeur", "Superviseur"]
 
         
+        RoleForm = formset_factory(AdminRoleForm, formset=BaseRoleFormSet, extra=len(list_professeur_superviseur))
+        formset = RoleForm(form_kwargs={'list_id': [pers[0].idpersonne for pers in list_professeur_superviseur], 'list_pers': [pers[0] for pers in list_professeur_superviseur]})
 
+        for form in formset:
+            for pers in list_professeur_superviseur:
+                if form.idpersonne == pers[0].idpersonne:
+                    pers.append(form)
         
-        for pers in list_professeur_superviseur :
-            # persFields = {}
-            # persFields['prof'] = forms.BooleanField(initial=False, required=False)
-            # persFields['sup'] = forms.BooleanField(required=False)
-            RoleForm = type('RoleForm'+str(pers[0].idpersonne), (AdminRoleForm,), {})
-            roleForm = RoleForm()
-            pers.append(roleForm)
-
         print(list_professeur_superviseur)
+
 
         
         if request.method == 'POST':
-            for personne in list_professeur_superviseur:
-                roleForm = RoleForm(request.POST)
-                print(personne[0].idpersonne, roleForm['prof'].data)
+            postFormSet = RoleForm(request.POST, form_kwargs={'list_id': [pers[0].idpersonne for pers in list_professeur_superviseur], 'list_pers': [pers[0] for pers in list_professeur_superviseur]})
+            if postFormSet.is_valid():
+                for form in postFormSet:
+                    dbPerson = Personne.objects.get(idpersonne=form.idpersonne)
+                    if form.cleaned_data != {}:
+                        print(form.idpersonne, form.cleaned_data)
+                        if form.cleaned_data['prof'] == True and "professeur" not in dbPerson.role['role']:
+                            dbPerson.role['role'].append("professeur")
+                        if form.cleaned_data['sup'] == True and "superviseur" not in dbPerson.role['role']:
+                            dbPerson.role['role'].append("superviseur")
+                        if form.cleaned_data['prof'] == False and "professeur" in dbPerson.role['role']:
+                            dbPerson.role['role'].remove("professeur")
+                        if form.cleaned_data['sup'] == False and "superviseur" in dbPerson.role['role']:
+                            dbPerson.role['role'].remove("superviseur")
+                        dbPerson.save()
+                    else:
+                        print("No change")
+
+                return HttpResponseRedirect(redirect_to=view)        
+                    
             
 
+
+
         context = {
+            "formset": formset,
             "roles": roles,
             "current_view": view,
             "admin_people": list_admin,
