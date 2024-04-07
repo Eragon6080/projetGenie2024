@@ -26,7 +26,8 @@
                 <h5 class="card-title w-100">Spécialité</h5>
                 <p class="card-text">personne.specialite</p>
             </div>
-            {%else%}
+            {%endif%}
+            {%if 'etudiant' in user.role.role%}
             <div class="card-header border bgunamur">
                 <h5 class="card-title w-100">Bloc</h5>
                 <p class="card-text">{{personne.bloc}}</p>

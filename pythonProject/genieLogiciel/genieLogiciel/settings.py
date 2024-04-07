@@ -116,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-AUTHENTICATION_BACKENDS = ['polls.backends.EmailBackend',]
+AUTHENTICATION_BACKENDS = ['polls.backends.EmailBackend', ]
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -143,4 +143,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
-
