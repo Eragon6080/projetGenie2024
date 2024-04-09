@@ -21,7 +21,10 @@
                       </button>
                       <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/polls/fiche">Profil</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        {% for role in user.role.role %}
+                          <li><a class="dropdown-item" href="#">{{role}}</a></li>
+                        {% endfor %}
                       </ul>
                     </li>
                   </ul>
