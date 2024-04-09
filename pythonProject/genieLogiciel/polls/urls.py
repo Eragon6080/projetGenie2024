@@ -11,5 +11,9 @@ urlpatterns = [
     path("logout/", views.logout, name="logout"),
     path("admin/",adminViews.admin,name="admin"),
     path("admin/role/",adminViews.role,name="role"),
-     path("suivi/",views.yes,name="yes")
+     path("suivi/",views.yes,name="yes"),
+     path('sujet/edit/<int:sujet_id>/', courseViews.editTopic, name='edit_topic'),
+    path('sujet/delete/<int:sujet_id>/', courseViews.deleteTopic, name='delete_topic'),
+    path('course/<str:idue>/gestion/', courseViews.gestion_etape, name='gestion_etape'),
+    path("course/<str:idue>/steps/", courseViews.afficher_etapes_ue, name="steps"),
 ]

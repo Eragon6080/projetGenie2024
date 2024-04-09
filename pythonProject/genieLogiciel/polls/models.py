@@ -167,7 +167,7 @@ class Sujet(models.Model):
     titre = models.TextField(db_column='titre')
     descriptif = models.TextField(db_column='descriptif')
     destination = models.TextField(db_column='destination')
-    estPris = models.BooleanField(db_column='estPris')
+    estPris = models.BooleanField(db_column='estpris',default=False)
     fichier = models.FileField(upload_to='sujets/', blank=True, null=True, db_column='fichier',
                                validators=[validate_file_extension])
     idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode', default=1)

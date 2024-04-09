@@ -1,0 +1,18 @@
+{% extends "otherRole/otherRoleTemplate.html" %}
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mise à jour du Sujet</title>
+</head>
+<body>
+    <h1>Mise à jour du Sujet</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Mettre à jour</button>
+    </form>
+</body>
+
+{% endblock %}

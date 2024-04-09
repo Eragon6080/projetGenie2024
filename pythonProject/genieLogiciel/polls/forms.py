@@ -1,8 +1,24 @@
-from django import forms
 
 from django import forms
+from .models import Etape, Delivrable, Periode
 
-# fichier servant à réaliser les forms
+
+class EtapeForm(forms.ModelForm):
+    NECESSITE_CHOICES = [
+        (True, 'Oui'),
+        (False, 'Non'),
+    ]
+    necessiteDelivrable = forms.ChoiceField(choices=NECESSITE_CHOICES, label='Nécessite un Delivrable', widget=forms.RadioSelect)
+
+    class Meta:
+        model = Etape
+        fields = ['description','delai']
+        widgets = {
+            'delai': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+
+
+
 
 class SubmitForm(forms.Form):
     title = forms.CharField(
@@ -35,3 +51,13 @@ class ConnectForm(forms.Form):
                           widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'email'}))
     password = forms.CharField(label="password", max_length=100, required=True,
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'password'}))
+
+
+class UpdateForm(SubmitForm):
+   
+    def __init__(self, *args, **kwargs):
+        super(UpdateForm, self).__init__(*args, **kwargs)
+        self.fields['title'].required = False
+        self.fields['description'].required = False
+        self.fields['destination'].required = False
+        
