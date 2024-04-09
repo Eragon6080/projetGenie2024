@@ -11,6 +11,7 @@ from django.shortcuts import render, redirect
 from .queries import get_all_course, find_student_by_id_personne, find_professeur_by_id_personne
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ConnectForm
+from .restrictions import etudiant_required, prof_or_superviseur_required, prof_or_superviseur_or_student_required
 
 
 # Create your views here.
@@ -18,12 +19,16 @@ from .forms import ConnectForm
 
 # obliger de passer tous les élements nécessaires dans le context donc, attention aux id
 
+
+
+
 @login_required(login_url='/polls')
+@prof_or_superviseur_or_student_required
+
 def home(request) -> HttpResponse:
     courses_query = get_all_course()
     courses = []
     for cours in courses_query:
-        print(cours)
         courses.append(cours)
     context = {
         'cours': courses,
@@ -45,7 +50,6 @@ def login(request) -> HttpResponse:
         if form.is_valid():
 
             user = authenticate(request, mail=form.cleaned_data['email'], password=form.cleaned_data['password'])
-            print(user.role)
             if user is not None and user.is_authenticated:
                 auth_login(request, user)
                 if 'admin' in user.role['role']:
@@ -57,8 +61,6 @@ def login(request) -> HttpResponse:
     else:
         form = ConnectForm()
     context = {
-        'prenom': "Matthys",
-        'role': "Etudiant",
         "form": form
     }
     return render(request, 'login.html', context)

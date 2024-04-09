@@ -5,9 +5,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from .forms import SubmitForm , UpdateForm , EtapeForm
-from .models import Sujet, Etudiant, Ue, Cours,Professeur,Etape,Delivrable 
+from .models import Sujet, Etudiant, Ue, Cours,Professeur,Etape,Delivrable from .restrictions import prof_or_superviseur_required
+
 
 @login_required(login_url='/polls')
+@prof_or_superviseur_required
 def topics(request, code):
      # Récupère tous les cours associés à une UE particulière
     cours_ids = Cours.objects.filter(idue_id=code).values_list('idcours', flat=True)
@@ -75,6 +77,7 @@ def deleteTopic(request, sujet_id):
 
 @login_required(login_url='/polls')
 @csrf_exempt
+@prof_or_superviseur_required
 def addTopic(request, code) -> HttpResponse:
     logger = logging.getLogger()
     
