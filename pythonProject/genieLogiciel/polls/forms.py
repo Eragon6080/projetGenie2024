@@ -38,6 +38,10 @@ class ConnectForm(forms.Form):
     password = forms.CharField(label="password", max_length=100, required=True,
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'password'}))
     
+class AddAdminForm(forms.Form):
+    email = forms.CharField(label="Enter user email", max_length=100, required=True,
+                          widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'email'}))
+    
 
 class AdminRoleForm(forms.Form):
     # Dynamic form created in adminViews.py

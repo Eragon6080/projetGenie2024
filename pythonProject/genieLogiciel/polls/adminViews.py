@@ -5,7 +5,7 @@ from django.forms.formsets import formset_factory
 
 
 from .queries import get_Professeur_People, get_Etudiant_People, get_All_People
-from .forms import AdminRoleForm, BaseRoleFormSet
+from .forms import AdminRoleForm, BaseRoleFormSet, AddAdminForm
 from .models import Personne
 
 
@@ -19,7 +19,8 @@ def admin(request) -> HttpResponse:
 def role(request, view = "admin") -> HttpResponse:
     user = request.user  # nécessaire pour demander la variable user
     if 'admin' in user.role['role']:    
-  
+        
+        # Get all people role
         list_admin = []
         list_professeur = []
         list_etudiant = []
@@ -50,7 +51,8 @@ def role(request, view = "admin") -> HttpResponse:
         professeur_title = ["Nom Prénom", "Email", "Specialité","Rôle"]
         manage_roles_title = ["Nom Prénom", "Email", "Professeur", "Superviseur"]
 
-        
+        # Create formset for professor/supervisor view
+
         RoleForm = formset_factory(AdminRoleForm, formset=BaseRoleFormSet, extra=len(list_professeur_superviseur))
         formset = RoleForm(form_kwargs={'list_id': [pers[0].idpersonne for pers in list_professeur_superviseur], 'list_pers': [pers[0] for pers in list_professeur_superviseur]})
 
@@ -59,17 +61,19 @@ def role(request, view = "admin") -> HttpResponse:
                 if form.idpersonne == pers[0].idpersonne:
                     pers.append(form)
         
-        print(list_professeur_superviseur)
+        # Create add new admin form
 
-
+        addAdminForm = AddAdminForm()
         
+
         if request.method == 'POST':
             postFormSet = RoleForm(request.POST, form_kwargs={'list_id': [pers[0].idpersonne for pers in list_professeur_superviseur], 'list_pers': [pers[0] for pers in list_professeur_superviseur]})
+            addAdminForm = AddAdminForm(request.POST)
+            
             if postFormSet.is_valid():
                 for form in postFormSet:
                     dbPerson = Personne.objects.get(idpersonne=form.idpersonne)
                     if form.cleaned_data != {}:
-                        print(form.idpersonne, form.cleaned_data)
                         if form.cleaned_data['prof'] == True and "professeur" not in dbPerson.role['role']:
                             dbPerson.role['role'].append("professeur")
                         if form.cleaned_data['sup'] == True and "superviseur" not in dbPerson.role['role']:
@@ -81,8 +85,18 @@ def role(request, view = "admin") -> HttpResponse:
                         dbPerson.save()
                     else:
                         print("No change")
-
-                return HttpResponseRedirect(redirect_to=view)        
+                return HttpResponseRedirect(redirect_to=view)
+            
+            elif addAdminForm.is_valid():
+                try:
+                    newAdmin = Personne.objects.get(mail=addAdminForm.cleaned_data['email'])
+                except Personne.DoesNotExist:
+                    print("User not found")
+                    return HttpResponseRedirect(redirect_to=view)
+                newAdmin.role['role'].append("admin")
+                newAdmin.save()
+                return HttpResponseRedirect(redirect_to=view)
+             
                     
             
 
@@ -90,6 +104,7 @@ def role(request, view = "admin") -> HttpResponse:
 
         context = {
             "formset": formset,
+            "addAdminForm": addAdminForm,
             "roles": roles,
             "current_view": view,
             "admin_people": list_admin,
