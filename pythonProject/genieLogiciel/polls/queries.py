@@ -1,7 +1,8 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, TextField, JSONField
 from django.db.models.functions import Cast
 
-from .models import Ue, Cours, Personne, Professeur, Etudiant
+from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet
 
 
 def get_all_ue():
@@ -32,13 +33,11 @@ def get_topics_course(idcours):
     pass
 
 
-
 def get_Professeur_People():
     """
         Retourne une liste des professeurs
     """
-    return  Professeur.objects.all()
-
+    return Professeur.objects.all()
 
 
 def get_All_People():
@@ -47,8 +46,43 @@ def get_All_People():
     """
     return Personne.objects.all()
 
+
 def get_Etudiant_People():
     """
         Retourne une liste des étudiants
     """
     return Etudiant.objects.all()
+
+
+def get_all_subjects():
+    """
+    Retourne la liste de tous les sujets
+    """
+    return Sujet.objects.all()
+
+
+def get_subject(idue: str):
+    """
+    Retourne un sujet en particulier
+    """
+    return Sujet.objects.get(idsujet=idue)
+
+
+def find_student_by_id_personne(idpersonne):
+    """
+    Retourne un étudiant en particulier
+    """
+    try:
+        return Etudiant.objects.get(idpersonne=idpersonne)
+    except ObjectDoesNotExist:
+        return None
+
+
+def find_professeur_by_id_personne(idpersonne):
+    """
+    Retourne un professeur en particulier
+    """
+    try:
+        return Professeur.objects.get(idpersonne=idpersonne)
+    except ObjectDoesNotExist:
+        return None

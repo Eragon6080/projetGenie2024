@@ -1,14 +1,17 @@
 {% extends "basic.html" %}
-{% load static %}
+
 <head>
     <title>Admin</title>
 </head>
 
 {% block headerBar %}
-{% include "admin/headerAdmin.html"%}
-{% endblock headerBar%}
+    {% include "admin/headerAdmin.html"%}
+{% endblock %}
+
 {% block sidebar %}
-{% include "admin/navbarAdmin.html"%}
-{% endblock sidebar%}
+    {% include "admin/navbarAdmin.html"%}
+{% endblock %}
+
+
 {% block content%}
-{%endblock content%}
+{% endblock %}

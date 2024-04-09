@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{% static 'css/submitForm.css' %}">
     <link rel="stylesheet" href="{% static 'css/cours.css' %}">
     <link rel="stylesheet" href="{% static 'css/table.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bgunamur.css' %}">
 </head>
 
 <body>
@@ -20,7 +21,7 @@
 {% endif %}
 
 {% if not noSideBar %}
-<div class="offcanvas offcanvas-start show" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
 {% block sidebar %}
 
 {% endblock sidebar %}

@@ -1,4 +1,6 @@
-
+.unamurGreen{
+    background-color: rgb(105,190,40); /* Color Unamur */
+}
 
 /* colonne à gauche*/
 .cader{
@@ -33,7 +35,7 @@ body{
 
 #titleLeftColumn{
     z-index: 9999;
-    background-color:  rgb(116,200,64); /* Définit la couleur d'arrière-plan en vert */
+    background-color:  rgb(105,190,40); /* Color Unamur */
     background-size: cover; /* Fait en sorte que l'image d'arrière-plan couvre tout l'élément */;
 }
 
