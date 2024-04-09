@@ -6,9 +6,11 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from .forms import SubmitForm
 from .models import Sujet
+from .restrictions import prof_or_superviseur_required
 
 
 @login_required(login_url='/polls')
+@prof_or_superviseur_required
 def topics(request, code) -> HttpResponse:
     context = {
         'topics': [
@@ -40,6 +42,7 @@ def topics(request, code) -> HttpResponse:
 
 @login_required(login_url='/polls')
 @csrf_exempt
+@prof_or_superviseur_required
 def addTopic(request, code) -> HttpResponse:
     logger = logging.getLogger()
     

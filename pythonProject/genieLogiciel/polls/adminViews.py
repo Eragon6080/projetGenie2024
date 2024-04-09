@@ -7,15 +7,17 @@ from django.forms.formsets import formset_factory
 from .queries import get_Professeur_People, get_Etudiant_People, get_All_People
 from .forms import AdminRoleForm, BaseRoleFormSet, AddAdminForm
 from .models import Personne
-
+from .restrictions import admin_required
 
 
 @login_required(login_url='/polls')
+@admin_required
 def admin(request) -> HttpResponse:
     return render(request, 'admin/admin.html', {})
 
 
 @login_required(login_url='/polls')
+@admin_required
 def role(request, view = "admin") -> HttpResponse:
     user = request.user  # nécessaire pour demander la variable user
     if 'admin' in user.role['role']:    
