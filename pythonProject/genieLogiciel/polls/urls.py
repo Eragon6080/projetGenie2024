@@ -18,4 +18,5 @@ urlpatterns = [
     path('sujet/delete/<int:sujet_id>/', courseViews.deleteTopic, name='delete_topic'),
     path('course/<str:idue>/gestion/', courseViews.gestion_etape, name='gestion_etape'),
     path("course/<str:idue>/steps/", courseViews.afficher_etapes_ue, name="steps"),
+    path("switch_role/<str:role>", views.switchRole, name="switch_role"),
 ]

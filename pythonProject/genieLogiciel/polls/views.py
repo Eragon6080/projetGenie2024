@@ -89,3 +89,18 @@ def fiche(request):
         'noSideBar': 'true'
     }
     return render(request, 'otherRole/fiche.html', context)
+
+
+@login_required(login_url='/polls')
+def switchRole(request, role):
+    user = request.user
+    redirect_url = ""
+    if role == "admin":
+        redirect_url = "/polls/admin/"
+    elif role == "professeur" or role == "superviseur":
+        redirect_url = "/polls/course/"
+
+    user.role['view'] = role
+    user.save()
+    
+    return HttpResponseRedirect(redirect_to=redirect_url)
