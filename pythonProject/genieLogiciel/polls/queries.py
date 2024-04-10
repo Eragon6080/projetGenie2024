@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, TextField, JSONField
 from django.db.models.functions import Cast
 
-from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet
+from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet, Periode, Etape
 
 
 def get_all_ue():
@@ -114,6 +114,7 @@ def find_course_for_student_for_subscription(idpersonne):
     cours = Cours.objects.filter(idetudiant=student.idetudiant).exclude(idetudiant=student.idetudiant)
     return cours
 
+
 def find_course_for_student(idpersonne):
     """
     :param idpersonne:
@@ -122,3 +123,16 @@ def find_course_for_student(idpersonne):
     student = Etudiant.objects.get(idpersonne=idpersonne)
     cours = Cours.objects.filter(idetudiant=student.idetudiant)
     return cours
+
+
+def get_student(idpersonne):
+    # à développer
+    """
+    :param idpersonne:
+    :return: Le délais des échéances pour chaque cours même si l'étudiant n'est pas inscrit
+    """
+    return Etudiant.objects.get(idpersonne=idpersonne)
+
+
+def get_delais(idPeriode):
+    return Etape.objects.filter(idperiode=idPeriode)
