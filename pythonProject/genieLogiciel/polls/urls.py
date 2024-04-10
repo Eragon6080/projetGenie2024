@@ -6,6 +6,7 @@ urlpatterns = [
     path("course/<str:code>/topics/", courseViews.topics, name="topics"),
     path("course/<str:code>/new/", courseViews.addTopic, name="addTopic"),
     path("topic/", courseViews.topics, name="topic"),
+    path("home/",views.accueil,name="accueil"),
     path("", views.login, name="login"),
     path("ok/", courseViews.ok, name="ok"),
     path("logout/", views.logout, name="logout"),
@@ -18,5 +19,7 @@ urlpatterns = [
     path('sujet/delete/<int:sujet_id>/', courseViews.deleteTopic, name='delete_topic'),
     path('course/<str:idue>/gestion/', courseViews.gestion_etape, name='gestion_etape'),
     path("course/<str:idue>/steps/", courseViews.afficher_etapes_ue, name="steps"),
+    path("course/inscription",courseViews.inscription,name="inscription"),
+    path("course/inscription/<str:idue>/<str:nom>",courseViews.inscriptionValidation,name="inscription"),
     path("switch_role/<str:role>", views.switchRole, name="switch_role"),
 ]
