@@ -23,4 +23,6 @@ urlpatterns = [
     path("course/inscription/<str:idue>/<str:nom>",courseViews.inscriptionValidation,name="inscription"),
     path("course/mycourses",courseViews.mycourses,name="mycourses"),
     path("switch_role/<str:role>", views.switchRole, name="switch_role"),
+    path("echeance/",views.echeance,name="echeance"),
+    path("echeance/<int:delivrable>",views.delivrable,name="delivrable"),
 ]
