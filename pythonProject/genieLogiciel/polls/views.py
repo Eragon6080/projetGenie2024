@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
-from .queries import get_all_course, find_student_by_id_personne, find_professeur_by_id_personne
+from .queries import get_all_course, find_student_by_id_personne, find_professeur_by_id_personne, find_course_by_student
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ConnectForm
 from .restrictions import etudiant_required, prof_or_superviseur_required, prof_or_superviseur_or_student_required
@@ -20,16 +20,19 @@ from .restrictions import etudiant_required, prof_or_superviseur_required, prof_
 # obliger de passer tous les élements nécessaires dans le context donc, attention aux id
 
 
-
-
 @login_required(login_url='/polls')
 @prof_or_superviseur_or_student_required
-
 def home(request) -> HttpResponse:
-    courses_query = get_all_course()
+    user = request.user
     courses = []
-    for cours in courses_query:
-        courses.append(cours)
+    if "professeur" in user.role["role"] or "superviseur" in user.role['role']:
+        courses_query = get_all_course()
+        for cours in courses_query:
+            courses.append(cours)
+    else:
+        course = find_course_by_student(user.idpersonne)
+        courses.append(course)
+
     context = {
         'cours': courses,
         'noSideBar': 'true'
@@ -102,5 +105,5 @@ def switchRole(request, role):
 
     user.role['view'] = role
     user.save()
-    
+
     return HttpResponseRedirect(redirect_to=redirect_url)

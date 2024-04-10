@@ -86,3 +86,10 @@ def find_professeur_by_id_personne(idpersonne):
         return Professeur.objects.get(idpersonne=idpersonne)
     except ObjectDoesNotExist:
         return None
+
+
+def find_course_by_student(idpersonne: int):
+    """
+    Retourne les cours d'un étudiant
+    """
+    return Cours.objects.get(idetudiant=idpersonne)

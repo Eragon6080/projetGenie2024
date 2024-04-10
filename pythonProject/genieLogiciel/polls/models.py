@@ -48,6 +48,7 @@ class Cours(models.Model):
     idcours = models.AutoField(primary_key=True)
     idue = models.ForeignKey('Ue', models.DO_NOTHING, db_column='idue')
     nom = models.TextField(db_column='nom')
+    idetudiant = models.ForeignKey('Etudiant',models.DO_NOTHING,db_column='idetudiant')
 
     class Meta:
         managed = False
