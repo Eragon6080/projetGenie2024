@@ -113,3 +113,12 @@ def find_course_for_student_for_subscription(idpersonne):
     student = Etudiant.objects.get(idpersonne=idpersonne)
     cours = Cours.objects.filter(idetudiant=student.idetudiant).exclude(idetudiant=student.idetudiant)
     return cours
+
+def find_course_for_student(idpersonne):
+    """
+    :param idpersonne:
+    :return:  les cours auquel l'étudiant est inscrit
+    """
+    student = Etudiant.objects.get(idpersonne=idpersonne)
+    cours = Cours.objects.filter(idetudiant=student.idetudiant)
+    return cours

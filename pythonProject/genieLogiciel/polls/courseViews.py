@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from .forms import SubmitForm, UpdateForm, EtapeForm
 from .models import Sujet, Etudiant, Ue, Cours, Professeur, Etape, Delivrable
-from .queries import find_course_for_student_for_subscription
+from .queries import find_course_for_student_for_subscription, find_course_for_student
 from .restrictions import prof_or_superviseur_required, prof_or_superviseur_or_student_required
 
 
@@ -175,3 +175,21 @@ def inscriptionValidation(request, idue, nom):
     cours = Cours(idetudiant=etudiant, idue=ue, nom=nom)
     cours.save()
     return redirect("../../../home/")
+
+
+@login_required(login_url='/polls')
+def mycourses(request):
+    user = request.user
+    courses_query = find_course_for_student(user.idpersonne)
+    courses = []
+    if courses_query:
+        for cours in courses_query:
+            courses.append(cours)
+        context = {
+            'cours' : courses
+        }
+        return render(request, "otherRole/myCourses", context=context)
+
+    else:
+        redirect(None)
+

@@ -21,5 +21,6 @@ urlpatterns = [
     path("course/<str:idue>/steps/", courseViews.afficher_etapes_ue, name="steps"),
     path("course/inscription",courseViews.inscription,name="inscription"),
     path("course/inscription/<str:idue>/<str:nom>",courseViews.inscriptionValidation,name="inscription"),
+    path("course/mycourses",courseViews.mycourses,name="mycourses"),
     path("switch_role/<str:role>", views.switchRole, name="switch_role"),
 ]
