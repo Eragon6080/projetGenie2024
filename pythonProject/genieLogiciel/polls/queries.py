@@ -86,3 +86,39 @@ def find_professeur_by_id_personne(idpersonne):
         return Professeur.objects.get(idpersonne=idpersonne)
     except ObjectDoesNotExist:
         return None
+
+
+def find_course_by_student(idpersonne: int):
+    """
+    Retourne les cours d'un étudiant
+    """
+    return Cours.objects.get(idetudiant=idpersonne)
+
+
+def find_course_by_professeur_or_superviseur(idpersonne: int):
+    """
+    :param idpersonne:
+    :return: les cours dont le professeur est responsable
+    """
+    teacher = Professeur.objects.get(idpersonne=idpersonne)
+    ues = Ue.objects.get(idprof=teacher.idprof)
+    return Cours.objects.get(idue=ues.idue)
+
+
+def find_course_for_student_for_subscription(idpersonne):
+    """
+    :param idpersonne:
+    :return:  les cours auquel l'étudiant n'est pas inscrit
+    """
+    student = Etudiant.objects.get(idpersonne=idpersonne)
+    cours = Cours.objects.filter(idetudiant=student.idetudiant).exclude(idetudiant=student.idetudiant)
+    return cours
+
+def find_course_for_student(idpersonne):
+    """
+    :param idpersonne:
+    :return:  les cours auquel l'étudiant est inscrit
+    """
+    student = Etudiant.objects.get(idpersonne=idpersonne)
+    cours = Cours.objects.filter(idetudiant=student.idetudiant)
+    return cours

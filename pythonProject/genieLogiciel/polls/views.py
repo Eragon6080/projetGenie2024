@@ -8,7 +8,8 @@ from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
-from .queries import get_all_course, find_student_by_id_personne, find_professeur_by_id_personne
+from .queries import get_all_course, find_student_by_id_personne, find_professeur_by_id_personne, \
+    find_course_by_student, find_course_by_professeur_or_superviseur
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ConnectForm
 from .restrictions import etudiant_required, prof_or_superviseur_required, prof_or_superviseur_or_student_required
@@ -18,21 +19,35 @@ from .restrictions import etudiant_required, prof_or_superviseur_required, prof_
 
 
 # obliger de passer tous les élements nécessaires dans le context donc, attention aux id
-
-
+@login_required(login_url='/polls')
+@prof_or_superviseur_or_student_required
+def accueil(request) -> HttpResponse:
+    user = request.user
+    if "professeur" in user.role["role"] or "superviseur" in user.role['role'] or "etudiant" in user.role['role']:
+        context = {
+            'user': user
+        }
+        return render(request, "otherRole/otherRole.html", context=context)
+    else:
+        return redirect('/polls')
 
 
 @login_required(login_url='/polls')
 @prof_or_superviseur_or_student_required
-
 def home(request) -> HttpResponse:
-    courses_query = get_all_course()
+    user = request.user
     courses = []
-    for cours in courses_query:
-        courses.append(cours)
+    role = user.role["role"]
+    if "professeur" in role or "superviseur" in role:
+        course = find_course_by_professeur_or_superviseur(user.idpersonne)
+        courses.append(course)
+    else:
+        course = find_course_by_student(user.idpersonne)
+        courses.append(course)
+    sideBar = not('professeur' in role or "superviseur" in role)
     context = {
         'cours': courses,
-        'noSideBar': 'true'
+        'noSideBar': sideBar
     }
 
     return render(request, 'otherRole/home.html', context)
@@ -55,7 +70,7 @@ def login(request) -> HttpResponse:
                 if 'admin' in user.role['role']:
                     return HttpResponseRedirect(redirect_to="admin/")
                 else:
-                    return HttpResponseRedirect(redirect_to="course/")
+                    return HttpResponseRedirect(redirect_to="home/")
             else:
                 form = ConnectForm()
     else:
@@ -89,3 +104,18 @@ def fiche(request):
         'noSideBar': 'true'
     }
     return render(request, 'otherRole/fiche.html', context)
+
+
+@login_required(login_url='/polls')
+def switchRole(request, role):
+    user = request.user
+    redirect_url = ""
+    if role == "admin":
+        redirect_url = "/polls/admin/"
+    elif role == "professeur" or role == "superviseur":
+        redirect_url = "/polls/course/"
+
+    user.role['view'] = role
+    user.save()
+
+    return HttpResponseRedirect(redirect_to=redirect_url)
