@@ -1,4 +1,6 @@
 {% extends "admin/adminTemplate.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/customized.css'%}">
 {% block content %}
 {% if 'admin' in user.role.role %}
 <div class="col-auto"></div>

@@ -5,7 +5,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from .forms import SubmitForm , UpdateForm , EtapeForm
-from .models import Sujet, Etudiant, Ue, Cours,Professeur,Etape,Delivrable from .restrictions import prof_or_superviseur_required
+from .models import Sujet, Etudiant, Ue, Cours,Professeur,Etape,Delivrable 
+from .restrictions import prof_or_superviseur_required
 
 
 @login_required(login_url='/polls')
