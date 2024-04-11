@@ -1,19 +1,18 @@
-import logging
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
-from .models import Etape
-from .queries import get_all_course, find_student_by_id_personne, find_professeur_by_id_personne, \
+from .queries import find_student_by_id_personne, find_professeur_by_id_personne, \
     find_course_by_student, find_course_by_professeur_or_superviseur, get_student, get_delais
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ConnectForm
-from .restrictions import etudiant_required, prof_or_superviseur_required, prof_or_superviseur_or_student_required, admin_or_professor_required
+from .restrictions import prof_or_superviseur_or_student_required, admin_or_professor_required
+from .utils.date import get_today_date
+from .mailNotification import sendMail
 
 
 # Create your views here.
@@ -71,6 +70,7 @@ def login(request) -> HttpResponse:
                 if 'admin' in user.role['role']:
                     return HttpResponseRedirect(redirect_to="admin/")
                 else:
+                    sendMail("Connexion Réussie",f"Vous vous êtes connecté à la plateforme PIMS le {get_today_date()}")
                     return HttpResponseRedirect(redirect_to="home/")
             else:
                 form = ConnectForm()
