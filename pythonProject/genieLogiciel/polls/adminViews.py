@@ -85,6 +85,7 @@ def role(request, view = "admin") -> HttpResponse:
                             dbPerson.role['role'].append("superviseur")
                         if form.cleaned_data['prof'] == False and "professeur" in dbPerson.role['role']:
                             dbPerson.role['role'].remove("professeur")
+                            Professeur.objects.get(idpersonne=dbPerson).delete()
                         if form.cleaned_data['sup'] == False and "superviseur" in dbPerson.role['role']:
                             dbPerson.role['role'].remove("superviseur")
                         dbPerson.save()
