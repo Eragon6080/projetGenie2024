@@ -67,7 +67,7 @@ def login(request) -> HttpResponse:
             user = authenticate(request, mail=form.cleaned_data['email'], password=form.cleaned_data['password'])
             if user is not None and user.is_authenticated:
                 auth_login(request, user)
-                if 'admin' in user.role['role']:
+                if 'admin' in user.role['role'] and user.role['view'] == 'admin':
                     return HttpResponseRedirect(redirect_to="admin/")
                 else:
                     sendMail("Connexion Réussie",f"Vous vous êtes connecté à la plateforme PIMS le {get_today_date()}")
