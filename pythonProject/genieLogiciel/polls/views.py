@@ -143,7 +143,7 @@ def echeance(request):
 
 
 @login_required(login_url="polls/")
-def delivrable(request,delivrable):
+def delivrable(request, delivrable):
     context = {
         'iddelivrable':delivrable
     }
