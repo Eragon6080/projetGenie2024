@@ -13,7 +13,7 @@ from .queries import get_all_course, find_student_by_id_personne, find_professeu
     find_course_by_student, find_course_by_professeur_or_superviseur, get_student, get_delais
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ConnectForm
-from .restrictions import  prof_or_superviseur_or_student_required
+from .restrictions import etudiant_required, prof_or_superviseur_required, prof_or_superviseur_or_student_required, admin_or_professor_required
 
 
 # Create your views here.
@@ -108,6 +108,7 @@ def fiche(request):
 
 
 @login_required(login_url='/polls')
+@admin_or_professor_required
 def switchRole(request, role):
     user = request.user
     redirect_url = ""
