@@ -8,8 +8,9 @@ from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
+from .models import Etape
 from .queries import get_all_course, find_student_by_id_personne, find_professeur_by_id_personne, \
-    find_course_by_student, find_course_by_professeur_or_superviseur
+    find_course_by_student, find_course_by_professeur_or_superviseur, get_student, get_delais
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ConnectForm
 from .restrictions import etudiant_required, prof_or_superviseur_required, prof_or_superviseur_or_student_required, admin_or_professor_required
@@ -44,7 +45,7 @@ def home(request) -> HttpResponse:
     else:
         course = find_course_by_student(user.idpersonne)
         courses.append(course)
-    sideBar = not('professeur' in role or "superviseur" in role)
+    sideBar = not ('professeur' in role or "superviseur" in role)
     context = {
         'cours': courses,
         'noSideBar': sideBar
@@ -120,3 +121,31 @@ def switchRole(request, role):
     user.save()
 
     return HttpResponseRedirect(redirect_to=redirect_url)
+
+
+@login_required(login_url='/polls')
+def echeance(request):
+    user = request.user
+    if "etudiant" in user.role['role']:
+        etudiant = get_student(user.idpersonne)
+        delais_query = get_delais(etudiant.idsujet.idperiode.idperiode)
+
+        delais = []
+        for delai in delais_query:
+            delais.append(delai)
+        context = {
+            'cours': etudiant.idsujet.idcours,
+            'periode': etudiant.idsujet.idperiode,
+            'delais': delais
+        }
+        for delai in delais:
+            print(delai.iddelivrable)
+        return render(request, 'otherRole/echeance.html', context)
+
+
+@login_required(login_url="polls/")
+def delivrable(request,delivrable):
+    context = {
+        'iddelivrable':delivrable
+    }
+    return render(request,'otherRole/delivrable.html',context=context)

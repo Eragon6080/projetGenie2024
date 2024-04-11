@@ -1,13 +1,13 @@
 {% load static %}
 <header>
-  <nav class="navbar navbar-expand-lg py-0" style="background-color: #9F9F9F;">
+  <nav class="navbar navbar-expand-lg py-0" style="background-color: #c7c5c5;">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         {% if noSideBar %}
         <span></span>
         {% else %}
         <a class="btn btn-light navbar-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><span class="navbar-toggler-icon"></span></a>
         {% endif %}
-        <a class="navbar-brand d-flex justify-content-center" href="/polls/course/"><img src="{% static 'image/LApims.png'%}" alt="pimsLogo" style="width:50%"></a>
+        <a class="navbar-brand d-flex justify-content-center" href="/polls/course/"><img src="{% static 'image/pimss.png'%}" alt="pimsLogo" style="width:50%"></a>
         <div class="d-flex">
             <!-- l'image est à remplacer par une icône de la personne-->
             {% if user.is_authenticated %}
@@ -41,7 +41,7 @@
               </div>
               <div class="col-auto d-flex justify-content-center align-items-center">
                 <div class="col-auto">
-                    <p class="text-light">{{user.prenom}} {{user.nom}}</p>
+                    <p class="text-lightt" style="color: #55AB26; margin-right: 10px;">{{user.prenom}} {{user.nom}}</p>
                 </div>
                 <div class="col-auto">
                   <a href="{% url 'logout' %}" class="btn"><i class="fa fa-sign-out"></i></a>

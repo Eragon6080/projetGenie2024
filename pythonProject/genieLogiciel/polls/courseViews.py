@@ -188,7 +188,7 @@ def mycourses(request):
         context = {
             'cours' : courses
         }
-        return render(request, "otherRole/myCourses", context=context)
+        return render(request, "otherRole/home.html", context=context)
 
     else:
         redirect(None)

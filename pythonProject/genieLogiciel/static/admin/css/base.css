@@ -56,34 +56,10 @@ html[data-theme="light"],
     --object-tools-hover-bg: var(--close-button-hover-bg);
 
     --font-family-primary:
-        "Segoe UI",
-        system-ui,
-        Roboto,
-        "Helvetica Neue",
-        Arial,
-        sans-serif,
-        "Apple Color Emoji",
-        "Segoe UI Emoji",
-        "Segoe UI Symbol",
-        "Noto Color Emoji";
+        Arial, sans-serif;      
     --font-family-monospace:
-        ui-monospace,
-        Menlo,
-        Monaco,
-        "Cascadia Mono",
-        "Segoe UI Mono",
-        "Roboto Mono",
-        "Oxygen Mono",
-        "Ubuntu Monospace",
-        "Source Code Pro",
-        "Fira Mono",
-        "Droid Sans Mono",
-        "Courier New",
-        monospace,
-        "Apple Color Emoji",
-        "Segoe UI Emoji",
-        "Segoe UI Symbol",
-        "Noto Color Emoji";
+       Arial, sans-serif;      
+
 }
 
 html, body {
@@ -1154,3 +1130,4 @@ a.deletelink:focus, a.deletelink:hover {
     color: var(--body-fg);
     background-color: var(--body-bg);
 }
+

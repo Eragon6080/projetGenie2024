@@ -86,7 +86,7 @@ class Periode(models.Model):
 
 
 class Delivrable(models.Model):
-    idDelivrable = models.AutoField(primary_key=True, db_column='iddelivrable')
+    iddelivrable = models.AutoField(primary_key=True, db_column='iddelivrable')
     fichier = models.FileField(db_column='fichier', upload_to=get_upload_path, blank=True, null=True)
     typeFichier = models.TextField(db_column='typefichier', validators=[validate_file_extension])
 
@@ -103,13 +103,21 @@ class Delivrable(models.Model):
     def set_annee_periode(self, annee_periode):
         self.annee_periode = annee_periode
 
+    class Meta:
+        managed = False
+        db_table = 'delivrable'
+
 
 class Etape(models.Model):
-    idEtape = models.AutoField(primary_key=True, db_column='idetape')
+    idetape = models.AutoField(primary_key=True, db_column='idetape')
     delai = models.DateTimeField(db_column='delai')
     description = models.TextField(db_column='description')
-    idPeriode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode')
-    idDelivrable = models.ForeignKey('Delivrable', models.DO_NOTHING, db_column='iddelivrable')
+    idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode')
+    iddelivrable = models.ForeignKey(Delivrable, models.DO_NOTHING, db_column='iddelivrable')
+
+    class Meta:
+        managed = False
+        db_table = 'etape'
 
 
 class PersonneManager(BaseUserManager):
@@ -173,7 +181,7 @@ class Sujet(models.Model):
                                validators=[validate_file_extension])
     idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode', default=1)
     idprof = models.ForeignKey(Professeur, models.DO_NOTHING, db_column='idprof', default=1)
-    idCours = models.ForeignKey(Cours, models.DO_NOTHING, db_column='idcours', default=1)
+    idcours = models.ForeignKey(Cours, models.DO_NOTHING, db_column='idcours', default=1)
 
     class Meta:
         managed = False
