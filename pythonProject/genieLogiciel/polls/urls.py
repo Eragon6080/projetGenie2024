@@ -24,5 +24,6 @@ urlpatterns = [
     path("course/mycourses",courseViews.mycourses,name="mycourses"),
     path("switch_role/<str:role>", views.switchRole, name="switch_role"),
     path("echeance/",views.echeance,name="echeance"),
+    path("steps/<int:idue>",courseViews.afficher_etapes_ue,name="afficherEtape"),
     path("echeance/<int:delivrable>",views.delivrable,name="delivrable"),
 ]
