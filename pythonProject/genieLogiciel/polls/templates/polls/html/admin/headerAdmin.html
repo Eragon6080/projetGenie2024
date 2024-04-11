@@ -22,7 +22,11 @@
                         <li><a class="dropdown-item" href="/polls/fiche">Profil</a></li>
                         <li><hr class="dropdown-divider"></li>
                         {% for role in user.role.role %}
-                          <li><a class="dropdown-item" href="#">{{role}}</a></li>
+                          {% if role == user.role.view %}
+                            <li><a class="dropdown-item bgunamur" href="/polls/switch_role/{{ role }}">{{role}}</a></li>
+                          {% else %}
+                            <li><a class="dropdown-item" href="/polls/switch_role/{{ role }}">{{role}}</a></li>
+                          {% endif %}
                         {% endfor %}
                       </ul>
                     </li>

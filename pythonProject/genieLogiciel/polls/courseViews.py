@@ -17,7 +17,7 @@ def topics(request, code):
     cours_ids = Cours.objects.filter(idue_id=code).values_list('idcours', flat=True)
     print(cours_ids, "ok")
     # Récupèrer tous les sujets associés à ces cours
-    sujets = Sujet.objects.filter(idCours__in=cours_ids)
+    sujets = Sujet.objects.filter(idcours__in=cours_ids)
     print(sujets, 'oki')
     sujet_infos = []
     for sujet in sujets:
@@ -144,7 +144,7 @@ def afficher_etapes_ue(request, idue):
     ue = get_object_or_404(Ue, idue=idue)
     professeur = ue.idprof
     periode = professeur.idperiode
-    etapes = Etape.objects.filter(idPeriode=periode).order_by('delai')
+    etapes = Etape.objects.filter(idperiode=periode).order_by('delai')
     print(etapes)
 
     return render(request, 'otherRole/afficher_etapes_ue.html', {'etapes': etapes, 'ue': ue})

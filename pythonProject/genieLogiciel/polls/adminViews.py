@@ -1,3 +1,4 @@
+import datetime
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -6,7 +7,7 @@ from django.forms.formsets import formset_factory
 
 from .queries import get_Professeur_People, get_Etudiant_People, get_All_People
 from .forms import AdminRoleForm, BaseRoleFormSet, AddAdminForm
-from .models import Personne
+from .models import Personne, Professeur, Periode
 from .restrictions import admin_required
 
 
@@ -75,9 +76,11 @@ def role(request, view = "admin") -> HttpResponse:
             if postFormSet.is_valid():
                 for form in postFormSet:
                     dbPerson = Personne.objects.get(idpersonne=form.idpersonne)
+
                     if form.cleaned_data != {}:
                         if form.cleaned_data['prof'] == True and "professeur" not in dbPerson.role['role']:
                             dbPerson.role['role'].append("professeur")
+                            Professeur.objects.create(idpersonne=dbPerson, idperiode=Periode.objects.get(annee=datetime.date.today().year), specialite="Informatique")
                         if form.cleaned_data['sup'] == True and "superviseur" not in dbPerson.role['role']:
                             dbPerson.role['role'].append("superviseur")
                         if form.cleaned_data['prof'] == False and "professeur" in dbPerson.role['role']:
