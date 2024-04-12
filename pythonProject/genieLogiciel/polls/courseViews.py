@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, ConfirmationSujetReservation
 from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable
 from .queries import find_course_for_student_for_subscription, find_course_for_student, \
-    get_all_subjects_for_a_teacher, get_people_by_mail, get_student, get_cours_by_id_sujet_and_id_student
+    get_all_subjects_for_a_teacher, get_people_by_mail, get_student, get_cours_by_id_sujet_and_id_student, get_subject
 from .restrictions import prof_or_superviseur_required, prof_or_superviseur_or_student_required
 
 
@@ -246,10 +246,13 @@ def reservationConfirmation(request, idsujet):
             personne_query = get_people_by_mail(form.cleaned_data['mail'])
             if personne_query is not None:
                 student = get_student(personne_query.idpersonne)
-                cours = get_cours_by_id_sujet_and_id_student(student.idetudiant,idsujet)
+                cours = get_cours_by_id_sujet_and_id_student(student.idetudiant, idsujet)
                 if student.idsujet_id is None and cours is not None:
                     student.idsujet_id = idsujet
                     student.save()
+                    sujet = get_subject(idsujet=idsujet)
+                    sujet.estPris = True
+                    sujet.save()
                     return redirect('../../../home')
                 else:
                     return redirect('../../../ok')
