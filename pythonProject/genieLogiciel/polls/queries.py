@@ -157,8 +157,16 @@ def get_people_by_mail(mail: str):
     return Personne.objects.get(mail=mail)
 
 
-def get_subject_by_student(idPersonne):
+def get_cours_by_id_sujet_and_id_student(idsujet:int,idstudent:int):
     """
-    :return: get subject by etudiant
+    L'étudiant doit être inscrit au cours pour que l'assignation fonctionne
+    :param idsujet: l'id du sujet en cours
+    :return: le cours auquel l'étudiant est inscrit
     """
-    student = Etudiant.objects.get()
+    sujet = Sujet.objects.get(idsujet=idsujet)
+    prof = Professeur.objects.get(idprof=sujet.idprof_id)
+
+    ue = Ue.objects.get(idprof=prof.idprof)
+    print(ue.idue,idstudent)
+    return Cours.objects.get(idue=ue.idue,idetudiant=idstudent)
+
