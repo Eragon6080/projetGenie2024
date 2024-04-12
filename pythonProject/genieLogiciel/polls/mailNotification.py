@@ -12,7 +12,7 @@ def sendMail(subject, message,to_mail=None):
 
     if subject and message:
         try:
-            send_mail(subject=subject, message=message,from_email="pimsprojet@outlook.com",recipient_list=to_mail)
+            send_mail(subject=subject, message=message,from_email=os.getenv('EMAIL_HOST_USER'),recipient_list=to_mail)
         except BadHeaderError:
             return HttpResponse("Invalid header found")
         return HttpResponse("ok")

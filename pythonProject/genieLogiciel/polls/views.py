@@ -70,7 +70,7 @@ def login(request) -> HttpResponse:
                 if 'admin' in user.role['role'] and user.role['view'] == 'admin':
                     return HttpResponseRedirect(redirect_to="admin/")
                 else:
-                    sendMail("Connexion Réussie",f"Vous vous êtes connecté à la plateforme PIMS le {get_today_date()}")
+                    sendMail("Connexion Réussie", f"Vous vous êtes connecté à la plateforme PIMS le {get_today_date()}")
                     return HttpResponseRedirect(redirect_to="home/")
             else:
                 form = ConnectForm()
@@ -82,7 +82,11 @@ def login(request) -> HttpResponse:
     return render(request, 'login.html', context)
 
 
+@login_required(login_url='/polls')
 def logout(request):
+    user = request.user
+    sendMail("Déconnexion réussie", f"Vous vous êtes déconnecté de la plateforme PIMS le {get_today_date()}")
+
     auth_logout(request)
     return redirect('/polls')
 
@@ -146,6 +150,6 @@ def echeance(request):
 @login_required(login_url="polls/")
 def delivrable(request, delivrable):
     context = {
-        'iddelivrable':delivrable
+        'iddelivrable': delivrable
     }
-    return render(request,'otherRole/delivrable.html',context=context)
+    return render(request, 'otherRole/delivrable.html', context=context)

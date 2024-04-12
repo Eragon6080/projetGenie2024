@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+
 # création d'un fichier .env propre à chacun
 load_dotenv(dotenv_path="C:\\Users\\matth\\AppData\\Roaming\\JetBrains\\PyCharm2024.1\\scratches\\scratch.env")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -85,7 +86,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432'
 
-      }
+    }
 }
 
 # Password validation
@@ -143,4 +144,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = os.getenv('EMAIL_DEFAULT_RECIPIENT')
