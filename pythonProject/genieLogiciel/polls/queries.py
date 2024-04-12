@@ -136,3 +136,29 @@ def get_student(idpersonne):
 
 def get_delais(idPeriode):
     return Etape.objects.filter(idperiode=idPeriode)
+
+
+def get_all_subjects_for_a_teacher(idPersonne: int):
+    """
+    :return: Tous les sujets qui ne sont pas encore réservé
+    """
+    teacher = Professeur.objects.get(idpersonne=idPersonne)
+    return Sujet.objects.filter(idprof=teacher.idprof).exclude(estPris=True)
+
+
+def get_subject(idsujet: int):
+    return Sujet.objects.get(idsujet=idsujet)
+
+
+def get_people_by_mail(mail: str):
+    """
+    :return: all people
+    """
+    return Personne.objects.get(mail=mail)
+
+
+def get_subject_by_student(idPersonne):
+    """
+    :return: get subject by etudiant
+    """
+    student = Etudiant.objects.get()

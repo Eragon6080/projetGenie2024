@@ -26,4 +26,8 @@ urlpatterns = [
     path("echeance/",views.echeance,name="echeance"),
     path("steps/<int:idue>",courseViews.afficher_etapes_ue,name="afficherEtape"),
     path("echeance/<int:delivrable>",views.delivrable,name="delivrable"),
+    path("sujet/reservation",courseViews.reservation,name="reservation"),
+    path("sujet/reservation/<int:idsujet>", courseViews.reservationValidation, name="reservation"),
+    path("sujet/reservation/confirmation/<int:idsujet>",courseViews.reservationConfirmation,name="confirmation")
+
 ]

@@ -1,7 +1,9 @@
 from typing import Any
-from django import forms 
+from django import forms
 from django.forms import BaseFormSet
-from .models import Etape, Delivrable, Periode
+from django.forms.utils import ErrorList
+
+from .models import Etape, Delivrable, Periode, Sujet
 
 
 class EtapeForm(forms.ModelForm):
@@ -9,17 +11,15 @@ class EtapeForm(forms.ModelForm):
         (True, 'Oui'),
         (False, 'Non'),
     ]
-    necessiteDelivrable = forms.ChoiceField(choices=NECESSITE_CHOICES, label='Nécessite un Delivrable', widget=forms.RadioSelect)
+    necessiteDelivrable = forms.ChoiceField(choices=NECESSITE_CHOICES, label='Nécessite un Delivrable',
+                                            widget=forms.RadioSelect)
 
     class Meta:
         model = Etape
-        fields = ['description','delai']
+        fields = ['description', 'delai']
         widgets = {
             'delai': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
-
-
-
 
 
 class SubmitForm(forms.Form):
@@ -44,35 +44,36 @@ class SubmitForm(forms.Form):
     file = forms.FileField(
         label='File',
         required=False,
-        widget=forms.FileInput(attrs={'class': 'form-control','type':'file','placeholder': 'Fichier'})
+        widget=forms.FileInput(attrs={'class': 'form-control', 'type': 'file', 'placeholder': 'Fichier'})
     )
 
 
 class ConnectForm(forms.Form):
     email = forms.CharField(label="email", max_length=100, required=True,
-                          widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'email'}))
+                            widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'email'}))
     password = forms.CharField(label="password", max_length=100, required=True,
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'password'}))
-    
+
+
 class AddAdminForm(forms.Form):
     email = forms.CharField(label="Enter user email", max_length=100, required=True,
-                          widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'email'}))
-    
+                            widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'email'}))
+
 
 class AdminRoleForm(forms.Form):
     # Dynamic form created in adminViews.py
     def __init__(self, idpersonne, pers, *args, **kwargs):
         self.idpersonne = idpersonne
         super().__init__(*args, **kwargs)
-        
+
         if 'professeur' in pers.role['role']:
             self.fields['prof'] = forms.BooleanField(initial=True, required=False)
         else:
             self.fields['prof'] = forms.BooleanField(required=False)
-        
+
         if 'superviseur' in pers.role['role']:
             self.fields['sup'] = forms.BooleanField(initial=True, required=False)
-        else:  
+        else:
             self.fields['sup'] = forms.BooleanField(required=False)
 
 
@@ -85,10 +86,47 @@ class BaseRoleFormSet(BaseFormSet):
 
 
 class UpdateForm(SubmitForm):
-   
+
     def __init__(self, *args, **kwargs):
         super(UpdateForm, self).__init__(*args, **kwargs)
         self.fields['title'].required = False
         self.fields['description'].required = False
         self.fields['destination'].required = False
-        
+
+
+class SubjectReservationForm(forms.ModelForm):
+    # permet de récupérer des valeurs qui ne sont pas inclus dans le model
+    subject_id = forms.IntegerField(widget=forms.HiddenInput())
+
+    class Meta:
+        model = Sujet
+        fields = ['titre', 'descriptif', 'subject_id']
+
+
+class ConfirmationSujetReservation(forms.Form):
+    title = forms.CharField(
+        label='Title',
+        max_length=200,
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Titre', 'readonly':'readonly','width':'100px'})
+    )
+    description = forms.CharField(
+        label='Description',
+        max_length=1000,
+        required=False,
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '3', 'placeholder': 'Sujet', 'height': '100px','readonly':'readonly'})
+    )
+    mail = forms.EmailField(
+        label='mail',
+        max_length=100,
+        required=True,
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'email'})
+    )
+    subject_id = forms.IntegerField(label='id',required=False,widget=forms.HiddenInput())
+
+    def __init__(self, *args, **kwargs):
+        super(ConfirmationSujetReservation, self).__init__(*args, **kwargs)
+        if 'initial' in kwargs:
+            self.fields['title'].widget.attrs['value'] = kwargs['initial'].get('title', '')
+            self.fields['description'].initial = kwargs['initial'].get('description', '')
+            self.fields['subject_id'].widget.attrs['value'] = kwargs['initial'].get('subject_id', '')
