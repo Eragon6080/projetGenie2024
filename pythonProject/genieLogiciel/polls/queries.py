@@ -110,8 +110,34 @@ def find_course_for_student_for_subscription(idpersonne):
     :param idpersonne:
     :return:  les cours auquel l'étudiant n'est pas inscrit
     """
+    ues = []
+    cours = []
     student = Etudiant.objects.get(idpersonne=idpersonne)
-    cours = Cours.objects.filter(idetudiant=student.idetudiant).exclude(idetudiant=student.idetudiant)
+    ues_query = get_all_ue()
+    for ue in ues_query:
+        ues.append(ue)
+    cours_query = Cours.objects.filter(idetudiant=student.idetudiant, idue__in=ues)
+    if len(cours_query) == 0:
+        for ue in ues:
+            cours.append(Cours(nom=ue.nom, idue_id=ue.idue))
+    else:
+        if len(cours_query) < len(ues):
+            cours_int = []
+            if len(cours_query) >= 1:
+                for cour in cours_query:
+                    cours_int.append(cour)
+
+                for ue in ues:
+                    for cour in cours_int:
+                        if cour.idue_id != ue.idue:
+                            cours.append(Cours(nom=ue.nom, idue_id=ue.idue))
+                print(cours)
+                for cour in cours:
+                    for cour_int in cours_int:
+                        if cour_int.idue_id == cour.idue_id:
+                            cours.remove(cour)
+
+
     return cours
 
 
@@ -122,6 +148,7 @@ def find_course_for_student(idpersonne):
     """
     student = Etudiant.objects.get(idpersonne=idpersonne)
     cours = Cours.objects.filter(idetudiant=student.idetudiant)
+    print(cours)
     return cours
 
 
@@ -157,7 +184,7 @@ def get_people_by_mail(mail: str):
     return Personne.objects.get(mail=mail)
 
 
-def get_cours_by_id_sujet_and_id_student(idsujet:int,idstudent:int):
+def get_cours_by_id_sujet_and_id_student(idsujet: int, idstudent: int):
     """
     L'étudiant doit être inscrit au cours pour que l'assignation fonctionne
     :param idsujet: l'id du sujet en cours
@@ -167,6 +194,5 @@ def get_cours_by_id_sujet_and_id_student(idsujet:int,idstudent:int):
     prof = Professeur.objects.get(idprof=sujet.idprof_id)
 
     ue = Ue.objects.get(idprof=prof.idprof)
-    print(ue.idue,idstudent)
-    return Cours.objects.get(idue=ue.idue,idetudiant=idstudent)
-
+    print(ue.idue, idstudent)
+    return Cours.objects.get(idue=ue.idue, idetudiant=idstudent)

@@ -184,13 +184,13 @@ def mycourses(request):
     if courses_query:
         for cours in courses_query:
             courses.append(cours)
-        context = {
-            'cours': courses
-        }
-        return render(request, "otherRole/home.html", context=context)
+        print(courses)
+    context = {
+        'cours': courses
+    }
+    return render(request, "otherRole/home.html", context=context)
 
-    else:
-        redirect(None)
+
 
 
 @login_required(login_url='polls')
