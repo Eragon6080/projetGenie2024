@@ -2,6 +2,7 @@
 {% block content %}
 <div class="container vh-100 d-flex flex-column justify-content-center">
     <div class="row justify-content-center">
+        {% if subject|length > 0 %}
         <div class="col-12">
             <div class="table-responsive">
                 <table class="table table-striped text-center">
@@ -28,6 +29,11 @@
                 </table>
             </div>
         </div>
+        {% else %}
+        <div class="container d-flex justify-content-center align-items-center vh-100">
+            <p>Tous les sujets vous concernant ont été attribués</p>
+        </div>
+            {%endif%}
     </div>
 </div>
 
