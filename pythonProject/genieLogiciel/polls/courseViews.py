@@ -7,7 +7,9 @@ from django.views.decorators.csrf import csrf_exempt
 from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, ConfirmationSujetReservation
 from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable
 from .queries import find_course_for_student_for_subscription, find_course_for_student, \
-    get_all_subjects_for_a_teacher, get_people_by_mail, get_student, get_cours_by_id_sujet_and_id_student, get_subject
+    get_all_subjects_for_a_teacher, get_people_by_mail, get_student_by_id_personne, \
+    get_cours_by_id_sujet_and_id_student, get_subject, \
+    get_students_by_teacher_without_subject, get_student_by_id_etudiant
 from .restrictions import prof_or_superviseur_required, prof_or_superviseur_or_student_required
 
 
@@ -184,13 +186,10 @@ def mycourses(request):
     if courses_query:
         for cours in courses_query:
             courses.append(cours)
-        print(courses)
     context = {
         'cours': courses
     }
     return render(request, "otherRole/home.html", context=context)
-
-
 
 
 @login_required(login_url='polls')
@@ -224,7 +223,8 @@ def reservationValidation(request, idsujet):
         initial_data = {
             'title': request.POST.get('title'),
             'description': request.POST.get('description'),
-            'subject_id': idsujet
+            'subject_id': idsujet,
+            'students' : get_students_by_teacher_without_subject(user.idpersonne)
         }
         form = ConfirmationSujetReservation(initial=initial_data)
         context = {
@@ -241,25 +241,14 @@ def reservationValidation(request, idsujet):
 def reservationConfirmation(request, idsujet):
     user = request.user
     if request.method == "POST" and "professeur" in user.role['role']:
-        form = ConfirmationSujetReservation(request.POST)
-        if form.is_valid():
-            personne_query = get_people_by_mail(form.cleaned_data['mail'])
-            if personne_query is not None:
-                student = get_student(personne_query.idpersonne)
-                cours = get_cours_by_id_sujet_and_id_student(student.idetudiant, idsujet)
-                if student.idsujet_id is None and cours is not None:
-                    student.idsujet_id = idsujet
-                    student.save()
-                    sujet = get_subject(idsujet=idsujet)
-                    sujet.estPris = True
-                    sujet.save()
-                    return redirect('../../../home')
-                else:
-                    return redirect('../../../ok')
-
-            else:
-                return redirect('../../../ok')
-        else:
-            return redirect('../../../ok')
+        print(request.POST)
+        idstudent = request.POST.get('students')
+        etudiant = get_student_by_id_etudiant(int(idstudent))
+        etudiant.idsujet_id = idsujet
+        etudiant.save()
+        sujet = get_subject(idsujet)
+        sujet.estPris = True
+        sujet.save()
+        return redirect('../../../home')
     else:
         return redirect('../../../ok')

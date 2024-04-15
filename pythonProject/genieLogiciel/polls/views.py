@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from .queries import find_student_by_id_personne, find_professeur_by_id_personne, \
-    find_course_by_student, find_course_by_professeur_or_superviseur, get_student, get_delais
+    find_course_by_student, find_course_by_professeur_or_superviseur, get_student_by_id_personne, get_delais
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ConnectForm
 from .restrictions import prof_or_superviseur_or_student_required, admin_or_professor_required
@@ -131,7 +131,7 @@ def switchRole(request, role):
 def echeance(request):
     user = request.user
     if "etudiant" in user.role['role']:
-        etudiant = get_student(user.idpersonne)
+        etudiant = get_student_by_id_personne(user.idpersonne)
         delais_query = get_delais(etudiant.idsujet.idperiode.idperiode)
 
         delais = []

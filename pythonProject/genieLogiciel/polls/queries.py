@@ -137,7 +137,6 @@ def find_course_for_student_for_subscription(idpersonne):
                         if cour_int.idue_id == cour.idue_id:
                             cours.remove(cour)
 
-
     return cours
 
 
@@ -148,17 +147,25 @@ def find_course_for_student(idpersonne):
     """
     student = Etudiant.objects.get(idpersonne=idpersonne)
     cours = Cours.objects.filter(idetudiant=student.idetudiant)
-    print(cours)
     return cours
 
 
-def get_student(idpersonne):
+def get_student_by_id_personne(idpersonne:int):
     # à développer
     """
     :param idpersonne:
     :return: Le délais des échéances pour chaque cours même si l'étudiant n'est pas inscrit
     """
     return Etudiant.objects.get(idpersonne=idpersonne)
+
+def get_student_by_id_etudiant(idetudiant:int):
+    """
+
+    :param idetudiant:
+    :return: l'étudiant en question
+    """
+    return Etudiant.objects.get(idetudiant=idetudiant)
+
 
 
 def get_delais(idPeriode):
@@ -194,5 +201,31 @@ def get_cours_by_id_sujet_and_id_student(idsujet: int, idstudent: int):
     prof = Professeur.objects.get(idprof=sujet.idprof_id)
 
     ue = Ue.objects.get(idprof=prof.idprof)
-    print(ue.idue, idstudent)
     return Cours.objects.get(idue=ue.idue, idetudiant=idstudent)
+
+
+def get_students_by_teacher_without_subject(idteacher: int):
+    """
+    :param idstudent:
+    :param idteacher:
+    :param idsujet:
+    :return: les étudiant appartenant à un cours donné par un prof
+    """
+    prof:list[Professeur] = Professeur.objects.get(idpersonne=idteacher)
+    ues:Ue = Ue.objects.get(idprof=prof.idprof)
+    if ues is not None:
+        cours_query = Cours.objects.filter(idue=ues)
+        cours = []
+        for cour in cours_query:
+            cours.append(cour)
+        if len(cours) > 0:
+            students = []
+            for cour in cours:
+                students_query = Etudiant.objects.filter(idetudiant=cour.idetudiant_id,idsujet=None)
+                print(students_query)
+                for student in students_query:
+                    students.append((int(student.idetudiant),f"{student.idpersonne.nom} {student.idpersonne.prenom}"))
+            return students
+        return None
+    else:
+        return None

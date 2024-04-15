@@ -1,7 +1,6 @@
 from typing import Any
 from django import forms
 from django.forms import BaseFormSet
-from django.forms.utils import ErrorList
 
 from .models import Etape, Delivrable, Periode, Sujet
 
@@ -116,11 +115,12 @@ class ConfirmationSujetReservation(forms.Form):
         required=False,
         widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '3', 'placeholder': 'Sujet', 'height': '100px','readonly':'readonly'})
     )
-    mail = forms.EmailField(
-        label='mail',
-        max_length=100,
+    students = forms.ChoiceField(
+        label='students',
         required=True,
-        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'email'})
+        widget=forms.Select(
+
+        )
     )
     subject_id = forms.IntegerField(label='id',required=False,widget=forms.HiddenInput())
 
@@ -130,3 +130,4 @@ class ConfirmationSujetReservation(forms.Form):
             self.fields['title'].widget.attrs['value'] = kwargs['initial'].get('title', '')
             self.fields['description'].initial = kwargs['initial'].get('description', '')
             self.fields['subject_id'].widget.attrs['value'] = kwargs['initial'].get('subject_id', '')
+            self.fields['students'].widget.choices = kwargs['initial'].get('students',[])
