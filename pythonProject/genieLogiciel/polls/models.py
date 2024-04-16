@@ -87,7 +87,6 @@ class Periode(models.Model):
 
 class Delivrable(models.Model):
     iddelivrable = models.AutoField(primary_key=True, db_column='iddelivrable')
-    fichier = models.FileField(db_column='fichier', upload_to=get_upload_path, blank=True, null=True)
     typeFichier = models.TextField(db_column='typefichier', validators=[validate_file_extension])
 
     nom_personne: str
@@ -196,3 +195,13 @@ class Ue(models.Model):
     class Meta:
         managed = False
         db_table = 'ue'
+
+class FichierDelivrable(models.Model):
+    idfichier = models.AutoField(primary_key=True,db_column='idfichier')
+    fichier = models.FileField(db_column='fichier', upload_to=get_upload_path, blank=True, null=True)
+    idetudiant = models.ForeignKey(Etudiant,models.DO_NOTHING,db_column='idetudiant')
+    iddelivrable = models.ForeignKey(Delivrable,models.DO_NOTHING,db_column='iddelivrable')
+
+    class Meta:
+        managed = False
+        db_table = 'fichierdelivrable'

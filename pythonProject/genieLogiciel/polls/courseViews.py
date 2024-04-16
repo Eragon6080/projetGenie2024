@@ -30,18 +30,17 @@ def topics(request, code):
             'titre': sujet.titre,
             'description': sujet.descriptif,
             'etudiants': [],
-            'estPris': sujet.estPris,
+            'estPris': sujet.estPris
         }
 
         if sujet.estPris:
             etudiants = Etudiant.objects.filter(idsujet=sujet)
-            print(etudiants, "yess")
             etudiants_noms = [f"{etudiant.idpersonne.nom} {etudiant.idpersonne.prenom}" for etudiant in etudiants]
             sujet_info['etudiants'] = etudiants_noms
 
         sujet_infos.append(sujet_info)
 
-    return render(request, "otherRole/topic.html", {'sujet_infos': sujet_infos, 'UE': code})
+    return render(request, "otherRole/topic.html", {'sujet_infos': sujet_infos, 'Ue': code})
 
 
 @login_required(login_url='/polls')
@@ -69,7 +68,7 @@ def editTopic(request, sujet_id):
 
         form = UpdateForm(initial=form_data)
 
-    return render(request, 'otherRole/edit_sujet.html', {'form': form})
+    return render(request, 'otherRole/edit_sujet.html', {'form': form,'Ue':sujet.idCours.idue.idue})
 
 
 @login_required(login_url='/polls')
@@ -104,7 +103,7 @@ def addTopic(request, code) -> HttpResponse:
         form = SubmitForm()
 
     context = {
-        'UE': code,
+        'Ue': code,
         'title': 'Cours',
         'prenom': "Matthys",
         'role': "Etudiant",
@@ -139,7 +138,7 @@ def gestion_etape(request, idue):
     else:
         form = EtapeForm()
 
-    return render(request, 'otherRole/gestion_etape.html', {'form': form, 'ue': ue})
+    return render(request, 'otherRole/gestion_etape.html', {'form': form, 'Ue': idue})
 
 
 @login_required(login_url='/polls')
@@ -150,7 +149,7 @@ def afficher_etapes_ue(request, idue):
     periode = professeur.idperiode
     etapes = Etape.objects.filter(idperiode=periode).order_by('delai')
 
-    return render(request, 'otherRole/afficher_etapes_ue.html', {'etapes': etapes, 'ue': ue})
+    return render(request, 'otherRole/afficher_etapes_ue.html', {'etapes': etapes, 'Ue': idue})
 
 
 @login_required(login_url='/polls')
@@ -242,7 +241,6 @@ def reservationValidation(request, idsujet):
 def reservationConfirmation(request, idsujet):
     user = request.user
     if request.method == "POST" and "professeur" in user.role['role']:
-        print(request.POST)
         idstudent = request.POST.get('students')
         etudiant = get_student_by_id_etudiant(int(idstudent))
         etudiant.idsujet_id = idsujet
