@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, TextField, JSONField
 from django.db.models.functions import Cast
 
-from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet
+from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet, Periode, Etape
 
 
 def get_all_ue():
@@ -85,4 +85,147 @@ def find_professeur_by_id_personne(idpersonne):
     try:
         return Professeur.objects.get(idpersonne=idpersonne)
     except ObjectDoesNotExist:
+        return None
+
+
+def find_course_by_student(idpersonne: int):
+    """
+    Retourne les cours d'un étudiant
+    """
+    return Cours.objects.get(idetudiant=idpersonne)
+
+
+def find_course_by_professeur_or_superviseur(idpersonne: int):
+    """
+    :param idpersonne:
+    :return: les cours dont le professeur est responsable
+    """
+    teacher = Professeur.objects.get(idpersonne=idpersonne)
+    ues = Ue.objects.get(idprof=teacher.idprof)
+    return Cours.objects.get(idue=ues.idue)
+
+
+def find_course_for_student_for_subscription(idpersonne):
+    """
+    :param idpersonne:
+    :return:  les cours auquel l'étudiant n'est pas inscrit
+    """
+    ues = []
+    cours = []
+    student = Etudiant.objects.get(idpersonne=idpersonne)
+    ues_query = get_all_ue()
+    for ue in ues_query:
+        ues.append(ue)
+    cours_query = Cours.objects.filter(idetudiant=student.idetudiant, idue__in=ues)
+    if len(cours_query) == 0:
+        for ue in ues:
+            cours.append(Cours(nom=ue.nom, idue_id=ue.idue))
+    else:
+        if len(cours_query) < len(ues):
+            cours_int = []
+            if len(cours_query) >= 1:
+                for cour in cours_query:
+                    cours_int.append(cour)
+
+                for ue in ues:
+                    for cour in cours_int:
+                        if cour.idue_id != ue.idue:
+                            cours.append(Cours(nom=ue.nom, idue_id=ue.idue))
+                print(cours)
+                for cour in cours:
+                    for cour_int in cours_int:
+                        if cour_int.idue_id == cour.idue_id:
+                            cours.remove(cour)
+
+    return cours
+
+
+def find_course_for_student(idpersonne):
+    """
+    :param idpersonne:
+    :return:  les cours auquel l'étudiant est inscrit
+    """
+    student = Etudiant.objects.get(idpersonne=idpersonne)
+    cours = Cours.objects.filter(idetudiant=student.idetudiant)
+    return cours
+
+
+def get_student_by_id_personne(idpersonne:int):
+    # à développer
+    """
+    :param idpersonne:
+    :return: Le délais des échéances pour chaque cours même si l'étudiant n'est pas inscrit
+    """
+    return Etudiant.objects.get(idpersonne=idpersonne)
+
+def get_student_by_id_etudiant(idetudiant:int):
+    """
+
+    :param idetudiant:
+    :return: l'étudiant en question
+    """
+    return Etudiant.objects.get(idetudiant=idetudiant)
+
+
+
+def get_delais(idPeriode):
+    return Etape.objects.filter(idperiode=idPeriode)
+
+
+def get_all_subjects_for_a_teacher(idPersonne: int):
+    """
+    :return: Tous les sujets qui ne sont pas encore réservé
+    """
+    teacher = Professeur.objects.get(idpersonne=idPersonne)
+    return Sujet.objects.filter(idprof=teacher.idprof).exclude(estPris=True)
+
+
+def get_subject(idsujet: int):
+    return Sujet.objects.get(idsujet=idsujet)
+
+
+def get_people_by_mail(mail: str):
+    """
+    :return: all people
+    """
+    return Personne.objects.get(mail=mail)
+
+
+def get_cours_by_id_sujet_and_id_student(idsujet: int, idstudent: int):
+    """
+    L'étudiant doit être inscrit au cours pour que l'assignation fonctionne
+    :param idsujet: l'id du sujet en cours
+    :return: le cours auquel l'étudiant est inscrit
+    """
+    sujet = Sujet.objects.get(idsujet=idsujet)
+    prof = Professeur.objects.get(idprof=sujet.idprof_id)
+
+    ue = Ue.objects.get(idprof=prof.idprof)
+    return Cours.objects.get(idue=ue.idue, idetudiant=idstudent)
+
+
+def get_students_by_teacher_without_subject(idteacher: int):
+    """
+    :param idstudent:
+    :param idteacher:
+    :param idsujet:
+    :return: les étudiant appartenant à un cours donné par un prof
+    """
+    prof:list[Professeur] = Professeur.objects.get(idpersonne=idteacher)
+    ues:Ue = Ue.objects.get(idprof=prof.idprof)
+    if ues is not None:
+        cours_query = Cours.objects.filter(idue=ues)
+        cours = []
+        for cour in cours_query:
+            cours.append(cour)
+        if len(cours) > 0:
+            students = []
+            for cour in cours:
+                students_query = Etudiant.objects.filter(idetudiant=cour.idetudiant_id,idsujet=None)
+                print(students_query)
+                for student in students_query:
+                    students.append((int(student.idetudiant),f"{student.idpersonne.nom} {student.idpersonne.prenom}"))
+            return students
+        return None
+    else:
         return None

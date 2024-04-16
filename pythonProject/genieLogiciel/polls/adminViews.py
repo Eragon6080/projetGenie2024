@@ -1,12 +1,14 @@
+import datetime
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.forms.formsets import formset_factory
+from django.contrib import messages
 
 
 from .queries import get_Professeur_People, get_Etudiant_People, get_All_People
 from .forms import AdminRoleForm, BaseRoleFormSet, AddAdminForm
-from .models import Personne
+from .models import Personne, Professeur, Periode
 from .restrictions import admin_required
 
 
@@ -75,28 +77,46 @@ def role(request, view = "admin") -> HttpResponse:
             if postFormSet.is_valid():
                 for form in postFormSet:
                     dbPerson = Personne.objects.get(idpersonne=form.idpersonne)
+
                     if form.cleaned_data != {}:
                         if form.cleaned_data['prof'] == True and "professeur" not in dbPerson.role['role']:
                             dbPerson.role['role'].append("professeur")
+                            Professeur.objects.create(idpersonne=dbPerson, idperiode=Periode.objects.get(annee=datetime.date.today().year), specialite="Informatique")
                         if form.cleaned_data['sup'] == True and "superviseur" not in dbPerson.role['role']:
                             dbPerson.role['role'].append("superviseur")
                         if form.cleaned_data['prof'] == False and "professeur" in dbPerson.role['role']:
                             dbPerson.role['role'].remove("professeur")
+                            Professeur.objects.get(idpersonne=dbPerson).delete()
                         if form.cleaned_data['sup'] == False and "superviseur" in dbPerson.role['role']:
                             dbPerson.role['role'].remove("superviseur")
                         dbPerson.save()
                     else:
-                        print("No change")
+                        print("No changes")
+                        
+                messages.success(request, 'Changes successfully saved.')
                 return HttpResponseRedirect(redirect_to=view)
             
             elif addAdminForm.is_valid():
                 try:
                     newAdmin = Personne.objects.get(mail=addAdminForm.cleaned_data['email'])
                 except Personne.DoesNotExist:
-                    print("User not found")
+                    messages.warning(request, 'User not found.')
                     return HttpResponseRedirect(redirect_to=view)
-                newAdmin.role['role'].append("admin")
+                
+                if "admin" in newAdmin.role['role']:
+                    messages.warning(request, 'User is already an admin.')
+                    return HttpResponseRedirect(redirect_to=view)
+                elif "professeur" in newAdmin.role['role'] or "superviseur" in newAdmin.role['role']:
+                    messages.warning(request, 'User is already a professor or supervisor.')
+                    return HttpResponseRedirect(redirect_to=view)
+                elif "etudiant" in newAdmin.role['role']:
+                    messages.warning(request, 'User is a student. Cannot be an admin')
+                    return HttpResponseRedirect(redirect_to=view)
+
+                newAdmin.role['role'] = ["admin"]
+                newAdmin.role['view'] = "admin"
                 newAdmin.save()
+                messages.success(request, 'Admin successfully added.')
                 return HttpResponseRedirect(redirect_to=view)
              
                     

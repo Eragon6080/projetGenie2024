@@ -1,0 +1,24 @@
+{% extends "otherRole/otherRoleTemplate.html" %}
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center vh-100">
+    <div class="justify-content-center mb-5">
+    </div>
+        <div class="card" style="width:40vw">
+            <div class="card-header border bgunamur">
+                <h5 >{{cours.nom}} {{cours.idue}}</h5>
+            </div>
+            <div class="card-header border bgunamur">
+                <h5 >{{periode.annee}}</h5>
+            </div>
+            {%for delai in delais%}
+            <div class="card-header border bg-white">
+                <h5 class="card-title w-100">{{delai.delai}}</h5>
+                <p class="card-text">{{delai.description}}</p>
+                 <p class="card-text"><a href="./{{delai.iddelivrable.iddelivrable}}">delivrable</a></p>
+            </div>
+            {%endfor%}
+
+
+        </div>
+</div>
+{%endblock%}

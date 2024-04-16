@@ -1,12 +1,12 @@
 {% load static %}
-  <nav class="navbar navbar-expand-lg py-0" style="background-color: #9F9F9F;">
+  <nav class="navbar navbar-expand-lg py-0 myOwnheader">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         {% if noSideBar %}
         <span></span>
         {% else %}
         <a class="btn btn-light navbar-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><span class="navbar-toggler-icon"></span></a>
         {% endif %}
-        <a class="navbar-brand d-flex justify-content-center" href="/polls/admin/"><img src="{% static 'image/LApims.png'%}" alt="pimsLogo" style="width:50%"></a>
+        <a class="navbar-brand d-flex justify-content-center" href="/polls/admin/"><img src="{% static 'image/pimss.png'%}" alt="pimsLogo" style="width:50%"></a>
         <div class="d-flex">
             <!-- l'image est à remplacer par une icône de la personne-->
             {% if user.is_authenticated %}
@@ -22,28 +22,29 @@
                         <li><a class="dropdown-item" href="/polls/fiche">Profil</a></li>
                         <li><hr class="dropdown-divider"></li>
                         {% for role in user.role.role %}
-                          <li><a class="dropdown-item" href="#">{{role}}</a></li>
+                          {% if role == user.role.view %}
+                            <li><a class="dropdown-item bgunamur" href="/polls/switch_role/{{ role }}">{{role}}</a></li>
+                          {% else %}
+                            <li><a class="dropdown-item" href="/polls/switch_role/{{ role }}">{{role}}</a></li>
+                          {% endif %}
                         {% endfor %}
                       </ul>
                     </li>
                   </ul>
                 </div>
-
-
-
               </div>
               <div class="d-flex col-auto justify-content-center">
-                <div class="row ">
-                    <p class="text-light">{{user.prenom}} {{user.nom}}</p>
-                </div>
-
                 <div class="row">
-                    <p class="text-light" >{{user.role.role|first}}</p>
+                    <p style="color: #55AB26; margin-right: 10px;">{{ user.prenom }} {{ user.nom }}</p>
                 </div>
-                  <div class="col-auto d-flex align-items-center justify-content-center">
-                    <a href="{% url 'logout' %}" class="btn "><i class="fa fa-sign-out"></i></a>
+                <div class="row">
+                    <p> As {{ user.role.role|first }}</p>
                 </div>
-              </div>
+                <div class="col-auto d-flex align-items-center justify-content-center">
+                    <a href="{% url 'logout' %}" class="btn" style="color: #55AB26"><i class="fa fa-sign-out" style="font-size: 24px;"></i></a>
+                </div>
+            </div>
+            
                 {%endif%}
             </div>
         </div>

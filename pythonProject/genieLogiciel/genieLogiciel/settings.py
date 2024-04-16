@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+# création d'un fichier .env propre à chacun
+load_dotenv(dotenv_path="C:\\Users\\matth\\AppData\\Roaming\\JetBrains\\PyCharm2024.1\\scratches\\scratch.env")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -82,22 +86,8 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432'
 
-      }
+    }
 }
-
-###### Pour Luis ########
-
-#DATABASES = {
-#   'default': {
-#       'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#       'NAME': 'postgres',
-#       'USER': 'postgres',
-#       'PASSWORD': 'admin',
-#       'HOST': 'localhost',
- #      'PORT': '5432'
-
-#    }
-#}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -143,3 +133,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
+
+# Chargez le fichier .env
+
+
+# Utilisez les variables d'environnement
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('EMAIL_DEFAULT_RECIPIENT')
