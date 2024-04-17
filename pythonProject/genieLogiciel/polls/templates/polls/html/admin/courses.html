@@ -1,0 +1,36 @@
+{% extends "admin/adminTemplate.html" %}
+
+
+
+{% block content %}
+
+<div class="container d-flex flex-column justify-content-center align-items-center vh-100">
+    
+    <div class="d-flex align-items-center">
+        {% if all_courses %}
+        <div class="table-container d-flex justify-content-center">
+            <table class="table-striped text-center">
+                        <thead>
+                            <tr>
+                                {% for field in title_table_courses %}
+                                <th>{{ field }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ue in all_courses %}
+                            <tr>
+                                <td class="myTableTitle"><a href="./{{ ue.idue }}">{{ue.idue}}</a></td>
+                                <td>{{ ue.nom }}</td>
+                                <td><a href="../../../polls/fiche/{{ ue.idprof.idpersonne.idpersonne }}">{{ ue.idprof.idpersonne.nom }} {{ ue.idprof.idpersonne.prenom }}</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+        </div>
+        {% endif %}
+    </div>
+    
+</div>
+
+{% endblock %}
