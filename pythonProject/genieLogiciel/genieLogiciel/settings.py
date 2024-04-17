@@ -9,13 +9,13 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+
 import os
 from pathlib import Path
-
 from dotenv import load_dotenv
 
-# création d'un fichier .env propre à chacun
-load_dotenv(dotenv_path="C:\\Users\\matth\\AppData\\Roaming\\JetBrains\\PyCharm2024.1\\scratches\\scratch.env")
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -135,7 +135,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
 # Chargez le fichier .env
-
+load_dotenv()
 
 # Utilisez les variables d'environnement
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

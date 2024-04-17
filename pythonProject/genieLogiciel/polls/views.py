@@ -39,14 +39,14 @@ def home(request) -> HttpResponse:
     courses = []
     role = user.role["role"]
     if "professeur" in role or "superviseur" in role:
-        course = find_course_by_professeur_or_superviseur(user.idpersonne)
-        courses.append(course)
+        get_courses = find_course_by_professeur_or_superviseur(user.idpersonne)
+        courses = get_courses
     else:
         course = find_course_by_student(user.idpersonne)
         courses.append(course)
     sideBar = not ('professeur' in role or "superviseur" in role)
     context = {
-        'cours': courses,
+        'courses': courses,
         'noSideBar': sideBar
     }
 

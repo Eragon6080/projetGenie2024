@@ -6,12 +6,12 @@
         <div class="col-12">
         <div class="row">
             <!-- code html + django pour l'affichage des cartes-->
-            {% for cour in cours %}
+            {% for cours in courses %}
                 <div class="justify-content-between w-25 vh-100">
                 <div class="card text-center myCard">
                     <div class="card-body myBodyCard">
-                        <a href="./{{ cour.idue.idue }}/topics"> <h5 class="card-title">{{cour.nom}}</h5>
-                        <p class="card-text">{{cour.idue.idue}}</p>
+                        <a href="./{{ cours.idue }}/topics"> <h5 class="card-title">{{cours.nom}}</h5>
+                        <p class="card-text">{{cours.idue}}</p>
                         </a>
                     </div>
 

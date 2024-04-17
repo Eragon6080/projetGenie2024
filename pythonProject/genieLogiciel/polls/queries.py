@@ -101,8 +101,8 @@ def find_course_by_professeur_or_superviseur(idpersonne: int):
     :return: les cours dont le professeur est responsable
     """
     teacher = Professeur.objects.get(idpersonne=idpersonne)
-    ues = Ue.objects.get(idprof=teacher.idprof)
-    return Cours.objects.get(idue=ues.idue)
+    ues = Ue.objects.filter(idprof=teacher.idprof)
+    return ues
 
 
 def find_course_for_student_for_subscription(idpersonne):
