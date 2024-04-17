@@ -6,11 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
-from .queries import find_student_by_id_personne, find_professeur_by_id_personne, \
-    find_course_by_student, find_course_by_professeur_or_superviseur, get_student_by_id_personne, get_delais
+from .queries import *
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ConnectForm
-from .restrictions import prof_or_superviseur_or_student_required, admin_or_professor_required
+from .restrictions import *
 from .utils.date import get_today_date
 from .mailNotification import sendMail
 
@@ -96,16 +95,18 @@ def yes(request):
 
 
 @login_required(login_url='/polls')
-def fiche(request):
+@admin_or_professor_or_superviseur_required
+def fiche(request, idpersonne):
     user = request.user
-    student = find_student_by_id_personne(user.idpersonne)
-    if student is None:
-        personne = find_professeur_by_id_personne(user.idpersonne)
-    else:
-        personne = student
+    personne = get_personne_by_id(idpersonne)
+    if "professeur" in personne.role['role']:
+        specific_role = find_professeur_by_id_personne(idpersonne)
+    elif "etudiant" in personne.role['role']:
+        specific_role = find_student_by_id_personne(idpersonne)
     context = {
         'user': user,
         'personne': personne,
+        'specific_role': specific_role,
         'noSideBar': 'true'
     }
     return render(request, 'otherRole/fiche.html', context)
@@ -153,3 +154,13 @@ def delivrable(request, delivrable):
         'iddelivrable': delivrable
     }
     return render(request, 'otherRole/delivrable.html', context=context)
+
+@login_required(login_url='/polls')
+def profile(request):
+    user = personne = request.user
+    context = {
+        'user': user,
+        'personne': personne,
+        'noSideBar': 'true'
+    }
+    return render(request, 'otherRole/fiche.html', context)

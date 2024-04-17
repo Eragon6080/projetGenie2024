@@ -11,6 +11,12 @@ def get_all_ue():
     """
     return Ue.objects.all()
 
+def get_ue(idue):
+    """
+    Retourne une UE
+    """
+    return Ue.objects.get(idue=idue)
+
 
 def get_all_course():
     """
@@ -229,3 +235,10 @@ def get_students_by_teacher_without_subject(idteacher: int):
         return None
     else:
         return None
+    
+def get_personne_by_id(idpersonne:int):
+    """
+    :param idpersonne:
+    :return: une personne en particulier
+    """
+    return Personne.objects.get(idpersonne=idpersonne)

@@ -11,26 +11,26 @@
     </div>
         <div class="card" style="width:40vw">
             <div class="card-header border bgunamur">
-                <h5 >{{user.nom}} {{user.prenom}}</h5>
+                <h5 >{{personne.nom}} {{personne.prenom}}</h5>
             </div>
             <div class="card-header border bg-white">
                 <h5 class="card-title w-100">Adresse-mail</h5>
-                <p class="card-text">{{user.mail}}</p>
+                <p class="card-text">{{personne.mail}}</p>
             </div>
             <div class="card-header border">
                 <h5 class="card-title">Rôle</h5>
-                <p class="card-text">{%for role in user.role.role%}<span>{{role}}</span>, {%endfor%}</p>
+                <p class="card-text">{%for role in personne.role.role%}<span>{{role}}</span>, {%endfor%}</p>
             </div>
-            {% if 'professeur' in user.role.role %}
+            {% if 'professeur' in personne.role.role %}
             <div class="card-header border bg-white">
                 <h5 class="card-title w-100">Spécialité</h5>
-                <p class="card-text">personne.specialite</p>
+                <p class="card-text">{{ specific_role.specialite }}</p>
             </div>
             {%endif%}
-            {%if 'etudiant' in user.role.role%}
+            {%if 'etudiant' in personne.role.role%}
             <div class="card-header border bgunamur">
                 <h5 class="card-title w-100">Bloc</h5>
-                <p class="card-text">{{personne.bloc}}</p>
+                <p class="card-text">{{ specific_role.bloc }}</p>
             </div>
             {% endif %}
 

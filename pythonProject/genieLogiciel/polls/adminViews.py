@@ -6,7 +6,7 @@ from django.forms.formsets import formset_factory
 from django.contrib import messages
 
 
-from .queries import get_Professeur_People, get_Etudiant_People, get_All_People
+from .queries import *
 from .forms import AdminRoleForm, BaseRoleFormSet, AddAdminForm
 from .models import Personne, Professeur, Periode
 from .restrictions import admin_required
@@ -143,4 +143,25 @@ def role(request, view = "admin") -> HttpResponse:
         return render(request, 'admin/role.html', context)
     else:
         return HttpResponseRedirect(redirect_to="course/")
+    
+@login_required(login_url='/polls')
+@admin_required
+def courses(request) -> HttpResponse:
+    context = {
+        "title_table_courses": ["Code", "Nom", "Responsable"],
+        "all_courses": get_all_ue(),
+    }
+    
+    return render(request, 'admin/courses.html', context)
+
+@login_required(login_url='/polls')
+@admin_required
+def courseDetails(request, idue) -> HttpResponse:
+    ue = get_ue(idue)
+    context = {
+        "ue": ue,
+    }
+    
+    return render(request, 'admin/courseDetails.html', context)
+
 
