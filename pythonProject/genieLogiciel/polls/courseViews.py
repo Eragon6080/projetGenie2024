@@ -186,8 +186,9 @@ def mycourses(request):
     if courses_query:
         for cours in courses_query:
             courses.append(cours)
+    print(courses)
     context = {
-        'cours': courses
+        'courses': courses
     }
     return render(request, "otherRole/home.html", context=context)
 
