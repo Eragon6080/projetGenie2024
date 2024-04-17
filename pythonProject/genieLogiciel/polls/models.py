@@ -48,7 +48,7 @@ class Cours(models.Model):
     idcours = models.AutoField(primary_key=True)
     idue = models.ForeignKey('Ue', models.DO_NOTHING, db_column='idue')
     nom = models.TextField(db_column='nom')
-    idetudiant = models.ForeignKey('Etudiant',models.DO_NOTHING,db_column='idetudiant')
+    idetudiant = models.ForeignKey('Etudiant', models.DO_NOTHING, db_column='idetudiant')
 
     class Meta:
         managed = False
@@ -141,7 +141,7 @@ class Personne(AbstractBaseUser, PermissionsMixin):
     prenom = models.TextField(db_column='prenom')
     mail = models.TextField(unique=True, db_column='mail', validators=[validate_email])
     password = models.TextField(db_column='password')
-    role = models.JSONField(db_column='role',default=list, blank=True, null=True)
+    role = models.JSONField(db_column='role', default=list, blank=True, null=True)
     is_active = models.BooleanField(default=True, db_column='is_active'),
     is_staff = models.BooleanField(default=False, db_column='is_staff'),
     last_login = models.DateTimeField(null=True, blank=True, db_column='last_login')  # Ajoutez ce champ
@@ -175,7 +175,7 @@ class Sujet(models.Model):
     titre = models.TextField(db_column='titre')
     descriptif = models.TextField(db_column='descriptif')
     destination = models.TextField(db_column='destination')
-    estPris = models.BooleanField(db_column='estpris',default=False)
+    estPris = models.BooleanField(db_column='estpris', default=False)
     fichier = models.FileField(upload_to='sujets/', blank=True, null=True, db_column='fichier',
                                validators=[validate_file_extension])
     idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode', default=1)
@@ -196,11 +196,12 @@ class Ue(models.Model):
         managed = False
         db_table = 'ue'
 
+
 class FichierDelivrable(models.Model):
-    idfichier = models.AutoField(primary_key=True,db_column='idfichier')
+    idfichier = models.AutoField(primary_key=True, db_column='idfichier')
     fichier = models.FileField(db_column='fichier', upload_to=get_upload_path, blank=True, null=True)
-    idetudiant = models.ForeignKey(Etudiant,models.DO_NOTHING,db_column='idetudiant')
-    iddelivrable = models.ForeignKey(Delivrable,models.DO_NOTHING,db_column='iddelivrable')
+    idetudiant = models.ForeignKey(Etudiant, models.DO_NOTHING, db_column='idetudiant')
+    iddelivrable = models.ForeignKey(Delivrable, models.DO_NOTHING, db_column='iddelivrable')
 
     class Meta:
         managed = False
