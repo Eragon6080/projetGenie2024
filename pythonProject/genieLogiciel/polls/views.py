@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 
@@ -154,10 +155,14 @@ def echeance(request):
         context = {
             'cours': etudiant.idsujet.idcours,
             'periode': etudiant.idsujet.idperiode,
-            'delais': delais
+            'delais': delais,
+            'current_date': datetime.now().date()
+
+
         }
         for delai in delais:
             print(delai.iddelivrable)
+            print(context['current_date'])
         return render(request, 'otherRole/echeance.html', context)
 
 
