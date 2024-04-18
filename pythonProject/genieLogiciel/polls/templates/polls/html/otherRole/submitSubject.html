@@ -5,16 +5,14 @@
 {% if user.role ==  "prof"%}
 {% block content%}
 
-<div class="col-auto"></div>
-<div class="col-auto">
     <!-- l'enchainement des classes de bootsrap permet d'aligner les éléments au centre -->
-<div class="container d-flex justify-content-center align-items-center vh-100">
+<div class="container my-4">
     <div class="row align-self-center">
         <form  id="myForm" action="/polls/course/{{ ue.idue }}/new/" method="post" enctype="multipart/form-data"> <!-- enctype="multipart/form-data" est nécessaire pou
         récupérer les fichiers dans les requête et est requis pour django -->
             {% csrf_token %}
             <h2 id="creationTitle">Création d'un sujet</h2>
-            <div class="row g-3 align-items-center">
+            <div class="row py-3 g-3 align-items-center">
                 <div class="col-auto">
                     <label for="{{form.title.id_for_label}}" class="form-label">Titre</label>
                 </div>
@@ -22,7 +20,7 @@
                     {{ form.title }}
                 </div>
             </div>
-            <div class="row g-3 align-items-center">
+            <div class="row py-3 g-3 align-items-center">
                 <div class="col-auto">
                     <label for="{{form.description.id_for_label}}" class="form-label">Description</label>
                 </div>
@@ -30,7 +28,7 @@
                     {{ form.description }}
                 </div>
             </div>
-            <div class="row g-3 align-items-center">
+            <div class="row py-3 g-3 align-items-center">
                 <div class="col-auto">
                     <label for="{{form.destination.id_for_label}}" class="form-label">Destinations/Places</label>
                 </div>
@@ -38,9 +36,9 @@
                     {{ form.destination }}
                 </div>
             </div>
-            <div class="row g-3 align-items-center">
+            <div class="row py-3 g-3 align-items-center">
                 <div class="col-auto">
-                    <label for="{{form.file.id_for_label}}" class="form-label"/>
+                    <label for="{{form.file.id_for_label}}" class="form-label">
                 </div>
                 <div class="col-auto">
                     {{ form.file }}
@@ -50,13 +48,13 @@
                 </div>
             </div>
             <div class="col-12 align-items-center">
-                <button type="submit" class="btn" id="myButton">Validation</button>
+                <button type="submit" class="btn bgunamur text-white" >Validation</button>
+                <a href="../" class="btn text-white bg-danger">Cancel</a>
             </div>
         </form>
     </div>
 </div>
 
-<div class="col-auto"></div>
 
 {% endblock content%}
     {% endif %}

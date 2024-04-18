@@ -1,10 +1,11 @@
 .bgunamur{
-    background-color: #69be28 !important;
+    background-color: #69be28 ;
 }
 
-.gray1{
-    background-color: rgb(105,105,105) !important;
+.bggray{
+    background-color: gray !important;
 }
+
 
 .bggraysecondary{
     background-color: #9F9F9F !important;

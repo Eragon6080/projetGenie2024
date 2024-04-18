@@ -6,6 +6,7 @@ urlpatterns = [
     path("course/<str:idue>/", views.course, name="course"),
     path("course/<str:idue>/topics/", courseViews.topics, name="topics"),
     path("course/<str:idue>/new/", courseViews.addTopic, name="addTopic"),
+    path("course/<str:idue>/participants/", courseViews.participants, name="participants"),
     path("topic/", courseViews.topics, name="topic"),
     path("home/",views.accueil,name="accueil"),
     path("", views.login, name="login"),

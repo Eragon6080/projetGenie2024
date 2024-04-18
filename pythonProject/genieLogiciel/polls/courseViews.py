@@ -45,6 +45,17 @@ def topics(request, idue) -> HttpResponse:
 
     return render(request, "otherRole/topic.html", {'sujet_infos': sujet_infos, 'ue': ue})
 
+@login_required(login_url='/polls')
+@csrf_exempt
+@admin_or_professor_or_superviseur_required
+@is_owner_or_admin
+def participants(request, idue) -> HttpResponse:
+    ue = get_ue(idue)
+    students = get_students_of_ue(ue)
+    professors = [get_owner_of_ue(ue)]
+    supervisors = []
+    return render(request, "otherRole/participants.html", context={"students": students, "professors": professors, "supervisors": supervisors ,"ue": ue})
+
 
 @login_required(login_url='/polls')
 @admin_or_professor_or_superviseur_required
@@ -144,7 +155,7 @@ def gestion_etape(request, idue):
     else:
         form = EtapeForm()
 
-    return render(request, 'otherRole/gestion_etape.html', {'form': form, 'Ue': idue})
+    return render(request, 'otherRole/gestion_etape.html', {'form': form, 'ue': ue})
 
 
 @login_required(login_url='/polls')

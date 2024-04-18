@@ -25,10 +25,10 @@
 
 
 <div class="container justify-content-center">
-    <div class="row row-cols-4 my-4">
+    <div class="row row-cols-4 my-4 ">
       {% if is_owner_or_admin %}
-      <div class="col">
-        <div class="card" style="width: 18rem;">
+      <div class="col my-4">
+        <div class="card h-100" >
             <div class="card-body">
               <h5 class="card-title">Sujets</h5>
               <p class="card-text text-muted">Voir tous les sujets liés à ce cours</p>
@@ -36,8 +36,8 @@
             </div>
           </div>
         </div>
-      <div class="col">
-        <div class="card" style="width: 18rem;">
+      <div class="col my-4">
+        <div class="card h-100" >
           <div class="card-body">
             <h5 class="card-title">Modalités</h5>
             <p class="card-text text-muted">Modifier les modalités de ce cours</p>
@@ -45,9 +45,18 @@
           </div>
         </div>
       </div>
+      <div class="col my-4">
+        <div class="card h-100" >
+          <div class="card-body">
+            <h5 class="card-title">Participants</h5>
+            <p class="card-text text-muted">Gérer les inscrits de ce cours</p>
+            <a href="./participants" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
       {% endif %}
-      <div class="col">
-        <div class="card" style="width: 18rem;">
+      <div class="col my-4">
+        <div class="card h-100" >
             <div class="card-body">
               <h5 class="card-title">Mes sujets</h5>
               <p class="card-text text-muted">Voir tous mes sujets</p>
@@ -55,8 +64,8 @@
             </div>
           </div>
         </div>
-      <div class="col">
-        <div class="card" style="width: 18rem;">
+      <div class="col my-4">
+        <div class="card h-100" >
           <div class="card-body">
             <h5 class="card-title">Réservation</h5>
             <p class="card-text text-muted">Voir si mes sujets sont pris par des étudiants</p>
@@ -64,8 +73,8 @@
           </div>
         </div>
       </div>
-      <div class="col">
-        <div class="card" style="width: 18rem;">
+      <div class="col my-4">
+        <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title">Ajouter sujet</h5>
             <p class="card-text text-muted">Ajouter un nouveau sujet pour ce cours</p>
