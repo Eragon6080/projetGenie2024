@@ -2,7 +2,13 @@ from typing import Any
 from django import forms
 from django.forms import BaseFormSet
 
-from .models import Etape, Delivrable, Periode, Sujet
+from .models import Etape, Delivrable, Periode, Sujet,FichierDelivrable
+
+class FichierDelivrableForm(forms.ModelForm):
+    class Meta:
+        model = FichierDelivrable
+        fields = ['fichier']
+
 
 
 class EtapeForm(forms.ModelForm):

@@ -89,19 +89,6 @@ class Delivrable(models.Model):
     iddelivrable = models.AutoField(primary_key=True, db_column='iddelivrable')
     typeFichier = models.TextField(db_column='typefichier', validators=[validate_file_extension])
 
-    nom_personne: str
-    nom_cours: str
-    annee_periode: int
-
-    def set_nom_personne(self, nom_personne):
-        self.nom_personne = nom_personne
-
-    def set_nom_cours(self, nom_cours):
-        self.nom_cours = nom_cours
-
-    def set_annee_periode(self, annee_periode):
-        self.annee_periode = annee_periode
-
     class Meta:
         managed = False
         db_table = 'delivrable'
@@ -189,7 +176,7 @@ class Sujet(models.Model):
 
 class Ue(models.Model):
     idue = models.TextField(primary_key=True, db_column='idue')
-    nom = models.TextField(db_column='nom')
+    nom = models.TextField(db_column='nom',default="Matthys")
     idprof = models.ForeignKey(Professeur, models.DO_NOTHING, db_column='idprof')
 
     class Meta:
@@ -200,8 +187,24 @@ class Ue(models.Model):
 class FichierDelivrable(models.Model):
     idfichier = models.AutoField(primary_key=True, db_column='idfichier')
     fichier = models.FileField(db_column='fichier', upload_to=get_upload_path, blank=True, null=True)
+    rendu = models.BooleanField(db_column='rendu',default=False)  # Champ pour marquer si le délivrable a été rendu
     idetudiant = models.ForeignKey(Etudiant, models.DO_NOTHING, db_column='idetudiant')
     iddelivrable = models.ForeignKey(Delivrable, models.DO_NOTHING, db_column='iddelivrable')
+
+
+    nom_personne: str
+    nom_cours: str
+    annee_periode: int
+
+    def set_nom_personne(self, nom_personne):
+        self.nom_personne = nom_personne
+
+    def set_nom_cours(self, nom_cours):
+        self.nom_cours = nom_cours
+
+    def set_annee_periode(self, annee_periode):
+        self.annee_periode = annee_periode
+
 
     class Meta:
         managed = False

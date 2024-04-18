@@ -4,11 +4,11 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
-
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Delivrable, Etudiant, FichierDelivrable
 from .queries import *
 from django.views.decorators.csrf import csrf_exempt
-from .forms import ConnectForm
+from .forms import ConnectForm, FichierDelivrableForm
 from .restrictions import *
 from .utils.date import get_today_date
 from .mailNotification import sendMail
@@ -156,12 +156,32 @@ def echeance(request):
         return render(request, 'otherRole/echeance.html', context)
 
 
-@login_required(login_url="polls/")
-def delivrable(request, delivrable):
-    context = {
-        'iddelivrable': delivrable
-    }
-    return render(request, 'otherRole/delivrable.html', context=context)
+@login_required(login_url='/polls')
+def upload_delivrable(request, delivrable_id):
+    delivrable = get_object_or_404(Delivrable, iddelivrable=delivrable_id)
+    user = request.user
+    if 'etudiant' in user.role['role']:
+        etudiant = get_student_by_id_personne(user.idpersonne)
+
+        if request.method == 'POST':
+            form = FichierDelivrableForm(request.POST, request.FILES)
+            if form.is_valid():
+                fichier_delivrable = form.save(commit=False)
+                fichier_delivrable.iddelivrable = delivrable
+                fichier_delivrable.idetudiant = etudiant
+                fichier_delivrable.nom_personne = etudiant.idpersonne.nom
+                fichier_delivrable.nom_cours = etudiant.idsujet.idcours.idue.nom
+                fichier_delivrable.annee_periode = etudiant.idsujet.idperiode.annee
+                fichier_delivrable.rendu = True  # Marquer comme rendu
+                fichier_delivrable.save()
+                return redirect('echeance')
+        else:
+            form = FichierDelivrableForm()
+        
+        # Vérifier si le délivrable a déjà été rendu
+        already_submitted = FichierDelivrable.objects.filter(iddelivrable=delivrable, idetudiant=etudiant, rendu=True).exists()
+
+        return render(request, 'otherRole/delivrable.html', {'form': form, 'delivrable': delivrable,  'already_submitted': already_submitted})
 
 @login_required(login_url='/polls')
 def profile(request):

@@ -14,7 +14,7 @@
             <div class="card-header border bg-white">
                 <h5 class="card-title w-100">{{delai.delai}}</h5>
                 <p class="card-text">{{delai.description}}</p>
-                 <p class="card-text"><a href="./{{delai.iddelivrable.iddelivrable}}">delivrable</a></p>
+                 <p class="card-text"><a href="{% url 'delivrable' delai.iddelivrable.iddelivrable %}">Déposer Delivrable</a></p>
             </div>
             {%endfor%}
 
