@@ -273,7 +273,7 @@ def vue_historique(request):
         .order_by('sujet__idperiode__annee', 'nom')
     )
     print(queryset)
-    queries  = []
+    queries = []
     for query in queryset:
         queries.append(query)
     return render(request,"otherRole/ok.html",context={'queryset':queries})
