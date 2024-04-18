@@ -1,13 +1,13 @@
 {% extends "otherRole/otherRoleTemplate.html" %}
 {% block content %}
-<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
-        <div class="col-8"></div>
-        <div class="col-12">
-        <div class="row">
-            <!-- code html + django pour l'affichage des cartes-->
-            <p>oki</p>
-        </div>
-    </div>
-    </div>
-    <div class="col-auto"></div>
-{%endblock%}
+    {% if not already_submitted %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Upload File</button>
+        </form>
+    {% else %}
+        <p>Ce délivrable a déjà été rendu.</p>
+    {% endif %}
+
+{% endblock %}
