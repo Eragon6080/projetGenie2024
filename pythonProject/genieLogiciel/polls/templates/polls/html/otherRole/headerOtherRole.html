@@ -1,14 +1,20 @@
 {% load static %}
-<header>
-  <nav class="navbar navbar-expand-lg py-0 myOwnheader">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
+  <nav class="navbar navbar-expand-md myOwnheader">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+      <div class="me-auto">
         {% if noSideBar %}
-        <span></span>
+        <a class="btn btn-light navbar-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" disabled><span class="navbar-toggler-icon"></span></a>
         {% else %}
         <a class="btn btn-light navbar-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><span class="navbar-toggler-icon"></span></a>
         {% endif %}
-        <a class="navbar-brand d-flex justify-content-center" href="/polls/home"><img src="{% static 'image/pimss.png'%}" alt="pimsLogo" style="width:50%"></a>
-        <div class="d-flex">
+      </div>
+    </div>
+        
+    <div class="mx-auto order-0">
+      <a href="/polls/home /"><img src="{% static 'image/pimss.png'%}" alt="pimsLogo" style="width:100%"></a>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <div class="ms-auto">
             <!-- l'image est à remplacer par une icône de la personne-->
             {% if user.is_authenticated %}
             <div class="row">
@@ -21,35 +27,35 @@
                       </button>
                       <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/polls/profile">Profil</a></li>
-                        {% if "etudiant" not in user.role.role %}
-                          <li><hr class="dropdown-divider"></li>
-                          {% for role in user.role.role %}
-                            {% if role == user.role.view %}
-                              <li><a class="dropdown-item bgunamur" href="/polls/switch_role/{{ role }}">{{role}}</a></li>
-                            {% else %}
-                              <li><a class="dropdown-item" href="/polls/switch_role/{{ role }}">{{role}}</a></li>
-                            {% endif %}
-                          {% endfor %}
-                        {% endif %}
+                        <li><hr class="dropdown-divider"></li>
+                        {% for role in user.role.role %}
+                          {% if role == user.role.view %}
+                            <li><a class="dropdown-item bgunamur" href="/polls/switch_role/{{ role }}">{{role}}</a></li>
+                          {% else %}
+                            <li><a class="dropdown-item" href="/polls/switch_role/{{ role }}">{{role}}</a></li>
+                          {% endif %}
+                        {% endfor %}
                       </ul>
                     </li>
                   </ul>
                 </div>
-
-
-
               </div>
-              <div class="col-auto d-flex justify-content-center align-items-center">
-                <div class="col-auto">
-                    <p style="color: #55AB26; margin-right: 10px;">{{user.prenom}} {{user.nom}}</p>
+              <div class="d-flex col-auto justify-content-center align-items-center">
+                <div class="d-flex col-auto">
+                <div class="row-auto">
+                    <p class="text-center" style="color: #55AB26; margin-right: 10px;">{{ user.prenom }} {{ user.nom }}</p>
                 </div>
-                <div class="col-auto">
-                  <a href="{% url 'logout' %}" class="btn"><i class="fa fa-sign-out"></i></a>
+                <div class="row-auto">
+                    <p class="text-center">{{ user.role.view }}</p>
                 </div>
-              </div>
+                </div>
+                <div class="col-auto d-flex align-items-center justify-content-center">
+                    <a href="{% url 'logout' %}" class="btn" style="color: #55AB26"><i class="fa fa-sign-out" style="font-size: 24px;"></i></a>
+                </div>
+            </div>
+            
                 {%endif%}
             </div>
         </div>
     </div>
   </nav>
-</header>
