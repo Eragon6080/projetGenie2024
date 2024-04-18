@@ -262,16 +262,18 @@ def vue_historique(request):
     queryset = (
         Cours.objects
         .values(
-            annee_academique=F('sujet__periode__annee'),
+            annee_academique=F('sujet__idperiode__annee'),
             nom_cours=F('nom'),
             titre_sujet=F('sujet__titre'),
             description_sujet=F('sujet__descriptif'),
-            nom_complet_etudiant=Concat('sujet__etudiant__personne__nom', Value(' '),
-                                        'sujet__etudiant__personne__prenom'),
-            nom_complet_professeur=Concat('sujet__professeur__personne__nom', Value(' '),
-                                          'sujet__professeur__personne__prenom'),
+            nom_complet_etudiant=Concat('idetudiant__idpersonne__nom', 'idetudiant__idpersonne__prenom'),
+            nom_complet_professeur=Concat('sujet__idprof__idpersonne__nom',
+                                          'sujet__idprof__idpersonne__prenom'),
         )
-        .order_by('sujet__periode__annee', 'nom')
+        .order_by('sujet__idperiode__annee', 'nom')
     )
     print(queryset)
-    return render(request,"otherRole/ok.html",context={'queryset':queryset})
+    queries  = []
+    for query in queryset:
+        queries.append(query)
+    return render(request,"otherRole/ok.html",context={'queryset':queries})
