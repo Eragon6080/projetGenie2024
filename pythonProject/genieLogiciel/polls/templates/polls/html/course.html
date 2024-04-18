@@ -25,8 +25,8 @@
 
 
 <div class="container justify-content-center">
-    <p></p>
     <div class="row row-cols-4 my-4">
+      {% if is_owner_or_admin %}
       <div class="col">
         <div class="card" style="width: 18rem;">
             <div class="card-body">
@@ -35,7 +35,17 @@
               <a href="./topics" class="stretched-link"></a>
             </div>
           </div>
+        </div>
+      <div class="col">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Modalités</h5>
+            <p class="card-text text-muted">Modifier les modalités de ce cours</p>
+            <a href="./gestion" class="stretched-link"></a>
+          </div>
+        </div>
       </div>
+      {% endif %}
       <div class="col">
         <div class="card" style="width: 18rem;">
             <div class="card-body">
@@ -44,7 +54,7 @@
               <a href="./topics" class="stretched-link"></a>
             </div>
           </div>
-      </div>
+        </div>
       <div class="col">
         <div class="card" style="width: 18rem;">
           <div class="card-body">
@@ -52,7 +62,7 @@
             <p class="card-text text-muted">Voir si mes sujets sont pris par des étudiants</p>
             <a href="./" class="stretched-link"></a>
           </div>
-          </div>
+        </div>
       </div>
       <div class="col">
         <div class="card" style="width: 18rem;">
@@ -61,20 +71,9 @@
             <p class="card-text text-muted">Ajouter un nouveau sujet pour ce cours</p>
             <a href="./new" class="stretched-link"></a>
           </div>
-          </div>
+        </div>
       </div>
     </div>
-    <div class="col">
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">Modalités</h5>
-          <p class="card-text text-muted">Modifier les modalités de ce cours</p>
-          <a href="./gestion" class="stretched-link"></a>
-        </div>
-        </div>
-    </div>
-
-    
 </div>
 
 

@@ -242,3 +242,11 @@ def get_personne_by_id(idpersonne:int):
     :return: une personne en particulier
     """
     return Personne.objects.get(idpersonne=idpersonne)
+
+def get_owner_of_ue(ue:Ue):
+    """
+    :param idue:
+    :return: le propriétaire de l'ue
+    """
+    prof = Professeur.objects.get(idprof=ue.idprof_id)
+    return Personne.objects.get(idpersonne=prof.idpersonne_id)

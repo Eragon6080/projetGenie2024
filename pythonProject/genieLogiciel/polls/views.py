@@ -57,9 +57,14 @@ def home(request) -> HttpResponse:
 def course(request, idue) -> HttpResponse:
     user = request.user
     ue = get_ue(idue)
+    is_user_owner_or_admin = False
+    if user == get_owner_of_ue(ue) or 'admin' in user.role['role']:
+        is_user_owner_or_admin = True
+    
     context = {
         "user": user,
         "ue": ue,
+        "is_owner_or_admin": is_user_owner_or_admin
     }
     
     return render(request, 'course.html', context)

@@ -11,15 +11,17 @@ from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, Co
 from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable
 from .queries import *
 
-from .restrictions import prof_or_superviseur_required, prof_or_superviseur_or_student_required, admin_or_professor_or_superviseur_required
+from .restrictions import prof_or_superviseur_required, prof_or_superviseur_or_student_required, admin_or_professor_or_superviseur_required, is_owner_or_admin
 
 
 @login_required(login_url='/polls')
+@csrf_exempt
 @admin_or_professor_or_superviseur_required
-def topics(request, code):
+@is_owner_or_admin
+def topics(request, idue) -> HttpResponse:
     # Récupère tous les cours associés à une UE particulière
-    cours_ids = Cours.objects.filter(idue_id=code).values_list('idcours', flat=True)
-    ue = get_ue(code)
+    cours_ids = Cours.objects.filter(idue=idue).values_list('idcours', flat=True)
+    ue = get_ue(idue=idue)
     print(cours_ids, "ok")
     # Récupèrer tous les sujets associés à ces cours
     sujets = Sujet.objects.filter(idcours__in=cours_ids)
@@ -85,7 +87,7 @@ def deleteTopic(request, sujet_id):
 @login_required(login_url='/polls')
 @csrf_exempt
 @admin_or_professor_or_superviseur_required
-def addTopic(request, code) -> HttpResponse:
+def addTopic(request, idue) -> HttpResponse:
     logger = logging.getLogger()
 
     if request.method == 'POST':
@@ -103,7 +105,7 @@ def addTopic(request, code) -> HttpResponse:
     else:
         form = SubmitForm()
     
-    ue = get_ue(code)
+    ue = get_ue(idue)
 
     context = {
         'ue': ue,
@@ -123,6 +125,7 @@ def ok(request) -> HttpResponse:
 
 @login_required(login_url='/polls')
 @csrf_exempt
+@is_owner_or_admin
 def gestion_etape(request, idue):
     ue = get_object_or_404(Ue, idue=idue)
     if request.method == 'POST':
