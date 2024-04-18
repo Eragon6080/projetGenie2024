@@ -71,7 +71,7 @@ def editTopic(request, sujet_id):
 
         form = UpdateForm(initial=form_data)
 
-    return render(request, 'otherRole/edit_sujet.html', {'form': form,'Ue':sujet.idCours.idue.idue})
+    return render(request, 'otherRole/edit_sujet.html', {'form': form, 'Ue': sujet.idCours.idue.idue})
 
 
 @login_required(login_url='/polls')
@@ -228,7 +228,7 @@ def reservationValidation(request, idsujet):
             'title': request.POST.get('title'),
             'description': request.POST.get('description'),
             'subject_id': idsujet,
-            'students' : get_students_by_teacher_without_subject(user.idpersonne)
+            'students': get_students_by_teacher_without_subject(user.idpersonne)
         }
         form = ConfirmationSujetReservation(initial=initial_data)
         context = {
@@ -257,7 +257,6 @@ def reservationConfirmation(request, idsujet):
         return redirect('../../../ok')
 
 
-
 def vue_historique(request):
     queryset = (
         Cours.objects
@@ -276,4 +275,4 @@ def vue_historique(request):
     queries = []
     for query in queryset:
         queries.append(query)
-    return render(request,"otherRole/ok.html",context={'queryset':queries})
+    return render(request, "otherRole/ok.html", context={'queryset': queries})
