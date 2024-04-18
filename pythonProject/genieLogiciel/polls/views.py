@@ -53,8 +53,16 @@ def home(request) -> HttpResponse:
 
 
 @login_required(login_url='/polls')
-def course(request, code) -> HttpResponse:
-    return render(request, 'otherRole/course.html', {})
+@admin_or_professor_or_superviseur_required
+def course(request, idue) -> HttpResponse:
+    user = request.user
+    ue = get_ue(idue)
+    context = {
+        "user": user,
+        "ue": ue,
+    }
+    
+    return render(request, 'course.html', context)
 
 
 @csrf_exempt

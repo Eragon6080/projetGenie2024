@@ -9,19 +9,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, ConfirmationSujetReservation
 from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable
-from .queries import find_course_for_student_for_subscription, find_course_for_student, \
-    get_all_subjects_for_a_teacher, get_people_by_mail, get_student_by_id_personne, \
-    get_cours_by_id_sujet_and_id_student, get_subject, \
-    get_students_by_teacher_without_subject, get_student_by_id_etudiant
+from .queries import *
 
-from .restrictions import prof_or_superviseur_required, prof_or_superviseur_or_student_required
+from .restrictions import prof_or_superviseur_required, prof_or_superviseur_or_student_required, admin_or_professor_or_superviseur_required
 
 
 @login_required(login_url='/polls')
-@prof_or_superviseur_or_student_required
+@admin_or_professor_or_superviseur_required
 def topics(request, code):
     # Récupère tous les cours associés à une UE particulière
     cours_ids = Cours.objects.filter(idue_id=code).values_list('idcours', flat=True)
+    ue = get_ue(code)
     print(cours_ids, "ok")
     # Récupèrer tous les sujets associés à ces cours
     sujets = Sujet.objects.filter(idcours__in=cours_ids)
@@ -43,11 +41,11 @@ def topics(request, code):
 
         sujet_infos.append(sujet_info)
 
-    return render(request, "otherRole/topic.html", {'sujet_infos': sujet_infos, 'Ue': code})
+    return render(request, "otherRole/topic.html", {'sujet_infos': sujet_infos, 'ue': ue})
 
 
 @login_required(login_url='/polls')
-@prof_or_superviseur_required
+@admin_or_professor_or_superviseur_required
 @csrf_exempt
 def editTopic(request, sujet_id):
     sujet = get_object_or_404(Sujet, idsujet=sujet_id)
@@ -75,7 +73,7 @@ def editTopic(request, sujet_id):
 
 
 @login_required(login_url='/polls')
-@prof_or_superviseur_required
+@admin_or_professor_or_superviseur_required
 @csrf_exempt
 def deleteTopic(request, sujet_id):
     sujet = get_object_or_404(Sujet, idsujet=sujet_id)
@@ -86,7 +84,7 @@ def deleteTopic(request, sujet_id):
 
 @login_required(login_url='/polls')
 @csrf_exempt
-@prof_or_superviseur_required
+@admin_or_professor_or_superviseur_required
 def addTopic(request, code) -> HttpResponse:
     logger = logging.getLogger()
 
@@ -104,9 +102,11 @@ def addTopic(request, code) -> HttpResponse:
             return HttpResponseRedirect("../../ok")
     else:
         form = SubmitForm()
+    
+    ue = get_ue(code)
 
     context = {
-        'Ue': code,
+        'ue': ue,
         'title': 'Cours',
         'prenom': "Matthys",
         'role': "Etudiant",

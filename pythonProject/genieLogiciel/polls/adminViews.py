@@ -154,14 +154,6 @@ def courses(request) -> HttpResponse:
     
     return render(request, 'admin/courses.html', context)
 
-@login_required(login_url='/polls')
-@admin_required
-def courseDetails(request, idue) -> HttpResponse:
-    ue = get_ue(idue)
-    context = {
-        "ue": ue,
-    }
-    
-    return render(request, 'admin/courseDetails.html', context)
+
 
 
