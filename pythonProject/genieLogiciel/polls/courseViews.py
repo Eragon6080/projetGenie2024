@@ -1,6 +1,9 @@
 import logging
+from multiprocessing import Value
 
 from django.contrib.auth.decorators import login_required
+from django.db.models import F
+from django.db.models.functions import Concat
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
@@ -252,3 +255,25 @@ def reservationConfirmation(request, idsujet):
         return redirect('../../../home')
     else:
         return redirect('../../../ok')
+
+
+
+def vue_historique(request):
+    queryset = (
+        Cours.objects
+        .values(
+            annee_academique=F('sujet__idperiode__annee'),
+            nom_cours=F('nom'),
+            titre_sujet=F('sujet__titre'),
+            description_sujet=F('sujet__descriptif'),
+            nom_complet_etudiant=Concat('idetudiant__idpersonne__nom', 'idetudiant__idpersonne__prenom'),
+            nom_complet_professeur=Concat('sujet__idprof__idpersonne__nom',
+                                          'sujet__idprof__idpersonne__prenom'),
+        )
+        .order_by('sujet__idperiode__annee', 'nom')
+    )
+    print(queryset)
+    queries  = []
+    for query in queryset:
+        queries.append(query)
+    return render(request,"otherRole/ok.html",context={'queryset':queries})

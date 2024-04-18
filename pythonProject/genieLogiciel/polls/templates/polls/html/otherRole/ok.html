@@ -5,7 +5,30 @@
     <title>Title</title>
 </head>
 <body>
-<p>{{context.ok}}</p>
+
+<table> 
+    <thead>
+    <tr>
+        <th>Année académique</th>
+        <th>Nom cours</th>
+        <th>Titre du sujet</th>
+        <th>Description sujet</th>
+        <th>Nom complet de l'étudiant</th>
+        <th>Nom complet professeur</th>
+    </thead>
+    <tbody>
+        {% for query in queryset%}
+            <tr>
+            <td>{{query.annee_academique}}</td>
+            <td>{{query.nom_cours}}</td>
+            <td>{{query.titre_sujet}}</td>
+                <td>{{query.description_sujet}}</td>
+            <td>{{query.nom_complet_etudiant}}</td>
+            <td>{{query.nom_complet_professeur}}</td>
+        {%endfor%}
+    </tbody>
+</table>
+
 
 </body>
 </html>
