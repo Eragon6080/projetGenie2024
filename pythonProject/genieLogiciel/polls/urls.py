@@ -31,6 +31,7 @@ urlpatterns = [
     path("echeance/<int:delivrable>",views.delivrable,name="delivrable"),
     path("sujet/reservation",courseViews.reservation,name="reservation"),
     path("sujet/reservation/<int:idsujet>", courseViews.reservationValidation, name="reservation"),
-    path("sujet/reservation/confirmation/<int:idsujet>",courseViews.reservationConfirmation,name="confirmation")
+    path("sujet/reservation/confirmation/<int:idsujet>",courseViews.reservationConfirmation,name="confirmation"),
+    path("essai/",courseViews.vue_historique,name="essaie")
 
 ]
