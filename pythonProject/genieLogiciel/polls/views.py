@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 
@@ -53,8 +54,21 @@ def home(request) -> HttpResponse:
 
 
 @login_required(login_url='/polls')
-def course(request, code) -> HttpResponse:
-    return render(request, 'otherRole/course.html', {})
+@admin_or_professor_or_superviseur_required
+def course(request, idue) -> HttpResponse:
+    user = request.user
+    ue = get_ue(idue)
+    is_user_owner_or_admin = False
+    if user == get_owner_of_ue(ue) or 'admin' in user.role['role']:
+        is_user_owner_or_admin = True
+    
+    context = {
+        "user": user,
+        "ue": ue,
+        "is_owner_or_admin": is_user_owner_or_admin
+    }
+    
+    return render(request, 'course.html', context)
 
 
 @csrf_exempt
@@ -141,10 +155,14 @@ def echeance(request):
         context = {
             'cours': etudiant.idsujet.idcours,
             'periode': etudiant.idsujet.idperiode,
-            'delais': delais
+            'delais': delais,
+            'current_date': datetime.now().date()
+
+
         }
         for delai in delais:
             print(delai.iddelivrable)
+            print(context['current_date'])
         return render(request, 'otherRole/echeance.html', context)
 
 

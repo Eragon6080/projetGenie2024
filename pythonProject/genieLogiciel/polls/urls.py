@@ -3,8 +3,10 @@ from . import views, courseViews, adminViews
 
 urlpatterns = [
     path("course/", views.home, name="home"),
-    path("course/<str:code>/topics/", courseViews.topics, name="topics"),
-    path("course/<str:code>/new/", courseViews.addTopic, name="addTopic"),
+    path("course/<str:idue>/", views.course, name="course"),
+    path("course/<str:idue>/topics/", courseViews.topics, name="topics"),
+    path("course/<str:idue>/new/", courseViews.addTopic, name="addTopic"),
+    path("course/<str:idue>/participants/", courseViews.participants, name="participants"),
     path("topic/", courseViews.topics, name="topic"),
     path("home/",views.accueil,name="accueil"),
     path("", views.login, name="login"),
@@ -14,7 +16,6 @@ urlpatterns = [
     path("admin/role/", adminViews.role, name="role"),
     path("admin/role/<str:view>", adminViews.role, name="roleView"),
     path("admin/courses/", adminViews.courses, name="coursSummary"),
-    path("admin/courses/<str:idue>", adminViews.courseDetails, name="coursDetails"),
     path("suivi/", views.yes, name="yes"),
     path("profile/", views.profile, name="profile"),
     path("fiche/<int:idpersonne>", views.fiche, name="fiche"),
