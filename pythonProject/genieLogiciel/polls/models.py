@@ -209,3 +209,23 @@ class FichierDelivrable(models.Model):
     class Meta:
         managed = False
         db_table = 'fichierdelivrable'
+
+
+class Superviseur(models.Model):
+    idsuperviseur = models.AutoField(primary_key=True, db_column='idsuperviseur')
+    specialite = models.TextField(db_column='specialite')
+    idpersonne = models.ForeignKey(Personne, models.DO_NOTHING, db_column='idpersonne')
+
+    class Meta:
+        managed = False
+        db_table = 'superviseur'
+
+class Supervision(models.Model):
+    idsupervision = models.AutoField(primary_key=True, db_column='idsupervision')
+    description = models.TextField(db_column='description')
+    idsuperviseur = models.ForeignKey(Superviseur, models.DO_NOTHING, db_column='idsuperviseur')
+    idue = models.ForeignKey(Ue, models.DO_NOTHING, db_column='idue')
+
+    class Meta:
+        managed = False
+        db_table = 'supervision'
