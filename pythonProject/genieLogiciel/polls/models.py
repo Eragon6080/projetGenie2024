@@ -188,7 +188,7 @@ class Ue(models.Model):
 class FichierDelivrable(models.Model):
     idfichier = models.AutoField(primary_key=True, db_column='idfichier')
     fichier = models.FileField(db_column='fichier', upload_to=get_upload_path, blank=True, null=True)
-    rendu = models.BooleanField(db_column='rendu', default=False)  # Champ pour marquer si le délivrable a été rendu
+    rendu = models.BooleanField(db_column='estrendu', default=False)  # Champ pour marquer si le délivrable a été rendu
     idetudiant = models.ForeignKey(Etudiant, models.DO_NOTHING, db_column='idetudiant')
     iddelivrable = models.ForeignKey(Delivrable, models.DO_NOTHING, db_column='iddelivrable')
     note = models.IntegerField(db_column='note')

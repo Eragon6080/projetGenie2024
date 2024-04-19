@@ -60,7 +60,7 @@ def participants(request, idue) -> HttpResponse:
     ue = get_ue(idue)
     students = get_students_of_ue(ue)
     professors = [get_owner_of_ue(ue)]
-    supervisors = []
+    supervisors = get_supervisors_of_ue(ue)
     return render(request, "otherRole/participants.html", context={"students": students, "professors": professors, "supervisors": supervisors ,"ue": ue})
 
 
