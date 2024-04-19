@@ -57,11 +57,13 @@
                         </tbody>
                         
                     </table>
+                    {% if "professeur" in user.role.role%}
                     <div class="row justify-content-center my-4">
                         <div class="col-auto">
                             <a href="{% url 'addTopic' ue.idue %}" class="btn btn-primary">Add New Sujet</a>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

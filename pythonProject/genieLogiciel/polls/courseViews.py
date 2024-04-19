@@ -14,18 +14,25 @@ from .queries import *
 from .restrictions import prof_or_superviseur_required, prof_or_superviseur_or_student_required, admin_or_professor_or_superviseur_required, is_owner_or_admin
 
 
+
+
 @login_required(login_url='/polls')
 @csrf_exempt
 @admin_or_professor_or_superviseur_required
-@is_owner_or_admin
 def topics(request, idue) -> HttpResponse:
-    # Récupère tous les cours associés à une UE particulière
-    cours_ids = Cours.objects.filter(idue=idue).values_list('idcours', flat=True)
-    ue = get_ue(idue=idue)
-    print(cours_ids, "ok")
-    # Récupèrer tous les sujets associés à ces cours
-    sujets = Sujet.objects.filter(idcours__in=cours_ids)
-    print(sujets, 'oki')
+    user = request.user
+    if 'professeur' in user.role['role']:
+        # Récupère tous les cours associés à une UE particulière
+        cours_ids = Cours.objects.filter(idue=idue).values_list('idcours', flat=True)
+        ue = get_ue(idue=idue)
+        print(cours_ids, "ok")
+        # Récupèrer tous les sujets associés à ces cours
+        sujets = Sujet.objects.filter(idcours__in=cours_ids)
+        print(sujets, 'oki')
+    else:
+        sujets = get_subject_for_a_superviseur(user.idpersonne)
+        print(sujets)
+        ue = None
     sujet_infos = []
     for sujet in sujets:
         sujet_info = {

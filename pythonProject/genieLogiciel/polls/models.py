@@ -167,6 +167,7 @@ class Sujet(models.Model):
                                validators=[validate_file_extension])
     idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode', default=1)
     idprof = models.ForeignKey(Professeur, models.DO_NOTHING, db_column='idprof', default=1)
+    idsuperviseur = models.ForeignKey('Superviseur',models.DO_NOTHING,db_column='idsuperviseur')
     idcours = models.ForeignKey(Cours, models.DO_NOTHING, db_column='idcours', default=1)
 
     class Meta:

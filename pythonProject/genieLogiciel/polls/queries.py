@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, TextField, JSONField
 from django.db.models.functions import Cast
 
-from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet, Periode, Etape
+from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet, Periode, Etape, Superviseur
 
 
 def get_all_ue():
@@ -263,3 +263,18 @@ def get_students_of_ue(ue:Ue):
         pers = Personne.objects.get(idpersonne=student.idpersonne_id)
         students.append(pers)
     return students
+
+
+def get_subject_for_a_superviseur(idpersonne):
+    """
+    :param idpersonne:
+    :return: les sujets pour un superviseur donné
+    """
+    superviseur = Superviseur.objects.get(idpersonne=idpersonne)
+    sujets_query = Sujet.objects.filter(idsuperviseur=superviseur.idsuperviseur)
+    sujets = []
+    for sujet in sujets_query:
+        sujets.append(sujet)
+    return sujets
+
+
