@@ -199,13 +199,13 @@ def inscriptionValidation(request, idue, nom):
 def mycourses(request):
     user = request.user
     courses_query = find_course_for_student(user.idpersonne)
-    courses = []
+    courses_ue = []
     if courses_query:
         for cours in courses_query:
-            courses.append(cours)
-    print(courses)
+            courses_ue.append(cours.idue)
+    print(courses_ue)
     context = {
-        'courses': courses
+        'courses': courses_ue
     }
     return render(request, "otherRole/home.html", context=context)
 
