@@ -10,7 +10,11 @@
                 <div class="justify-content-between w-25 vh-100">
                 <div class="card text-center myCard">
                     <div class="card-body myBodyCard">
-                        <a href="./{{ cours.idue }}/"> <h5 class="card-title">{{cours.nom}}</h5>
+                        {% if 'etudiant' not in user.role.role%}
+                            <a href="./{{ cours.idue }}/"> <h5 class="card-title">{{cours.nom}}</h5>
+                        {% else %}
+                            <a href="../course/mycourses/{{cours.idue}}/{{user.idpersonne}}"><h5 class="card-title">{{cours.nom}}</h5></a>
+                        {% endif %}
                         <p class="card-text">{{cours.idue}}</p>
                         </a>
                     </div>

@@ -162,13 +162,13 @@ class Sujet(models.Model):
     titre = models.TextField(db_column='titre')
     descriptif = models.TextField(db_column='descriptif')
     destination = models.TextField(db_column='destination')
-    estPris = models.BooleanField(db_column='estpris', default=False)
+    estpris = models.BooleanField(db_column='estpris', default=False)
     fichier = models.FileField(upload_to='sujets/', blank=True, null=True, db_column='fichier',
                                validators=[validate_file_extension])
     idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode', default=1)
-    idprof = models.ForeignKey(Professeur, models.DO_NOTHING, db_column='idprof', default=1)
+    idprof = models.ForeignKey(Professeur, models.DO_NOTHING, db_column='idprofesseur')
     idsuperviseur = models.ForeignKey('Superviseur',models.DO_NOTHING,db_column='idsuperviseur')
-    idcours = models.ForeignKey(Cours, models.DO_NOTHING, db_column='idcours', default=1)
+    idue = models.ForeignKey('Ue', models.DO_NOTHING, db_column='idue')
 
     class Meta:
         managed = False

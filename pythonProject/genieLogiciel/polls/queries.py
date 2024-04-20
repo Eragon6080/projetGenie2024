@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, TextField, JSONField
 from django.db.models.functions import Cast
 
-from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet, Periode, Etape, Superviseur
+from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet, Periode, Etape, Superviseur, Supervision
 
 
 def get_all_ue():
@@ -10,6 +10,7 @@ def get_all_ue():
     Retourne toutes les UE
     """
     return Ue.objects.all()
+
 
 def get_ue(idue):
     """
@@ -101,13 +102,37 @@ def find_course_by_student(idpersonne: int):
     return Cours.objects.get(idetudiant=idpersonne)
 
 
-def find_course_by_professeur_or_superviseur(idpersonne: int):
+def find_courses_by_professeur(idpersonne: int):
     """
     :param idpersonne:
     :return: les cours dont le professeur est responsable
     """
-    teacher = Professeur.objects.get(idpersonne=idpersonne)
-    ues = Ue.objects.filter(idprof=teacher.idprof)
+    try:
+        teacher = Professeur.objects.get(idpersonne=idpersonne)
+        ues = Ue.objects.filter(idprof=teacher.idprof)
+    except:
+        superviseur: Superviseur = Superviseur.objects.get(idpersonne=idpersonne)
+        supervisions_query = Supervision.objects.filter(idsuperviseur=superviseur.idsuperviseur)
+        supervisionsID = []
+        print(supervisions_query)
+        for supervision in supervisions_query:
+            print(supervision.idue)
+            supervisionsID.append(supervision.idue_id)
+        ues = Ue.objects.filter(idue__in=supervisionsID)
+        print(ues)
+
+    return ues
+
+def find_courses_by_supervisor(idpersonne: int):
+    """
+    :param idpersonne:
+    :return: les cours dont le professeur est responsable
+    """
+    sup = Superviseur.objects.get(idpersonne=idpersonne)
+    supervisions = Supervision.objects.filter(idsuperviseur=sup.idsuperviseur)
+    ues = []
+    for supervision in supervisions:
+        ues.append(Ue.objects.get(idue=supervision.idue_id))
     return ues
 
 
@@ -156,7 +181,7 @@ def find_course_for_student(idpersonne):
     return cours
 
 
-def get_student_by_id_personne(idpersonne:int):
+def get_student_by_id_personne(idpersonne: int):
     # à développer
     """
     :param idpersonne:
@@ -164,14 +189,14 @@ def get_student_by_id_personne(idpersonne:int):
     """
     return Etudiant.objects.get(idpersonne=idpersonne)
 
-def get_student_by_id_etudiant(idetudiant:int):
+
+def get_student_by_id_etudiant(idetudiant: int):
     """
 
     :param idetudiant:
     :return: l'étudiant en question
     """
     return Etudiant.objects.get(idetudiant=idetudiant)
-
 
 
 def get_delais(idPeriode):
@@ -217,8 +242,8 @@ def get_students_by_teacher_without_subject(idteacher: int):
     :param idsujet:
     :return: les étudiant appartenant à un cours donné par un prof
     """
-    prof:list[Professeur] = Professeur.objects.get(idpersonne=idteacher)
-    ues:Ue = Ue.objects.get(idprof=prof.idprof)
+    prof: list[Professeur] = Professeur.objects.get(idpersonne=idteacher)
+    ues: Ue = Ue.objects.get(idprof=prof.idprof)
     if ues is not None:
         cours_query = Cours.objects.filter(idue=ues)
         cours = []
@@ -227,23 +252,25 @@ def get_students_by_teacher_without_subject(idteacher: int):
         if len(cours) > 0:
             students = []
             for cour in cours:
-                students_query = Etudiant.objects.filter(idetudiant=cour.idetudiant_id,idsujet=None)
+                students_query = Etudiant.objects.filter(idetudiant=cour.idetudiant_id, idsujet=None)
                 print(students_query)
                 for student in students_query:
-                    students.append((int(student.idetudiant),f"{student.idpersonne.nom} {student.idpersonne.prenom}"))
+                    students.append((int(student.idetudiant), f"{student.idpersonne.nom} {student.idpersonne.prenom}"))
             return students
         return None
     else:
         return None
-    
-def get_personne_by_id(idpersonne:int):
+
+
+def get_personne_by_id(idpersonne: int):
     """
     :param idpersonne:
     :return: une personne en particulier
     """
     return Personne.objects.get(idpersonne=idpersonne)
 
-def get_owner_of_ue(ue:Ue):
+
+def get_owner_of_ue(ue: Ue):
     """
     :param idue:
     :return: le propriétaire de l'ue
@@ -251,7 +278,8 @@ def get_owner_of_ue(ue:Ue):
     prof = Professeur.objects.get(idprof=ue.idprof_id)
     return Personne.objects.get(idpersonne=prof.idpersonne_id)
 
-def get_students_of_ue(ue:Ue):
+
+def get_students_of_ue(ue: Ue):
     """
     :param idue:
     :return: les étudinats participants d'une ue 
@@ -264,13 +292,26 @@ def get_students_of_ue(ue:Ue):
         students.append(pers)
     return students
 
+def get_supervisors_of_ue(ue:Ue):
+    """
+    :param idue:
+    :return: les superviseurs d'une ue
+    """
+    supervisions = Supervision.objects.filter(idue=ue)
+    supervisors = []
+    for supervision in supervisions:
+        superviseur = Superviseur.objects.get(idsuperviseur=supervision.idsuperviseur_id)
+        pers = Personne.objects.get(idpersonne=superviseur.idpersonne_id)
+        supervisors.append(pers)
+    return supervisors
+
 
 def get_subject_for_a_superviseur(idpersonne):
     """
     :param idpersonne:
     :return: les sujets pour un superviseur donné
     """
-    superviseur = Superviseur.objects.get(idpersonne=idpersonne)
+    superviseur = Supervision.objects.get(idpersonne=idpersonne)
     sujets_query = Sujet.objects.filter(idsuperviseur=superviseur.idsuperviseur)
     sujets = []
     for sujet in sujets_query:
@@ -278,3 +319,25 @@ def get_subject_for_a_superviseur(idpersonne):
     return sujets
 
 
+def get_prof_by_id_personne(idpersonne: int):
+    """
+    :param idpersonne:
+    :return: le professeur en cours
+    """
+    return Professeur.objects.get(idpersonne=idpersonne)
+
+
+def get_superviseur_by_id_personne(idpersonne: int):
+    """
+
+    :param idpersonne:
+    :return: le superviseur concerné
+    """
+    return Superviseur.objects.get(idpersonne=idpersonne)
+
+def get_sujets_by_idue(idue:str):
+    """
+    :param idue:
+    :return: tous les sujets qui ne sont pas pris et qui font partie de l'ue concerné
+    """
+    return Sujet.objects.filter(idue=idue,estpris=False)
