@@ -311,7 +311,7 @@ def vue_historique(request):
 @student_required
 def reservation_subject_student(request, idue, idpersonne):
     etudiant = get_student_by_id_personne(idpersonne)
-    if etudiant.idsujet_id is None:
+    if count_subject_for_one_student_and_one_ue(etudiant.idetudiant,idue) == 0:
         sujets_query = get_sujets_by_idue(idue)
         sujets = []
         for sujet in sujets_query:
@@ -335,9 +335,8 @@ def confirmer_reservation_sujet(request,idue,idsujet):
     user = request.user
     etudiant = get_student_by_id_personne(user.idpersonne)
     sujet = get_subject_by_id(idsujet)
-    etudiant.idsujet_id = idsujet
     sujet.estpris = True
-    etudiant.save()
+    sujet.idetudiant = etudiant
     sujet.save()
 
     return redirect('/polls/course/mycourses')

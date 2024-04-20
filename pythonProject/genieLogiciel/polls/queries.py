@@ -350,3 +350,11 @@ def get_subject_by_id(idsujet:int):
     :return: le sujet en question
     """
     return Sujet.objects.get(idsujet=idsujet)
+
+def count_subject_for_one_student_and_one_ue(idetudiant:int,idue:str):
+    """
+
+    :param idetudiant:
+    :return: le nombre de sujets pour l'étudiant en question
+    """
+    return len(Sujet.objects.filter(idetudiant=idetudiant,idue=idue))
