@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, TextField, JSONField
 from django.db.models.functions import Cast
 
-from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet, Periode, Etape, Superviseur
+from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet, Periode, Etape, Superviseur, Supervision
 
 
 def get_all_ue():
@@ -101,13 +101,25 @@ def find_course_by_student(idpersonne: int):
     return Cours.objects.get(idetudiant=idpersonne)
 
 
-def find_course_by_professeur_or_superviseur(idpersonne: int):
+def find_courses_by_professeur(idpersonne: int):
     """
     :param idpersonne:
     :return: les cours dont le professeur est responsable
     """
     teacher = Professeur.objects.get(idpersonne=idpersonne)
     ues = Ue.objects.filter(idprof=teacher.idprof)
+    return ues
+
+def find_courses_by_supervisor(idpersonne: int):
+    """
+    :param idpersonne:
+    :return: les cours dont le professeur est responsable
+    """
+    sup = Superviseur.objects.get(idpersonne=idpersonne)
+    supervisions = Supervision.objects.filter(idsuperviseur=sup.idsuperviseur)
+    ues = []
+    for supervision in supervisions:
+        ues.append(Ue.objects.get(idue=supervision.idue_id))
     return ues
 
 
@@ -264,13 +276,26 @@ def get_students_of_ue(ue:Ue):
         students.append(pers)
     return students
 
+def get_supervisors_of_ue(ue:Ue):
+    """
+    :param idue:
+    :return: les superviseurs d'une ue
+    """
+    supervisions = Supervision.objects.filter(idue=ue)
+    supervisors = []
+    for supervision in supervisions:
+        superviseur = Superviseur.objects.get(idsuperviseur=supervision.idsuperviseur_id)
+        pers = Personne.objects.get(idpersonne=superviseur.idpersonne_id)
+        supervisors.append(pers)
+    return supervisors
+
 
 def get_subject_for_a_superviseur(idpersonne):
     """
     :param idpersonne:
     :return: les sujets pour un superviseur donné
     """
-    superviseur = Superviseur.objects.get(idpersonne=idpersonne)
+    superviseur = Supervision.objects.get(idpersonne=idpersonne)
     sujets_query = Sujet.objects.filter(idsuperviseur=superviseur.idsuperviseur)
     sujets = []
     for sujet in sujets_query:
