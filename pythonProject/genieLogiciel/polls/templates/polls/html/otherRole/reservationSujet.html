@@ -8,6 +8,7 @@
         <h1>Réservation d'un sujet en fonction de l'ue</h1>
     </div>
 <div class="container d-flex flex-column justify-content-center">
+    {% if not failure %}
 
     <div class="row justify-content-center">
 
@@ -16,16 +17,34 @@
                 <table class="table table-striped text-center">
                     <thead>
                         <tr>
-                            <th scope="col">CC</th>
-                            <th scope="col">Fun</th>
+                            {% for title in titles %}
+                            <th scope="col">{{title}}</th>
+                            {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
+                        {% for sujet in sujets %}
+                            <tr>
+                                <td>{{sujet.titre}}</td>
+                                <td>{{sujet.descriptif}}</td>
+                                {% if sujet.idprof_id is not None%}
+                                <td>{{sujet.idprof.idpersonne.nom}} {{sujet.idprof.idpersonne.prenom}}</td>
+                                {% else %}
+                                <td>{{sujet.idsuperviseur.idpersonne.nom}} {{sujet.idsuperviseur.idpersonne.prenom}}</td>
+                                {% endif %}
+                                <td><a href="../../../../polls/course/mycourses/reservation-sujet/{{idue}}/{{sujet.idsujet}}" class="btn btn-primary" >Réserver le sujet</a></td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+{% else %}
+<div class="container d-flex flex-column justify-content-center align-items-center vh-100">
+    <p>{{failure}}</p>
+</div>
+{% endif %}
 
 {% endblock %}
