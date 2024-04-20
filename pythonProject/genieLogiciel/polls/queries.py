@@ -341,3 +341,12 @@ def get_sujets_by_idue(idue:str):
     :return: tous les sujets qui ne sont pas pris et qui font partie de l'ue concerné
     """
     return Sujet.objects.filter(idue=idue,estpris=False)
+
+
+def get_subject_by_id(idsujet:int):
+    """
+
+    :param idsujet:
+    :return: le sujet en question
+    """
+    return Sujet.objects.get(idsujet=idsujet)

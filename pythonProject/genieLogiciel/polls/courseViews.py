@@ -2,6 +2,7 @@ import logging
 from multiprocessing import Value
 
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.db.models import F
 from django.db.models.functions import Concat
 from django.http import HttpResponse, HttpResponseRedirect
@@ -321,12 +322,28 @@ def reservation_subject_student(request, idue, idpersonne):
         for sujet in sujets_query:
             sujets.append(sujet)
         context = {
-            'sujets' : sujets
+            'titles' : ['Titre','Description','Professeur/Superviseur','Réserver'],
+            'sujets' : sujets,
+            'idue': idue
         }
-        print(sujets)
+
     else:
         context = {
             'failure' : "Vous ne pouvez plus réserver de sujet pour ce cours"
         }
         print(context)
     return render(request, "otherRole/reservationSujet.html",context=context)
+
+@student_required
+@transaction.atomic
+def confirmer_reservation_sujet(request,idue,idsujet):
+    user = request.user
+    etudiant = get_student_by_id_personne(user.idpersonne)
+    sujet = get_subject_by_id(idsujet)
+    etudiant.idsujet_id = idsujet
+    sujet.estpris = True
+    etudiant.save()
+    sujet.save()
+
+    return redirect('/polls/course/mycourses')
+
