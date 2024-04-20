@@ -11,9 +11,8 @@ from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, Co
 from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable
 from .queries import *
 
-from .restrictions import prof_or_superviseur_required, prof_or_superviseur_or_student_required, admin_or_professor_or_superviseur_required, is_owner_or_admin
-
-
+from .restrictions import prof_or_superviseur_required, prof_or_superviseur_or_student_required, \
+    admin_or_professor_or_superviseur_required, is_owner_or_admin, student_required
 
 
 @login_required(login_url='/polls')
@@ -52,6 +51,7 @@ def topics(request, idue) -> HttpResponse:
 
     return render(request, "otherRole/topic.html", {'sujet_infos': sujet_infos, 'ue': ue})
 
+
 @login_required(login_url='/polls')
 @csrf_exempt
 @admin_or_professor_or_superviseur_required
@@ -61,7 +61,8 @@ def participants(request, idue) -> HttpResponse:
     students = get_students_of_ue(ue)
     professors = [get_owner_of_ue(ue)]
     supervisors = get_supervisors_of_ue(ue)
-    return render(request, "otherRole/participants.html", context={"students": students, "professors": professors, "supervisors": supervisors ,"ue": ue})
+    return render(request, "otherRole/participants.html",
+                  context={"students": students, "professors": professors, "supervisors": supervisors, "ue": ue})
 
 
 @login_required(login_url='/polls')
@@ -117,18 +118,20 @@ def addTopic(request, idue) -> HttpResponse:
             if 'professeur' in user.role['role']:
                 prof = get_prof_by_id_personne(user.idpersonne)
                 sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
-                          destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'],idprofesseur=prof)
+                              destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'],
+                              idprofesseur=prof)
             else:
                 superviseur = get_superviseur_by_id_personne(user.idpersonne)
                 sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
-                          destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'],idsuperviseur=superviseur)
+                              destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'],
+                              idsuperviseur=superviseur)
 
             sujet.save()
 
             return HttpResponseRedirect(f"polls/course/{idue}")
     else:
         form = SubmitForm()
-    
+
     ue = get_ue(idue)
 
     context = {
@@ -298,8 +301,27 @@ def vue_historique(request):
         )
         .order_by('sujet__idperiode__annee', 'nom')
     )
-    print(queryset)
     queries = []
     for query in queryset:
         queries.append(query)
     return render(request, "otherRole/ok.html", context={'queryset': queries})
+
+
+@student_required
+def reservation_subject_student(request, idue, idpersonne):
+    etudiant = get_student_by_id_personne(idpersonne)
+    if etudiant.idsujet_id is None:
+        sujets_query = get_sujets_by_idue(idue)
+        sujets = []
+        for sujet in sujets_query:
+            sujets.append(sujet)
+        context = {
+            'sujets' : sujets
+        }
+        print(sujets)
+    else:
+        context = {
+            'failure' : "Vous ne pouvez plus réserver de sujet pour ce cours"
+        }
+        print(context)
+    return render(request, "otherRole/reservationSujet.html",context=context)

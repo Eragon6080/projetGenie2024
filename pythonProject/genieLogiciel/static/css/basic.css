@@ -29,9 +29,7 @@ body{
 
 }
 
-.pimsTitle{
-    justify-content: center;
-}
+
 
 #titleLeftColumn{
     z-index: 9999;
@@ -56,3 +54,13 @@ body{
     padding-bottom: 100%;
     position: relative;
 }
+.titles{
+    font-size: 20pt;
+    font-family: Regular;
+    text-align: center;
+    padding: 10px;
+    background-color: #9F9F9F;
+    text-decoration: underline;
+    justify-content: center;
+}
+

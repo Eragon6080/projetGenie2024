@@ -334,3 +334,10 @@ def get_superviseur_by_id_personne(idpersonne: int):
     :return: le superviseur concerné
     """
     return Superviseur.objects.get(idpersonne=idpersonne)
+
+def get_sujets_by_idue(idue:str):
+    """
+    :param idue:
+    :return: tous les sujets qui ne sont pas pris et qui font partie de l'ue concerné
+    """
+    return Sujet.objects.filter(idue=idue,estpris=False)
