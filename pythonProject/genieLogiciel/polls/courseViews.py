@@ -308,6 +308,11 @@ def vue_historique(request):
     return render(request, "otherRole/ok.html", context={'queryset': queries})
 
 
+@login_required(login_url='polls')
+def etape_view(request):
+    etapes = Etape.objects.all().values('description', 'delai')
+    return render(request, 'otherRole/commandTimeline.html', {'etapes': etapes})
+
 @student_required
 def reservation_subject_student(request, idue, idpersonne):
     etudiant = get_student_by_id_personne(idpersonne)
