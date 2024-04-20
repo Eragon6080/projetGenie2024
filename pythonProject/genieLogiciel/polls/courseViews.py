@@ -107,19 +107,25 @@ def deleteTopic(request, sujet_id):
 @admin_or_professor_or_superviseur_required
 def addTopic(request, idue) -> HttpResponse:
     logger = logging.getLogger()
-
+    user = request.user
     if request.method == 'POST':
 
         form = SubmitForm(request.POST, request.FILES)
 
         if form.is_valid():
             logger.info("form is valid")
-            sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
-                          destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'])
+            if 'professeur' in user.role['role']:
+                prof = get_prof_by_id_personne(user.idpersonne)
+                sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
+                          destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'],idprofesseur=prof)
+            else:
+                superviseur = get_superviseur_by_id_personne(user.idpersonne)
+                sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
+                          destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'],idsuperviseur=superviseur)
 
             sujet.save()
 
-            return HttpResponseRedirect("../../ok")
+            return HttpResponseRedirect(f"polls/course/{idue}")
     else:
         form = SubmitForm()
     
@@ -138,7 +144,7 @@ def addTopic(request, idue) -> HttpResponse:
 @login_required(login_url="/polls")
 @csrf_exempt
 def ok(request) -> HttpResponse:
-    return render(request, "ohterRole/ok.html", context={ok: 'Votre sujet a été validé'})
+    return render(request, "otherRole/ok.html", context={ok: 'Votre sujet a été validé'})
 
 
 @login_required(login_url='/polls')
