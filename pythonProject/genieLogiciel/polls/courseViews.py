@@ -297,3 +297,9 @@ def vue_historique(request):
     for query in queryset:
         queries.append(query)
     return render(request, "otherRole/ok.html", context={'queryset': queries})
+
+
+@login_required(login_url='polls')
+def etape_view(request):
+    etapes = Etape.objects.all().values('description', 'delai')
+    return render(request, 'otherRole/commandTimeline.html', {'etapes': etapes})

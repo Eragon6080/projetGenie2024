@@ -33,6 +33,9 @@ urlpatterns = [
     path("sujet/reservation",courseViews.reservation,name="reservation"),
     path("sujet/reservation/<int:idsujet>", courseViews.reservationValidation, name="reservation"),
     path("sujet/reservation/confirmation/<int:idsujet>",courseViews.reservationConfirmation,name="confirmation"),
-    path("essai/",courseViews.vue_historique,name="essaie")
+    path("essai/",courseViews.vue_historique,name="essaie"),
+    path('sujet/etapes/', courseViews.etape_view, name='etapes')
+
+
 
 ]
