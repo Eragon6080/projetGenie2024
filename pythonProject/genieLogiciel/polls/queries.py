@@ -123,6 +123,7 @@ def find_courses_by_professeur(idpersonne: int):
 
     return ues
 
+
 def find_courses_by_supervisor(idpersonne: int):
     """
     :param idpersonne:
@@ -292,7 +293,8 @@ def get_students_of_ue(ue: Ue):
         students.append(pers)
     return students
 
-def get_supervisors_of_ue(ue:Ue):
+
+def get_supervisors_of_ue(ue: Ue):
     """
     :param idue:
     :return: les superviseurs d'une ue
@@ -335,15 +337,16 @@ def get_superviseur_by_id_personne(idpersonne: int):
     """
     return Superviseur.objects.get(idpersonne=idpersonne)
 
-def get_sujets_by_idue(idue:str):
+
+def get_sujets_by_idue(idue: str):
     """
     :param idue:
     :return: tous les sujets qui ne sont pas pris et qui font partie de l'ue concerné
     """
-    return Sujet.objects.filter(idue=idue,estpris=False)
+    return Sujet.objects.filter(idue=idue, estpris=False)
 
 
-def get_subject_by_id(idsujet:int):
+def get_subject_by_id(idsujet: int):
     """
 
     :param idsujet:
@@ -351,10 +354,10 @@ def get_subject_by_id(idsujet:int):
     """
     return Sujet.objects.get(idsujet=idsujet)
 
-def count_subject_for_one_student_and_one_ue(idetudiant:int,idue:str):
-    """
 
+def count_subject_for_one_student_and_one_ue(idetudiant: int, idue: str):
+    """
     :param idetudiant:
     :return: le nombre de sujets pour l'étudiant en question
     """
-    return len(Sujet.objects.filter(idetudiant=idetudiant,idue=idue))
+    return len(Sujet.objects.filter(idetudiant=idetudiant, idue=idue))
