@@ -27,7 +27,7 @@ def topics(request, idue) -> HttpResponse:
         ue = get_ue(idue=idue)
         print(cours_ids, "ok")
         # Récupèrer tous les sujets associés à ces cours
-        sujets = Sujet.objects.filter(idcours__in=cours_ids)
+        sujets = Sujet.objects.filter(idue=ue)
         print(sujets, 'oki')
     else:
         sujets = get_subject_for_a_superviseur(user.idpersonne)
@@ -40,11 +40,41 @@ def topics(request, idue) -> HttpResponse:
             'titre': sujet.titre,
             'description': sujet.descriptif,
             'etudiants': [],
-            'estPris': sujet.estPris
+            'estPris': sujet.estpris
         }
 
-        if sujet.estPris:
-            etudiants = Etudiant.objects.filter(idsujet=sujet)
+        if sujet.estpris:
+            etudiants = [Sujet.objects.get(idsujet=sujet.idsujet).idetudiant]
+            etudiants_noms = [f"{etudiant.idpersonne.nom} {etudiant.idpersonne.prenom}" for etudiant in etudiants]
+            sujet_info['etudiants'] = etudiants_noms
+
+        sujet_infos.append(sujet_info)
+
+    return render(request, "otherRole/topic.html", {'sujet_infos': sujet_infos, 'ue': ue})
+
+@login_required(login_url='/polls')
+@csrf_exempt
+@prof_or_superviseur_required
+def myTopics(request, idue) -> HttpResponse:
+    user = request.user
+    ue = get_ue(idue=idue)
+    if 'professeur' in user.role['role']:
+        # Récupèrer tous les sujets associés à ces cours
+        sujets = Sujet.objects.filter(idue=ue, idprof=get_prof_by_id_personne(user.idpersonne).idprof)
+    else:
+        sujets = get_subject_for_a_superviseur(user.idpersonne)
+    sujet_infos = []
+    for sujet in sujets:
+        sujet_info = {
+            'id': sujet.idsujet,
+            'titre': sujet.titre,
+            'description': sujet.descriptif,
+            'etudiants': [],
+            'estPris': sujet.estpris
+        }
+
+        if sujet.estpris:
+            etudiants = [Sujet.objects.get(idsujet=sujet.idsujet).idetudiant]
             etudiants_noms = [f"{etudiant.idpersonne.nom} {etudiant.idpersonne.prenom}" for etudiant in etudiants]
             sujet_info['etudiants'] = etudiants_noms
 
