@@ -37,9 +37,12 @@ def accueil(request) -> HttpResponse:
 def home(request) -> HttpResponse:
     user = request.user
     courses = []
-    role = user.role["role"]
-    if "professeur" in role or "superviseur" in role:
-        get_courses = find_course_by_professeur_or_superviseur(user.idpersonne)
+    role = user.role['view']
+    if role == "professeur": 
+        get_courses = find_courses_by_professeur(user.idpersonne)
+        courses = get_courses
+    elif role == "superviseur":
+        get_courses = find_courses_by_supervisor(user.idpersonne)
         courses = get_courses
     else:
         course = find_course_by_student(user.idpersonne)

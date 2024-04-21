@@ -28,11 +28,12 @@ urlpatterns = [
     path("course/mycourses",courseViews.mycourses,name="mycourses"),
     path("switch_role/<str:role>", views.switchRole, name="switch_role"),
     path("echeance/",views.echeance,name="echeance"),
-    #path("steps/<int:idue>",courseViews.afficher_etapes_ue,name="afficherEtape"),
     path("echeance/<int:delivrable_id>",views.upload_delivrable,name="delivrable"),
     path("sujet/reservation",courseViews.reservation,name="reservation"),
     path("sujet/reservation/<int:idsujet>", courseViews.reservationValidation, name="reservation"),
     path("sujet/reservation/confirmation/<int:idsujet>",courseViews.reservationConfirmation,name="confirmation"),
-    path("essai/",courseViews.vue_historique,name="essaie")
+    path("essai/",courseViews.vue_historique,name="essaie"),
+    path("course/mycourses/<str:idue>/<int:idpersonne>",courseViews.reservation_subject_student,name="subject_student"),
+    path("course/mycourses/reservation-sujet/<str:idue>/<int:idsujet>",courseViews.confirmer_reservation_sujet,name='confirmation_reservation_student')
 
 ]

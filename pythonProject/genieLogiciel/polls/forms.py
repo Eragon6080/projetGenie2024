@@ -137,3 +137,5 @@ class ConfirmationSujetReservation(forms.Form):
             self.fields['description'].initial = kwargs['initial'].get('description', '')
             self.fields['subject_id'].widget.attrs['value'] = kwargs['initial'].get('subject_id', '')
             self.fields['students'].widget.choices = kwargs['initial'].get('students',[])
+
+
