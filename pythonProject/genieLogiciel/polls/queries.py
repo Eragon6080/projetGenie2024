@@ -283,15 +283,17 @@ def get_owner_of_ue(ue: Ue):
 def get_students_of_ue(ue: Ue):
     """
     :param idue:
-    :return: les étudinats participants d'une ue 
+    :return: les étudiants participants d'une ue 
     """
     courses = Cours.objects.filter(idue=ue)
     students = []
-    for cours in courses:
-        student = Etudiant.objects.get(idetudiant=cours.idetudiant_id)
-        pers = Personne.objects.get(idpersonne=student.idpersonne_id)
-        students.append(pers)
-    return students
+    # for cours in courses:
+    #     student = Etudiant.objects.get(idetudiant=cours.idetudiant_id)
+    #     pers = Personne.objects.get(idpersonne=student.idpersonne_id)
+    #     students.append(pers)
+    students_query = Etudiant.objects.filter(idetudiant__in=courses)
+    personne_query = Personne.objects.filter(idpersonne__in=students_query)
+    return personne_query
 
 
 def get_supervisors_of_ue(ue: Ue):

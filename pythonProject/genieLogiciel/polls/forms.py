@@ -1,6 +1,8 @@
-from typing import Any
+from typing import Any, Mapping
 from django import forms
 from django.forms import BaseFormSet
+from django.forms.renderers import BaseRenderer
+from django.forms.utils import ErrorList
 
 from .models import Etape, Delivrable, Periode, Sujet,FichierDelivrable
 
@@ -28,6 +30,12 @@ class EtapeForm(forms.ModelForm):
 
 
 class SubmitForm(forms.Form):
+    student_select = forms.ModelChoiceField(queryset=None, label='Lier le sujet à un étudiant', required=False, widget=forms.Select(attrs={'class': 'form-control'}))
+    def __init__(self, *args, **kwargs):
+        list_students = kwargs.pop('list_students', None)
+        super().__init__()
+        self.fields['student_select'].queryset = list_students
+
     title = forms.CharField(
         label='Title',
         max_length=100,

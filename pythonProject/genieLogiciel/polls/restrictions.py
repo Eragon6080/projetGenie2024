@@ -84,7 +84,7 @@ def admin_or_professor_or_superviseur_required(function):
     wrap.__name__ = function.__name__
     return wrap
 
-def is_owner_or_admin(function):
+def is_owner_of_ue_or_admin(function):
     def wrap(request, *args, **kwargs):
         if "admin" in request.user.role['role'] or request.user == get_owner_of_ue(get_ue(kwargs['idue'])):
             return function(request, *args, **kwargs)

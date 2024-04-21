@@ -12,27 +12,17 @@ from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, Co
 from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable
 from .queries import *
 
-from .restrictions import prof_or_superviseur_required, prof_or_superviseur_or_student_required, \
-    admin_or_professor_or_superviseur_required, is_owner_or_admin, student_required
+from .restrictions import *
 
 
 @login_required(login_url='/polls')
 @csrf_exempt
-@admin_or_professor_or_superviseur_required
+@admin_or_professor_required
 def topics(request, idue) -> HttpResponse:
     user = request.user
-    if 'professeur' in user.role['role']:
-        # Récupère tous les cours associés à une UE particulière
-        cours_ids = Cours.objects.filter(idue=idue).values_list('idcours', flat=True)
-        ue = get_ue(idue=idue)
-        print(cours_ids, "ok")
-        # Récupèrer tous les sujets associés à ces cours
-        sujets = Sujet.objects.filter(idue=ue)
-        print(sujets, 'oki')
-    else:
-        sujets = get_subject_for_a_superviseur(user.idpersonne)
-        print(sujets)
-        ue = None
+    ue = get_ue(idue=idue)
+    # Récupèrer tous les sujets associés à cette ue
+    sujets = Sujet.objects.filter(idue=ue)
     sujet_infos = []
     for sujet in sujets:
         sujet_info = {
@@ -86,7 +76,7 @@ def myTopics(request, idue) -> HttpResponse:
 @login_required(login_url='/polls')
 @csrf_exempt
 @admin_or_professor_or_superviseur_required
-@is_owner_or_admin
+@is_owner_of_ue_or_admin
 def participants(request, idue) -> HttpResponse:
     ue = get_ue(idue)
     students = get_students_of_ue(ue)
@@ -140,12 +130,13 @@ def deleteTopic(request, sujet_id):
 def addTopic(request, idue) -> HttpResponse:
     logger = logging.getLogger()
     user = request.user
+    ue = get_ue(idue)
     if request.method == 'POST':
-
-        form = SubmitForm(request.POST, request.FILES)
-
+        form = SubmitForm(request.POST, request.FILES, list_students=get_students_of_ue(ue))
         if form.is_valid():
             logger.info("form is valid")
+            subject_is_taken = False
+            print(form.cleaned_data['student_select'])
             if 'professeur' in user.role['role']:
                 prof = get_prof_by_id_personne(user.idpersonne)
                 sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
@@ -160,10 +151,12 @@ def addTopic(request, idue) -> HttpResponse:
             sujet.save()
 
             return HttpResponseRedirect(f"polls/course/{idue}")
+        else:
+            print(form.errors)
     else:
-        form = SubmitForm()
+        form = SubmitForm(list_students=get_students_of_ue(ue))
 
-    ue = get_ue(idue)
+    
 
     context = {
         'ue': ue,
@@ -183,7 +176,7 @@ def ok(request) -> HttpResponse:
 
 @login_required(login_url='/polls')
 @csrf_exempt
-@is_owner_or_admin
+@is_owner_of_ue_or_admin
 def gestion_etape(request, idue):
     ue = get_object_or_404(Ue, idue=idue)
     if request.method == 'POST':
