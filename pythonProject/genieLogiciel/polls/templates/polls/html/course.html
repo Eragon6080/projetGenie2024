@@ -26,7 +26,7 @@
 
 <div class="container justify-content-center">
     <div class="row row-cols-4 my-4 ">
-      {% if is_owner_or_admin %}
+      {% if is_owner or is_admin %}
       <div class="col my-4">
         <div class="card h-100" >
             <div class="card-body">
@@ -55,15 +55,17 @@
         </div>
       </div>
       {% endif %}
+      {% if not is_admin %}
       <div class="col my-4">
         <div class="card h-100" >
             <div class="card-body">
               <h5 class="card-title">Mes sujets</h5>
               <p class="card-text text-muted">Voir tous mes sujets</p>
-              <a href="./topics" class="stretched-link"></a>
+              <a href="./my/topics" class="stretched-link"></a>
             </div>
           </div>
         </div>
+      {% endif %}
 
 
       <div class="col my-4">
