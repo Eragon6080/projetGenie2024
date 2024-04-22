@@ -12,27 +12,17 @@ from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, Co
 from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable
 from .queries import *
 
-from .restrictions import prof_or_superviseur_required, prof_or_superviseur_or_student_required, \
-    admin_or_professor_or_superviseur_required, is_owner_or_admin, student_required
+from .restrictions import *
 
 
 @login_required(login_url='/polls')
 @csrf_exempt
-@admin_or_professor_or_superviseur_required
+@admin_or_professor_required
 def topics(request, idue) -> HttpResponse:
     user = request.user
-    if 'professeur' in user.role['role']:
-        # Récupère tous les cours associés à une UE particulière
-        cours_ids = Cours.objects.filter(idue=idue).values_list('idcours', flat=True)
-        ue = get_ue(idue=idue)
-        print(cours_ids, "ok")
-        # Récupèrer tous les sujets associés à ces cours
-        sujets = Sujet.objects.filter(idcours__in=cours_ids)
-        print(sujets, 'oki')
-    else:
-        sujets = get_subject_for_a_superviseur(user.idpersonne)
-        print(sujets)
-        ue = None
+    ue = get_ue(idue=idue)
+    # Récupèrer tous les sujets associés à cette ue
+    sujets = Sujet.objects.filter(idue=ue)
     sujet_infos = []
     for sujet in sujets:
         sujet_info = {
@@ -40,11 +30,41 @@ def topics(request, idue) -> HttpResponse:
             'titre': sujet.titre,
             'description': sujet.descriptif,
             'etudiants': [],
-            'estPris': sujet.estPris
+            'estPris': sujet.estpris
         }
 
-        if sujet.estPris:
-            etudiants = Etudiant.objects.filter(idsujet=sujet)
+        if sujet.estpris:
+            etudiants = [Sujet.objects.get(idsujet=sujet.idsujet).idetudiant]
+            etudiants_noms = [f"{etudiant.idpersonne.nom} {etudiant.idpersonne.prenom}" for etudiant in etudiants]
+            sujet_info['etudiants'] = etudiants_noms
+
+        sujet_infos.append(sujet_info)
+
+    return render(request, "otherRole/topic.html", {'sujet_infos': sujet_infos, 'ue': ue})
+
+@login_required(login_url='/polls')
+@csrf_exempt
+@prof_or_superviseur_required
+def myTopics(request, idue) -> HttpResponse:
+    user = request.user
+    ue = get_ue(idue=idue)
+    if 'professeur' in user.role['role']:
+        # Récupèrer tous les sujets associés à ces cours
+        sujets = Sujet.objects.filter(idue=ue, idprof=get_prof_by_id_personne(user.idpersonne).idprof)
+    else:
+        sujets = get_subject_for_a_superviseur(user.idpersonne)
+    sujet_infos = []
+    for sujet in sujets:
+        sujet_info = {
+            'id': sujet.idsujet,
+            'titre': sujet.titre,
+            'description': sujet.descriptif,
+            'etudiants': [],
+            'estPris': sujet.estpris
+        }
+
+        if sujet.estpris:
+            etudiants = [Sujet.objects.get(idsujet=sujet.idsujet).idetudiant]
             etudiants_noms = [f"{etudiant.idpersonne.nom} {etudiant.idpersonne.prenom}" for etudiant in etudiants]
             sujet_info['etudiants'] = etudiants_noms
 
@@ -56,7 +76,7 @@ def topics(request, idue) -> HttpResponse:
 @login_required(login_url='/polls')
 @csrf_exempt
 @admin_or_professor_or_superviseur_required
-@is_owner_or_admin
+@is_owner_of_ue_or_admin
 def participants(request, idue) -> HttpResponse:
     ue = get_ue(idue)
     students = get_students_of_ue(ue)
@@ -110,12 +130,13 @@ def deleteTopic(request, sujet_id):
 def addTopic(request, idue) -> HttpResponse:
     logger = logging.getLogger()
     user = request.user
+    ue = get_ue(idue)
     if request.method == 'POST':
-
-        form = SubmitForm(request.POST, request.FILES)
-
+        form = SubmitForm(request.POST, request.FILES, list_students=get_students_of_ue(ue))
         if form.is_valid():
             logger.info("form is valid")
+            subject_is_taken = False
+            print(form.cleaned_data['student_select'])
             if 'professeur' in user.role['role']:
                 prof = get_prof_by_id_personne(user.idpersonne)
                 sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
@@ -130,10 +151,12 @@ def addTopic(request, idue) -> HttpResponse:
             sujet.save()
 
             return HttpResponseRedirect(f"polls/course/{idue}")
+        else:
+            print(form.errors)
     else:
-        form = SubmitForm()
+        form = SubmitForm(list_students=get_students_of_ue(ue))
 
-    ue = get_ue(idue)
+    
 
     context = {
         'ue': ue,
@@ -153,7 +176,7 @@ def ok(request) -> HttpResponse:
 
 @login_required(login_url='/polls')
 @csrf_exempt
-@is_owner_or_admin
+@is_owner_of_ue_or_admin
 def gestion_etape(request, idue):
     ue = get_object_or_404(Ue, idue=idue)
     if request.method == 'POST':
@@ -316,7 +339,7 @@ def etape_view(request):
 @student_required
 def reservation_subject_student(request, idue, idpersonne):
     etudiant = get_student_by_id_personne(idpersonne)
-    if etudiant.idsujet_id is None:
+    if count_subject_for_one_student_and_one_ue(etudiant.idetudiant,idue) == 0:
         sujets_query = get_sujets_by_idue(idue)
         sujets = []
         for sujet in sujets_query:
@@ -340,9 +363,8 @@ def confirmer_reservation_sujet(request,idue,idsujet):
     user = request.user
     etudiant = get_student_by_id_personne(user.idpersonne)
     sujet = get_subject_by_id(idsujet)
-    etudiant.idsujet_id = idsujet
     sujet.estpris = True
-    etudiant.save()
+    sujet.idetudiant = etudiant
     sujet.save()
 
     return redirect('/polls/course/mycourses')

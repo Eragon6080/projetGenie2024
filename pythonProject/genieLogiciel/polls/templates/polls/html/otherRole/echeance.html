@@ -16,7 +16,7 @@
                 <p class="card-text">{{delai.description}}</p>
                 {% if delai.delai > current_date %}
                    <p class="card-text"><a href="{% url 'delivrable' delai.iddelivrable.iddelivrable %}">Déposer Delivrable</a></p>
-                   <p>current_date</p>
+            
                 {% else %}
                    <p class="card-text">La date limite pour déposer ce délivrable  passée</p>
                 {% endif %}

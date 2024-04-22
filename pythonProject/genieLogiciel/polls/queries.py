@@ -123,6 +123,7 @@ def find_courses_by_professeur(idpersonne: int):
 
     return ues
 
+
 def find_courses_by_supervisor(idpersonne: int):
     """
     :param idpersonne:
@@ -282,17 +283,20 @@ def get_owner_of_ue(ue: Ue):
 def get_students_of_ue(ue: Ue):
     """
     :param idue:
-    :return: les étudinats participants d'une ue 
+    :return: les étudiants participants d'une ue 
     """
     courses = Cours.objects.filter(idue=ue)
     students = []
-    for cours in courses:
-        student = Etudiant.objects.get(idetudiant=cours.idetudiant_id)
-        pers = Personne.objects.get(idpersonne=student.idpersonne_id)
-        students.append(pers)
-    return students
+    # for cours in courses:
+    #     student = Etudiant.objects.get(idetudiant=cours.idetudiant_id)
+    #     pers = Personne.objects.get(idpersonne=student.idpersonne_id)
+    #     students.append(pers)
+    students_query = Etudiant.objects.filter(idetudiant__in=courses)
+    personne_query = Personne.objects.filter(idpersonne__in=students_query)
+    return personne_query
 
-def get_supervisors_of_ue(ue:Ue):
+
+def get_supervisors_of_ue(ue: Ue):
     """
     :param idue:
     :return: les superviseurs d'une ue
@@ -335,18 +339,27 @@ def get_superviseur_by_id_personne(idpersonne: int):
     """
     return Superviseur.objects.get(idpersonne=idpersonne)
 
-def get_sujets_by_idue(idue:str):
+
+def get_sujets_by_idue(idue: str):
     """
     :param idue:
     :return: tous les sujets qui ne sont pas pris et qui font partie de l'ue concerné
     """
-    return Sujet.objects.filter(idue=idue,estpris=False)
+    return Sujet.objects.filter(idue=idue, estpris=False)
 
 
-def get_subject_by_id(idsujet:int):
+def get_subject_by_id(idsujet: int):
     """
 
     :param idsujet:
     :return: le sujet en question
     """
     return Sujet.objects.get(idsujet=idsujet)
+
+
+def count_subject_for_one_student_and_one_ue(idetudiant: int, idue: str):
+    """
+    :param idetudiant:
+    :return: le nombre de sujets pour l'étudiant en question
+    """
+    return len(Sujet.objects.filter(idetudiant=idetudiant, idue=idue))

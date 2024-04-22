@@ -1,14 +1,12 @@
 {% extends "course.html" %}
 
 
-
-{% if user.role ==  "prof"%}
 {% block content%}
 
     <!-- l'enchainement des classes de bootsrap permet d'aligner les éléments au centre -->
 <div class="container my-4">
     <div class="row align-self-center">
-        <form  id="myForm" action="/polls/course/{{ ue.idue }}/new/" method="post" enctype="multipart/form-data"> <!-- enctype="multipart/form-data" est nécessaire pou
+        <form  id="myForm" method="post" enctype="multipart/form-data"> <!-- enctype="multipart/form-data" est nécessaire pou
         récupérer les fichiers dans les requête et est requis pour django -->
             {% csrf_token %}
             <h2 id="creationTitle">Création d'un sujet</h2>
@@ -38,6 +36,14 @@
             </div>
             <div class="row py-3 g-3 align-items-center">
                 <div class="col-auto">
+                    <label for="{{form.student.id_for_label}}" class="form-label">{{ form.student_select.label }}</label>
+                </div>
+                <div class="col-auto">
+                    {{ form.student_select }}
+                </div>
+            </div>
+            <div class="row py-3 g-3 align-items-center">
+                <div class="col-auto">
                     <label for="{{form.file.id_for_label}}" class="form-label">
                 </div>
                 <div class="col-auto">
@@ -57,4 +63,4 @@
 
 
 {% endblock content%}
-    {% endif %}
+
