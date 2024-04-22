@@ -1,1 +1,1 @@
-select * from etape;
+select * from personne;
