@@ -5,6 +5,7 @@
         <div class="col-8"></div>
         <div class="col-12">
         <div class="row">
+            {% if courses%}
             <!-- code html + django pour l'affichage des cartes-->
             {% for cours in courses %}
                 <div class="justify-content-between w-25 vh-100">
@@ -22,6 +23,9 @@
                 </div>
             </div>
             {% endfor %}
+            {%else%}
+                <p class="vw-100">Vous n'êtes inscrit à aucun cours</p>
+            {%endif%}
         </div>
     </div>
     </div>
