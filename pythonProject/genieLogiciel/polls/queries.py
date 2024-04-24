@@ -152,6 +152,7 @@ def find_course_for_student_for_subscription(idpersonne):
     if len(cours_query) == 0:
         for ue in ues:
             cours.append(Cours(nom=ue.nom, idue_id=ue.idue))
+        print(cours)
     else:
         if len(cours_query) < len(ues):
             cours_int = []

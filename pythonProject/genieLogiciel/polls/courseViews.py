@@ -217,8 +217,9 @@ def inscription(request):
         courses = []
         for cours in cours:
             courses.append(cours)
+        print(courses[0].nom,courses[1].nom)
         context = {
-            'cours': courses
+            'courses': courses
         }
         return render(request, 'otherRole/inscription.html', context)
     else:
