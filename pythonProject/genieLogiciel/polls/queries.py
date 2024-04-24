@@ -178,8 +178,12 @@ def find_course_for_student(idpersonne):
     :param idpersonne:
     :return:  les cours auquel l'étudiant est inscrit
     """
-    student = Etudiant.objects.get(idpersonne=idpersonne)
-    cours = Cours.objects.filter(idetudiant=student.idetudiant)
+    try:
+        student = Etudiant.objects.get(idpersonne=idpersonne)
+        cours = Cours.objects.filter(idetudiant=student.idetudiant)
+    except:
+        cours = []
+        return cours
     return cours
 
 
@@ -382,3 +386,32 @@ def is_existing_personne_by_email(email)->bool:
             return False
     except:
         return False
+
+
+def find_course_by_id(idcours: int) -> Cours:
+    """
+    :param idcours:
+    :return: le cours en question
+    """
+    return Cours.objects.get(idcours=idcours)
+def find_sujet_by_id_cours(cours: Cours) -> Sujet | None:
+    """
+    :param cours:
+    :return: le sujet en question
+    """
+    ue: Ue = cours.idue
+    try:
+        return Sujet.objects.get(idue=ue.idue)
+    except:
+        return None
+
+
+def get_student_by_id_personne(idpersonne: int):
+    """
+    :param idpersonne:
+    :return: l'étudiant en question
+    """
+    try:
+        return Etudiant.objects.get(idpersonne_id=idpersonne)
+    except:
+        return None

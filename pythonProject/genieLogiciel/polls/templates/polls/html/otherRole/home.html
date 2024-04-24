@@ -14,9 +14,14 @@
                         {% if 'etudiant' not in user.role.role%}
                             <a href="./{{ cours.idue }}/"> <h5 class="card-title">{{cours.nom}}</h5>
                         {% else %}
-                            <a href="../course/mycourses/{{cours.idue}}/{{user.idpersonne}}"><h5 class="card-title">{{cours.nom}}</h5></a>
+                                {%if desinscription %}
+                                    <a href="./desincription/{{cours.idcours}}"><h5 class="card-title">{{cours.nom}}</h5></a>
+                                {%else%}
+                                    <a href="../course/mycourses/{{cours.idue}}/{{user.idpersonne}}"><h5 class="card-title">{{cours.nom}}</h5></a>
+                                {%endif%}
+
                         {% endif %}
-                        <p class="card-text">{{cours.idue}}</p>
+                        <p class="card-text">{{cours.idue_id}}</p>
                         </a>
                     </div>
 
@@ -24,7 +29,11 @@
             </div>
             {% endfor %}
             {%else%}
-                <p class="vw-100">Vous n'êtes inscrit à aucun cours</p>
+            {% if failure %}
+                <p class="vw-100">{{failure}}</p>
+            {% else %}
+                <p class="vw-100">Vous n'avez pas de cours</p>
+            {% endif %}
             {%endif%}
         </div>
     </div>

@@ -42,6 +42,7 @@ def topics(request, idue) -> HttpResponse:
 
     return render(request, "otherRole/topic.html", {'sujet_infos': sujet_infos, 'ue': ue})
 
+
 @login_required(login_url='/polls')
 @csrf_exempt
 @prof_or_superviseur_required
@@ -156,8 +157,6 @@ def addTopic(request, idue) -> HttpResponse:
     else:
         form = SubmitForm(list_students=get_students_of_ue(ue))
 
-    
-
     context = {
         'ue': ue,
         'title': 'Cours',
@@ -217,7 +216,7 @@ def inscription(request):
         courses = []
         for cours in cours:
             courses.append(cours)
-        print(courses[0].nom,courses[1].nom)
+        print(courses[0].nom, courses[1].nom)
         context = {
             'courses': courses
         }
@@ -337,30 +336,32 @@ def etape_view(request):
     etapes = Etape.objects.all().values('description', 'delai')
     return render(request, 'otherRole/commandTimeline.html', {'etapes': etapes})
 
+
 @student_required
 def reservation_subject_student(request, idue, idpersonne):
     etudiant = get_student_by_id_personne(idpersonne)
-    if count_subject_for_one_student_and_one_ue(etudiant.idetudiant,idue) == 0:
+    if count_subject_for_one_student_and_one_ue(etudiant.idetudiant, idue) == 0:
         sujets_query = get_sujets_by_idue(idue)
         sujets = []
         for sujet in sujets_query:
             sujets.append(sujet)
         context = {
-            'titles' : ['Titre','Description','Professeur/Superviseur','Réserver'],
-            'sujets' : sujets,
+            'titles': ['Titre', 'Description', 'Professeur/Superviseur', 'Réserver'],
+            'sujets': sujets,
             'idue': idue
         }
 
     else:
         context = {
-            'failure' : "Vous ne pouvez plus réserver de sujet pour ce cours"
+            'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
         }
         print(context)
-    return render(request, "otherRole/reservationSujet.html",context=context)
+    return render(request, "otherRole/reservationSujet.html", context=context)
+
 
 @student_required
 @transaction.atomic
-def confirmer_reservation_sujet(request,idue,idsujet):
+def confirmer_reservation_sujet(request, idue, idsujet):
     user = request.user
     etudiant = get_student_by_id_personne(user.idpersonne)
     sujet = get_subject_by_id(idsujet)
@@ -369,4 +370,3 @@ def confirmer_reservation_sujet(request,idue,idsujet):
     sujet.save()
 
     return redirect('/polls/course/mycourses')
-

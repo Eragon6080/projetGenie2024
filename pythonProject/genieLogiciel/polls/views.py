@@ -49,7 +49,7 @@ def home(request) -> HttpResponse:
         get_courses = find_courses_by_supervisor(user.idpersonne)
         courses = get_courses
     else:
-        course = find_course_by_student(user.idpersonne)
+        course = find_course_for_student(user.idpersonne)
         courses.append(course)
     sideBar = not ('professeur' in role or "superviseur" in role)
     context = {
@@ -244,6 +244,7 @@ def subscription(request) -> HttpRequest:
                 )
                 etudiant.save()
                 authenticate(request, mail=mail, password=form.cleaned_data['password'])
+                auth_login(request, personne)
                 return redirect("/polls/home")
 
 
@@ -264,3 +265,43 @@ def create_personne(nom: str, prenom: str, email: str, password: str, role) -> P
 def create_etudiant(bloc: str, personne: Personne) -> Etudiant:
     etudiant = Etudiant(bloc=bloc, idpersonne=personne)
     return etudiant
+
+
+@login_required(login_url='/polls')
+def desinscription(request) -> HttpResponse:
+    user = request.user
+    if "etudiant" in user.role['role']:
+        courses_query = find_course_for_student(user.idpersonne)
+        courses = []
+        for course in courses_query:
+            courses.append(course)
+        if len(courses) == 0:
+            context = {
+                'failure': 'Vous n\'êtes inscrit à aucun cours, donc ce n\'est pas possible de vous désinscrire'
+            }
+        else:
+            context = {
+                'courses': courses,
+                'desinscription': True
+            }
+        return render(request, 'otherRole/home.html', context)
+    else:
+        return redirect('/polls/home')
+
+
+@login_required(login_url='/polls')
+@student_required
+def desinscriptionValidation(request, idcours: int) -> HttpResponse:
+    user = request.user
+    if "etudiant" in user.role['role']:
+        cours = find_course_by_id(idcours)
+        sujet = find_sujet_by_id_cours(cours)
+        if sujet is not None:
+            sujet.estpris = False
+            sujet.idetudiant = None
+            sujet.save()
+
+        cours.delete()
+        return redirect('/polls/home')
+    else:
+        return redirect('/polls/home')
