@@ -1,15 +1,19 @@
+import json
 from datetime import datetime
+from typing import Type
+
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.hashers import make_password
+from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Delivrable, Etudiant, FichierDelivrable
 from .queries import *
 from django.views.decorators.csrf import csrf_exempt
-from .forms import ConnectForm, FichierDelivrableForm
+from .forms import ConnectForm, FichierDelivrableForm, SubscriptionForm
 from .restrictions import *
 from .utils.date import get_today_date
 from .mailNotification import sendMail
@@ -38,7 +42,7 @@ def home(request) -> HttpResponse:
     user = request.user
     courses = []
     role = user.role['view']
-    if role == "professeur": 
+    if role == "professeur":
         get_courses = find_courses_by_professeur(user.idpersonne)
         courses = get_courses
     elif role == "superviseur":
@@ -63,18 +67,18 @@ def course(request, idue) -> HttpResponse:
     ue = get_ue(idue)
     is_owner = False
     is_admin = False
-    if user == get_owner_of_ue(ue) :
+    if user == get_owner_of_ue(ue):
         is_owner = True
     elif 'admin' in user.role['role']:
         is_admin = True
-    
+
     context = {
         "user": user,
         "ue": ue,
         "is_owner": is_owner,
         "is_admin": is_admin
     }
-    
+
     return render(request, 'course.html', context)
 
 
@@ -165,7 +169,6 @@ def echeance(request):
             'delais': delais,
             'current_date': datetime.now().date()
 
-
         }
         for delai in delais:
             print(delai.iddelivrable)
@@ -194,11 +197,14 @@ def upload_delivrable(request, delivrable_id):
                 return redirect('echeance')
         else:
             form = FichierDelivrableForm()
-        
-        # Vérifier si le délivrable a déjà été rendu
-        already_submitted = FichierDelivrable.objects.filter(iddelivrable=delivrable, idetudiant=etudiant, rendu=True).exists()
 
-        return render(request, 'otherRole/delivrable.html', {'form': form, 'delivrable': delivrable,  'already_submitted': already_submitted})
+        # Vérifier si le délivrable a déjà été rendu
+        already_submitted = FichierDelivrable.objects.filter(iddelivrable=delivrable, idetudiant=etudiant,
+                                                             rendu=True).exists()
+
+        return render(request, 'otherRole/delivrable.html',
+                      {'form': form, 'delivrable': delivrable, 'already_submitted': already_submitted})
+
 
 @login_required(login_url='/polls')
 def profile(request):
@@ -209,3 +215,52 @@ def profile(request):
         'noSideBar': 'true'
     }
     return render(request, 'otherRole/fiche.html', context)
+
+
+@csrf_exempt
+def subscription(request) -> HttpRequest:
+    if request.method == 'POST':
+        form = SubscriptionForm(request.POST)
+        if form.is_valid():
+            mail = form.cleaned_data['mail']
+            print(type(mail))
+            isUser = is_existing_personne_by_email(mail)
+            if isUser:
+                return redirect("/polls/login")
+            else:
+                default_role = {"role": ["etudiant"], "view": "etudiant"}
+                hashedpassword = make_password(form.cleaned_data['password'])
+                personne = create_personne(
+                    nom=form.cleaned_data['nom'],
+                    prenom=form.cleaned_data['prenom'],
+                    email=mail,
+                    password=hashedpassword,
+                    role=default_role
+                )
+                personne.save()
+                etudiant = create_etudiant(
+                    form.cleaned_data['bloc'],
+                    personne
+                )
+                etudiant.save()
+                authenticate(request, mail=mail, password=form.cleaned_data['password'])
+                return redirect("/polls/home")
+
+
+    else:
+        form = SubscriptionForm()
+    context = {
+        "form": form,
+        "noSideBar": "true"
+    }
+    return render(request, 'subscribe.html', context)
+
+
+def create_personne(nom: str, prenom: str, email: str, password: str, role) -> Personne:
+    personne = Personne(nom=nom, prenom=prenom, mail=email, password=password, role=role)
+    return personne
+
+
+def create_etudiant(bloc: str, personne: Personne) -> Etudiant:
+    etudiant = Etudiant(bloc=bloc, idpersonne=personne)
+    return etudiant

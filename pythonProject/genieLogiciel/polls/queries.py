@@ -364,3 +364,21 @@ def count_subject_for_one_student_and_one_ue(idetudiant: int, idue: str):
     :return: le nombre de sujets pour l'étudiant en question
     """
     return len(Sujet.objects.filter(idetudiant=idetudiant, idue=idue))
+
+
+
+
+def is_existing_personne_by_email(email)->bool:
+    """
+
+    :param email:
+    :return: Un booléen si une personne existe en BD
+    """
+    try:
+        personne = Personne.objects.get(mail=email)
+        if personne is not None:
+            return True
+        else:
+            return False
+    except:
+        return False
