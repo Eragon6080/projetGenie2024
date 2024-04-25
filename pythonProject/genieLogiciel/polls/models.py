@@ -191,7 +191,8 @@ class FichierDelivrable(models.Model):
     rendu = models.BooleanField(db_column='estrendu', default=False)  # Champ pour marquer si le délivrable a été rendu
     idetudiant = models.ForeignKey(Etudiant, models.DO_NOTHING, db_column='idetudiant')
     iddelivrable = models.ForeignKey(Delivrable, models.DO_NOTHING, db_column='iddelivrable')
-    note = models.IntegerField(db_column='note')
+    note = models.IntegerField(db_column='note',null=True)
+    estconfidentiel = models.BooleanField(db_column='estconfidentiel', default=False)
 
     nom_personne: str
     nom_cours: str
