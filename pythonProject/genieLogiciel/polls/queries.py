@@ -282,7 +282,7 @@ def get_owner_of_ue(ue: Ue):
     :return: le propriétaire de l'ue
     """
     prof = Professeur.objects.get(idprof=ue.idprof_id)
-    return Personne.objects.get(idpersonne=prof.idpersonne_id)
+    return Personne.objects.filter(idpersonne=prof.idpersonne_id)
 
 
 def get_students_of_ue(ue: Ue):
@@ -291,14 +291,13 @@ def get_students_of_ue(ue: Ue):
     :return: les étudiants participants d'une ue 
     """
     courses = Cours.objects.filter(idue=ue)
-    students = []
     # for cours in courses:
     #     student = Etudiant.objects.get(idetudiant=cours.idetudiant_id)
     #     pers = Personne.objects.get(idpersonne=student.idpersonne_id)
     #     students.append(pers)
     students_query = Etudiant.objects.filter(idetudiant__in=courses)
-    personne_query = Personne.objects.filter(idpersonne__in=students_query)
-    return personne_query
+    personne_students = Personne.objects.filter(etudiant__in=students_query)
+    return personne_students
 
 
 def get_supervisors_of_ue(ue: Ue):
@@ -307,12 +306,15 @@ def get_supervisors_of_ue(ue: Ue):
     :return: les superviseurs d'une ue
     """
     supervisions = Supervision.objects.filter(idue=ue)
-    supervisors = []
-    for supervision in supervisions:
-        superviseur = Superviseur.objects.get(idsuperviseur=supervision.idsuperviseur_id)
-        pers = Personne.objects.get(idpersonne=superviseur.idpersonne_id)
-        supervisors.append(pers)
-    return supervisors
+    # for supervision in supervisions:
+    #     superviseur = Superviseur.objects.get(idsuperviseur=supervision.idsuperviseur_id)
+    #     pers = Personne.objects.get(idpersonne=superviseur.idpersonne_id)
+    #     supervisors.append(pers)
+    supervisors_query = Superviseur.objects.filter(idsuperviseur__in=supervisions)
+
+    personne_supervisors = Personne.objects.filter(superviseur__in=supervisors_query)
+    print(personne_supervisors)
+    return personne_supervisors
 
 
 def get_subject_for_a_superviseur(idpersonne):
@@ -415,3 +417,14 @@ def get_student_by_id_personne(idpersonne: int):
         return Etudiant.objects.get(idpersonne_id=idpersonne)
     except:
         return None
+    
+
+def is_user_admin(idpersonne: int):
+    """
+    :param idpersonne:
+    :return: un booléen si l'utilisateur est un admin
+    """
+    personne = Personne.objects.get(idpersonne=idpersonne)
+    if "admin" in personne.role['role']:
+        return True
+    return False

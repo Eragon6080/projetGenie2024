@@ -34,9 +34,19 @@
                     {{ form.destination }}
                 </div>
             </div>
+            {% if is_admin %}
             <div class="row py-3 g-3 align-items-center">
                 <div class="col-auto">
-                    <label for="{{form.student.id_for_label}}" class="form-label">{{ form.student_select.label }}</label>
+                    <label for="{{form.referent_select.id_for_label}}" class="form-label">{{ form.referent_select.label }}</label>
+                </div>
+                <div class="col-auto">
+                    {{ form.referent_select }}
+                </div>
+            </div>
+            {% endif %}
+            <div class="row py-3 g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="{{form.student_select.id_for_label}}" class="form-label">{{ form.student_select.label }}</label>
                 </div>
                 <div class="col-auto">
                     {{ form.student_select }}

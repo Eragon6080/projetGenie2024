@@ -76,7 +76,7 @@ def admin_or_professor_or_superviseur_required(function):
 
 def is_owner_of_ue_or_admin(function):
     def wrap(request, *args, **kwargs):
-        if "admin" in request.user.role['role'] or request.user == get_owner_of_ue(get_ue(kwargs['idue'])):
+        if "admin" in request.user.role['role'] or request.user == get_owner_of_ue(get_ue(kwargs['idue'])).first():
             return function(request, *args, **kwargs)
         else:
             raise PermissionDenied()

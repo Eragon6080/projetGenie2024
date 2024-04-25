@@ -1,5 +1,6 @@
 import logging
 from multiprocessing import Value
+from multiprocessing.managers import BaseManager
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -81,7 +82,7 @@ def myTopics(request, idue) -> HttpResponse:
 def participants(request, idue) -> HttpResponse:
     ue = get_ue(idue)
     students = get_students_of_ue(ue)
-    professors = [get_owner_of_ue(ue)]
+    professors = get_owner_of_ue(ue)
     supervisors = get_supervisors_of_ue(ue)
     return render(request, "otherRole/participants.html",
                   context={"students": students, "professors": professors, "supervisors": supervisors, "ue": ue})
@@ -131,9 +132,10 @@ def deleteTopic(request, sujet_id):
 def addTopic(request, idue) -> HttpResponse:
     logger = logging.getLogger()
     user = request.user
+    is_admin = is_user_admin(user.idpersonne)
     ue = get_ue(idue)
     if request.method == 'POST':
-        form = SubmitForm(request.POST, request.FILES, list_students=get_students_of_ue(ue))
+        form = SubmitForm(request.POST, request.FILES, list_students=get_students_of_ue(ue), list_referent=get_owner_of_ue(ue) | get_supervisors_of_ue(ue), is_admin=is_admin)
         if form.is_valid():
             logger.info("form is valid")
             subject_is_taken = False
@@ -155,14 +157,15 @@ def addTopic(request, idue) -> HttpResponse:
         else:
             print(form.errors)
     else:
-        form = SubmitForm(list_students=get_students_of_ue(ue))
+        form = SubmitForm(list_students=get_students_of_ue(ue), list_referent=get_owner_of_ue(ue) | get_supervisors_of_ue(ue), is_admin=is_admin)
 
     context = {
         'ue': ue,
         'title': 'Cours',
         'prenom': "Matthys",
         'role': "Etudiant",
-        "form": form
+        "form": form,
+        'is_admin': is_admin,
     }
     return render(request, 'otherRole/submitSubject.html', context)
 

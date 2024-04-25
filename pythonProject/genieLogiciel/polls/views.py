@@ -75,7 +75,7 @@ def course(request, idue) -> HttpResponse:
     ue = get_ue(idue)
     is_owner = False
     is_admin = False
-    if user == get_owner_of_ue(ue):
+    if user == get_owner_of_ue(ue).first():
         is_owner = True
     elif 'admin' in user.role['role']:
         is_admin = True
