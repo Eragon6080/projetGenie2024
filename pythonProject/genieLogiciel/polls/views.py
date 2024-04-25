@@ -196,7 +196,7 @@ def upload_delivrable(request, delivrable_id):
                 fichier_delivrable.iddelivrable = delivrable
                 fichier_delivrable.idetudiant = etudiant
                 fichier_delivrable.nom_personne = etudiant.idpersonne.nom
-                fichier_delivrable.nom_cours = etudiant.idsujet.idcours.idue.nom
+                fichier_delivrable.nom_cours = etudiant.idsujet.idcours.idue.nom # a regarder
                 fichier_delivrable.annee_periode = etudiant.idsujet.idperiode.annee
                 fichier_delivrable.rendu = True  # Marquer comme rendu
                 fichier_delivrable.save()

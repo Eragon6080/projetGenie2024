@@ -65,16 +65,6 @@ class Etudiant(models.Model):
         db_table = 'etudiant'
 
 
-class Inscription(models.Model):
-    idinscription = models.AutoField(primary_key=True)
-    idetudiant = models.ForeignKey(Etudiant, models.DO_NOTHING, db_column='idetudiant')
-    idcours = models.ForeignKey(Cours, models.DO_NOTHING, db_column='idcours')
-
-    class Meta:
-        managed = False
-        db_table = 'inscription'
-
-
 class Periode(models.Model):
     idperiode = models.AutoField(primary_key=True, db_column='idperiode')
     annee = models.IntegerField(db_column='annee')
@@ -166,9 +156,9 @@ class Sujet(models.Model):
                                validators=[validate_file_extension])
     idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode', default=1)
     idprof = models.ForeignKey(Professeur, models.DO_NOTHING, db_column='idprofesseur')
-    idsuperviseur = models.ForeignKey('Superviseur',models.DO_NOTHING,db_column='idsuperviseur')
+    idsuperviseur = models.ForeignKey('Superviseur', models.DO_NOTHING, db_column='idsuperviseur')
     idue = models.ForeignKey('Ue', models.DO_NOTHING, db_column='idue')
-    idetudiant = models.ForeignKey('Etudiant',models.DO_NOTHING,db_column='idetudiant')
+    idetudiant = models.ForeignKey('Etudiant', models.DO_NOTHING, db_column='idetudiant')
 
     class Meta:
         managed = False
@@ -191,7 +181,7 @@ class FichierDelivrable(models.Model):
     rendu = models.BooleanField(db_column='estrendu', default=False)  # Champ pour marquer si le délivrable a été rendu
     idetudiant = models.ForeignKey(Etudiant, models.DO_NOTHING, db_column='idetudiant')
     iddelivrable = models.ForeignKey(Delivrable, models.DO_NOTHING, db_column='iddelivrable')
-    note = models.IntegerField(db_column='note',null=True)
+    note = models.IntegerField(db_column='note', null=True)
     estconfidentiel = models.BooleanField(db_column='estconfidentiel', default=False)
 
     nom_personne: str

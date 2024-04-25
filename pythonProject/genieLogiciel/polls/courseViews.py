@@ -208,7 +208,7 @@ def afficher_etapes_ue(request, idue):
 
 
 @login_required(login_url='/polls')
-def subscription(request)->HttpResponse:
+def subscription(request) -> HttpResponse:
     user = request.user
     if 'etudiant' in user.role['role']:
         cours = find_course_for_student_for_subscription(user.idpersonne)
