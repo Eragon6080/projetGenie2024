@@ -95,11 +95,19 @@ def find_professeur_by_id_personne(idpersonne):
         return None
 
 
-def find_course_by_student(idpersonne: int):
+def find_course_by_student(idpersonne: int)->list[Cours] | None:
     """
     Retourne les cours d'un étudiant
     """
-    return Cours.objects.get(idetudiant=idpersonne)
+    try:
+        courses = []
+        etudiant = get_student_by_id_personne(idpersonne)
+        courses_query = Cours.objects.filter(idetudiant=etudiant)
+        for course in courses_query:
+            courses.append(course)
+        return courses
+    except ObjectDoesNotExist:
+        return None
 
 
 def find_courses_by_professeur(idpersonne: int):
@@ -205,8 +213,11 @@ def get_student_by_id_etudiant(idetudiant: int):
     return Etudiant.objects.get(idetudiant=idetudiant)
 
 
-def get_delais(idPeriode):
-    return Etape.objects.filter(idperiode=idPeriode)
+def find_delais_by_sujet(sujet:Sujet)->list[Etape]:
+    if sujet is not None:
+        return Etape.objects.filter(idperiode=sujet.idperiode)
+    else:
+        return []
 
 
 def get_all_subjects_for_a_teacher(idPersonne: int):
@@ -374,7 +385,6 @@ def count_subject_for_one_student_and_one_ue(idetudiant: int, idue: str):
 
 def is_existing_personne_by_email(email)->bool:
     """
-
     :param email:
     :return: Un booléen si une personne existe en BD
     """
@@ -406,7 +416,7 @@ def find_sujet_by_id_cours(cours: Cours) -> Sujet | None:
         return None
 
 
-def get_student_by_id_personne(idpersonne: int):
+def find_student_by_id_personne(idpersonne: int):
     """
     :param idpersonne:
     :return: l'étudiant en question
@@ -415,3 +425,19 @@ def get_student_by_id_personne(idpersonne: int):
         return Etudiant.objects.get(idpersonne_id=idpersonne)
     except:
         return None
+
+def find_sujet_by_id_etudiant(etudiant)->list[Sujet] | None:
+    """
+    :param etudiant:
+    :return: le sujet en question
+    """
+    try:
+        sujets = []
+        sujets_query = Sujet.objects.filter(idetudiant=etudiant)
+        for sujet in sujets_query:
+            sujets.append(sujet)
+        return sujets
+    except:
+        return None
+
+

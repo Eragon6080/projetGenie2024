@@ -1,16 +1,15 @@
-from typing import Any, Mapping
+
 from django import forms
 from django.forms import BaseFormSet, TextInput, EmailInput
-from django.forms.renderers import BaseRenderer
-from django.forms.utils import ErrorList
 
-from .models import Etape, Delivrable, Periode, Sujet, FichierDelivrable
+
+from .models import Etape, Sujet, FichierDelivrable
 
 
 class FichierDelivrableForm(forms.ModelForm):
     class Meta:
         model = FichierDelivrable
-        fields = ['fichier']
+        fields = ['fichier','estconfidentiel']
 
 
 class EtapeForm(forms.ModelForm):

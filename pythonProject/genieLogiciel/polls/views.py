@@ -153,20 +153,26 @@ def switchRole(request, role):
     return HttpResponseRedirect(redirect_to=redirect_url)
 
 
+
+
 @login_required(login_url='/polls')
 def echeance(request):
     user = request.user
     if "etudiant" in user.role['role']:
-        etudiant = get_student_by_id_personne(user.idpersonne)
-        delais_query = get_delais(etudiant.idsujet.idperiode.idperiode)
+        etudiant = find_student_by_id_personne(user.idpersonne)
+        sujets = find_sujet_by_id_etudiant(etudiant)
+        courses = find_course_by_student(user.idpersonne)
 
-        delais = []
-        for delai in delais_query:
-            delais.append(delai)
+
+        elements = []
+        for sujet,course in zip(sujets,courses):
+            delais = []
+            delais_query = find_delais_by_sujet(sujet)
+            for delai in delais_query:
+                delais.append(delai)
+            elements.append({'periode':sujet.idperiode,'course':course,'delais':delais})
         context = {
-            'cours': etudiant.idsujet.idcours,
-            'periode': etudiant.idsujet.idperiode,
-            'delais': delais,
+            'elements' : elements,
             'current_date': datetime.now().date()
 
         }
@@ -181,7 +187,7 @@ def upload_delivrable(request, delivrable_id):
     delivrable = get_object_or_404(Delivrable, iddelivrable=delivrable_id)
     user = request.user
     if 'etudiant' in user.role['role']:
-        etudiant = get_student_by_id_personne(user.idpersonne)
+        etudiant = find_student_by_id_personne(user.idpersonne)
 
         if request.method == 'POST':
             form = FichierDelivrableForm(request.POST, request.FILES)

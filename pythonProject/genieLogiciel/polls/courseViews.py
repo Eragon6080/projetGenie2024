@@ -19,7 +19,6 @@ from .restrictions import *
 @csrf_exempt
 @admin_or_professor_required
 def topics(request, idue) -> HttpResponse:
-    user = request.user
     ue = get_ue(idue=idue)
     # Récupèrer tous les sujets associés à cette ue
     sujets = Sujet.objects.filter(idue=ue)
@@ -209,7 +208,7 @@ def afficher_etapes_ue(request, idue):
 
 
 @login_required(login_url='/polls')
-def inscription(request):
+def subscription(request)->HttpResponse:
     user = request.user
     if 'etudiant' in user.role['role']:
         cours = find_course_for_student_for_subscription(user.idpersonne)
@@ -226,7 +225,7 @@ def inscription(request):
 
 
 @login_required(login_url='/polls')
-def inscriptionValidation(request, idue, nom):
+def subscription_validation(request, idue, nom):
     user = request.user
     etudiant = Etudiant.objects.get(idpersonne=user.idpersonne)
     ue = Ue.objects.get(idue=idue)
@@ -275,7 +274,7 @@ def reservation(request):
 @prof_or_superviseur_required
 @csrf_exempt
 # pas besoin de validation vu que le formulaire est supposé correcte suit à l'envoi précédent
-def reservationValidation(request, idsujet):
+def booking(request, idsujet):
     user = request.user
     if request.method == "POST" and 'professeur' in user.role['role']:
         initial_data = {
@@ -296,7 +295,7 @@ def reservationValidation(request, idsujet):
         return redirect('../reservation')
 
 
-def reservationConfirmation(request, idsujet):
+def validation_booking(request, idsujet):
     user = request.user
     if request.method == "POST" and "professeur" in user.role['role']:
         idstudent = request.POST.get('students')
@@ -339,7 +338,7 @@ def etape_view(request):
 
 @student_required
 def reservation_subject_student(request, idue, idpersonne):
-    etudiant = get_student_by_id_personne(idpersonne)
+    etudiant = find_student_by_id_personne(idpersonne)
     if count_subject_for_one_student_and_one_ue(etudiant.idetudiant, idue) == 0:
         sujets_query = get_sujets_by_idue(idue)
         sujets = []
@@ -363,7 +362,7 @@ def reservation_subject_student(request, idue, idpersonne):
 @transaction.atomic
 def confirmer_reservation_sujet(request, idue, idsujet):
     user = request.user
-    etudiant = get_student_by_id_personne(user.idpersonne)
+    etudiant = find_student_by_id_personne(user.idpersonne)
     sujet = get_subject_by_id(idsujet)
     sujet.estpris = True
     sujet.idetudiant = etudiant
