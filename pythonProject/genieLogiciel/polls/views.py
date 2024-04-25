@@ -19,7 +19,15 @@ from .utils.date import get_today_date
 from .mailNotification import sendMail
 
 
-# Create your views here.
+# Handle error pages
+def page_not_found(request, exception=None):
+    return render(request, 'errors/404.html', status=404)
+
+def server_error(request, exception=None):
+    return render(request, 'errors/500.html', status=500)
+
+def permission_denied(request, exception=None):
+    return render(request, 'errors/403.html', status=403)
 
 
 # obliger de passer tous les élements nécessaires dans le context donc, attention aux id
