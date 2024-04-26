@@ -533,3 +533,18 @@ def nb_people_keeping_for_a_sujet(sujet: Sujet) -> int:
         return sujet.nbpersonnes - SelectionSujet.objects.filter(idsujet=sujet).count()
     except ObjectDoesNotExist:
         return 0
+
+def find_selection_by_id_sujet(sujet:Sujet)->list[SelectionSujet]|None:
+    """
+
+    :param sujet:
+    :return: la liste des assignations entre un sujet et un étudiant pour un sujet donné
+    """
+    try:
+        selections = []
+        selections_query =  SelectionSujet.objects.filter(idsujet=sujet)
+        for selection in selections_query:
+            selections.append(selection)
+        return selections
+    except ObjectDoesNotExist:
+        return None

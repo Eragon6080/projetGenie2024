@@ -121,6 +121,9 @@ def editTopic(request, sujet_id):
 def deleteTopic(request, sujet_id):
     sujet = get_object_or_404(Sujet, idsujet=sujet_id)
     id_ue = sujet.idCours.idue.idue
+    selections = find_selection_by_id_sujet(sujet)
+    for selection in selections:
+        selection.delete()
     sujet.delete()
     return redirect("topics", code=id_ue)
 
