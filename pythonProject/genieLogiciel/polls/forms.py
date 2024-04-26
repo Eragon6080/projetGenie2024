@@ -29,6 +29,7 @@ class EtapeForm(forms.ModelForm):
 
 
 class SubmitForm(forms.Form):
+    nbPersonneMax = 2
     student_select = forms.ModelChoiceField(queryset=None, label='Lier le sujet à un étudiant', required=False, widget=forms.Select(attrs={'class': 'form-control'}))
     
     referent_select = forms.ModelChoiceField(queryset=None, label='Lier le sujet à un professeur/superviseur', required=False, widget=forms.Select(attrs={'class': 'form-control'}))
@@ -62,10 +63,11 @@ class SubmitForm(forms.Form):
         widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '3', 'placeholder': 'Sujet', 'height': '100px'})
     )
     file = forms.FileField(
-        label='File',
+        label='Fichier',
         required=False,
         widget=forms.FileInput(attrs={'class': 'form-control', 'type': 'file', 'placeholder': 'Fichier'})
     )
+    nb_personnes = forms.ChoiceField(choices=[(i, i) for i in range(1, nbPersonneMax+1)], label='Nombre de personnes', required=True, widget=forms.Select(attrs={'class': 'form-control'}))
 
 
 class ConnectForm(forms.Form):

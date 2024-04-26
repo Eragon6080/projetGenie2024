@@ -131,35 +131,46 @@ def deleteTopic(request, sujet_id):
 @login_required(login_url='/polls')
 @csrf_exempt
 @admin_or_professor_or_superviseur_required
-def addTopic(request, idue) -> HttpResponse:
+def add_topic(request, idue) -> HttpResponse:
     logger = logging.getLogger()
     user = request.user
     is_admin = is_user_admin(user.idpersonne)
     ue = find_ue(idue)
     if request.method == 'POST':
-        form = SubmitForm(request.POST, request.FILES, list_students=find_students_of_ue(ue), list_referent=find_owner_of_ue(ue) | find_supervisors_of_ue(ue), is_admin=is_admin)
-        if form.is_valid():
-            logger.info("form is valid")
-            subject_is_taken = False
-            print(form.cleaned_data['student_select'])
-            if 'professeur' in user.role['role']:
-                prof = find_prof_by_id_personne(user.idpersonne)
-                sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
-                              destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'],
-                              idprofesseur=prof)
-            else:
-                superviseur = find_superviseur_by_id_personne(user.idpersonne)
-                sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
-                              destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'],
-                              idsuperviseur=superviseur)
-
-            sujet.save()
-
-            return HttpResponseRedirect(f"polls/course/{idue}")
+        if 'professeur' in user.role['role']:
+            form = SubmitForm(request.POST, request.FILES, list_students=find_students_of_ue(ue), list_referent=find_owner_of_ue(ue), is_admin=is_admin)
         else:
-            print(form.errors)
+            form = SubmitForm(request.POST, request.FILES, list_students=find_students_of_ue(ue), list_referent=find_supervisors_of_ue(ue), is_admin=is_admin)
+
+        print(request.FILES['file'])
+
+        titre = request.POST['title']
+        descriptif = request.POST['description']
+        destination = request.POST['destination']
+        fichier = request.FILES['file']
+        nb_personnes = request.POST['nb_personnes']
+        logger.info("form is valid")
+        subject_is_taken = False
+        if 'professeur' in user.role['role']:
+            prof = find_prof_by_id_personne(user.idpersonne)
+            sujet = Sujet(titre=titre, descriptif=descriptif,
+                          destination=destination, fichier=fichier,
+                          idprof=prof,estpris=subject_is_taken,nbpersonnes=nb_personnes,idue=ue)
+        else:
+            superviseur = find_superviseur_by_id_personne(user.idpersonne)
+            sujet = Sujet(titre=titre, descriptif=descriptif,
+                          destination=destination, fichier=fichier,
+                          idsuperviseur=superviseur,estpris=subject_is_taken,nbpersonnes=nb_personnes,idue=ue)
+
+        sujet.save()
+
+        return HttpResponseRedirect("../")
+
     else:
-        form = SubmitForm(list_students=find_students_of_ue(ue), list_referent=find_owner_of_ue(ue) | find_supervisors_of_ue(ue), is_admin=is_admin)
+        if 'professeur' in user.role['role']:
+            form = SubmitForm(list_students=find_students_of_ue(ue), list_referent=find_owner_of_ue(ue), is_admin=is_admin)
+        else:
+            form = SubmitForm(list_students=find_students_of_ue(ue), list_referent=find_supervisors_of_ue(ue), is_admin=is_admin)
 
     context = {
         'ue': ue,

@@ -54,7 +54,7 @@
             </div>
             <div class="row py-3 g-3 align-items-center">
                 <div class="col-auto">
-                    <label for="{{form.file.id_for_label}}" class="form-label">
+                    <label for="{{form.file.id_for_label}}" class="form-label">{{ form.file.label }}</label>
                 </div>
                 <div class="col-auto">
                     {{ form.file }}
@@ -62,11 +62,20 @@
                 <div class="col-auto">
                     <div class="text-form">Optionnel</div>
                 </div>
+
             </div>
-            <div class="col-12 align-items-center">
-                <button type="submit" class="btn bgunamur text-white" >Validation</button>
+            <div class="row py-3 g-3 align-items-center">
+
+                <div class="col-auto">
+                        <label for="{{form.nb_personnes.id_for_label}}" class="form-label">{{ form.nb_personnes.label }}</label>
+                        {{form.nb_personnes }}
+                    </div>
+                <div class="col-12 align-items-center">
+                    <button type="submit" class="btn bgunamur text-white" >Validation</button>
                 <a href="../" class="btn text-white bg-danger">Cancel</a>
             </div>
+            </div>
+
         </form>
     </div>
 </div>
