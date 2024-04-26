@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, TextField, JSONField
 from django.db.models.functions import Cast
@@ -272,7 +274,7 @@ def find_cours_by_id_sujet_and_id_student(idsujet: int, idstudent: int)-> Cours 
         return None
 
 
-def find_students_by_teacher_without_subject(idteacher: int) -> list[Etudiant] | None:
+def find_students_by_teacher_without_subject(idteacher: int) -> list[tuple[int, str]] | None:
     """
     :param idstudent:
     :param idteacher:
