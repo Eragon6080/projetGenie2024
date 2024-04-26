@@ -125,6 +125,9 @@ def deleteTopic(request, sujet_id):
     return redirect("topics", code=id_ue)
 
 
+
+
+
 @login_required(login_url='/polls')
 @csrf_exempt
 @admin_or_professor_or_superviseur_required
@@ -201,7 +204,7 @@ def gestion_etape(request, idue):
 
 @login_required(login_url='/polls')
 @csrf_exempt
-def afficher_etapes_ue(request, idue):
+def afficher_etapes_ue(request, idue)->HttpResponse:
     ue = get_object_or_404(Ue, idue=idue)
     professeur = ue.idprof
     periode = professeur.idperiode

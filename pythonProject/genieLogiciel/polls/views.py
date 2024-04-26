@@ -184,14 +184,13 @@ def echeance(request):
             'current_date': datetime.now().date()
 
         }
-        for delai in delais:
-            print(delai.iddelivrable)
-            print(context['current_date'])
+        print(elements[0]['course'].idcours)
+        print(elements)
         return render(request, 'otherRole/echeance.html', context)
 
 
 @login_required(login_url='/polls')
-def upload_delivrable(request, delivrable_id):
+def upload_delivrable(request, delivrable_id, idcours, idperiode):
     delivrable = get_object_or_404(Delivrable, iddelivrable=delivrable_id)
     user = request.user
     if 'etudiant' in user.role['role']:
@@ -199,13 +198,15 @@ def upload_delivrable(request, delivrable_id):
 
         if request.method == 'POST':
             form = FichierDelivrableForm(request.POST, request.FILES)
+            periode = find_periode_by_id(idperiode)
+            cours = find_course_by_id(idcours)
             if form.is_valid():
                 fichier_delivrable = form.save(commit=False)
                 fichier_delivrable.iddelivrable = delivrable
                 fichier_delivrable.idetudiant = etudiant
                 fichier_delivrable.nom_personne = etudiant.idpersonne.nom
-                fichier_delivrable.nom_cours = etudiant.idsujet.idcours.idue.nom # a regarder
-                fichier_delivrable.annee_periode = etudiant.idsujet.idperiode.annee
+                fichier_delivrable.nom_cours = cours.idue.nom # a regarder
+                fichier_delivrable.annee_periode = periode.annee
                 fichier_delivrable.rendu = True  # Marquer comme rendu
                 fichier_delivrable.save()
                 return redirect('echeance')

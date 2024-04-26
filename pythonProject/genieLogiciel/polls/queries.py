@@ -95,7 +95,7 @@ def find_professeur_by_id_personne(idpersonne):
         return None
 
 
-def find_course_by_student(idpersonne: int)->list[Cours] | None:
+def find_course_by_student(idpersonne: int) -> list[Cours] | None:
     """
     Retourne les cours d'un étudiant
     """
@@ -213,7 +213,7 @@ def get_student_by_id_etudiant(idetudiant: int):
     return Etudiant.objects.get(idetudiant=idetudiant)
 
 
-def find_delais_by_sujet(sujet:Sujet)->list[Etape]:
+def find_delais_by_sujet(sujet: Sujet) -> list[Etape]:
     if sujet is not None:
         return Etape.objects.filter(idperiode=sujet.idperiode)
     else:
@@ -381,9 +381,7 @@ def count_subject_for_one_student_and_one_ue(idetudiant: int, idue: str):
     return len(Sujet.objects.filter(idetudiant=idetudiant, idue=idue))
 
 
-
-
-def is_existing_personne_by_email(email)->bool:
+def is_existing_personne_by_email(email) -> bool:
     """
     :param email:
     :return: Un booléen si une personne existe en BD
@@ -404,6 +402,8 @@ def find_course_by_id(idcours: int) -> Cours:
     :return: le cours en question
     """
     return Cours.objects.get(idcours=idcours)
+
+
 def find_sujet_by_id_cours(cours: Cours) -> Sujet | None:
     """
     :param cours:
@@ -426,7 +426,8 @@ def find_student_by_id_personne(idpersonne: int):
     except:
         return None
 
-def find_sujet_by_id_etudiant(etudiant)->list[Sujet] | None:
+
+def find_sujet_by_id_etudiant(etudiant) -> list[Sujet] | None:
     """
     :param etudiant:
     :return: le sujet en question
@@ -441,3 +442,25 @@ def find_sujet_by_id_etudiant(etudiant)->list[Sujet] | None:
         return None
 
 
+def is_user_admin(idpersonne: int) -> bool:
+    """
+    :param idpersonne:
+    :return: un booléen si la personne est un admin
+    """
+    try:
+        personne = Personne.objects.get(idpersonne=idpersonne)
+        return "admin" in personne.role['role']
+    except:
+        return False
+
+
+def find_periode_by_id(idperiode: int) -> Periode | None:
+    """
+    :param idperiode:
+    :return: la période en question
+    """
+    try:
+        periode = Periode.objects.get(idperiode=idperiode)
+        return periode
+    except:
+        return None
