@@ -18,7 +18,7 @@ def find_all_ue():
         return None
 
 
-def find_ue(idue)-> Ue | None:
+def find_ue(idue) -> Ue | None:
     """
     Retourne une UE
     """
@@ -28,7 +28,7 @@ def find_ue(idue)-> Ue | None:
         return None
 
 
-def find_all_course()-> list[Cours] | None:
+def find_all_course() -> list[Cours] | None:
     """
     Retourne une UE
     """
@@ -52,7 +52,6 @@ def get_topics_course(idcours):
     pass
 
 
-
 def find_Professeur_People():
     """
         Retourne une liste des professeurs
@@ -73,7 +72,7 @@ def find_All_People():
         return None
 
 
-def find_Etudiant_People()-> list[Etudiant] | None:
+def find_Etudiant_People() -> list[Etudiant] | None:
     """
         Retourne une liste des étudiants
     """
@@ -83,7 +82,7 @@ def find_Etudiant_People()-> list[Etudiant] | None:
         return None
 
 
-def find_student_by_id_personne(idpersonne:int)-> Etudiant | None:
+def find_student_by_id_personne(idpersonne: int) -> Etudiant | None:
     """
     Retourne un étudiant en particulier
     """
@@ -93,7 +92,7 @@ def find_student_by_id_personne(idpersonne:int)-> Etudiant | None:
         return None
 
 
-def find_professeur_by_id_personne(idpersonne:int)-> Professeur | None:
+def find_professeur_by_id_personne(idpersonne: int) -> Professeur | None:
     """
     Retourne un professeur en particulier
     """
@@ -118,7 +117,7 @@ def find_course_by_student(idpersonne: int) -> list[Cours] | None:
         return None
 
 
-def find_courses_by_professeur(idpersonne: int)-> list[Ue] | None:
+def find_courses_by_professeur(idpersonne: int) -> list[Ue] | None:
     """
     :param idpersonne:
     :return: les cours dont le professeur est responsable
@@ -154,7 +153,7 @@ def find_courses_by_supervisor(idpersonne: int):
         return None
 
 
-def find_course_for_student_for_subscription(idpersonne:int)-> list[Cours] | None:
+def find_course_for_student_for_subscription(idpersonne: int) -> list[Cours] | None:
     """
     :param idpersonne:
     :return:  les cours auquel l'étudiant n'est pas inscrit
@@ -232,7 +231,7 @@ def find_delais_by_sujet(sujet: Sujet) -> list[Etape]:
         return []
 
 
-def find_all_subjects_for_a_teacher(idPersonne: int)-> list[Sujet] | None:
+def find_all_subjects_for_a_teacher(idPersonne: int) -> list[Sujet] | None:
     """
     :return: Tous les sujets qui ne sont pas encore réservé
     """
@@ -240,7 +239,7 @@ def find_all_subjects_for_a_teacher(idPersonne: int)-> list[Sujet] | None:
     return Sujet.objects.filter(idprof=teacher.idprof).exclude(estPris=True)
 
 
-def find_sujet_by_id(idsujet: int)-> Sujet | None:
+def find_sujet_by_id(idsujet: int) -> Sujet | None:
     try:
         return Sujet.objects.get(idsujet=idsujet)
     except ObjectDoesNotExist:
@@ -257,7 +256,7 @@ def find_people_by_mail(mail: str):
         return None
 
 
-def find_cours_by_id_sujet_and_id_student(idsujet: int, idstudent: int)-> Cours | None:
+def find_cours_by_id_sujet_and_id_student(idsujet: int, idstudent: int) -> Cours | None:
     """
     L'étudiant doit être inscrit au cours pour que l'assignation fonctionne
     :param idstudent:
@@ -294,7 +293,8 @@ def find_students_by_teacher_without_subject(idteacher: int) -> list[tuple[int, 
                 for cour in cours:
                     students_query = Etudiant.objects.filter(idetudiant=cour.idetudiant_id, idsujet=None)
                     for student in students_query:
-                        students.append((int(student.idetudiant), f"{student.idpersonne.nom} {student.idpersonne.prenom}"))
+                        students.append(
+                            (int(student.idetudiant), f"{student.idpersonne.nom} {student.idpersonne.prenom}"))
                 return students
             return None
         else:
@@ -303,7 +303,7 @@ def find_students_by_teacher_without_subject(idteacher: int) -> list[tuple[int, 
         return None
 
 
-def find_personne_by_id(idpersonne: int)-> Personne | None:
+def find_personne_by_id(idpersonne: int) -> Personne | None:
     """
     :param idpersonne:
     :return: une personne en particulier
@@ -405,6 +405,7 @@ def find_superviseur_by_id_personne(idpersonne: int) -> Superviseur | None:
 
 def find_sujets_by_idue(idue: str) -> list[Sujet] | None:
     """
+    :rtype: object
     :param idue:
     :return: tous les sujets qui ne sont pas pris et qui font partie de l'ue concerné
     """
@@ -428,10 +429,14 @@ def get_subject_by_id(idsujet: int) -> Sujet | None:
 
 def count_subject_for_one_student_and_one_ue(idetudiant: int, idue: str) -> int:
     """
+    :param idue:
     :param idetudiant:
     :return: le nombre de sujets pour l'étudiant en question
     """
-    return SelectionSujet.objects.filter(idetudiant_id=idetudiant, idsujet__idue_id=idue).count()
+    try:
+        return SelectionSujet.objects.filter(idetudiant_id=idetudiant, idsujet__idue_id=idue).count()
+    except ObjectDoesNotExist:
+        return 0
 
 
 def is_existing_personne_by_email(email) -> bool:
@@ -517,3 +522,14 @@ def find_periode_by_id(idperiode: int) -> Periode | None:
         return periode
     except:
         return None
+
+
+def nb_people_keeping_for_a_sujet(sujet: Sujet) -> int:
+    """
+    :param sujet:
+    :return: le nombre de personnes qui ont choisi ce sujet
+    """
+    try:
+        return sujet.nbpersonnes - SelectionSujet.objects.filter(idsujet=sujet).count()
+    except ObjectDoesNotExist:
+        return 0

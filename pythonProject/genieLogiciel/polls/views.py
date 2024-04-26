@@ -95,7 +95,6 @@ def login(request) -> HttpResponse:
     if request.method == 'POST':
         form = ConnectForm(request.POST)
         if form.is_valid():
-
             user = authenticate(request, mail=form.cleaned_data['email'], password=form.cleaned_data['password'])
             if user is not None and user.is_authenticated:
                 auth_login(request, user)
@@ -184,8 +183,6 @@ def echeance(request):
             'current_date': datetime.now().date()
 
         }
-        print(elements[0]['course'].idcours)
-        print(elements)
         return render(request, 'otherRole/echeance.html', context)
 
 
@@ -238,7 +235,6 @@ def subscription(request) -> HttpRequest:
         form = SubscriptionForm(request.POST)
         if form.is_valid():
             mail = form.cleaned_data['mail']
-            print(type(mail))
             isUser = is_existing_personne_by_email(mail)
             if isUser:
                 return redirect("/polls/login")

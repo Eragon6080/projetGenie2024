@@ -221,7 +221,6 @@ def subscription(request) -> HttpResponse:
         courses = []
         for cours in cours:
             courses.append(cours)
-        print(courses[0].nom, courses[1].nom)
         context = {
             'courses': courses
         }
@@ -248,7 +247,6 @@ def mycourses(request):
     if courses_query:
         for cours in courses_query:
             courses_ue.append(cours.idue)
-    print(courses_ue)
     context = {
         'courses': courses_ue
     }
@@ -306,8 +304,8 @@ def validation_booking(request, idsujet):
     if request.method == "POST" and "professeur" in user.role['role']:
         idstudent = request.POST.get('students')
         etudiant = find_student_by_id_etudiant(int(idstudent))
-        etudiant.idsujet_id = idsujet
-        etudiant.save()
+        selectionSujet = SelectionSujet(idsujet=idsujet, idetudiant=etudiant)
+        selectionSujet.save()
         sujet = find_sujet_by_id(idsujet)
         sujet.estPris = True
         sujet.save()
@@ -349,18 +347,22 @@ def reservation_subject_student(request, idue, idpersonne):
         sujets_query = find_sujets_by_idue(idue)
         sujets = []
         for sujet in sujets_query:
-            sujets.append(sujet)
-        context = {
-            'titles': ['Titre', 'Description', 'Professeur/Superviseur', 'Réserver'],
-            'sujets': sujets,
-            'idue': idue
-        }
-
+            nbPersonnesRestantes = nb_people_keeping_for_a_sujet(sujet)
+            sujets.append({'sujet':sujet, 'nbPersonnesRestantes':nbPersonnesRestantes, 'nbPersonnes':sujet.nbpersonnes})
+        if len(sujets) > 0:
+            context = {
+                'titles': ['Titre', 'Description', 'Professeur/Superviseur', 'Nombre de personnes','Réserver'],
+                'sujets': sujets,
+                'idue': idue
+            }
+        else:
+            context = {
+                'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
+            }
     else:
         context = {
             'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
         }
-        print(context)
     return render(request, "otherRole/reservationSujet.html", context=context)
 
 
@@ -370,8 +372,10 @@ def confirmer_reservation_sujet(request, idue, idsujet):
     user = request.user
     etudiant = find_student_by_id_personne(user.idpersonne)
     sujet = get_subject_by_id(idsujet)
-    sujet.estpris = True
-    sujet.idetudiant = etudiant
+    if nb_people_keeping_for_a_sujet(sujet) == 1:
+        sujet.estpris = True
+    selectionSujet = SelectionSujet(idetudiant=etudiant, idsujet=sujet)
+    selectionSujet.save()
     sujet.save()
 
     return redirect('/polls/course/mycourses')
