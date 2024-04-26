@@ -1,6 +1,6 @@
 from django.http import HttpResponseForbidden
 from django.core.exceptions import PermissionDenied
-from .queries import get_owner_of_ue, get_ue
+from .queries import find_owner_of_ue, find_ue
 
 
 def admin_required(function):
@@ -76,7 +76,7 @@ def admin_or_professor_or_superviseur_required(function):
 
 def is_owner_of_ue_or_admin(function):
     def wrap(request, *args, **kwargs):
-        if "admin" in request.user.role['role'] or request.user == get_owner_of_ue(get_ue(kwargs['idue'])).first():
+        if "admin" in request.user.role['role'] or request.user == find_owner_of_ue(find_ue(kwargs['idue'])).first():
             return function(request, *args, **kwargs)
         else:
             raise PermissionDenied()

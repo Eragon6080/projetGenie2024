@@ -2,28 +2,38 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, TextField, JSONField
 from django.db.models.functions import Cast
 
-from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet, Periode, Etape, Superviseur, Supervision
+from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet, Periode, Etape, Superviseur, Supervision, \
+    SelectionSujet
 
 
-def get_all_ue():
+def find_all_ue():
     """
     Retourne toutes les UE
     """
-    return Ue.objects.all()
+    try:
+        return Ue.objects.all()
+    except ObjectDoesNotExist:
+        return None
 
 
-def get_ue(idue):
+def find_ue(idue)-> Ue | None:
     """
     Retourne une UE
     """
-    return Ue.objects.get(idue=idue)
+    try:
+        return Ue.objects.get(idue=idue)
+    except ObjectDoesNotExist:
+        return None
 
 
-def get_all_course():
+def find_all_course()-> list[Cours] | None:
     """
     Retourne une UE
     """
-    return Cours.objects.all()
+    try:
+        return Cours.objects.all()
+    except ObjectDoesNotExist:
+        return None
 
 
 def get_roles_user(idpersonne):
@@ -40,57 +50,53 @@ def get_topics_course(idcours):
     pass
 
 
-def get_Professeur_People():
+
+def find_Professeur_People():
     """
         Retourne une liste des professeurs
     """
-    return Professeur.objects.all()
-
-
-def get_All_People():
-    """
-        Retourne une liste des personnes
-    """
-    return Personne.objects.all()
-
-
-def get_Etudiant_People():
-    """
-        Retourne une liste des étudiants
-    """
-    return Etudiant.objects.all()
-
-
-def get_all_subjects():
-    """
-    Retourne la liste de tous les sujets
-    """
-    return Sujet.objects.all()
-
-
-def get_subject(idue: str):
-    """
-    Retourne un sujet en particulier
-    """
-    return Sujet.objects.get(idsujet=idue)
-
-
-def find_student_by_id_personne(idpersonne):
-    """
-    Retourne un étudiant en particulier
-    """
     try:
-        return Etudiant.objects.get(idpersonne=idpersonne)
+        return Professeur.objects.all()
     except ObjectDoesNotExist:
         return None
 
 
-def find_professeur_by_id_personne(idpersonne):
+def find_All_People():
+    """
+        Retourne une liste des personnes
+    """
+    try:
+        return Personne.objects.all()
+    except ObjectDoesNotExist:
+        return None
+
+
+def find_Etudiant_People()-> list[Etudiant] | None:
+    """
+        Retourne une liste des étudiants
+    """
+    try:
+        return Etudiant.objects.all()
+    except ObjectDoesNotExist:
+        return None
+
+
+def find_student_by_id_personne(idpersonne:int)-> Etudiant | None:
+    """
+    Retourne un étudiant en particulier
+    """
+    try:
+        return Etudiant.objects.get(idpersonne_id=idpersonne)
+    except ObjectDoesNotExist:
+        return None
+
+
+def find_professeur_by_id_personne(idpersonne:int)-> Professeur | None:
     """
     Retourne un professeur en particulier
     """
     try:
-        return Professeur.objects.get(idpersonne=idpersonne)
+        return Professeur.objects.get(idpersonne_id=idpersonne)
     except ObjectDoesNotExist:
         return None
 
@@ -110,26 +116,24 @@ def find_course_by_student(idpersonne: int) -> list[Cours] | None:
         return None
 
 
-def find_courses_by_professeur(idpersonne: int):
+def find_courses_by_professeur(idpersonne: int)-> list[Ue] | None:
     """
     :param idpersonne:
     :return: les cours dont le professeur est responsable
     """
+    ues = []
     try:
         teacher = Professeur.objects.get(idpersonne=idpersonne)
         ues = Ue.objects.filter(idprof=teacher.idprof)
-    except:
+    except ObjectDoesNotExist:
         superviseur: Superviseur = Superviseur.objects.get(idpersonne=idpersonne)
         supervisions_query = Supervision.objects.filter(idsuperviseur=superviseur.idsuperviseur)
         supervisionsID = []
-        print(supervisions_query)
         for supervision in supervisions_query:
-            print(supervision.idue)
             supervisionsID.append(supervision.idue_id)
         ues = Ue.objects.filter(idue__in=supervisionsID)
-        print(ues)
-
-    return ues
+    finally:
+        return ues
 
 
 def find_courses_by_supervisor(idpersonne: int):
@@ -137,48 +141,54 @@ def find_courses_by_supervisor(idpersonne: int):
     :param idpersonne:
     :return: les cours dont le professeur est responsable
     """
-    sup = Superviseur.objects.get(idpersonne=idpersonne)
-    supervisions = Supervision.objects.filter(idsuperviseur=sup.idsuperviseur)
-    ues = []
-    for supervision in supervisions:
-        ues.append(Ue.objects.get(idue=supervision.idue_id))
-    return ues
+    try:
+        sup = Superviseur.objects.get(idpersonne=idpersonne)
+        supervisions = Supervision.objects.filter(idsuperviseur=sup.idsuperviseur)
+        ues = []
+        for supervision in supervisions:
+            ues.append(Ue.objects.get(idue=supervision.idue_id))
+        return ues
+    except ObjectDoesNotExist:
+        return None
 
 
-def find_course_for_student_for_subscription(idpersonne):
+def find_course_for_student_for_subscription(idpersonne:int)-> list[Cours] | None:
     """
     :param idpersonne:
     :return:  les cours auquel l'étudiant n'est pas inscrit
     """
-    ues = []
-    cours = []
-    student = Etudiant.objects.get(idpersonne=idpersonne)
-    ues_query = get_all_ue()
-    for ue in ues_query:
-        ues.append(ue)
-    cours_query = Cours.objects.filter(idetudiant=student.idetudiant, idue__in=ues)
-    if len(cours_query) == 0:
-        for ue in ues:
-            cours.append(Cours(nom=ue.nom, idue_id=ue.idue))
-        print(cours)
-    else:
-        if len(cours_query) < len(ues):
-            cours_int = []
-            if len(cours_query) >= 1:
-                for cour in cours_query:
-                    cours_int.append(cour)
+    try:
+        ues = []
+        cours = []
+        student = Etudiant.objects.get(idpersonne=idpersonne)
+        ues_query = find_all_ue()
+        for ue in ues_query:
+            ues.append(ue)
+        cours_query = Cours.objects.filter(idetudiant=student.idetudiant, idue__in=ues)
+        if len(cours_query) == 0:
+            for ue in ues:
+                cours.append(Cours(nom=ue.nom, idue_id=ue.idue))
+            print(cours)
+        else:
+            if len(cours_query) < len(ues):
+                cours_int = []
+                if len(cours_query) >= 1:
+                    for cour in cours_query:
+                        cours_int.append(cour)
 
-                for ue in ues:
-                    for cour in cours_int:
-                        if cour.idue_id != ue.idue:
-                            cours.append(Cours(nom=ue.nom, idue_id=ue.idue))
-                print(cours)
-                for cour in cours:
-                    for cour_int in cours_int:
-                        if cour_int.idue_id == cour.idue_id:
-                            cours.remove(cour)
+                    for ue in ues:
+                        for cour in cours_int:
+                            if cour.idue_id != ue.idue:
+                                cours.append(Cours(nom=ue.nom, idue_id=ue.idue))
+                    print(cours)
+                    for cour in cours:
+                        for cour_int in cours_int:
+                            if cour_int.idue_id == cour.idue_id:
+                                cours.remove(cour)
 
-    return cours
+        return cours
+    except ObjectDoesNotExist:
+        return None
 
 
 def find_course_for_student(idpersonne):
@@ -204,7 +214,7 @@ def get_student_by_id_personne(idpersonne: int):
     return Etudiant.objects.get(idpersonne=idpersonne)
 
 
-def get_student_by_id_etudiant(idetudiant: int):
+def find_student_by_id_etudiant(idetudiant: int):
     """
 
     :param idetudiant:
@@ -220,7 +230,7 @@ def find_delais_by_sujet(sujet: Sujet) -> list[Etape]:
         return []
 
 
-def get_all_subjects_for_a_teacher(idPersonne: int):
+def find_all_subjects_for_a_teacher(idPersonne: int)-> list[Sujet] | None:
     """
     :return: Tous les sujets qui ne sont pas encore réservé
     """
@@ -228,157 +238,198 @@ def get_all_subjects_for_a_teacher(idPersonne: int):
     return Sujet.objects.filter(idprof=teacher.idprof).exclude(estPris=True)
 
 
-def get_subject(idsujet: int):
-    return Sujet.objects.get(idsujet=idsujet)
+def find_sujet_by_id(idsujet: int)-> Sujet | None:
+    try:
+        return Sujet.objects.get(idsujet=idsujet)
+    except ObjectDoesNotExist:
+        return None
 
 
-def get_people_by_mail(mail: str):
+def find_people_by_mail(mail: str):
     """
     :return: all people
     """
-    return Personne.objects.get(mail=mail)
+    try:
+        return Personne.objects.get(mail=mail)
+    except ObjectDoesNotExist:
+        return None
 
 
-def get_cours_by_id_sujet_and_id_student(idsujet: int, idstudent: int):
+def find_cours_by_id_sujet_and_id_student(idsujet: int, idstudent: int)-> Cours | None:
     """
     L'étudiant doit être inscrit au cours pour que l'assignation fonctionne
+    :param idstudent:
     :param idsujet: l'id du sujet en cours
     :return: le cours auquel l'étudiant est inscrit
     """
-    sujet = Sujet.objects.get(idsujet=idsujet)
-    prof = Professeur.objects.get(idprof=sujet.idprof_id)
+    try:
+        sujet = Sujet.objects.get(idsujet=idsujet)
+        prof = Professeur.objects.get(idprof=sujet.idprof_id)
 
-    ue = Ue.objects.get(idprof=prof.idprof)
-    return Cours.objects.get(idue=ue.idue, idetudiant=idstudent)
+        ue = Ue.objects.get(idprof=prof.idprof)
+        return Cours.objects.get(idue=ue.idue, idetudiant=idstudent)
+    except ObjectDoesNotExist:
+        return None
 
 
-def get_students_by_teacher_without_subject(idteacher: int):
+def find_students_by_teacher_without_subject(idteacher: int) -> list[Etudiant] | None:
     """
     :param idstudent:
     :param idteacher:
     :param idsujet:
     :return: les étudiant appartenant à un cours donné par un prof
     """
-    prof: list[Professeur] = Professeur.objects.get(idpersonne=idteacher)
-    ues: Ue = Ue.objects.get(idprof=prof.idprof)
-    if ues is not None:
-        cours_query = Cours.objects.filter(idue=ues)
-        cours = []
-        for cour in cours_query:
-            cours.append(cour)
-        if len(cours) > 0:
-            students = []
-            for cour in cours:
-                students_query = Etudiant.objects.filter(idetudiant=cour.idetudiant_id, idsujet=None)
-                print(students_query)
-                for student in students_query:
-                    students.append((int(student.idetudiant), f"{student.idpersonne.nom} {student.idpersonne.prenom}"))
-            return students
-        return None
-    else:
+    try:
+        prof: list[Professeur] = Professeur.objects.get(idpersonne=idteacher)
+        ues: Ue = Ue.objects.get(idprof=prof.idprof)
+        if ues is not None:
+            cours_query = Cours.objects.filter(idue=ues)
+            cours = []
+            for cour in cours_query:
+                cours.append(cour)
+            if len(cours) > 0:
+                students = []
+                for cour in cours:
+                    students_query = Etudiant.objects.filter(idetudiant=cour.idetudiant_id, idsujet=None)
+                    for student in students_query:
+                        students.append((int(student.idetudiant), f"{student.idpersonne.nom} {student.idpersonne.prenom}"))
+                return students
+            return None
+        else:
+            return None
+    except ObjectDoesNotExist:
         return None
 
 
-def get_personne_by_id(idpersonne: int):
+def find_personne_by_id(idpersonne: int)-> Personne | None:
     """
     :param idpersonne:
     :return: une personne en particulier
     """
-    return Personne.objects.get(idpersonne=idpersonne)
+    try:
+        return Personne.objects.get(idpersonne=idpersonne)
+    except ObjectDoesNotExist:
+        return None
 
 
-def get_owner_of_ue(ue: Ue):
+def find_owner_of_ue(ue: Ue) -> Personne | None:
     """
     :param idue:
     :return: le propriétaire de l'ue
     """
-    prof = Professeur.objects.get(idprof=ue.idprof_id)
-    return Personne.objects.get(idpersonne=prof.idpersonne_id)
+    try:
+        prof = Professeur.objects.get(idprof=ue.idprof_id)
+        return Personne.objects.get(idpersonne=prof.idpersonne_id)
+    except ObjectDoesNotExist:
+        return None
 
 
-def get_students_of_ue(ue: Ue):
+def find_students_of_ue(ue: Ue) -> list[Personne] | None:
     """
+    :param ue:
     :param idue:
     :return: les étudiants participants d'une ue 
     """
-    courses = Cours.objects.filter(idue=ue)
-    students = []
-    # for cours in courses:
-    #     student = Etudiant.objects.get(idetudiant=cours.idetudiant_id)
-    #     pers = Personne.objects.get(idpersonne=student.idpersonne_id)
-    #     students.append(pers)
-    students_query = Etudiant.objects.filter(idetudiant__in=courses)
-    personne_query = Personne.objects.filter(idpersonne__in=students_query)
-    return personne_query
+    try:
+        courses = Cours.objects.filter(idue=ue)
+        students = []
+        # for cours in courses:
+        #     student = Etudiant.objects.get(idetudiant=cours.idetudiant_id)
+        #     pers = Personne.objects.get(idpersonne=student.idpersonne_id)
+        #     students.append(pers)
+        students_query = Etudiant.objects.filter(idetudiant__in=courses)
+        personne_query = Personne.objects.filter(idpersonne__in=students_query)
+        return personne_query
+    except ObjectDoesNotExist:
+        return None
 
 
-def get_supervisors_of_ue(ue: Ue):
+def find_supervisors_of_ue(ue: Ue) -> list[Personne] | None:
     """
+    :param ue:
     :param idue:
     :return: les superviseurs d'une ue
     """
-    supervisions = Supervision.objects.filter(idue=ue)
-    supervisors = []
-    for supervision in supervisions:
-        superviseur = Superviseur.objects.get(idsuperviseur=supervision.idsuperviseur_id)
-        pers = Personne.objects.get(idpersonne=superviseur.idpersonne_id)
-        supervisors.append(pers)
-    return supervisors
+    try:
+        supervisions = Supervision.objects.filter(idue=ue)
+        supervisors = []
+        for supervision in supervisions:
+            superviseur = Superviseur.objects.get(idsuperviseur=supervision.idsuperviseur_id)
+            pers = Personne.objects.get(idpersonne=superviseur.idpersonne_id)
+            supervisors.append(pers)
+        return supervisors
+    except ObjectDoesNotExist:
+        return None
 
 
-def get_subject_for_a_superviseur(idpersonne):
+def find_subject_for_a_superviseur(idpersonne) -> list[Sujet] | None:
     """
     :param idpersonne:
     :return: les sujets pour un superviseur donné
     """
-    superviseur = Supervision.objects.get(idpersonne=idpersonne)
-    sujets_query = Sujet.objects.filter(idsuperviseur=superviseur.idsuperviseur)
-    sujets = []
-    for sujet in sujets_query:
-        sujets.append(sujet)
-    return sujets
+    try:
+        superviseur = Supervision.objects.get(idpersonne=idpersonne)
+        sujets_query = Sujet.objects.filter(idsuperviseur=superviseur.idsuperviseur)
+        sujets = []
+        for sujet in sujets_query:
+            sujets.append(sujet)
+        return sujets
+    except ObjectDoesNotExist:
+        return None
 
 
-def get_prof_by_id_personne(idpersonne: int):
+def find_prof_by_id_personne(idpersonne: int) -> Professeur | None:
     """
     :param idpersonne:
     :return: le professeur en cours
     """
-    return Professeur.objects.get(idpersonne=idpersonne)
+    try:
+        return Professeur.objects.get(idpersonne=idpersonne)
+    except ObjectDoesNotExist:
+        return None
 
 
-def get_superviseur_by_id_personne(idpersonne: int):
+def find_superviseur_by_id_personne(idpersonne: int) -> Superviseur | None:
     """
 
     :param idpersonne:
     :return: le superviseur concerné
     """
-    return Superviseur.objects.get(idpersonne=idpersonne)
+    try:
+        return Superviseur.objects.get(idpersonne=idpersonne)
+    except ObjectDoesNotExist:
+        return None
 
 
-def get_sujets_by_idue(idue: str):
+def find_sujets_by_idue(idue: str) -> list[Sujet] | None:
     """
     :param idue:
     :return: tous les sujets qui ne sont pas pris et qui font partie de l'ue concerné
     """
-    return Sujet.objects.filter(idue=idue, estpris=False)
+    try:
+        return Sujet.objects.filter(idue=idue, estpris=False)
+    except ObjectDoesNotExist:
+        return None
 
 
-def get_subject_by_id(idsujet: int):
+def get_subject_by_id(idsujet: int) -> Sujet | None:
     """
 
     :param idsujet:
     :return: le sujet en question
     """
-    return Sujet.objects.get(idsujet=idsujet)
+    try:
+        return Sujet.objects.get(idsujet=idsujet)
+    except ObjectDoesNotExist:
+        return None
 
 
-def count_subject_for_one_student_and_one_ue(idetudiant: int, idue: str):
+def count_subject_for_one_student_and_one_ue(idetudiant: int, idue: str) -> int:
     """
     :param idetudiant:
     :return: le nombre de sujets pour l'étudiant en question
     """
-    return len(Sujet.objects.filter(idetudiant=idetudiant, idue=idue))
+    return SelectionSujet.objects.filter(idetudiant_id=idetudiant, idsujet__idue_id=idue).count()
 
 
 def is_existing_personne_by_email(email) -> bool:
@@ -434,9 +485,9 @@ def find_sujet_by_id_etudiant(etudiant) -> list[Sujet] | None:
     """
     try:
         sujets = []
-        sujets_query = Sujet.objects.filter(idetudiant=etudiant)
-        for sujet in sujets_query:
-            sujets.append(sujet)
+        selections_query = SelectionSujet.objects.filter(idetudiant=etudiant)
+        for selection in selections_query:
+            sujets.append(selection.idsujet)
         return sujets
     except:
         return None

@@ -72,10 +72,10 @@ def home(request) -> HttpResponse:
 @admin_or_professor_or_superviseur_required
 def course(request, idue) -> HttpResponse:
     user = request.user
-    ue = get_ue(idue)
+    ue = find_ue(idue)
     is_owner = False
     is_admin = False
-    if user == get_owner_of_ue(ue).first():
+    if user == find_owner_of_ue(ue).first():
         is_owner = True
     elif 'admin' in user.role['role']:
         is_admin = True
@@ -131,7 +131,7 @@ def yes(request):
 @admin_or_professor_or_superviseur_required
 def fiche(request, idpersonne):
     user = request.user
-    personne = get_personne_by_id(idpersonne)
+    personne = find_personne_by_id(idpersonne)
     if "professeur" in personne.role['role']:
         specific_role = find_professeur_by_id_personne(idpersonne)
     elif "etudiant" in personne.role['role']:

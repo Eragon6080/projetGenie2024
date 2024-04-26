@@ -20,7 +20,7 @@ from .restrictions import *
 @csrf_exempt
 @admin_or_professor_required
 def topics(request, idue) -> HttpResponse:
-    ue = get_ue(idue=idue)
+    ue = find_ue(idue=idue)
     # Récupèrer tous les sujets associés à cette ue
     sujets = Sujet.objects.filter(idue=ue)
     sujet_infos = []
@@ -48,12 +48,12 @@ def topics(request, idue) -> HttpResponse:
 @prof_or_superviseur_required
 def myTopics(request, idue) -> HttpResponse:
     user = request.user
-    ue = get_ue(idue=idue)
+    ue = find_ue(idue=idue)
     if 'professeur' in user.role['role']:
         # Récupèrer tous les sujets associés à ces cours
-        sujets = Sujet.objects.filter(idue=ue, idprof=get_prof_by_id_personne(user.idpersonne).idprof)
+        sujets = Sujet.objects.filter(idue=ue, idprof=find_prof_by_id_personne(user.idpersonne).idprof)
     else:
-        sujets = get_subject_for_a_superviseur(user.idpersonne)
+        sujets = find_subject_for_a_superviseur(user.idpersonne)
     sujet_infos = []
     for sujet in sujets:
         sujet_info = {
@@ -79,10 +79,10 @@ def myTopics(request, idue) -> HttpResponse:
 @admin_or_professor_or_superviseur_required
 @is_owner_of_ue_or_admin
 def participants(request, idue) -> HttpResponse:
-    ue = get_ue(idue)
-    students = get_students_of_ue(ue)
-    professors = get_owner_of_ue(ue)
-    supervisors = get_supervisors_of_ue(ue)
+    ue = find_ue(idue)
+    students = find_students_of_ue(ue)
+    professors = find_owner_of_ue(ue)
+    supervisors = find_supervisors_of_ue(ue)
     return render(request, "otherRole/participants.html",
                   context={"students": students, "professors": professors, "supervisors": supervisors, "ue": ue})
 
@@ -135,20 +135,20 @@ def addTopic(request, idue) -> HttpResponse:
     logger = logging.getLogger()
     user = request.user
     is_admin = is_user_admin(user.idpersonne)
-    ue = get_ue(idue)
+    ue = find_ue(idue)
     if request.method == 'POST':
-        form = SubmitForm(request.POST, request.FILES, list_students=get_students_of_ue(ue), list_referent=get_owner_of_ue(ue) | get_supervisors_of_ue(ue), is_admin=is_admin)
+        form = SubmitForm(request.POST, request.FILES, list_students=find_students_of_ue(ue), list_referent=find_owner_of_ue(ue) | find_supervisors_of_ue(ue), is_admin=is_admin)
         if form.is_valid():
             logger.info("form is valid")
             subject_is_taken = False
             print(form.cleaned_data['student_select'])
             if 'professeur' in user.role['role']:
-                prof = get_prof_by_id_personne(user.idpersonne)
+                prof = find_prof_by_id_personne(user.idpersonne)
                 sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
                               destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'],
                               idprofesseur=prof)
             else:
-                superviseur = get_superviseur_by_id_personne(user.idpersonne)
+                superviseur = find_superviseur_by_id_personne(user.idpersonne)
                 sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
                               destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'],
                               idsuperviseur=superviseur)
@@ -159,7 +159,7 @@ def addTopic(request, idue) -> HttpResponse:
         else:
             print(form.errors)
     else:
-        form = SubmitForm(list_students=get_students_of_ue(ue), list_referent=get_owner_of_ue(ue) | get_supervisors_of_ue(ue), is_admin=is_admin)
+        form = SubmitForm(list_students=find_students_of_ue(ue), list_referent=find_owner_of_ue(ue) | find_supervisors_of_ue(ue), is_admin=is_admin)
 
     context = {
         'ue': ue,
@@ -260,7 +260,7 @@ def mycourses(request):
 def reservation(request):
     user = request.user
     if "professeur" in user.role['role']:
-        subjects_query = get_all_subjects_for_a_teacher(user.idpersonne)
+        subjects_query = find_all_subjects_for_a_teacher(user.idpersonne)
         subjects = []
         for subject in subjects_query:
             subjects.append(subject)
@@ -287,7 +287,7 @@ def booking(request, idsujet):
             'title': request.POST.get('title'),
             'description': request.POST.get('description'),
             'subject_id': idsujet,
-            'students': get_students_by_teacher_without_subject(user.idpersonne)
+            'students': find_students_by_teacher_without_subject(user.idpersonne)
         }
         form = ConfirmationSujetReservation(initial=initial_data)
         context = {
@@ -305,10 +305,10 @@ def validation_booking(request, idsujet):
     user = request.user
     if request.method == "POST" and "professeur" in user.role['role']:
         idstudent = request.POST.get('students')
-        etudiant = get_student_by_id_etudiant(int(idstudent))
+        etudiant = find_student_by_id_etudiant(int(idstudent))
         etudiant.idsujet_id = idsujet
         etudiant.save()
-        sujet = get_subject(idsujet)
+        sujet = find_sujet_by_id(idsujet)
         sujet.estPris = True
         sujet.save()
         return redirect('../../../home')
@@ -346,7 +346,7 @@ def etape_view(request):
 def reservation_subject_student(request, idue, idpersonne):
     etudiant = find_student_by_id_personne(idpersonne)
     if count_subject_for_one_student_and_one_ue(etudiant.idetudiant, idue) == 0:
-        sujets_query = get_sujets_by_idue(idue)
+        sujets_query = find_sujets_by_idue(idue)
         sujets = []
         for sujet in sujets_query:
             sujets.append(sujet)

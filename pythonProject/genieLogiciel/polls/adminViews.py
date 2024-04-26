@@ -33,9 +33,9 @@ def role(request, view = "admin") -> HttpResponse:
 
         roles = ["admin", "professeur", "etudiant", "superviseur"]  # A priori, on a que 4 roles possibles
 
-        admin_people = get_All_People()
-        professeur_people = get_Professeur_People()
-        etudiant_people = get_Etudiant_People()
+        admin_people = find_All_People()
+        professeur_people = find_Professeur_People()
+        etudiant_people = find_Etudiant_People()
 
         for i in admin_people:
             if 'admin' in i.role['role']:
@@ -149,7 +149,7 @@ def role(request, view = "admin") -> HttpResponse:
 def courses(request) -> HttpResponse:
     context = {
         "title_table_courses": ["Code", "Nom", "Responsable"],
-        "all_courses": get_all_ue(),
+        "all_courses": find_all_ue(),
     }
     
     return render(request, 'admin/courses.html', context)
