@@ -40,8 +40,8 @@ class SubmitForm(forms.Form):
         is_admin = kwargs.pop('is_admin', False)
         super().__init__()
         self.fields['student_select'].queryset = list_students
+        self.fields['referent_select'].queryset = list_referent
         if is_admin:
-            self.fields['referent_select'].queryset = list_referent
             self.fields['referent_select'].required = True
 
     title = forms.CharField(

@@ -4,14 +4,12 @@
 
 <div class="container">
     <button class="container mt-4 mx-0 btn text-white" style="background-color:rgb(105, 105, 105);" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProfesseur" aria-expanded="false" aria-controls="collapseExample">
-      Professeurs ({{ professors|length }})
+      Professeur
     </button>
     
-    <div class="collapse" id="collapseProfesseur">
+    <div class="collapse show" id="collapseProfesseur">
         <div class="list-group">
-            {% for prof in professors %}
-            <a href="/polls/fiche/{{ prof.idpersonne }}" class="list-group-item list-group-item-action">{{ prof.nom }} {{ prof.prenom }} - {{ prof.mail }}</a>
-            {% endfor %}
+            <a href="/polls/fiche/{{ professor.idpersonne }}" class="list-group-item list-group-item-action">{{ professor.nom }} {{ professor.prenom }} - {{ professor.mail }}</a>
         </div>
     </div>
 

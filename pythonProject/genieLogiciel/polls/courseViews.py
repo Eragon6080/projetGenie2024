@@ -34,7 +34,7 @@ def topics(request, idue) -> HttpResponse:
         }
 
         if sujet.estpris:
-            etudiants = [Sujet.objects.get(idsujet=sujet.idsujet).idetudiant]
+            etudiants = [SelectionSujet.objects.get(idsujet=sujet.idsujet).idetudiant]
             etudiants_noms = [f"{etudiant.idpersonne.nom} {etudiant.idpersonne.prenom}" for etudiant in etudiants]
             sujet_info['etudiants'] = etudiants_noms
 
@@ -65,7 +65,7 @@ def myTopics(request, idue) -> HttpResponse:
         }
 
         if sujet.estpris:
-            etudiants = [Sujet.objects.get(idsujet=sujet.idsujet).idetudiant]
+            etudiants = [SelectionSujet.objects.get(idsujet=sujet.idsujet).idetudiant]
             etudiants_noms = [f"{etudiant.idpersonne.nom} {etudiant.idpersonne.prenom}" for etudiant in etudiants]
             sujet_info['etudiants'] = etudiants_noms
 
@@ -81,10 +81,10 @@ def myTopics(request, idue) -> HttpResponse:
 def participants(request, idue) -> HttpResponse:
     ue = find_ue(idue)
     students = find_students_of_ue(ue)
-    professors = find_owner_of_ue(ue)
+    professor = find_owner_of_ue(ue)
     supervisors = find_supervisors_of_ue(ue)
     return render(request, "otherRole/participants.html",
-                  context={"students": students, "professors": professors, "supervisors": supervisors, "ue": ue})
+                  context={"students": students, "professor": professor, "supervisors": supervisors, "ue": ue})
 
 
 @login_required(login_url='/polls')
@@ -140,25 +140,35 @@ def add_topic(request, idue) -> HttpResponse:
     is_admin = is_user_admin(user.idpersonne)
     ue = find_ue(idue)
     if request.method == 'POST':
-        if 'professeur' in user.role['role']:
-            form = SubmitForm(request.POST, request.FILES, list_students=find_students_of_ue(ue), list_referent=find_owner_of_ue(ue), is_admin=is_admin)
-        else:
-            form = SubmitForm(request.POST, request.FILES, list_students=find_students_of_ue(ue), list_referent=find_supervisors_of_ue(ue), is_admin=is_admin)
+        form = SubmitForm(request.POST, request.FILES, list_students=find_students_of_ue(ue), list_referent=find_supervisors_of_ue(ue).union(Personne.objects.filter(idpersonne = find_owner_of_ue(ue).idpersonne)), is_admin=is_admin)
 
-        print(request.FILES['file'])
+        #print(request.FILES['file'])
 
         titre = request.POST['title']
         descriptif = request.POST['description']
         destination = request.POST['destination']
-        fichier = request.FILES['file']
+        print(bool(request.FILES))
+        fichier = request.FILES['file'] if bool(request.FILES) else None
+        student_id = request.POST['student_select']
         nb_personnes = request.POST['nb_personnes']
         logger.info("form is valid")
-        subject_is_taken = False
-        if 'professeur' in user.role['role']:
+        subject_is_taken = True if student_id != '' else False
+        if 'admin' in user.role['role']:
+            referent_id = request.POST['referent_select']
+            # revoir cette partie pour vérifier par rapport à l'ue
+            
+            prof = find_prof_by_id_personne(referent_id)
+            sup = find_superviseur_by_id_personne(referent_id)
+            if prof:
+                sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier, idprof=prof, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue)
+            elif sup:
+                sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier, idsuperviseur=sup, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue)
+
+        elif 'professeur' in user.role['role']:
             prof = find_prof_by_id_personne(user.idpersonne)
             sujet = Sujet(titre=titre, descriptif=descriptif,
                           destination=destination, fichier=fichier,
-                          idprof=prof,estpris=subject_is_taken,nbpersonnes=nb_personnes,idue=ue)
+                          idprof=prof, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue)
         else:
             superviseur = find_superviseur_by_id_personne(user.idpersonne)
             sujet = Sujet(titre=titre, descriptif=descriptif,
@@ -167,13 +177,13 @@ def add_topic(request, idue) -> HttpResponse:
 
         sujet.save()
 
+        if subject_is_taken :
+            SelectionSujet(idetudiant=find_student_by_id_personne(student_id), idsujet=sujet).save()
+
         return HttpResponseRedirect("../")
 
     else:
-        if 'professeur' in user.role['role']:
-            form = SubmitForm(list_students=find_students_of_ue(ue), list_referent=find_owner_of_ue(ue), is_admin=is_admin)
-        else:
-            form = SubmitForm(list_students=find_students_of_ue(ue), list_referent=find_supervisors_of_ue(ue), is_admin=is_admin)
+        form = SubmitForm(list_students=find_students_of_ue(ue), list_referent=find_supervisors_of_ue(ue).union(Personne.objects.filter(idpersonne = find_owner_of_ue(ue).idpersonne)), is_admin=is_admin)
 
     context = {
         'ue': ue,

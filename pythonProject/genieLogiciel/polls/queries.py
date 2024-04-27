@@ -210,7 +210,7 @@ def get_student_by_id_personne(idpersonne: int):
     # à développer
     """
     :param idpersonne:
-    :return: Le délais des échéances pour chaque cours même si l'étudiant n'est pas inscrit
+    :return: l'étudiant en question
     """
     return Etudiant.objects.get(idpersonne=idpersonne)
 
@@ -334,11 +334,6 @@ def find_students_of_ue(ue: Ue) -> list[Personne] | None:
     """
     try:
         courses = Cours.objects.filter(idue=ue)
-        students = []
-        # for cours in courses:
-        #     student = Etudiant.objects.get(idetudiant=cours.idetudiant_id)
-        #     pers = Personne.objects.get(idpersonne=student.idpersonne_id)
-        #     students.append(pers)
         students_query = Etudiant.objects.filter(idetudiant__in=courses)
         personne_query = Personne.objects.filter(idpersonne__in=students_query)
         return personne_query
@@ -354,12 +349,9 @@ def find_supervisors_of_ue(ue: Ue) -> list[Personne] | None:
     """
     try:
         supervisions = Supervision.objects.filter(idue=ue)
-        supervisors = []
-        for supervision in supervisions:
-            superviseur = Superviseur.objects.get(idsuperviseur=supervision.idsuperviseur_id)
-            pers = Personne.objects.get(idpersonne=superviseur.idpersonne_id)
-            supervisors.append(pers)
-        return supervisors
+        supervisors_query = Superviseur.objects.filter(idsuperviseur__in=supervisions)
+        personne_query = Personne.objects.filter(superviseur__in=supervisors_query)
+        return personne_query
     except ObjectDoesNotExist:
         return None
 
