@@ -147,7 +147,6 @@ def add_topic(request, idue) -> HttpResponse:
         titre = request.POST['title']
         descriptif = request.POST['description']
         destination = request.POST['destination']
-        print(bool(request.FILES))
         fichier = request.FILES['file'] if bool(request.FILES) else None
         student_id = request.POST['student_select']
         nb_personnes = request.POST['nb_personnes']
@@ -155,13 +154,12 @@ def add_topic(request, idue) -> HttpResponse:
         subject_is_taken = True if student_id != '' else False
         if 'admin' in user.role['role']:
             referent_id = request.POST['referent_select']
-            # revoir cette partie pour vérifier par rapport à l'ue
-            
-            prof = find_prof_by_id_personne(referent_id)
-            sup = find_superviseur_by_id_personne(referent_id)
-            if prof:
+            is_prof = True if find_owner_of_ue(ue) == find_personne_by_id(referent_id) else False
+            if is_prof:
+                prof = find_prof_by_id_personne(referent_id)
                 sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier, idprof=prof, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue)
-            elif sup:
+            else:
+                sup = find_superviseur_by_id_personne(referent_id)
                 sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier, idsuperviseur=sup, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue)
 
         elif 'professeur' in user.role['role']:
