@@ -1,14 +1,15 @@
-from typing import Any
-from django import forms
-from django.forms import BaseFormSet
 
-from .models import Etape, Delivrable, Periode, Sujet,FichierDelivrable
+from django import forms
+from django.forms import BaseFormSet, TextInput, EmailInput
+
+
+from .models import Etape, Sujet, FichierDelivrable
+
 
 class FichierDelivrableForm(forms.ModelForm):
     class Meta:
         model = FichierDelivrable
-        fields = ['fichier']
-
+        fields = ['fichier','estconfidentiel']
 
 
 class EtapeForm(forms.ModelForm):
@@ -28,6 +29,21 @@ class EtapeForm(forms.ModelForm):
 
 
 class SubmitForm(forms.Form):
+    nbPersonneMax = 2
+    student_select = forms.ModelChoiceField(queryset=None, label='Lier le sujet à un étudiant', required=False, widget=forms.Select(attrs={'class': 'form-control'}))
+    
+    referent_select = forms.ModelChoiceField(queryset=None, label='Lier le sujet à un professeur/superviseur', required=False, widget=forms.Select(attrs={'class': 'form-control'}))
+
+    def __init__(self, *args, **kwargs):
+        list_students = kwargs.pop('list_students', None)
+        list_referent = kwargs.pop('list_referent', None)
+        is_admin = kwargs.pop('is_admin', False)
+        super().__init__()
+        self.fields['student_select'].queryset = list_students
+        self.fields['referent_select'].queryset = list_referent
+        if is_admin:
+            self.fields['referent_select'].required = True
+
     title = forms.CharField(
         label='Title',
         max_length=100,
@@ -47,15 +63,16 @@ class SubmitForm(forms.Form):
         widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '3', 'placeholder': 'Sujet', 'height': '100px'})
     )
     file = forms.FileField(
-        label='File',
+        label='Fichier',
         required=False,
         widget=forms.FileInput(attrs={'class': 'form-control', 'type': 'file', 'placeholder': 'Fichier'})
     )
+    nb_personnes = forms.ChoiceField(choices=[(i, i) for i in range(1, nbPersonneMax+1)], label='Nombre de personnes', required=True, widget=forms.Select(attrs={'class': 'form-control'}))
 
 
 class ConnectForm(forms.Form):
     email = forms.CharField(label="email", max_length=100, required=True,
-                            widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'email'}))
+                            widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'email'}))
     password = forms.CharField(label="password", max_length=100, required=True,
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'password'}))
 
@@ -113,13 +130,15 @@ class ConfirmationSujetReservation(forms.Form):
         label='Title',
         max_length=200,
         required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Titre', 'readonly':'readonly','width':'100px'})
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'placeholder': 'Titre', 'readonly': 'readonly', 'width': '100px'})
     )
     description = forms.CharField(
         label='Description',
         max_length=1000,
         required=False,
-        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '3', 'placeholder': 'Sujet', 'height': '100px','readonly':'readonly'})
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '3', 'placeholder': 'Sujet', 'height': '100px',
+                                     'readonly': 'readonly'})
     )
     students = forms.ChoiceField(
         label='students',
@@ -128,7 +147,7 @@ class ConfirmationSujetReservation(forms.Form):
 
         )
     )
-    subject_id = forms.IntegerField(label='id',required=False,widget=forms.HiddenInput())
+    subject_id = forms.IntegerField(label='id', required=False, widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
         super(ConfirmationSujetReservation, self).__init__(*args, **kwargs)
@@ -136,6 +155,37 @@ class ConfirmationSujetReservation(forms.Form):
             self.fields['title'].widget.attrs['value'] = kwargs['initial'].get('title', '')
             self.fields['description'].initial = kwargs['initial'].get('description', '')
             self.fields['subject_id'].widget.attrs['value'] = kwargs['initial'].get('subject_id', '')
-            self.fields['students'].widget.choices = kwargs['initial'].get('students',[])
+            self.fields['students'].widget.choices = kwargs['initial'].get('students', [])
 
 
+class SubscriptionForm(forms.Form):
+    nom = forms.CharField(
+        label="Nom",
+        max_length=100,
+        required=True,
+        widget=TextInput(attrs={'class': 'form-control', 'placeholder': 'Nom'})
+    )
+    prenom = forms.CharField(
+        label="Prenom",
+        max_length=100,
+        required=True,
+        widget=TextInput(attrs={'placeholder': 'Prenom'})
+    )
+    mail = forms.EmailField(
+        label="Email",
+        max_length=100,
+        required=True,
+        widget=EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'})
+    )
+    password = forms.CharField(
+        label="Password",
+        max_length=100,
+        required=True,
+        widget=TextInput(attrs={'class': 'form-control', 'placeholder': 'Password'})
+    )
+    bloc = forms.ChoiceField(
+        label="Bloc",
+        required=True,
+        choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')],
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )

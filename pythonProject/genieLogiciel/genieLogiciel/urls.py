@@ -18,9 +18,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
 
-from .views import redirectToPolls
+from .views import redirect_to_polls
 
 urlpatterns = [
     path('polls/', include('polls.urls')),
-    path("",redirectToPolls),
+    path("", redirect_to_polls, name="home")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+handler404 = 'polls.views.page_not_found'
+handler500 = 'polls.views.server_error'
+handler403 = 'polls.views.permission_denied'

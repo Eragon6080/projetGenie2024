@@ -1,6 +1,9 @@
 from django.http import HttpRequest
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
 
-def redirectToPolls(request)->HttpRequest:
+
+def redirect_to_polls(request) -> HttpRequest:
     return redirect("/polls")
+
+

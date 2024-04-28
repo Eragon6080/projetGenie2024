@@ -65,16 +65,6 @@ class Etudiant(models.Model):
         db_table = 'etudiant'
 
 
-class Inscription(models.Model):
-    idinscription = models.AutoField(primary_key=True)
-    idetudiant = models.ForeignKey(Etudiant, models.DO_NOTHING, db_column='idetudiant')
-    idcours = models.ForeignKey(Cours, models.DO_NOTHING, db_column='idcours')
-
-    class Meta:
-        managed = False
-        db_table = 'inscription'
-
-
 class Periode(models.Model):
     idperiode = models.AutoField(primary_key=True, db_column='idperiode')
     annee = models.IntegerField(db_column='annee')
@@ -164,11 +154,11 @@ class Sujet(models.Model):
     estpris = models.BooleanField(db_column='estpris', default=False)
     fichier = models.FileField(upload_to='sujets/', blank=True, null=True, db_column='fichier',
                                validators=[validate_file_extension])
+    nbpersonnes = models.IntegerField(db_column='nbpersonnes',default=1,)
     idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode', default=1)
     idprof = models.ForeignKey(Professeur, models.DO_NOTHING, db_column='idprofesseur')
-    idsuperviseur = models.ForeignKey('Superviseur',models.DO_NOTHING,db_column='idsuperviseur')
+    idsuperviseur = models.ForeignKey('Superviseur', models.DO_NOTHING, db_column='idsuperviseur')
     idue = models.ForeignKey('Ue', models.DO_NOTHING, db_column='idue')
-    idetudiant = models.ForeignKey('Etudiant',models.DO_NOTHING,db_column='idetudiant')
 
     class Meta:
         managed = False
@@ -191,7 +181,8 @@ class FichierDelivrable(models.Model):
     rendu = models.BooleanField(db_column='estrendu', default=False)  # Champ pour marquer si le délivrable a été rendu
     idetudiant = models.ForeignKey(Etudiant, models.DO_NOTHING, db_column='idetudiant')
     iddelivrable = models.ForeignKey(Delivrable, models.DO_NOTHING, db_column='iddelivrable')
-    note = models.IntegerField(db_column='note')
+    note = models.IntegerField(db_column='note', null=True)
+    estconfidentiel = models.BooleanField(db_column='estconfidentiel', default=False)
 
     nom_personne: str
     nom_cours: str
@@ -230,3 +221,13 @@ class Supervision(models.Model):
     class Meta:
         managed = False
         db_table = 'supervision'
+
+
+class SelectionSujet(models.Model):
+    idselection = models.AutoField(primary_key=True, db_column='idselection')
+    idetudiant = models.ForeignKey(Etudiant, models.DO_NOTHING, db_column='idetudiant')
+    idsujet = models.ForeignKey(Sujet, models.DO_NOTHING, db_column='idsujet')
+
+    class Meta:
+        managed = False
+        db_table = 'selectionsujet'

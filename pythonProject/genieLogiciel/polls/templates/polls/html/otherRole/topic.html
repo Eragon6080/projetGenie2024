@@ -1,7 +1,7 @@
 {% extends "course.html" %}
 
 {% block content %}
-<div class="container vh-100 d-flex flex-column justify-content-center">
+<div class="container d-flex flex-column justify-content-center">
     <div class="row justify-content-center mb-4">
         <div class="col-8 text-right">
             
@@ -14,10 +14,11 @@
             </div>
         </div>
     </div>
+    {% if sujet_infos|length != 0 %}
     <div class="row justify-content-center">
         <div class="col-8">
             <div class="table-container d-flex justify-content-center">
-                <div class="table-responsive">
+                <div class="">
                     <table class="table table-striped text-center">
                         <thead>
                             <tr>
@@ -68,5 +69,11 @@
             </div>
         </div>
     </div>
+    {% else %} 
+    <p class="text-center text-muted">
+        Aucun sujet n'a été ajouté pour ce cours.
+    </p>
+        
+    {% endif %}
 </div>
 {% endblock %}

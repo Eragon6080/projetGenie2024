@@ -8,7 +8,7 @@
         <h1>Réservation d'un sujet en fonction de l'ue</h1>
     </div>
 <div class="container d-flex flex-column justify-content-center">
-    {% if not failure %}
+    {% if not failure and sujets|length != 0 %}
 
     <div class="row justify-content-center">
 
@@ -25,14 +25,15 @@
                     <tbody>
                         {% for sujet in sujets %}
                             <tr>
-                                <td>{{sujet.titre}}</td>
-                                <td>{{sujet.descriptif}}</td>
-                                {% if sujet.idprof_id is not None%}
-                                <td>{{sujet.idprof.idpersonne.nom}} {{sujet.idprof.idpersonne.prenom}}</td>
+                                <td>{{sujet.sujet.titre}}</td>
+                                <td>{{sujet.sujet.descriptif}}</td>
+                                {% if sujet.sujet.idprof_id is not None%}
+                                <td>{{sujet.sujet.idprof.idpersonne.nom}} {{sujet.idprof.idpersonne.prenom}}</td>
                                 {% else %}
-                                <td>{{sujet.idsuperviseur.idpersonne.nom}} {{sujet.idsuperviseur.idpersonne.prenom}}</td>
+                                <td>{{sujet.sujet.idsuperviseur.idpersonne.nom}} {{sujet.idsuperviseur.idpersonne.prenom}}</td>
                                 {% endif %}
-                                <td><a href="../../../../polls/course/mycourses/reservation-sujet/{{idue}}/{{sujet.idsujet}}" class="btn btn-primary" >Réserver le sujet</a></td>
+                                <td>{{sujet.nbPersonnesRestantes}}/{{sujet.nbPersonnes}}</td>
+                                <td><a href="../../../../polls/course/mycourses/reservation-sujet/{{idue}}/{{sujet.sujet.idsujet}}" class="btn btn-primary" >Réserver le sujet</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

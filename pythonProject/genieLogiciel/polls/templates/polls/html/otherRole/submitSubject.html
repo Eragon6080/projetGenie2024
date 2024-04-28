@@ -1,14 +1,12 @@
 {% extends "course.html" %}
 
 
-
-{% if user.role ==  "prof"%}
 {% block content%}
 
     <!-- l'enchainement des classes de bootsrap permet d'aligner les éléments au centre -->
 <div class="container my-4">
     <div class="row align-self-center">
-        <form  id="myForm" action="/polls/course/{{ ue.idue }}/new/" method="post" enctype="multipart/form-data"> <!-- enctype="multipart/form-data" est nécessaire pou
+        <form  id="myForm" method="post" enctype="multipart/form-data"> <!-- enctype="multipart/form-data" est nécessaire pou
         récupérer les fichiers dans les requête et est requis pour django -->
             {% csrf_token %}
             <h2 id="creationTitle">Création d'un sujet</h2>
@@ -36,9 +34,27 @@
                     {{ form.destination }}
                 </div>
             </div>
+            {% if is_admin %}
             <div class="row py-3 g-3 align-items-center">
                 <div class="col-auto">
-                    <label for="{{form.file.id_for_label}}" class="form-label">
+                    <label for="{{form.referent_select.id_for_label}}" class="form-label">{{ form.referent_select.label }}</label>
+                </div>
+                <div class="col-auto">
+                    {{ form.referent_select }}
+                </div>
+            </div>
+            {% endif %}
+            <div class="row py-3 g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="{{form.student_select.id_for_label}}" class="form-label">{{ form.student_select.label }}</label>
+                </div>
+                <div class="col-auto">
+                    {{ form.student_select }}
+                </div>
+            </div>
+            <div class="row py-3 g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="{{form.file.id_for_label}}" class="form-label">{{ form.file.label }}</label>
                 </div>
                 <div class="col-auto">
                     {{ form.file }}
@@ -46,15 +62,24 @@
                 <div class="col-auto">
                     <div class="text-form">Optionnel</div>
                 </div>
+
             </div>
-            <div class="col-12 align-items-center">
-                <button type="submit" class="btn bgunamur text-white" >Validation</button>
+            <div class="row py-3 g-3 align-items-center">
+
+                <div class="col-auto">
+                        <label for="{{form.nb_personnes.id_for_label}}" class="form-label">{{ form.nb_personnes.label }}</label>
+                        {{form.nb_personnes }}
+                    </div>
+                <div class="col-12 align-items-center">
+                    <button type="submit" class="btn bgunamur text-white" >Validation</button>
                 <a href="../" class="btn text-white bg-danger">Cancel</a>
             </div>
+            </div>
+
         </form>
     </div>
 </div>
 
 
 {% endblock content%}
-    {% endif %}
+

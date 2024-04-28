@@ -1,5 +1,6 @@
 from django.http import HttpResponseForbidden
-from .queries import get_owner_of_ue, get_ue
+from django.core.exceptions import PermissionDenied
+from .queries import find_owner_of_ue, find_ue
 
 
 def admin_required(function):
@@ -7,7 +8,7 @@ def admin_required(function):
         if "admin" in request.user.role['role']:
             return function(request, *args, **kwargs)
         else:
-            return HttpResponseForbidden()
+            raise PermissionDenied()
 
     wrap.__doc__ = function.__doc__
     wrap.__name__ = function.__name__
@@ -19,23 +20,12 @@ def prof_or_superviseur_required(function):
         if "professeur" in request.user.role['role'] or "superviseur" in request.user.role['role']:
             return function(request, *args, **kwargs)
         else:
-            return HttpResponseForbidden()
+            raise PermissionDenied()
 
     wrap.__doc__ = function.__doc__
     wrap.__name__ = function.__name__
     return wrap
 
-
-def etudiant_required(function):
-    def wrap(request, *args, **kwargs):
-        if "etudiant" in request.user.role['role']:
-            return function(request, *args, **kwargs)
-        else:
-            return HttpResponseForbidden()
-
-    wrap.__doc__ = function.__doc__
-    wrap.__name__ = function.__name__
-    return wrap
 
 
 def prof_or_superviseur_or_student_required(function):
@@ -44,7 +34,7 @@ def prof_or_superviseur_or_student_required(function):
                 "superviseur" in request.user.role['role']):
             return function(request, *args, **kwargs)
         else:
-            return HttpResponseForbidden()
+            raise PermissionDenied()
 
     wrap.__doc__ = function.__doc__
     wrap.__name__ = function.__name__
@@ -56,7 +46,7 @@ def student_required(function):
         if "etudiant" in request.user.role['role']:
             return function(request, *args, **kwargs)
         else:
-            return HttpResponseForbidden()
+            raise PermissionDenied()
 
     wrap.__doc__ = function.__doc__
     wrap.__name__ = function.__name__
@@ -67,7 +57,7 @@ def admin_or_professor_required(function):
         if "professeur" in request.user.role['role'] or "admin" in request.user.role['role']:
             return function(request, *args, **kwargs)
         else:
-            return HttpResponseForbidden()
+            raise PermissionDenied()
 
     wrap.__doc__ = function.__doc__
     wrap.__name__ = function.__name__
@@ -78,31 +68,22 @@ def admin_or_professor_or_superviseur_required(function):
         if "professeur" in request.user.role['role'] or "admin" in request.user.role['role'] or "superviseur" in request.user.role['role']:
             return function(request, *args, **kwargs)
         else:
-            return HttpResponseForbidden()
+            raise PermissionDenied()
 
     wrap.__doc__ = function.__doc__
     wrap.__name__ = function.__name__
     return wrap
 
-def is_owner_or_admin(function):
+def is_owner_of_ue_or_admin(function):
     def wrap(request, *args, **kwargs):
-        if "admin" in request.user.role['role'] or request.user == get_owner_of_ue(get_ue(kwargs['idue'])):
+        if "admin" in request.user.role['role'] or request.user == find_owner_of_ue(find_ue(kwargs['idue'])):
             return function(request, *args, **kwargs)
         else:
-            return HttpResponseForbidden()
+            raise PermissionDenied()
 
     wrap.__doc__ = function.__doc__
     wrap.__name__ = function.__name__
     return wrap
 
-def student_required(function):
-    def wrap(request, *args, **kwargs):
-        if "etudiant" in request.user.role['role']:
-            return function(request, *args, **kwargs)
-        else:
-            return HttpResponseForbidden()
 
-    wrap.__doc__ = function.__doc__
-    wrap.__name__ = function.__name__
-    return wrap
 

@@ -1,5 +1,6 @@
 import logging
 from multiprocessing import Value
+from multiprocessing.managers import BaseManager
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -12,27 +13,16 @@ from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, Co
 from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable
 from .queries import *
 
-from .restrictions import prof_or_superviseur_required, prof_or_superviseur_or_student_required, \
-    admin_or_professor_or_superviseur_required, is_owner_or_admin, student_required
+from .restrictions import *
 
 
 @login_required(login_url='/polls')
 @csrf_exempt
-@admin_or_professor_or_superviseur_required
+@admin_or_professor_required
 def topics(request, idue) -> HttpResponse:
-    user = request.user
-    if 'professeur' in user.role['role']:
-        # Récupère tous les cours associés à une UE particulière
-        cours_ids = Cours.objects.filter(idue=idue).values_list('idcours', flat=True)
-        ue = get_ue(idue=idue)
-        print(cours_ids, "ok")
-        # Récupèrer tous les sujets associés à ces cours
-        sujets = Sujet.objects.filter(idue=ue)
-        print(sujets, 'oki')
-    else:
-        sujets = get_subject_for_a_superviseur(user.idpersonne)
-        print(sujets)
-        ue = None
+    ue = find_ue(idue=idue)
+    # Récupèrer tous les sujets associés à cette ue
+    sujets = Sujet.objects.filter(idue=ue)
     sujet_infos = []
     for sujet in sujets:
         sujet_info = {
@@ -44,25 +34,26 @@ def topics(request, idue) -> HttpResponse:
         }
 
         if sujet.estpris:
-            etudiants = [Sujet.objects.get(idsujet=sujet.idsujet).idetudiant]
+            etudiants = [SelectionSujet.objects.get(idsujet=sujet.idsujet).idetudiant]
             etudiants_noms = [f"{etudiant.idpersonne.nom} {etudiant.idpersonne.prenom}" for etudiant in etudiants]
             sujet_info['etudiants'] = etudiants_noms
 
         sujet_infos.append(sujet_info)
 
     return render(request, "otherRole/topic.html", {'sujet_infos': sujet_infos, 'ue': ue})
+
 
 @login_required(login_url='/polls')
 @csrf_exempt
 @prof_or_superviseur_required
 def myTopics(request, idue) -> HttpResponse:
     user = request.user
-    ue = get_ue(idue=idue)
+    ue = find_ue(idue=idue)
     if 'professeur' in user.role['role']:
         # Récupèrer tous les sujets associés à ces cours
-        sujets = Sujet.objects.filter(idue=ue, idprof=get_prof_by_id_personne(user.idpersonne).idprof)
+        sujets = Sujet.objects.filter(idue=ue, idprof=find_prof_by_id_personne(user.idpersonne).idprof)
     else:
-        sujets = get_subject_for_a_superviseur(user.idpersonne)
+        sujets = find_subject_for_a_superviseur(user.idpersonne)
     sujet_infos = []
     for sujet in sujets:
         sujet_info = {
@@ -74,7 +65,7 @@ def myTopics(request, idue) -> HttpResponse:
         }
 
         if sujet.estpris:
-            etudiants = [Sujet.objects.get(idsujet=sujet.idsujet).idetudiant]
+            etudiants = [SelectionSujet.objects.get(idsujet=sujet.idsujet).idetudiant]
             etudiants_noms = [f"{etudiant.idpersonne.nom} {etudiant.idpersonne.prenom}" for etudiant in etudiants]
             sujet_info['etudiants'] = etudiants_noms
 
@@ -86,14 +77,14 @@ def myTopics(request, idue) -> HttpResponse:
 @login_required(login_url='/polls')
 @csrf_exempt
 @admin_or_professor_or_superviseur_required
-@is_owner_or_admin
+@is_owner_of_ue_or_admin
 def participants(request, idue) -> HttpResponse:
-    ue = get_ue(idue)
-    students = get_students_of_ue(ue)
-    professors = [get_owner_of_ue(ue)]
-    supervisors = get_supervisors_of_ue(ue)
+    ue = find_ue(idue)
+    students = find_students_of_ue(ue)
+    professor = find_owner_of_ue(ue)
+    supervisors = find_supervisors_of_ue(ue)
     return render(request, "otherRole/participants.html",
-                  context={"students": students, "professors": professors, "supervisors": supervisors, "ue": ue})
+                  context={"students": students, "professor": professor, "supervisors": supervisors, "ue": ue})
 
 
 @login_required(login_url='/polls')
@@ -130,47 +121,77 @@ def editTopic(request, sujet_id):
 def deleteTopic(request, sujet_id):
     sujet = get_object_or_404(Sujet, idsujet=sujet_id)
     id_ue = sujet.idCours.idue.idue
+    selections = find_selection_by_id_sujet(sujet)
+    for selection in selections:
+        selection.delete()
     sujet.delete()
     return redirect("topics", code=id_ue)
+
+
+
 
 
 @login_required(login_url='/polls')
 @csrf_exempt
 @admin_or_professor_or_superviseur_required
-def addTopic(request, idue) -> HttpResponse:
+def add_topic(request, idue) -> HttpResponse:
     logger = logging.getLogger()
     user = request.user
+    is_admin = is_user_admin(user.idpersonne)
+    ue = find_ue(idue)
     if request.method == 'POST':
+        form = SubmitForm(request.POST, request.FILES, list_students=find_students_of_ue(ue), list_referent=find_supervisors_of_ue(ue).union(Personne.objects.filter(idpersonne = find_owner_of_ue(ue).idpersonne)), is_admin=is_admin)
 
-        form = SubmitForm(request.POST, request.FILES)
+        #print(request.FILES['file'])
 
-        if form.is_valid():
-            logger.info("form is valid")
-            if 'professeur' in user.role['role']:
-                prof = get_prof_by_id_personne(user.idpersonne)
-                sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
-                              destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'],
-                              idprofesseur=prof)
-            else:
-                superviseur = get_superviseur_by_id_personne(user.idpersonne)
-                sujet = Sujet(titre=form.cleaned_data['title'], descriptif=form.cleaned_data['description'],
-                              destination=form.cleaned_data['destination'], fichier=form.cleaned_data['file'],
-                              idsuperviseur=superviseur)
+        titre = request.POST['title']
+        descriptif = request.POST['description']
+        destination = request.POST['destination']
+        print(bool(request.FILES))
+        fichier = request.FILES['file'] if bool(request.FILES) else None
+        student_id = request.POST['student_select']
+        nb_personnes = request.POST['nb_personnes']
+        logger.info("form is valid")
+        subject_is_taken = True if student_id != '' else False
+        if 'admin' in user.role['role']:
+            referent_id = request.POST['referent_select']
+            # revoir cette partie pour vérifier par rapport à l'ue
+            
+            prof = find_prof_by_id_personne(referent_id)
+            sup = find_superviseur_by_id_personne(referent_id)
+            if prof:
+                sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier, idprof=prof, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue)
+            elif sup:
+                sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier, idsuperviseur=sup, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue)
 
-            sujet.save()
+        elif 'professeur' in user.role['role']:
+            prof = find_prof_by_id_personne(user.idpersonne)
+            sujet = Sujet(titre=titre, descriptif=descriptif,
+                          destination=destination, fichier=fichier,
+                          idprof=prof, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue)
+        else:
+            superviseur = find_superviseur_by_id_personne(user.idpersonne)
+            sujet = Sujet(titre=titre, descriptif=descriptif,
+                          destination=destination, fichier=fichier,
+                          idsuperviseur=superviseur,estpris=subject_is_taken,nbpersonnes=nb_personnes,idue=ue)
 
-            return HttpResponseRedirect(f"polls/course/{idue}")
+        sujet.save()
+
+        if subject_is_taken :
+            SelectionSujet(idetudiant=find_student_by_id_personne(student_id), idsujet=sujet).save()
+
+        return HttpResponseRedirect("../")
+
     else:
-        form = SubmitForm()
-
-    ue = get_ue(idue)
+        form = SubmitForm(list_students=find_students_of_ue(ue), list_referent=find_supervisors_of_ue(ue).union(Personne.objects.filter(idpersonne = find_owner_of_ue(ue).idpersonne)), is_admin=is_admin)
 
     context = {
         'ue': ue,
         'title': 'Cours',
         'prenom': "Matthys",
         'role': "Etudiant",
-        "form": form
+        "form": form,
+        'is_admin': is_admin,
     }
     return render(request, 'otherRole/submitSubject.html', context)
 
@@ -183,7 +204,7 @@ def ok(request) -> HttpResponse:
 
 @login_required(login_url='/polls')
 @csrf_exempt
-@is_owner_or_admin
+@is_owner_of_ue_or_admin
 def gestion_etape(request, idue):
     ue = get_object_or_404(Ue, idue=idue)
     if request.method == 'POST':
@@ -207,7 +228,7 @@ def gestion_etape(request, idue):
 
 @login_required(login_url='/polls')
 @csrf_exempt
-def afficher_etapes_ue(request, idue):
+def afficher_etapes_ue(request, idue)->HttpResponse:
     ue = get_object_or_404(Ue, idue=idue)
     professeur = ue.idprof
     periode = professeur.idperiode
@@ -217,7 +238,7 @@ def afficher_etapes_ue(request, idue):
 
 
 @login_required(login_url='/polls')
-def inscription(request):
+def subscription(request) -> HttpResponse:
     user = request.user
     if 'etudiant' in user.role['role']:
         cours = find_course_for_student_for_subscription(user.idpersonne)
@@ -225,7 +246,7 @@ def inscription(request):
         for cours in cours:
             courses.append(cours)
         context = {
-            'cours': courses
+            'courses': courses
         }
         return render(request, 'otherRole/inscription.html', context)
     else:
@@ -233,7 +254,7 @@ def inscription(request):
 
 
 @login_required(login_url='/polls')
-def inscriptionValidation(request, idue, nom):
+def subscription_validation(request, idue, nom):
     user = request.user
     etudiant = Etudiant.objects.get(idpersonne=user.idpersonne)
     ue = Ue.objects.get(idue=idue)
@@ -250,7 +271,6 @@ def mycourses(request):
     if courses_query:
         for cours in courses_query:
             courses_ue.append(cours.idue)
-    print(courses_ue)
     context = {
         'courses': courses_ue
     }
@@ -262,7 +282,7 @@ def mycourses(request):
 def reservation(request):
     user = request.user
     if "professeur" in user.role['role']:
-        subjects_query = get_all_subjects_for_a_teacher(user.idpersonne)
+        subjects_query = find_all_subjects_for_a_teacher(user.idpersonne)
         subjects = []
         for subject in subjects_query:
             subjects.append(subject)
@@ -282,14 +302,14 @@ def reservation(request):
 @prof_or_superviseur_required
 @csrf_exempt
 # pas besoin de validation vu que le formulaire est supposé correcte suit à l'envoi précédent
-def reservationValidation(request, idsujet):
+def booking(request, idsujet):
     user = request.user
     if request.method == "POST" and 'professeur' in user.role['role']:
         initial_data = {
             'title': request.POST.get('title'),
             'description': request.POST.get('description'),
             'subject_id': idsujet,
-            'students': get_students_by_teacher_without_subject(user.idpersonne)
+            'students': find_students_by_teacher_without_subject(user.idpersonne)
         }
         form = ConfirmationSujetReservation(initial=initial_data)
         context = {
@@ -303,14 +323,14 @@ def reservationValidation(request, idsujet):
         return redirect('../reservation')
 
 
-def reservationConfirmation(request, idsujet):
+def validation_booking(request, idsujet):
     user = request.user
     if request.method == "POST" and "professeur" in user.role['role']:
         idstudent = request.POST.get('students')
-        etudiant = get_student_by_id_etudiant(int(idstudent))
-        etudiant.idsujet_id = idsujet
-        etudiant.save()
-        sujet = get_subject(idsujet)
+        etudiant = find_student_by_id_etudiant(int(idstudent))
+        selectionSujet = SelectionSujet(idsujet=idsujet, idetudiant=etudiant)
+        selectionSujet.save()
+        sujet = find_sujet_by_id(idsujet)
         sujet.estPris = True
         sujet.save()
         return redirect('../../../home')
@@ -343,36 +363,43 @@ def etape_view(request):
     etapes = Etape.objects.all().values('description', 'delai')
     return render(request, 'otherRole/commandTimeline.html', {'etapes': etapes})
 
+
 @student_required
 def reservation_subject_student(request, idue, idpersonne):
-    etudiant = get_student_by_id_personne(idpersonne)
-    if count_subject_for_one_student_and_one_ue(etudiant.idetudiant,idue) == 0:
-        sujets_query = get_sujets_by_idue(idue)
+    etudiant = find_student_by_id_personne(idpersonne)
+    if count_subject_for_one_student_and_one_ue(etudiant.idetudiant, idue) == 0:
+        sujets_query = find_sujets_by_idue(idue)
         sujets = []
         for sujet in sujets_query:
-            sujets.append(sujet)
-        context = {
-            'titles' : ['Titre','Description','Professeur/Superviseur','Réserver'],
-            'sujets' : sujets,
-            'idue': idue
-        }
-
+            nbPersonnesRestantes = nb_people_keeping_for_a_sujet(sujet)
+            sujets.append({'sujet':sujet, 'nbPersonnesRestantes':nbPersonnesRestantes, 'nbPersonnes':sujet.nbpersonnes})
+        if len(sujets) > 0:
+            context = {
+                'titles': ['Titre', 'Description', 'Professeur/Superviseur', 'Nombre de personnes','Réserver'],
+                'sujets': sujets,
+                'idue': idue
+            }
+        else:
+            context = {
+                'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
+            }
     else:
         context = {
-            'failure' : "Vous ne pouvez plus réserver de sujet pour ce cours"
+            'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
         }
-        print(context)
-    return render(request, "otherRole/reservationSujet.html",context=context)
+    return render(request, "otherRole/reservationSujet.html", context=context)
+
 
 @student_required
 @transaction.atomic
-def confirmer_reservation_sujet(request,idue,idsujet):
+def confirmer_reservation_sujet(request, idue, idsujet):
     user = request.user
-    etudiant = get_student_by_id_personne(user.idpersonne)
+    etudiant = find_student_by_id_personne(user.idpersonne)
     sujet = get_subject_by_id(idsujet)
-    sujet.estpris = True
-    sujet.idetudiant = etudiant
+    if nb_people_keeping_for_a_sujet(sujet) == 1:
+        sujet.estpris = True
+    selectionSujet = SelectionSujet(idetudiant=etudiant, idsujet=sujet)
+    selectionSujet.save()
     sujet.save()
 
     return redirect('/polls/course/mycourses')
-
