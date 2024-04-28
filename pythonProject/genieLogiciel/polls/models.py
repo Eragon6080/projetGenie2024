@@ -146,6 +146,7 @@ class Professeur(models.Model):
         db_table = 'professeur'
 
 
+
 class Sujet(models.Model):
     idsujet = models.AutoField(primary_key=True, db_column='idsujet')
     titre = models.TextField(db_column='titre')
