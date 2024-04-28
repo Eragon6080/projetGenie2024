@@ -34,8 +34,8 @@ def topics(request, idue) -> HttpResponse:
         }
 
         if sujet.estpris:
-            etudiants = [SelectionSujet.objects.get(idsujet=sujet.idsujet).idetudiant]
-            etudiants_noms = [f"{etudiant.idpersonne.nom} {etudiant.idpersonne.prenom}" for etudiant in etudiants]
+            etudiants = SelectionSujet.objects.filter(idsujet=sujet.idsujet)
+            etudiants_noms = [f"{etudiant.idetudiant.idpersonne.nom} {etudiant.idetudiant.idpersonne.prenom}" for etudiant in etudiants]
             sujet_info['etudiants'] = etudiants_noms
 
         sujet_infos.append(sujet_info)

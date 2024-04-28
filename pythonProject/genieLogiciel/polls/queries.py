@@ -334,7 +334,7 @@ def find_students_of_ue(ue: Ue) -> list[Personne] | None:
     """
     try:
         courses = Cours.objects.filter(idue=ue)
-        students_query = Etudiant.objects.filter(idetudiant__in=courses)
+        students_query = Etudiant.objects.filter(idetudiant__in=courses.values('idetudiant'))
         personne_query = Personne.objects.filter(idpersonne__in=students_query)
         return personne_query
     except ObjectDoesNotExist:
@@ -349,7 +349,7 @@ def find_supervisors_of_ue(ue: Ue) -> list[Personne] | None:
     """
     try:
         supervisions = Supervision.objects.filter(idue=ue)
-        supervisors_query = Superviseur.objects.filter(idsuperviseur__in=supervisions)
+        supervisors_query = Superviseur.objects.filter(idsuperviseur__in=supervisions.values('idsuperviseur'))
         personne_query = Personne.objects.filter(superviseur__in=supervisors_query)
         return personne_query
     except ObjectDoesNotExist:
