@@ -41,6 +41,7 @@ urlpatterns = [
     path("sujet/etapes/", courseViews.etape_view, name="etapes"),
     path("inscription/", views.subscription, name="inscription"),
     path("course/desincription", views.desinscription, name="desinscription"),
-    path("course/desincription/<int:idcours>", views.desinscriptionValidation, name="desinscriptionValidation")
+    path("course/desincription/<int:idcours>", views.desinscriptionValidation, name="desinscriptionValidation"),
+    path("course/desinscription/<str:idue>/<int:idpersonne>", views.desinscriptionEtudiant, name="desinscription d'un etudiant d'une ue")
 
 ]

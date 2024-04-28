@@ -34,7 +34,7 @@
             {% for stud in students %}
             <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                 <a class="list-group-item-action text-black" href="/polls/fiche/{{ stud.idpersonne }}">{{ stud.nom }} {{ stud.prenom }} - {{ stud.mail }} </a>
-                <a class="btn bg-danger text-white fa fa-trash-o" href="./"></a>
+                <a class="btn bg-danger text-white fa fa-trash-o" href="../../desinscription/{{ ue.idue }}/{{ stud.idpersonne }}"></a>
             </div>
             {% endfor %}
         </div>

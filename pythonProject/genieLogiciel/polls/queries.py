@@ -491,6 +491,21 @@ def find_sujet_by_id_etudiant(etudiant) -> list[Sujet] | None:
     except:
         return None
 
+def find_sujets_of_student_of_ue(idetudiant, idue) -> list[Sujet] | None:
+    """
+    :param étudiant: l'étudiant en question, ue: l'ue en question
+    :return: les sujets d'un étudiant pour une ue donnée
+    """
+    try:
+        sujets_of_ue = Sujet.objects.filter(idue=idue)
+        selections_query = SelectionSujet.objects.filter(idetudiant=idetudiant, idsujet__in=sujets_of_ue)
+        sujets = []
+        for selection in selections_query:
+            sujets.append(find_sujet_by_id(selection.idsujet))
+        return sujets
+    except:
+        return None
+
 
 def is_user_admin(idpersonne: int) -> bool:
     """

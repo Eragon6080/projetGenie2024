@@ -316,3 +316,23 @@ def desinscriptionValidation(request, idcours: int) -> HttpResponse:
         return redirect('/polls/home')
     else:
         return redirect('/polls/home')
+
+@login_required(login_url='/polls')
+@is_owner_of_ue_or_admin
+def desinscriptionEtudiant(request, idpersonne, idue) -> HttpResponse:
+    etudiant = find_student_by_id_personne(idpersonne)
+    sujets = find_sujets_of_student_of_ue(idpersonne, idue)
+    cours = Cours.objects.get(idetudiant=etudiant, idue=idue)
+    # On libère les sujets réservés par l'étudiant
+    if sujets is not None:
+        for sujet in sujets:
+            sujet.estpris = False
+            selections = find_selection_by_id_sujet(idsujet=sujet, idetudiant=etudiant.idetudiant)
+            for selection in selections:
+                selection.delete()
+            sujet.save()
+
+    cours.delete()
+    return redirect('/polls/course/' + idue + '/participants/')
+
+    
