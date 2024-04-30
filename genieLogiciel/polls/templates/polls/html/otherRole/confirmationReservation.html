@@ -1,0 +1,45 @@
+{% extends "otherRole/otherRoleTemplate.html"%}
+{% block content %}
+    <div class="col-auto"></div>
+<div class="col-auto">
+    <!-- l'enchainement des classes de bootsrap permet d'aligner les éléments au centre -->
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="row align-self-center">
+        <form  id="myForm" action="/polls/sujet/reservation/confirmation/{{form.subject_id.value}}" method="post" > <!-- enctype="multipart/form-data" est nécessaire pou
+        récupérer les fichiers dans les requête et est requis pour django -->
+            {% csrf_token %}
+            <h2 id="creationTitle">Validation d'un sujet</h2>
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="{{form.title.id_for_label}}" class="form-label">Titre</label>
+                </div>
+                <div class="col-auto">
+                    {{ form.title }}
+                </div>
+            </div>
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="{{form.description.id_for_label}}" class="form-label">Description</label>
+                </div>
+                <div class="col">
+                    {{ form.description }}
+                </div>
+            </div>
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="{{form.students.id_for_label}}" class="form-label">Etudiants</label>
+                </div>
+                <div class="col">
+                    {{ form.students }}
+                </div>
+            </div>
+            {{form.subject_id.as_hidden}}
+            <div class="col-12 align-items-center">
+                <button type="submit" class="btn" id="myButton">Validation</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="col-auto"></div>
+{% endblock %}

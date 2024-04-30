@@ -1,0 +1,71 @@
+/* Réinitialisez certains styles par défaut */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+    border: black 1px solid;
+}
+
+/* Style pour la ligne d'en-tête */
+thead {
+    background-color: rgb(105,105,105);
+    color: white;
+    font-family: Regular;
+    font-size: 15pt;
+}
+
+/* Style pour les lignes paires */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.myTableTitle{
+    text-align: center;
+    border: 1px solid black;
+    background-color: #9F9F9F;
+    font-weight: bold;
+
+    text-decoration: underline;
+}
+.progress-container {
+    width: 100%;
+}
+
+.progress-list {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.progress-step {
+    text-align: center;
+}
+
+.progress-circle {
+    width: 50px;
+    height: 50px;
+    background: #ccc;
+    border-radius: 50%;
+    line-height: 50px;
+    margin-bottom: 0.5rem;
+}
+
+.progress-circle.active {
+      color: rgb(116,200,64);
+}
+
+.progress-text {
+    font-size: 0.8rem;
+}
+#barContainer {
+    margin-bottom: 10rem !important;
+}
+.custom-progress{
+    background-color: rgb(116,200,64) !important;
+}

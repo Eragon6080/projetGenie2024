@@ -1,0 +1,45 @@
+{% extends "otherRole/otherRoleTemplate.html" %}
+
+{% block content %}
+<div class="container vh-100 d-flex flex-column justify-content-center">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Description</th>
+                            <th scope="col">Optionnel</th>
+                            <th scope="col">Date de Début</th>
+                            <th scope="col">Date de Fin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for etape in etapes %}
+                        <tr>
+                            <td>{{ etape.description }}</td>
+                            <td>
+                                {% if etape.idDelivrable and etape.idDelivrable.typeFichier %}
+                                    Oui
+                                {% else %}
+                                    Non
+                                {% endif %}
+                            </td>
+                            
+                            <td>{{ etape.delai|date:"Y-m-d" }}</td>
+                            <td>{{ etape.delai|date:"Y-m-d" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">Aucune étape trouvée pour cette UE.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

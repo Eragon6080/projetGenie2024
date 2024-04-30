@@ -1,0 +1,183 @@
+{% extends "admin/adminTemplate.html" %}
+
+
+
+{% block content %}
+
+<div class="container d-flex flex-column justify-content-center align-items-center vh-100">
+    
+    <div class="row">
+        <div class="col">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Views
+                </button>
+                <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="./admin">Admin</a></li>
+                <li><a class="dropdown-item" href="./professor">Professeur / Superviseur</a></li>
+                <li><a class="dropdown-item" href="./student">Etudiant</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <p></p>
+
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+
+
+    
+        {% if current_view == "admin" %}
+
+        <button class="btn bgunamur" type="button" data-bs-toggle="modal" data-bs-target="#addRoleModal">Add admin</button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form method="post">
+                    {% csrf_token %}
+                        <div class="modal-header">
+                        <h5 class="modal-title">Add new admin</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        {{ addAdminForm }}
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn bgunamur">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <p></p>
+      
+        <div class="d-flex align-items-center">
+            <!-- Tableau Admin -->
+            {% if 'admin' in user.role.role %}
+            {% if admin_people %}
+            <div class="table-container d-flex justify-content-center">
+                <!-- Votre code de tableau ici -->
+                <table class="table-striped text-center">
+                            <thead>
+                                <tr>
+                                    {% for field in admin_and_superviseur_title %}
+                                    <th>{{ field }}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for admin in admin_people %}
+                                <tr>
+                                    <td class="myTableTitle"><a href="../../../polls/fiche"> {{admin.nom}} {{ admin.prenom }}</a></td>
+                                    <td>{{ admin.mail }}</td>
+                                    <td>{% for role in admin.role.role %}
+                                        {{ role }}
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if current_view == "professor" %}
+        <div class="d-flex align-items-center">
+            <!-- Tableau Prof/Superviseur -->
+            {% if 'admin' in user.role.role %}
+            {% if professeur_superviseur_people %}
+            <form method="post">
+            {% csrf_token %}
+            {{ formset.management_form }}
+            <div class="table-container d-flex justify-content-center">
+                <!-- Votre code de tableau ici -->
+                <table class="table-striped text-center">
+                    <thead>
+                        <tr>
+                            {% for field in manage_roles_title %}
+                            <th>{{ field }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {% for pers in professeur_superviseur_people %}
+                        
+                        <tr>
+                            <td class="myTableTitle"><a href="../../../polls/fiche/">{{pers.0.nom}} {{ pers.0.prenom }}</a></td>
+                            <td>{{ pers.0.mail }}</td>
+                            
+                            <td>
+                                {{ pers.1.prof }}
+                            </td>
+                            <td>
+                                {{ pers.1.sup }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div>
+            <p></p>
+            <div class="col d-flex justify-content-center">
+                <button class="btn bgunamur" type="submit">Save</button>
+            </div>
+                
+            </form>
+            {% endif %}
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if current_view == "student" %}
+        <div class="d-flex align-items-center">
+            <!-- Tableau Etudiant -->
+            {% if 'admin' in user.role.role %}
+            {% if etudiant_people %}
+            <div class="table-container d-flex justify-content-center">
+                <!-- Votre code de tableau ici -->
+                <table class="table-striped text-center">
+                            <thead>
+                                <tr>
+                                    {% for field in etudiant_title %}
+                                    <th>{{ field }}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for etu in etudiant_people %}
+                                <tr>
+                                    <td class="myTableTitle"><a href="../../../polls/fiche">{{etu.idpersonne.nom}} {{ etu.idpersonne.prenom }}</a></td>
+                                    <td>{{ etu.idpersonne.mail }}</td>
+                                    <td>{{ etu.bloc}}</td>
+                                    <td>{% for role in etu.idpersonne.role.role%}
+                                        {{ role }}
+                                        {%endfor%}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+        {% endif %}
+    
+    
+    
+</div>
+{% endblock %}
+
+

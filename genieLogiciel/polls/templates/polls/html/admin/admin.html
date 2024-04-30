@@ -1,0 +1,14 @@
+{% extends "admin/adminTemplate.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/customized.css'%}">
+{% block content %}
+{% if 'admin' in user.role.role %}
+<div class="col-auto"></div>
+<div class="col-auto">
+    <!-- l'enchainement des classes de bootsrap permet d'aligner les éléments au centre -->
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <p>Bienvenue dans l'interface d'administration : {{ user.prenom }} {{ user.nom }}</p>
+    </div>
+<div class="col-auto"></div>
+{% endif %}
+{% endblock content %}

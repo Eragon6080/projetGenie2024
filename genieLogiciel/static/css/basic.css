@@ -1,0 +1,66 @@
+.unamurGreen{
+    background-color: rgb(105,190,40); /* Color Unamur */
+}
+
+/* colonne à gauche*/
+.cader{
+    text-align: center;
+    border: 1px solid black;
+    padding: 10px;
+    width: 100%;
+    height: 4%;
+    background-color: #9F9F9F;
+    color: white;
+    font-size: 20pt;
+    font-family: Regular;
+}
+.cader:hover{
+    background-color: #D9D9D9;
+}
+body{
+    background-color: #FFFFFF;
+}
+
+.myOwnheader{
+    background-color: rgb(105,105,105);
+    padding: 10px;
+    margin: 0px;
+    height: 5vw;
+
+}
+
+
+
+#titleLeftColumn{
+    z-index: 9999;
+    background-color:  rgb(105,190,40); /* Color Unamur */
+    background-size: cover; /* Fait en sorte que l'image d'arrière-plan couvre tout l'élément */;
+}
+
+
+#titleLeftColumn img{
+    object-fit: fill;
+    
+}
+.textIntroduce{
+    text-align: center;
+    font-size: 13pt;
+    font-family: Regular;
+    color: black;
+
+}
+.square {
+    width: 100%;
+    padding-bottom: 100%;
+    position: relative;
+}
+.titles{
+    font-size: 20pt;
+    font-family: Regular;
+    text-align: center;
+    padding: 10px;
+    background-color: #9F9F9F;
+    text-decoration: underline;
+    justify-content: center;
+}
+

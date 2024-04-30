@@ -1,0 +1,42 @@
+{% extends "otherRole/otherRoleTemplate.html" %}
+
+{% block content%}
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="col-8"></div>
+        <div class="col-12">
+        <div class="row">
+            {% if courses%}
+            <!-- code html + django pour l'affichage des cartes-->
+            {% for cours in courses %}
+                <div class="justify-content-between w-25 vh-100">
+                <div class="card text-center myCard">
+                    <div class="card-body myBodyCard">
+                        {% if 'etudiant' not in user.role.role%}
+                            <a href="./{{ cours.idue }}/"> <h5 class="card-title">{{cours.nom}}</h5>
+                        {% else %}
+                                {%if desinscription %}
+                                    <a href="./desincription/{{cours.idcours}}"><h5 class="card-title">{{cours.nom}}</h5></a>
+                                {%else%}
+                                    <a href="../course/mycourses/{{cours.idue}}/{{user.idpersonne}}"><h5 class="card-title">{{cours.nom}}</h5></a>
+                                {%endif%}
+
+                        {% endif %}
+                        <p class="card-text">{{cours.idue_id}}</p>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+            {%else%}
+            {% if failure %}
+                <p class="vw-100">{{failure}}</p>
+            {% else %}
+                <p class="vw-100">Vous n'avez pas de cours</p>
+            {% endif %}
+            {%endif%}
+        </div>
+    </div>
+    </div>
+    <div class="col-auto"></div>
+{% endblock content %}

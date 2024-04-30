@@ -1,0 +1,39 @@
+{% extends "course.html" %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <div style="display:none;" id="typeFichierContainer">
+        <label for="typeFichier">Type de fichier:</label>
+        <input type="text" id="typeFichier" name="typeFichier">
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const necessiteDelivrableFields = document.querySelectorAll("input[name='necessiteDelivrable']");
+            const typeFichierContainer = document.getElementById("typeFichierContainer");
+
+            function toggleTypeFichierField() {
+                const necessiteDelivrable = document.querySelector("input[name='necessiteDelivrable']:checked").value;
+                if(necessiteDelivrable === 'True') {
+                    typeFichierContainer.style.display = "block";
+                } else {
+                    typeFichierContainer.style.display = "none";
+                }
+            }
+
+            necessiteDelivrableFields.forEach(field => {
+                field.addEventListener('change', toggleTypeFichierField);
+            });
+
+            toggleTypeFichierField(); // Appel initial pour définir l'état correct lors du chargement de la page
+        });
+    </script>
+
+    <button type="submit">Soumettre</button>
+</form>
+
+
+{% endblock %}
