@@ -1,4 +1,5 @@
 P.venv/
 .ven/
 .env
+.vscode
 __pycache__
