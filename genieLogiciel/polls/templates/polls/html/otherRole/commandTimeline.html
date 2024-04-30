@@ -118,11 +118,17 @@ function selectStep(stepueId) {
     url = window.location.href + 'select/step/' + stepueId;
     fetch(url, { method: 'GET' })
     .then(Result => Result.json())
-    .then(string => {
- 
-        // Printing our response 
-        console.log(string);
-        window.location.reload();
+    .then(res => {
+        res['etapes_ue'].forEach((etape, index) => {
+            var stepTimeLine = document.getElementById(etape.pk);
+            if (etape.fields.etapecourante) {
+                stepTimeLine.classList.remove('bg-transparent');
+                stepTimeLine.classList.add('bgunamur');
+            } else {
+                stepTimeLine.classList.remove('bgunamur');
+                stepTimeLine.classList.add('bg-transparent');
+            }
+        });
     })
     .catch(errorMsg => { console.log(errorMsg); });
     

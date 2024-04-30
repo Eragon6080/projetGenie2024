@@ -3,11 +3,11 @@
     <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="height: 30px">
         {% for etape in etapes_ue %}
           {% if etape.etapecourante %}
-          <div class="bgunamur progress-bar w-100">
+          <div id ="{{ etape.idetapeue }}" class="bgunamur progress-bar w-100">
               <span class="text-dark">Etape {{ forloop.counter }} : {{ etape.idetape.description }}</span>  
           </div>
           {% else %}
-          <div class="bg-transparent progress-bar w-100">
+          <div id ="{{ etape.idetapeue }}" class="bg-transparent progress-bar w-100">
               <span class="text-dark">Etape {{ forloop.counter }} : {{ etape.idetape.description }}</span>
           </div>
           {% endif %}

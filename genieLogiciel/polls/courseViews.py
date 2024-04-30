@@ -1,7 +1,8 @@
-import logging
+import logging, json
 from multiprocessing import Value
 from multiprocessing.managers import BaseManager
 
+from django.core.serializers import serialize
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import F
@@ -422,4 +423,5 @@ def selectStep(request, idue, idetapeue):
         etape.save()
     etapeue_to_select.etapecourante = True
     etapeue_to_select.save()
-    return JsonResponse({'success': True})
+    etapes, etapes_ue = find_etapes_of_ue(find_ue(idue))
+    return JsonResponse({'etapes_ue': json.loads(serialize('json', etapes_ue))})
