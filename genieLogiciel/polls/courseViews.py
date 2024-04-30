@@ -239,6 +239,7 @@ def subscription_validation(request, idue, nom):
 
 
 @login_required(login_url='/polls')
+@student_required
 def mycourses(request):
     user = request.user
     courses_query = find_course_for_student(user.idpersonne)
@@ -250,6 +251,20 @@ def mycourses(request):
         'courses': courses_ue
     }
     return render(request, "otherRole/home.html", context=context)
+
+@login_required(login_url='/polls')
+@student_required
+def mycourse(request, idue):
+    user = request.user
+    ue = find_ue(idue)
+    etapes, etapes_ue = find_etapes_of_ue(ue)
+    context = {
+        'ue': ue,
+        'is_student': True,
+        'etapes': etapes,
+        'etapes_ue': etapes_ue
+        }
+    return render(request, "course.html", context=context)
 
 
 @login_required(login_url='polls')

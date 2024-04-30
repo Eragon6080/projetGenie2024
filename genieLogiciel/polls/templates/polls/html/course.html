@@ -35,7 +35,13 @@
 
 {% include "TimelineGraph.html" %}
 
+{% if is_student %}
+<div class="container justify-content-center">
+  <p>Vue adaptative</p>
+</div>
+    
 
+{% else %}
 <div class="container justify-content-center">
     <div class="row row-cols-4 my-4 ">
       {% if is_owner or is_admin %}
@@ -102,6 +108,8 @@
       </div>
     </div>
 </div>
+
+{% endif %}
 
 
 
