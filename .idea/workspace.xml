@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Réorganisation des fichiers" />
+    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Réorganisation des fichiers">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/models.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,16 +47,27 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/matth/Desktop/projetGenie2024&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/matth/Desktop/genieproj/genieLogiciel&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
+    ]
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\matth\Desktop\genieproj\genieLogiciel" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="projetGenie2024" />
@@ -94,6 +111,8 @@
       <updated>1710493088428</updated>
       <workItem from="1710493091167" duration="102000" />
       <workItem from="1714475646390" duration="315000" />
+      <workItem from="1714487322562" duration="2332000" />
+      <workItem from="1714491787591" duration="346000" />
     </task>
     <task id="LOCAL-00001" summary="Réorganisation des fichiers">
       <option name="closed" value="true" />
