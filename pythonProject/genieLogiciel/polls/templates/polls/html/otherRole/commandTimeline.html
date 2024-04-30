@@ -1,25 +1,9 @@
-{% extends "basic.html" %}
+{% extends "course.html" %}
 
-{% load static %}
-
-{% load static %}
-
-
-{% block headerBar %}
-{% include "otherRole/headerOtherRole.html"%}
-{% endblock %}
-
-{% block sidebar %}
-{% include "otherRole/navBarOtherRole.html"%}
-{% endblock %}
+{% load static%}
 
 {% block content%}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Étapes</title>
-    <!-- Include Bootstrap CSS -->
-</head>
+
 <style>
     /* ... (keep your existing styles) ... */
     .timeline-chart {
@@ -58,7 +42,7 @@
         width: 200%;
     }
 </style>
-<body>
+
 <div class="container mt-3">
     <h2>Setup Timeline</h2>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -84,8 +68,8 @@
             <tr>
                 <td>{{ etape.description }}</td>
                 <td><input type="checkbox"></td>
-                <td>{{ etape.delai }}</td>
-                <td>{{ etape.delai }}</td>
+                <td>{{ etape.datedebut }}</td>
+                <td>{{ etape.datefin }}</td>
                 <td>
                     <!-- Toggle switch -->
                     <div class="custom-control custom-switch">
@@ -183,11 +167,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
-
-
-
-
-</body>
-</html>
 
 {% endblock %}

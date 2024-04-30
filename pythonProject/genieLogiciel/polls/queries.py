@@ -4,8 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, TextField, JSONField
 from django.db.models.functions import Cast
 
-from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet, Periode, Etape, Superviseur, Supervision, \
-    SelectionSujet
+from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet, Periode, Etape, Superviseur, Supervision, SelectionSujet, EtapeUe
 
 
 def find_all_ue():
@@ -553,5 +552,18 @@ def find_selection_by_id_sujet(sujet:Sujet)->list[SelectionSujet]|None:
         for selection in selections_query:
             selections.append(selection)
         return selections
+    except ObjectDoesNotExist:
+        return None
+    
+def find_etapes_of_ue(ue:Ue)->list[Etape]|None:
+    """
+    :param ue:
+    :return: les étapes d'une ue
+    """
+    try:
+        etapes = []
+        etapesUe_query = EtapeUe.objects.filter(idue=ue)
+        etapes = Etape.objects.filter(idetape__in=etapesUe_query.values('idetape'))
+        return etapes
     except ObjectDoesNotExist:
         return None

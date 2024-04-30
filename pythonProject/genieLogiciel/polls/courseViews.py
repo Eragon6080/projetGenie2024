@@ -357,9 +357,12 @@ def vue_historique(request):
 
 
 @login_required(login_url='polls')
-def etape_view(request):
-    etapes = Etape.objects.all().values('description', 'delai')
-    return render(request, 'otherRole/commandTimeline.html', {'etapes': etapes})
+@is_owner_of_ue_or_admin
+def etape_view(request, idue):
+    ue = find_ue(idue)
+    etapes = find_etapes_of_ue(ue)
+    print(etapes)
+    return render(request, 'otherRole/commandTimeline.html', {'etapes': etapes, 'ue': ue})
 
 
 @student_required

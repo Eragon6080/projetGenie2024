@@ -85,7 +85,8 @@ class Delivrable(models.Model):
 
 class Etape(models.Model):
     idetape = models.AutoField(primary_key=True, db_column='idetape')
-    delai = models.DateTimeField(db_column='delai')
+    datedebut = models.DateTimeField(db_column='datedebut')
+    datefin = models.DateTimeField(db_column='datefin')
     description = models.TextField(db_column='description')
     idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode')
     iddelivrable = models.ForeignKey(Delivrable, models.DO_NOTHING, db_column='iddelivrable')
@@ -175,6 +176,16 @@ class Ue(models.Model):
         managed = False
         db_table = 'ue'
 
+class EtapeUe(models.Model):
+    idetapeue = models.AutoField(primary_key=True, db_column='idetapeue')
+    idue = models.ForeignKey(Ue, models.DO_NOTHING, db_column='idue')
+    idetape = models.ForeignKey(Etape, models.DO_NOTHING, db_column='idetape')
+    etapecourante = models.BooleanField(db_column='etapecourante', default=False)
+
+    class Meta:
+        managed = False
+        db_table = 'etapeue'
+
 
 class FichierDelivrable(models.Model):
     idfichier = models.AutoField(primary_key=True, db_column='idfichier')
@@ -232,3 +243,5 @@ class SelectionSujet(models.Model):
     class Meta:
         managed = False
         db_table = 'selectionsujet'
+
+

@@ -22,9 +22,10 @@ class EtapeForm(forms.ModelForm):
 
     class Meta:
         model = Etape
-        fields = ['description', 'delai']
+        fields = ['description', 'datedebut', 'datefin']
         widgets = {
-            'delai': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'datedebut': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'datefin': forms.DateTimeInput(attrs={'type': 'datetime-local'})
         }
 
 
