@@ -11,14 +11,13 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
-import sys
 from pathlib import Path
-from dotenv import load_dotenv # type: ignore
-import dj_database_url # type: ignore
 
-# Chargez le fichier .env
-load_dotenv()
+import dj_database_url
+from dotenv import load_dotenv
 
+isLoaded = load_dotenv(dotenv_path="pims.env")
+print(isLoaded)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,9 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = True
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -79,31 +78,10 @@ WSGI_APPLICATION = 'genieLogiciel.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 AUTH_USER_MODEL = 'polls.Personne'
-#
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
- #       'NAME': 'admin',
- #       'USER': 'admin',
- #       'PASSWORD': 'admin',
-#        'HOST': 'localhost',
- #       'PORT': '5432'
-
-    #}
-#}
+print(os.getenv('DATABASE_URL'))
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql_psycopg2',
-      'NAME': 'admin',
-      'USER': 'admin',
-     'PASSWORD': 'admin',
-   }
+    'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
 }
-DATABASES["default"] = dj_database_url.parse(os.getenv('DATABASE_URL'))
-# url =password :  qnxETAx1WZXMCthA29oaLOjEp8hIAUAH
-#     = lien externe : postgres://admin:qnxETAx1WZXMCthA29oaLOjEp8hIAUAH@dpg-cooc4gev3ddc738l4ql0-a.oregon-postgres.render.com/admin_8u5u
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -138,10 +116,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-SATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -150,12 +128,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
-PYTHON_PATH = sys.path
+
 
 # Utilisez les variables d'environnement
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.office365.com'
-EMAIL_PORT = 587
+EMAIL_HOST = os.getenv('HOST_MAIL_TYPE')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
