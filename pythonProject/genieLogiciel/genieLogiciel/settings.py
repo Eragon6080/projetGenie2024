@@ -24,12 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-k#mhk-qoohh#8)p)uwb+*a@4&ks()1&ms2d8w(#qf#pek!+-#1'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
 
 # Application definition
 
@@ -97,8 +97,7 @@ DATABASES = {
      'PASSWORD': 'admin',
    }
 }
-DATABASES["default"] = dj_database_url.parse("postgres://admin:qnxETAx1WZXMCthA29oaLOjEp8hIAUAH@dpg"
-                                             "-cooc4gev3ddc738l4ql0-a.oregon-postgres.render.com/admin_8u5u")
+DATABASES["default"] = dj_database_url.parse(os.getenv('DATABASE_URL'))
 # url =password :  qnxETAx1WZXMCthA29oaLOjEp8hIAUAH
 #     = lien externe : postgres://admin:qnxETAx1WZXMCthA29oaLOjEp8hIAUAH@dpg-cooc4gev3ddc738l4ql0-a.oregon-postgres.render.com/admin_8u5u
 
