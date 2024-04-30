@@ -13,10 +13,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 import sys
 from pathlib import Path
-from dotenv import load_dotenv
-import dj_database_url
+from dotenv import load_dotenv # type: ignore
+import dj_database_url # type: ignore
 
-
+# Chargez le fichier .env
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -150,10 +151,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
 PYTHON_PATH = sys.path
-
-
-# Chargez le fichier .env
-load_dotenv()
 
 # Utilisez les variables d'environnement
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
