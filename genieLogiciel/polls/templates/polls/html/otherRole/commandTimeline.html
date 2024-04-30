@@ -43,6 +43,8 @@
     }
 </style>
 
+{% include "TimelineGraph.html" %}
+
 <div class="container mt-3">
     <h2>Setup Timeline</h2>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -56,48 +58,53 @@
     <table class="table table-bordered mt-3">
         <thead>
             <tr>
-                <th>Step Name</th>
+                <th>Titre de l'étape</th>
                 <th>Optional?</th>
-                <th>Start</th>
-                <th>End</th>
-                <th></th> <!-- Toggle column -->
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Etape en cours</th> <!-- Toggle column -->
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for etape in etapes %}
+            {% for etape in etapes_ue %}
             <tr>
-                <td>{{ etape.description }}</td>
+                <td>{{ etape.idetape.description }}</td>
                 <td><input type="checkbox"></td>
-                <td>{{ etape.datedebut }}</td>
-                <td>{{ etape.datefin }}</td>
+                <td>{{ etape.idetape.datedebut }}</td>
+                <td>{{ etape.idetape.datefin }}</td>
                 <td>
-                    <!-- Toggle switch -->
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="customSwitch{{ forloop.counter }}"
+                    {% if etape.etapecourante %}
+                    <input type="radio" id="{{ etape.idetape.idetape }}" name="brand" value="{{ etape.idetapeue }}" onchange="selectStep(value)" checked>
+                    {% else %}
+                    <input type="radio" id="{{ etape.idetape.idetape }}" name="brand" value="{{ etape.idetapeue }}" onchange="selectStep(value)">
+                    {% endif %}
+                    <!-- <div class="custom-control custom-switch">
+                        <input type="radio" class="custom-control-input" id="customSwitch{{ forloop.counter }}"
                                onchange="toggleStep({{ forloop.counter }});">
                         <label class="custom-control-label" for="customSwitch{{ forloop.counter }}"></label>
-                    </div>
+                    </div> -->
                     
                     
+                </td>
+                <td>
+                    <a class="btn bg-danger text-white fa fa-trash-o" href="./delete/{{ etape.idetape.idetape }}"></a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <button type="button" class="btn btn-primary">Add Step</button>
-    <button type="button" class="btn btn-danger">Remove Step</button>
-    <button type="button" class="btn btn-success float-right">Save Changes</button>
-    <br> <br>  <br><br>  <br>
-    <div class="timeline-chart" id="timelineChart">
-        {% for etape in etapes %}
-        <div class="step" id="chartStep{{ forloop.counter }}">
-            <div class="dot"></div>
-            <div class="line"></div>
-            <p>{{ etape.description }}</p>
+
+    <button class="btn bgunamur" type="button" data-bs-toggle="collapse" data-bs-target="#addStep" aria-expanded="false" aria-controls="collapseExample">
+        Ajouter une étape
+    </button>
+
+    <div class="collapse" id="addStep">
+        <div class="card card-body my-3">
+            {% include "otherRole/gestion_etape.html" %}
         </div>
-        <script>console.log("ID de l'étape : ", "{{ forloop.counter }}");</script>
-        {% endfor %}
     </div>
+
 </div>
 <!-- Include Bootstrap JS and its dependencies at the end of the body for better performance and to ensure they load first -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -106,6 +113,21 @@
 <script src="{% static 'admin/js/timeline.js' %}"></script>
 
 <script>
+
+function selectStep(stepueId) {
+    url = window.location.href + 'select/step/' + stepueId;
+    fetch(url, { method: 'GET' })
+    .then(Result => Result.json())
+    .then(string => {
+ 
+        // Printing our response 
+        console.log(string);
+        window.location.reload();
+    })
+    .catch(errorMsg => { console.log(errorMsg); });
+    
+}
+
     // Function to update the timeline chart
 function updateTimelineChart(stepId, active) {
     var step = document.getElementById('chartStep' + stepId);

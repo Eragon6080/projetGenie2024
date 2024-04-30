@@ -5,11 +5,12 @@ urlpatterns = [
     path("course/", views.home, name="home"),
     path("course/<str:idue>/", views.course, name="course"),
     path("course/<str:idue>/topics/", courseViews.topics, name="topics"),
-    path("course/<str:idue>/my/topics/", courseViews.myTopics, name="myTopics"),
+    path("course/<str:idue>/mytopics/", courseViews.myTopics, name="myTopics"),
     path("course/<str:idue>/new/", courseViews.add_topic, name="addTopic"),
     path("course/<str:idue>/participants/", courseViews.participants, name="participants"),
     path("course/<str:idue>/timeline/", courseViews.etape_view, name="gestion timeline"),
-    path("topic/", courseViews.topics, name="topic"),
+    path("course/<str:idue>/timeline/delete/<int:idetape>", courseViews.deleteStep, name="deleteStep"),
+    path("course/<str:idue>/timeline/select/step/<int:idetapeue>", courseViews.selectStep, name="selectStep"),
     path("home/", views.accueil, name="accueil"),
     path("", views.login, name="login"),
     path("ok/", courseViews.ok, name="ok"),
@@ -23,7 +24,6 @@ urlpatterns = [
     path("fiche/<int:idpersonne>", views.fiche, name="fiche"),
     path('sujet/edit/<int:sujet_id>/', courseViews.editTopic, name='edit_topic'),
     path('sujet/delete/<int:sujet_id>/', courseViews.deleteTopic, name='delete_topic'),
-    path('course/<str:idue>/gestion/', courseViews.gestion_etape, name='gestion_etape'),
     path("course/<str:idue>/steps/", courseViews.afficher_etapes_ue, name="steps"),
     path("course/inscription", courseViews.subscription, name="inscription"),
     path("course/inscription/<str:idue>/<str:nom>", courseViews.subscription_validation, name="inscription"),
@@ -42,6 +42,7 @@ urlpatterns = [
     path("inscription/", views.subscription, name="inscription"),
     path("course/desincription", views.desinscription, name="desinscription"),
     path("course/desincription/<int:idcours>", views.desinscriptionValidation, name="desinscriptionValidation"),
-    path("course/desinscription/<str:idue>/<int:idpersonne>", views.desinscriptionEtudiant, name="desinscription d'un etudiant d'une ue")
+    path("course/desinscription/<str:idue>/<int:idpersonne>", views.desinscriptionEtudiant, name="desinscription d'un etudiant d'une ue"),
+    
 
 ]

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import F
 from django.db.models.functions import Concat
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, ConfirmationSujetReservation
@@ -202,30 +202,6 @@ def ok(request) -> HttpResponse:
 
 @login_required(login_url='/polls')
 @csrf_exempt
-@is_owner_of_ue_or_admin
-def gestion_etape(request, idue):
-    ue = get_object_or_404(Ue, idue=idue)
-    if request.method == 'POST':
-        form = EtapeForm(request.POST)
-        if form.is_valid():
-            etape = form.save(commit=False)
-            etape.idPeriode = ue.idprof.idperiode
-            delivrable = Delivrable()
-            if 'typeFichier' in request.POST and request.POST['typeFichier'].strip():
-                typeFichier = request.POST['typeFichier']
-                delivrable.typeFichier = typeFichier
-            delivrable.save()
-            etape.idDelivrable = delivrable
-            etape.save()
-            return redirect("topics", code=idue)
-    else:
-        form = EtapeForm()
-
-    return render(request, 'otherRole/gestion_etape.html', {'form': form, 'ue': ue})
-
-
-@login_required(login_url='/polls')
-@csrf_exempt
 def afficher_etapes_ue(request, idue)->HttpResponse:
     ue = get_object_or_404(Ue, idue=idue)
     professeur = ue.idprof
@@ -360,9 +336,30 @@ def vue_historique(request):
 @is_owner_of_ue_or_admin
 def etape_view(request, idue):
     ue = find_ue(idue)
-    etapes = find_etapes_of_ue(ue)
-    print(etapes)
-    return render(request, 'otherRole/commandTimeline.html', {'etapes': etapes, 'ue': ue})
+    etapes, etapes_ue = find_etapes_of_ue(ue)
+
+    if request.method == 'POST':
+        form = EtapeForm(request.POST)
+        if form.is_valid():
+            etape = form.save(commit=False)
+            etape.idperiode = ue.idprof.idperiode
+            delivrable = None
+            if 'typeFichier' in request.POST and request.POST['typeFichier'].strip():
+                delivrable = find_delivrable_by_type(request.POST['typeFichier'])
+                if delivrable is None:
+                    delivrable = Delivrable()
+                    typeFichier = request.POST['typeFichier']
+                    delivrable.typeFichier = typeFichier
+                    delivrable.save()     
+
+            etape.iddelivrable = delivrable
+            etape.save()
+            EtapeUe(idue=ue, idetape=etape).save()
+            return HttpResponseRedirect(request.path)
+    else:
+        form = EtapeForm()
+
+    return render(request, 'otherRole/commandTimeline.html', {'form': form, 'etapes': etapes, 'ue': ue, 'etapes_ue': etapes_ue})
 
 
 @student_required
@@ -404,3 +401,25 @@ def confirmer_reservation_sujet(request, idue, idsujet):
     sujet.save()
 
     return redirect('/polls/course/mycourses')
+
+@login_required(login_url='/polls')
+@is_owner_of_ue_or_admin
+def deleteStep(request, idue, idetape):
+    etape = find_etape_by_id(idetape)
+    etapeue = find_etapeue_by_idetape_and_ue(idetape, idue)
+    if etapeue is not None and etape is not None:
+        etapeue.delete()
+        etape.delete()
+    return HttpResponseRedirect("../")
+
+@login_required(login_url='/polls')
+@is_owner_of_ue_or_admin
+def selectStep(request, idue, idetapeue):
+    etapeue_to_select = find_etapeue_by_idetape_and_ue(idetapeue, idue)
+    etapes, etapes_ue = find_etapes_of_ue(find_ue(idue))
+    for etape in etapes_ue:
+        etape.etapecourante = False
+        etape.save()
+    etapeue_to_select.etapecourante = True
+    etapeue_to_select.save()
+    return JsonResponse({'success': True})

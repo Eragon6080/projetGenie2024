@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, TextField, JSONField
 from django.db.models.functions import Cast
 
-from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet, Periode, Etape, Superviseur, Supervision, SelectionSujet, EtapeUe
+from .models import Ue, Cours, Personne, Professeur, Etudiant, Sujet, Periode, Etape, Superviseur, Supervision, SelectionSujet, EtapeUe, Delivrable
 
 
 def find_all_ue():
@@ -77,6 +77,24 @@ def find_Etudiant_People() -> list[Etudiant] | None:
     """
     try:
         return Etudiant.objects.all()
+    except ObjectDoesNotExist:
+        return None
+    
+def find_etape_by_id(idetape: int) -> Etape | None:
+    """
+    Retourne une étape
+    """
+    try:
+        return Etape.objects.get(idetape=idetape)
+    except ObjectDoesNotExist:
+        return None
+
+def find_etapeue_by_idetape_and_ue(idetape, idue) -> EtapeUe | None:
+    """
+    Retourne l'étape ue
+    """
+    try:
+        return EtapeUe.objects.get(idetape=idetape, idue=idue)
     except ObjectDoesNotExist:
         return None
 
@@ -528,6 +546,28 @@ def find_periode_by_id(idperiode: int) -> Periode | None:
         return periode
     except:
         return None
+    
+def find_periode_by_year(year) -> Periode | None:
+    """
+    :param annee:
+    :return: la période en relation avec l'année donnée
+    """
+    try:
+        periode = Periode.objects.get(annee=year)
+        return periode
+    except:
+        return None
+
+def find_delivrable_by_type(type) -> Delivrable | None:
+    """
+    :param type:
+    :return: le type de délivrable en question
+    """
+    try:
+        delivrable = Delivrable.objects.get(typefichier=type)
+        return delivrable
+    except:
+        return None
 
 
 def nb_people_keeping_for_a_sujet(sujet: Sujet) -> int:
@@ -558,12 +598,11 @@ def find_selection_by_id_sujet(sujet:Sujet)->list[SelectionSujet]|None:
 def find_etapes_of_ue(ue:Ue)->list[Etape]|None:
     """
     :param ue:
-    :return: les étapes d'une ue
+    :return: les étapes d'une ue (dans l'ordre croissant de date de fin)
     """
     try:
-        etapes = []
         etapesUe_query = EtapeUe.objects.filter(idue=ue)
-        etapes = Etape.objects.filter(idetape__in=etapesUe_query.values('idetape'))
-        return etapes
+        etapes = Etape.objects.filter(idetape__in=etapesUe_query.values('idetape')).order_by('datefin')
+        return etapes, etapesUe_query.order_by('idetape__datefin')
     except ObjectDoesNotExist:
         return None

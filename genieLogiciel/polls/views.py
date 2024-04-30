@@ -73,6 +73,7 @@ def home(request) -> HttpResponse:
 def course(request, idue) -> HttpResponse:
     user = request.user
     ue = find_ue(idue)
+    etapes, etapes_ue = find_etapes_of_ue(ue)
     is_owner = False
     is_admin = False
     if user == find_owner_of_ue(ue):
@@ -84,7 +85,9 @@ def course(request, idue) -> HttpResponse:
         "user": user,
         "ue": ue,
         "is_owner": is_owner,
-        "is_admin": is_admin
+        "is_admin": is_admin,
+        "etapes": etapes,
+        "etapes_ue": etapes_ue
     }
 
     return render(request, 'course.html', context)

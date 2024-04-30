@@ -24,8 +24,9 @@ class EtapeForm(forms.ModelForm):
         model = Etape
         fields = ['description', 'datedebut', 'datefin']
         widgets = {
-            'datedebut': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'datefin': forms.DateTimeInput(attrs={'type': 'datetime-local'})
+            'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Titre de l\'étape'}),
+            'datedebut': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
+            'datefin': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'})
         }
 
 

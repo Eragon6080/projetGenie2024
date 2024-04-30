@@ -4,8 +4,18 @@
 {% block headerBar %}
     {% include "otherRole/headerOtherRole.html"%}
     <header >
-        <div class="container bgunamur py-1">
-            <h4 class="text-center text-white">{{ ue.idue }} - {{ ue.nom }}</h4>
+        <div class="bgunamur py-1">
+          <div class="container d-flex justify-content-center align-items-center">
+            <div class="me-auto">
+              <a href="../" style="color:white;"><i class="fa fa-lg fa-arrow-left" ></i></a>
+            </div>
+            <div class="mx-auto">
+              <h4 class="text-white">{{ ue.idue }} - {{ ue.nom }}</h4>
+            </div>
+            <div class="ms-auto">
+              <span></span>
+            </div>
+          </div>
         </div>
     </header>
 {% endblock %}
@@ -22,6 +32,8 @@
 
 
 {% block content %}
+
+{% include "TimelineGraph.html" %}
 
 
 <div class="container justify-content-center">
@@ -61,7 +73,7 @@
             <div class="card-body">
               <h5 class="card-title">Mes sujets</h5>
               <p class="card-text text-muted">Voir tous mes sujets</p>
-              <a href="./my/topics" class="stretched-link"></a>
+              <a href="./mytopics" class="stretched-link"></a>
             </div>
           </div>
         </div>
