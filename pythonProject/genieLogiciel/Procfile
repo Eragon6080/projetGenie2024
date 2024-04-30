@@ -1,0 +1,1 @@
+web gunicorn genieLogiciel.wsgi:application --log -
