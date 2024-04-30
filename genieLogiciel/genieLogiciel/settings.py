@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
 from dotenv import load_dotenv
+import dj_database_url
 
 
 
@@ -23,12 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-k#mhk-qoohh#8)p)uwb+*a@4&ks()1&ms2d8w(#qf#pek!+-#1'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
 
 # Application definition
 
@@ -76,18 +78,31 @@ WSGI_APPLICATION = 'genieLogiciel.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 AUTH_USER_MODEL = 'polls.Personne'
+#
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+ #       'NAME': 'admin',
+ #       'USER': 'admin',
+ #       'PASSWORD': 'admin',
+#        'HOST': 'localhost',
+ #       'PORT': '5432'
 
+    #}
+#}
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'admin',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '5432'
-
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql_psycopg2',
+      'NAME': 'admin',
+      'USER': 'admin',
+     'PASSWORD': 'admin',
+   }
 }
+DATABASES["default"] = dj_database_url.parse(os.getenv('DATABASE_URL'))
+# url =password :  qnxETAx1WZXMCthA29oaLOjEp8hIAUAH
+#     = lien externe : postgres://admin:qnxETAx1WZXMCthA29oaLOjEp8hIAUAH@dpg-cooc4gev3ddc738l4ql0-a.oregon-postgres.render.com/admin_8u5u
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -122,10 +137,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
+SATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -133,6 +148,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
+
+PYTHON_PATH = sys.path
+
 
 # Chargez le fichier .env
 load_dotenv()
