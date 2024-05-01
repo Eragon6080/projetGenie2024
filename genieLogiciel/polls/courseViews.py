@@ -43,6 +43,30 @@ def topics(request, idue) -> HttpResponse:
 
     return render(request, "otherRole/topic.html", {'sujet_infos': sujet_infos, 'ue': ue})
 
+@login_required(login_url='/polls')
+@csrf_exempt
+@admin_or_professor_or_superviseur_required
+def new(request, idue) -> HttpResponse:
+    ue = find_ue(idue=idue)
+    # Récupérer tous les sujets associés à cette ue
+    sujets = Sujet.objects.filter(idue=ue)
+    # exemple of years: [(2023,[[S1],[S2]]),(2024,[S3])]
+    years = []
+    for sujet in sujets:
+        if not sujet.estpris:
+            sujet_info = [
+                sujet.titre,
+                sujet.descriptif]
+            year_sujet = Periode.objects.filter(idperiode=sujet.idperiode.idperiode).values()[0].get('annee')
+            is_year = False
+            for year in years:
+                if year_sujet == year[0]:
+                    year[1].append([sujet_info])
+                    is_year = True
+                    break
+            if not is_year:
+                years.append((year_sujet,[[sujet_info]]))
+    return render(request, "otherRole/ReuseSubject.html", {'years' : years, 'ue' : ue})
 
 @login_required(login_url='/polls')
 @csrf_exempt
