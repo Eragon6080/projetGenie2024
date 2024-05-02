@@ -338,4 +338,4 @@ def desinscriptionEtudiant(request, idpersonne, idue) -> HttpResponse:
     cours.delete()
     return redirect('/polls/course/' + idue + '/participants/')
 
-    
+
