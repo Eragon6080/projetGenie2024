@@ -20,6 +20,7 @@ urlpatterns = [
     path("course/<str:idue>/timeline/", courseViews.etape_view, name="gestion timeline"),
     path("course/<str:idue>/timeline/delete/<int:idetape>", courseViews.deleteStep, name="deleteStep"),
     path("course/<str:idue>/timeline/select/step/<int:idetapeue>", courseViews.selectStep, name="selectStep"),
+    path("course/<str:idue>/timeline/access/<str:val>", courseViews.changeAccess, name="active ou désactive la timeline d'une ue"),
     path("fiche/<int:idpersonne>", views.fiche, name="fiche"),
     
     # pages spécifiques aux admins 

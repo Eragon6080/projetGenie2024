@@ -33,19 +33,27 @@
 
 {% block content %}
 
+{% if ue.isopen %}
 {% include "TimelineGraph.html" %}
+{% endif %}
 
 {% if is_student %}
-<div class="container justify-content-center">
-  <h4>Consignes</h4>
-  <p>{{ current_etape.description }}</p>
-  <hr class="my-4">
-  {% if current_etape.iddelivrable %}
-    {% include "otherRole/echeance_etape.html" %}
-  {% else %}
-    {% include "otherRole/reservationSujet.html" %}
-  {% endif %}
-</div>
+{% if ue.isopen %}
+  <div class="container justify-content-center">
+    <h4>Consignes</h4>
+    <p>{{ current_etape.description }}</p>
+    <hr class="my-4">
+    {% if current_etape.iddelivrable %}
+      {% include "otherRole/echeance_etape.html" %}
+    {% else %}
+      {% include "otherRole/reservationSujet.html" %}
+    {% endif %}
+  </div>
+{% else %}
+  <div class="container justify-content-center">
+    <p class="text-center my-5">Rien est à faire pour ce cours pour le moment.</p>
+  </div>
+{% endif %}
     
 
 {% else %}

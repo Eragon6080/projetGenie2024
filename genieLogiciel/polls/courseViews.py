@@ -507,5 +507,13 @@ def selectStep(request, idue, idetapeue):
     return JsonResponse({'etapes_ue': json.loads(serialize('json', etapes_ue))})
 
 @login_required(login_url='/polls')
+@is_owner_of_ue_or_admin
+def changeAccess(request, idue, val:bool):
+    ue = find_ue(idue)
+    ue.isopen = val
+    ue.save()
+    return JsonResponse({'succes': "ok"})
+
+@login_required(login_url='/polls')
 def back(request):
     return HttpResponseRedirect("../")

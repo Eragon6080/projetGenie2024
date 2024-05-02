@@ -46,14 +46,23 @@
 {% include "TimelineGraph.html" %}
 
 <div class="container mt-3">
-    <h2>Setup Timeline</h2>
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <h2>Gestion de la ligne du temps</h2>
+    <div class="btn-group btn-group-toggle my-4" data-toggle="buttons" >
+        {% if ue.isopen %}
         <label class="btn btn-secondary active">
-            <input type="radio" name="options" id="option1" autocomplete="off" checked> Activated
+            <input type="radio" name="options" id="option1" autocomplete="off" value="True" onchange="changeValueIsOpen(value)" checked> Activé
         </label>
         <label class="btn btn-secondary">
-            <input type="radio" name="options" id="option2" autocomplete="off"> Deactivated
+            <input type="radio" name="options" id="option2" autocomplete="off" value="False" onchange="changeValueIsOpen(value)"> Désactivé
         </label>
+        {% else %}
+        <label class="btn btn-secondary">
+            <input type="radio" name="options" id="option1" autocomplete="off" value="True" onchange="changeValueIsOpen(value)"> Activé
+        </label>
+        <label class="btn btn-secondary active">
+            <input type="radio" name="options" id="option2" autocomplete="off" value="False" onchange="changeValueIsOpen(value)" checked> Désactivé
+        </label>
+        {% endif %}
     </div>
     <table class="table table-bordered mt-3">
         <thead>
@@ -96,7 +105,10 @@
                     
                 </td>
                 <td>
-                    <a class="btn bg-danger text-white fa fa-trash-o" href="./delete/{{ etape.idetape.idetape }}"></a>
+                    <div class="d-flex">
+                        <div class="col mx-1"><a class="btn bg-light fa fa-edit" href="./"></a></div>
+                        <div class="col mx-1"><a class="btn bg-danger text-white fa fa-trash-o" href="./delete/{{ etape.idetape.idetape }}"></a></div>
+                    </div>
                 </td>
             </tr>
             {% endfor %}
@@ -140,6 +152,16 @@ function selectStep(stepueId) {
     })
     .catch(errorMsg => { console.log(errorMsg); });
     
+}
+
+function changeValueIsOpen(value) {
+    url = window.location.href + 'access/' + value;
+    fetch(url, { method: 'GET' })
+    .then(Result => Result.json())
+    .then(res => {
+        console.log(res)
+    })
+    .catch(errorMsg => { console.log(errorMsg); });
 }
 
     // Function to update the timeline chart

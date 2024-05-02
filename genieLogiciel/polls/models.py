@@ -172,6 +172,7 @@ class Ue(models.Model):
     idue = models.TextField(primary_key=True, db_column='idue')
     nom = models.TextField(db_column='nom', default="Matthys")
     idprof = models.ForeignKey(Professeur, models.DO_NOTHING, db_column='idprof')
+    isopen = models.BooleanField(db_column='isopen', default=False)
 
     class Meta:
         managed = False
