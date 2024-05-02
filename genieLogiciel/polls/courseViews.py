@@ -5,7 +5,8 @@ from multiprocessing.managers import BaseManager
 from django.core.serializers import serialize
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models import F
+from django.db.models import F, CharField, Value, Subquery, OuterRef # cet import, pour gérer l'espace entre pnom et nom
+from django.contrib.postgres.aggregates import StringAgg
 from django.db.models.functions import Concat
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -13,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, ConfirmationSujetReservation
 from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable
 from .queries import *
+
 
 from .restrictions import *
 from .utils.remove import remove_duplicates
@@ -367,11 +369,6 @@ def validation_booking(request, idsujet):
         return redirect('../../../home')
     else:
         return redirect('../../../ok')
-
-
-from django.db.models import CharField, Value, Subquery, OuterRef # cet import, pour gérer l'espace entre pnom et nom
-from django.contrib.postgres.aggregates import StringAgg
-
 
 @login_required(login_url='/polls')
 def vue_historique(request):
