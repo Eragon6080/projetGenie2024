@@ -1,0 +1,64 @@
+{% extends "otherRole/otherRoleTemplate.html" %}
+
+
+{% block content%}
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>Historique</title>
+    </head>
+    <div>
+        <h1 style="text-align: center; color: rgb(105,190,40);">Historique</h1>
+    </div>
+    {% if annees|length == 0 %}
+    <body>
+        <table>
+            <thead>
+            <tr>
+            <th>Année académique</th>
+            <th>Nom cours</th>
+            <th>Titre du sujet</th>
+            <th>Description sujet</th>
+            <th>Nom de l'étudiant</th>
+            <th>Nom du professeur</th>
+        </thead>
+        <tbody>
+            {% for query in queryset%}
+                <tr>
+                <td>{{query.annee_academique}}</td>
+                <td>{{query.nom_cours}}</td>
+                <td>{{query.titre_sujet}}</td>
+                <td>{{query.description_sujet}}</td>
+                <td>{{query.nom_complet_etudiant}}</td>
+                <td>{{query.nom_complet_professeur}}</td>
+            {%endfor%}
+        </tbody>
+    </table>
+    {%else%}
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="col-8"></div>
+        <div class="col-12">
+        <div class="row">
+            <!-- code html + django pour l'affichage des cartes-->
+            {% for annee in annees %}
+                <div class="justify-content-between w-25 vh-100">
+                <div class="card text-center myCard">
+                    <div class="card-body myBodyCard">
+                        <a href="./{{annee}}"> <h5 class="card-title">{{annee}}</h5>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+    <div class="col-auto"></div>
+    {%endif%}
+    
+    
+</body>
+
+
+{% endblock content%}

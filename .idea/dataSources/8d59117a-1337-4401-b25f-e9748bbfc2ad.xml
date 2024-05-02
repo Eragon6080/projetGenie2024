@@ -3,7 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.52">
     <root id="1">
       <DateStyle>mdy</DateStyle>
-      <IntrospectionStateNumber>1443</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1487</IntrospectionStateNumber>
       <ServerVersion>16.2</ServerVersion>
       <StartupTime>1714651526</StartupTime>
       <TimeZones>true ACDT
@@ -1396,7 +1396,7 @@ true posixrules
 13212||10|C|G
 13212||-9223372036854775808|U|G
 13212||10|U|G</Grants>
-      <IntrospectionStateNumber>1443</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1487</IntrospectionStateNumber>
       <ObjectId>16389</ObjectId>
       <OwnerName>admin</OwnerName>
     </database>
@@ -1405,58 +1405,52 @@ true posixrules
       <ObjectId>5</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
-    <role id="4" parent="1" name="admin">
-      <CanLogin>1</CanLogin>
-      <CreateDb>1</CreateDb>
-      <CreateRole>1</CreateRole>
-      <ObjectId>16385</ObjectId>
-    </role>
-    <role id="5" parent="1" name="pg_checkpoint">
-      <ObjectId>4544</ObjectId>
-    </role>
-    <role id="6" parent="1" name="pg_create_subscription">
-      <ObjectId>6304</ObjectId>
-    </role>
-    <role id="7" parent="1" name="pg_database_owner">
+    <role id="4" parent="1" name="pg_database_owner">
       <ObjectId>6171</ObjectId>
     </role>
-    <role id="8" parent="1" name="pg_execute_server_program">
-      <ObjectId>4571</ObjectId>
+    <role id="5" parent="1" name="pg_read_all_data">
+      <ObjectId>6181</ObjectId>
     </role>
-    <role id="9" parent="1" name="pg_monitor">
+    <role id="6" parent="1" name="pg_write_all_data">
+      <ObjectId>6182</ObjectId>
+    </role>
+    <role id="7" parent="1" name="pg_monitor">
       <ObjectId>3373</ObjectId>
       <RoleGrants>3374
 3375
 3377</RoleGrants>
     </role>
-    <role id="10" parent="1" name="pg_read_all_data">
-      <ObjectId>6181</ObjectId>
-    </role>
-    <role id="11" parent="1" name="pg_read_all_settings">
+    <role id="8" parent="1" name="pg_read_all_settings">
       <ObjectId>3374</ObjectId>
     </role>
-    <role id="12" parent="1" name="pg_read_all_stats">
+    <role id="9" parent="1" name="pg_read_all_stats">
       <ObjectId>3375</ObjectId>
     </role>
-    <role id="13" parent="1" name="pg_read_server_files">
+    <role id="10" parent="1" name="pg_stat_scan_tables">
+      <ObjectId>3377</ObjectId>
+    </role>
+    <role id="11" parent="1" name="pg_read_server_files">
       <ObjectId>4569</ObjectId>
+    </role>
+    <role id="12" parent="1" name="pg_write_server_files">
+      <ObjectId>4570</ObjectId>
+    </role>
+    <role id="13" parent="1" name="pg_execute_server_program">
+      <ObjectId>4571</ObjectId>
     </role>
     <role id="14" parent="1" name="pg_signal_backend">
       <ObjectId>4200</ObjectId>
     </role>
-    <role id="15" parent="1" name="pg_stat_scan_tables">
-      <ObjectId>3377</ObjectId>
+    <role id="15" parent="1" name="pg_checkpoint">
+      <ObjectId>4544</ObjectId>
     </role>
     <role id="16" parent="1" name="pg_use_reserved_connections">
       <ObjectId>4550</ObjectId>
     </role>
-    <role id="17" parent="1" name="pg_write_all_data">
-      <ObjectId>6182</ObjectId>
+    <role id="17" parent="1" name="pg_create_subscription">
+      <ObjectId>6304</ObjectId>
     </role>
-    <role id="18" parent="1" name="pg_write_server_files">
-      <ObjectId>4570</ObjectId>
-    </role>
-    <role id="19" parent="1" name="postgres">
+    <role id="18" parent="1" name="postgres">
       <BypassRls>1</BypassRls>
       <CanLogin>1</CanLogin>
       <CreateDb>1</CreateDb>
@@ -1465,10 +1459,16 @@ true posixrules
       <Replication>1</Replication>
       <SuperRole>1</SuperRole>
     </role>
-    <role id="20" parent="1" name="primaryuser">
+    <role id="19" parent="1" name="primaryuser">
       <CanLogin>1</CanLogin>
       <ObjectId>16384</ObjectId>
       <Replication>1</Replication>
+    </role>
+    <role id="20" parent="1" name="admin">
+      <CanLogin>1</CanLogin>
+      <CreateDb>1</CreateDb>
+      <CreateRole>1</CreateRole>
+      <ObjectId>16385</ObjectId>
     </role>
     <tablespace id="21" parent="1" name="pg_default">
       <ObjectId>1663</ObjectId>
@@ -4830,8 +4830,8 @@ true posixrules
     </schema>
     <schema id="266" parent="2" name="public">
       <Current>1</Current>
-      <IntrospectionStateNumber>1443</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2024-05-02.14:41:35</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>1487</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2024-05-02.14:52:18</LastIntrospectionLocalTimestamp>
       <ObjectId>17418</ObjectId>
       <StateNumber>1395</StateNumber>
       <OwnerName>admin</OwnerName>
@@ -4866,7 +4866,31 @@ true posixrules
       <LanguageName>plpgsql</LanguageName>
       <OwnerName>admin</OwnerName>
     </routine>
-    <sequence id="270" parent="266" name="cours_idcours_seq">
+    <sequence id="270" parent="266" name="auth_group_id_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>17676</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1447</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <sequence id="271" parent="266" name="auth_group_permissions_id_seq">
+      <DasType>bigint|0s</DasType>
+      <ObjectId>17684</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1447</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <sequence id="272" parent="266" name="auth_permission_id_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>17670</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1447</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <sequence id="273" parent="266" name="cours_idcours_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>17497</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4874,7 +4898,7 @@ true posixrules
       <StateNumber>1402</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="271" parent="266" name="delivrable_iddelivrable_seq">
+    <sequence id="274" parent="266" name="delivrable_iddelivrable_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>17434</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4882,7 +4906,23 @@ true posixrules
       <StateNumber>1397</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="272" parent="266" name="etape_idetape_seq">
+    <sequence id="275" parent="266" name="django_content_type_id_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>17662</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1445</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <sequence id="276" parent="266" name="django_migrations_id_seq">
+      <DasType>bigint|0s</DasType>
+      <ObjectId>17654</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1444</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <sequence id="277" parent="266" name="etape_idetape_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>17449</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4890,7 +4930,7 @@ true posixrules
       <StateNumber>1399</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="273" parent="266" name="etapeue_idetapeue_seq">
+    <sequence id="278" parent="266" name="etapeue_idetapeue_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>17613</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4898,7 +4938,7 @@ true posixrules
       <StateNumber>1409</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="274" parent="266" name="etudiant_idetudiant_seq">
+    <sequence id="279" parent="266" name="etudiant_idetudiant_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>17533</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4906,7 +4946,7 @@ true posixrules
       <StateNumber>1404</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="275" parent="266" name="fichierdelivrable_idfichier_seq">
+    <sequence id="280" parent="266" name="fichierdelivrable_idfichier_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>17545</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4914,7 +4954,7 @@ true posixrules
       <StateNumber>1405</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="276" parent="266" name="periode_idperiode_seq">
+    <sequence id="281" parent="266" name="periode_idperiode_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>17443</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4922,7 +4962,7 @@ true posixrules
       <StateNumber>1398</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="277" parent="266" name="personne_idpersonne_seq">
+    <sequence id="282" parent="266" name="personne_idpersonne_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>17419</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4930,7 +4970,23 @@ true posixrules
       <StateNumber>1396</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="278" parent="266" name="professeur_idprof_seq">
+    <sequence id="283" parent="266" name="polls_delivrable_iddelivrable_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>17716</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1460</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <sequence id="284" parent="266" name="polls_etape_idetape_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>17724</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1460</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <sequence id="285" parent="266" name="professeur_idprof_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>17467</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4938,7 +4994,7 @@ true posixrules
       <StateNumber>1400</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="279" parent="266" name="selectionsujet_idselection_seq">
+    <sequence id="286" parent="266" name="selectionsujet_idselection_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>17597</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4946,7 +5002,7 @@ true posixrules
       <StateNumber>1408</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="280" parent="266" name="sujet_idsujet_seq">
+    <sequence id="287" parent="266" name="sujet_idsujet_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>17510</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4954,7 +5010,7 @@ true posixrules
       <StateNumber>1403</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="281" parent="266" name="superviseur_idsuperviseur_seq">
+    <sequence id="288" parent="266" name="superviseur_idsuperviseur_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>17566</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4962,7 +5018,7 @@ true posixrules
       <StateNumber>1406</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="282" parent="266" name="supervision_idsupervision_seq">
+    <sequence id="289" parent="266" name="supervision_idsupervision_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>17579</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4970,103 +5026,374 @@ true posixrules
       <StateNumber>1407</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <table id="283" parent="266" name="cours">
+    <table id="290" parent="266" name="auth_group">
+      <ObjectId>17677</ObjectId>
+      <StateNumber>1447</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="291" parent="266" name="auth_group_permissions">
+      <ObjectId>17685</ObjectId>
+      <StateNumber>1447</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="292" parent="266" name="auth_permission">
+      <ObjectId>17671</ObjectId>
+      <StateNumber>1447</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="293" parent="266" name="cours">
       <ObjectId>17498</ObjectId>
       <StateNumber>1402</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="284" parent="266" name="delivrable">
+    <table id="294" parent="266" name="delivrable">
       <ObjectId>17435</ObjectId>
       <StateNumber>1399</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="285" parent="266" name="etape">
+    <table id="295" parent="266" name="django_content_type">
+      <ObjectId>17663</ObjectId>
+      <StateNumber>1447</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="296" parent="266" name="django_migrations">
+      <ObjectId>17655</ObjectId>
+      <StateNumber>1444</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="297" parent="266" name="django_session">
+      <ObjectId>17744</ObjectId>
+      <StateNumber>1470</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="298" parent="266" name="etape">
       <ObjectId>17450</ObjectId>
       <StateNumber>1399</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="286" parent="266" name="etapeue">
+    <table id="299" parent="266" name="etapeue">
       <ObjectId>17614</ObjectId>
       <StateNumber>1409</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="287" parent="266" name="etudiant">
+    <table id="300" parent="266" name="etudiant">
       <ObjectId>17534</ObjectId>
       <StateNumber>1404</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="288" parent="266" name="fichierdelivrable">
+    <table id="301" parent="266" name="fichierdelivrable">
       <ObjectId>17546</ObjectId>
       <StateNumber>1405</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="289" parent="266" name="periode">
+    <table id="302" parent="266" name="periode">
       <ObjectId>17444</ObjectId>
       <StateNumber>1399</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="290" parent="266" name="personne">
+    <table id="303" parent="266" name="personne">
       <ObjectId>17420</ObjectId>
       <StateNumber>1400</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="291" parent="266" name="professeur">
+    <table id="304" parent="266" name="polls_delivrable">
+      <ObjectId>17717</ObjectId>
+      <StateNumber>1460</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="305" parent="266" name="polls_etape">
+      <ObjectId>17725</ObjectId>
+      <StateNumber>1460</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="306" parent="266" name="professeur">
       <ObjectId>17468</ObjectId>
       <StateNumber>1400</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="292" parent="266" name="selectionsujet">
+    <table id="307" parent="266" name="selectionsujet">
       <ObjectId>17598</ObjectId>
       <StateNumber>1408</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="293" parent="266" name="sujet">
+    <table id="308" parent="266" name="sujet">
       <ObjectId>17511</ObjectId>
       <StateNumber>1403</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="294" parent="266" name="superviseur">
+    <table id="309" parent="266" name="superviseur">
       <ObjectId>17567</ObjectId>
       <StateNumber>1406</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="295" parent="266" name="supervision">
+    <table id="310" parent="266" name="supervision">
       <ObjectId>17580</ObjectId>
       <StateNumber>1407</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="296" parent="266" name="ue">
+    <table id="311" parent="266" name="ue">
       <ObjectId>17485</ObjectId>
       <StateNumber>1401</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <argument id="297" parent="267">
+    <argument id="312" parent="267">
       <ArgumentDirection>R</ArgumentDirection>
       <DasType>trigger|0s</DasType>
     </argument>
-    <argument id="298" parent="268">
+    <argument id="313" parent="268">
       <ArgumentDirection>R</ArgumentDirection>
       <DasType>trigger|0s</DasType>
     </argument>
-    <argument id="299" parent="269">
+    <argument id="314" parent="269">
       <ArgumentDirection>R</ArgumentDirection>
       <DasType>trigger|0s</DasType>
     </argument>
-    <column id="300" parent="283" name="idcours">
+    <column id="315" parent="290" name="id">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1447</StateNumber>
+      <SequenceId>17676</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="316" parent="290" name="name">
+      <DasType>varchar(150)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1457</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="317" parent="290" name="auth_group_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17680</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1447</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="318" parent="290" name="auth_group_name_key">
+      <ColNames>name</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17713</ObjectId>
+      <StateNumber>1457</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationNames>default</CollationNames>
+      <CollationIds>100</CollationIds>
+      <CollationParentNames>pg_catalog</CollationParentNames>
+    </index>
+    <index id="319" parent="290" name="auth_group_name_a6ea08ec_like">
+      <ColNames>name</ColNames>
+      <ObjectId>17715</ObjectId>
+      <StateNumber>1457</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+      <ClassNames>varchar_pattern_ops</ClassNames>
+      <ClassIds>4218</ClassIds>
+      <ClassParentNames>pg_catalog</ClassParentNames>
+      <CollationNames>default</CollationNames>
+      <CollationIds>100</CollationIds>
+      <CollationParentNames>pg_catalog</CollationParentNames>
+    </index>
+    <key id="320" parent="290" name="auth_group_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17681</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1447</StateNumber>
+      <UnderlyingIndexId>17680</UnderlyingIndexId>
+    </key>
+    <key id="321" parent="290" name="auth_group_name_key">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17714</ObjectId>
+      <StateNumber>1457</StateNumber>
+      <UnderlyingIndexId>17713</UnderlyingIndexId>
+    </key>
+    <column id="322" parent="291" name="id">
+      <DasType>bigint|0s</DasType>
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1447</StateNumber>
+      <SequenceId>17684</SequenceId>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="323" parent="291" name="group_id">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1447</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="324" parent="291" name="permission_id">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1447</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <foreign-key id="325" parent="291" name="auth_group_permissions_group_id_b120cbf9_fk_auth_group_id">
+      <ColNames>group_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ObjectId>17701</ObjectId>
+      <StateNumber>1447</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>17677</RefTableId>
+    </foreign-key>
+    <foreign-key id="326" parent="291" name="auth_group_permissio_permission_id_84c5c92e_fk_auth_perm">
+      <ColNames>permission_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ObjectId>17706</ObjectId>
+      <StateNumber>1447</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>17671</RefTableId>
+    </foreign-key>
+    <index id="327" parent="291" name="auth_group_permissions_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17688</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1447</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="328" parent="291" name="auth_group_permissions_group_id_permission_id_0cd325b0_uniq">
+      <ColNames>group_id
+permission_id</ColNames>
+      <ObjectId>17699</ObjectId>
+      <StateNumber>1447</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="329" parent="291" name="auth_group_permissions_group_id_b120cbf9">
+      <ColNames>group_id</ColNames>
+      <ObjectId>17711</ObjectId>
+      <StateNumber>1447</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="330" parent="291" name="auth_group_permissions_permission_id_84c5c92e">
+      <ColNames>permission_id</ColNames>
+      <ObjectId>17712</ObjectId>
+      <StateNumber>1447</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="331" parent="291" name="auth_group_permissions_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17689</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1447</StateNumber>
+      <UnderlyingIndexId>17688</UnderlyingIndexId>
+    </key>
+    <key id="332" parent="291" name="auth_group_permissions_group_id_permission_id_0cd325b0_uniq">
+      <ObjectId>17700</ObjectId>
+      <StateNumber>1447</StateNumber>
+      <UnderlyingIndexId>17699</UnderlyingIndexId>
+    </key>
+    <column id="333" parent="292" name="id">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1447</StateNumber>
+      <SequenceId>17670</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="334" parent="292" name="name">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1449</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="335" parent="292" name="content_type_id">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1447</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="336" parent="292" name="codename">
+      <DasType>varchar(100)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1447</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <foreign-key id="337" parent="292" name="auth_permission_content_type_id_2f476e4b_fk_django_co">
+      <ColNames>content_type_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ObjectId>17692</ObjectId>
+      <StateNumber>1447</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>17663</RefTableId>
+    </foreign-key>
+    <index id="338" parent="292" name="auth_permission_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17674</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1447</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="339" parent="292" name="auth_permission_content_type_id_codename_01ab375a_uniq">
+      <ColNames>content_type_id
+codename</ColNames>
+      <ObjectId>17690</ObjectId>
+      <StateNumber>1447</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationIds>
+100</CollationIds>
+      <CollationParentNames>
+pg_catalog</CollationParentNames>
+      <CollationNames>
+default</CollationNames>
+    </index>
+    <index id="340" parent="292" name="auth_permission_content_type_id_2f476e4b">
+      <ColNames>content_type_id</ColNames>
+      <ObjectId>17697</ObjectId>
+      <StateNumber>1447</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="341" parent="292" name="auth_permission_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17675</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1447</StateNumber>
+      <UnderlyingIndexId>17674</UnderlyingIndexId>
+    </key>
+    <key id="342" parent="292" name="auth_permission_content_type_id_codename_01ab375a_uniq">
+      <ObjectId>17691</ObjectId>
+      <StateNumber>1447</StateNumber>
+      <UnderlyingIndexId>17690</UnderlyingIndexId>
+    </key>
+    <column id="343" parent="293" name="idcours">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
@@ -5075,26 +5402,26 @@ true posixrules
       <SequenceId>17497</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="301" parent="283" name="idue">
+    <column id="344" parent="293" name="idue">
       <DasType>text|0s</DasType>
       <Position>2</Position>
       <StateNumber>1402</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="302" parent="283" name="nom">
+    <column id="345" parent="293" name="nom">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>1402</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="303" parent="283" name="idetudiant">
+    <column id="346" parent="293" name="idetudiant">
       <DasType>integer|0s</DasType>
       <Position>4</Position>
       <StateNumber>1402</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="304" parent="283" name="cours_idue_fkey">
+    <foreign-key id="347" parent="293" name="cours_idue_fkey">
       <ColNames>idue</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17505</ObjectId>
@@ -5102,7 +5429,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17485</RefTableId>
     </foreign-key>
-    <foreign-key id="305" parent="283" name="cours_idetudiant_fkey">
+    <foreign-key id="348" parent="293" name="cours_idetudiant_fkey">
       <ColNames>idetudiant</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17639</ObjectId>
@@ -5110,7 +5437,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17534</RefTableId>
     </foreign-key>
-    <index id="306" parent="283" name="cours_pkey">
+    <index id="349" parent="293" name="cours_pkey">
       <ColNames>idcours</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17503</ObjectId>
@@ -5119,20 +5446,20 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="307" parent="283" name="cours_pkey">
+    <key id="350" parent="293" name="cours_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17504</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1402</StateNumber>
       <UnderlyingIndexId>17503</UnderlyingIndexId>
     </key>
-    <check id="308" parent="284" name="delivrable_typefichier_check">
+    <check id="351" parent="294" name="delivrable_typefichier_check">
       <ColNames>typefichier</ColNames>
       <ObjectId>17438</ObjectId>
       <Predicate>typefichier = ANY (ARRAY[&apos;pdf&apos;::text, &apos;docx&apos;::text, &apos;pptx&apos;::text, &apos;xlsx&apos;::text, &apos;zip&apos;::text, &apos;rar&apos;::text, &apos;7z&apos;::text, &apos;tar&apos;::text, &apos;gz&apos;::text, &apos;bz2&apos;::text, &apos;xz&apos;::text, &apos;tgz&apos;::text, &apos;tbz2&apos;::text, &apos;txz&apos;::text, &apos;pdf&apos;::text, &apos;docx&apos;::text, &apos;pptx&apos;::text, &apos;xlsx&apos;::text, &apos;zip&apos;::text, &apos;rar&apos;::text, &apos;7z&apos;::text, &apos;tar&apos;::text, &apos;gz&apos;::text, &apos;bz2&apos;::text, &apos;xz&apos;::text, &apos;tgz&apos;::text, &apos;tbz2&apos;::text, &apos;txz&apos;::text])</Predicate>
       <StateNumber>1397</StateNumber>
     </check>
-    <column id="309" parent="284" name="iddelivrable">
+    <column id="352" parent="294" name="iddelivrable">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
@@ -5141,13 +5468,13 @@ true posixrules
       <SequenceId>17434</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="310" parent="284" name="typefichier">
+    <column id="353" parent="294" name="typefichier">
       <DasType>text|0s</DasType>
       <Position>2</Position>
       <StateNumber>1397</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <index id="311" parent="284" name="delivrable_pkey">
+    <index id="354" parent="294" name="delivrable_pkey">
       <ColNames>iddelivrable</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17441</ObjectId>
@@ -5156,14 +5483,176 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="312" parent="284" name="delivrable_pkey">
+    <key id="355" parent="294" name="delivrable_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17442</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1397</StateNumber>
       <UnderlyingIndexId>17441</UnderlyingIndexId>
     </key>
-    <column id="313" parent="285" name="idetape">
+    <column id="356" parent="295" name="id">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1445</StateNumber>
+      <SequenceId>17662</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="357" parent="295" name="app_label">
+      <DasType>varchar(100)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1445</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="358" parent="295" name="model">
+      <DasType>varchar(100)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1445</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="359" parent="295" name="django_content_type_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17666</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1445</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="360" parent="295" name="django_content_type_app_label_model_76bd3d3b_uniq">
+      <ColNames>app_label
+model</ColNames>
+      <ObjectId>17668</ObjectId>
+      <StateNumber>1445</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationIds>100
+100</CollationIds>
+      <CollationNames>default
+default</CollationNames>
+      <CollationParentNames>pg_catalog
+pg_catalog</CollationParentNames>
+    </index>
+    <key id="361" parent="295" name="django_content_type_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17667</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1445</StateNumber>
+      <UnderlyingIndexId>17666</UnderlyingIndexId>
+    </key>
+    <key id="362" parent="295" name="django_content_type_app_label_model_76bd3d3b_uniq">
+      <ObjectId>17669</ObjectId>
+      <StateNumber>1445</StateNumber>
+      <UnderlyingIndexId>17668</UnderlyingIndexId>
+    </key>
+    <column id="363" parent="296" name="id">
+      <DasType>bigint|0s</DasType>
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1444</StateNumber>
+      <SequenceId>17654</SequenceId>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="364" parent="296" name="app">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1444</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="365" parent="296" name="name">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1444</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="366" parent="296" name="applied">
+      <DasType>timestamp with time zone|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1444</StateNumber>
+      <TypeId>1184</TypeId>
+    </column>
+    <index id="367" parent="296" name="django_migrations_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17660</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1444</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="368" parent="296" name="django_migrations_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17661</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1444</StateNumber>
+      <UnderlyingIndexId>17660</UnderlyingIndexId>
+    </key>
+    <column id="369" parent="297" name="session_key">
+      <DasType>varchar(40)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1470</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="370" parent="297" name="session_data">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1470</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="371" parent="297" name="expire_date">
+      <DasType>timestamp with time zone|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1470</StateNumber>
+      <TypeId>1184</TypeId>
+    </column>
+    <index id="372" parent="297" name="django_session_pkey">
+      <ColNames>session_key</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17749</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1470</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationNames>default</CollationNames>
+      <CollationIds>100</CollationIds>
+      <CollationParentNames>pg_catalog</CollationParentNames>
+    </index>
+    <index id="373" parent="297" name="django_session_session_key_c0390e0f_like">
+      <ColNames>session_key</ColNames>
+      <ObjectId>17751</ObjectId>
+      <StateNumber>1470</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+      <ClassNames>varchar_pattern_ops</ClassNames>
+      <ClassIds>4218</ClassIds>
+      <ClassParentNames>pg_catalog</ClassParentNames>
+      <CollationNames>default</CollationNames>
+      <CollationIds>100</CollationIds>
+      <CollationParentNames>pg_catalog</CollationParentNames>
+    </index>
+    <index id="374" parent="297" name="django_session_expire_date_a5c62663">
+      <ColNames>expire_date</ColNames>
+      <ObjectId>17752</ObjectId>
+      <StateNumber>1470</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="375" parent="297" name="django_session_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17750</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1470</StateNumber>
+      <UnderlyingIndexId>17749</UnderlyingIndexId>
+    </key>
+    <column id="376" parent="298" name="idetape">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
@@ -5172,48 +5661,48 @@ true posixrules
       <SequenceId>17449</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="314" parent="285" name="datedebut">
+    <column id="377" parent="298" name="datedebut">
       <DasType>date|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1399</StateNumber>
       <TypeId>1082</TypeId>
     </column>
-    <column id="315" parent="285" name="datefin">
+    <column id="378" parent="298" name="datefin">
       <DasType>date|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>1399</StateNumber>
       <TypeId>1082</TypeId>
     </column>
-    <column id="316" parent="285" name="titre">
+    <column id="379" parent="298" name="titre">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>1399</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="317" parent="285" name="description">
+    <column id="380" parent="298" name="description">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StateNumber>1399</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="318" parent="285" name="idperiode">
+    <column id="381" parent="298" name="idperiode">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StateNumber>1399</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="319" parent="285" name="iddelivrable">
+    <column id="382" parent="298" name="iddelivrable">
       <DasType>integer|0s</DasType>
       <Position>7</Position>
       <StateNumber>1399</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="320" parent="285" name="etape_idperiode_fkey">
+    <foreign-key id="383" parent="298" name="etape_idperiode_fkey">
       <ColNames>idperiode</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17457</ObjectId>
@@ -5221,7 +5710,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17444</RefTableId>
     </foreign-key>
-    <foreign-key id="321" parent="285" name="etape_iddelivrable_fkey">
+    <foreign-key id="384" parent="298" name="etape_iddelivrable_fkey">
       <ColNames>iddelivrable</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17462</ObjectId>
@@ -5229,7 +5718,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17435</RefTableId>
     </foreign-key>
-    <index id="322" parent="285" name="etape_pkey">
+    <index id="385" parent="298" name="etape_pkey">
       <ColNames>idetape</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17455</ObjectId>
@@ -5238,14 +5727,14 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="323" parent="285" name="etape_pkey">
+    <key id="386" parent="298" name="etape_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17456</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1399</StateNumber>
       <UnderlyingIndexId>17455</UnderlyingIndexId>
     </key>
-    <column id="324" parent="286" name="idetapeue">
+    <column id="387" parent="299" name="idetapeue">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
@@ -5254,21 +5743,21 @@ true posixrules
       <SequenceId>17613</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="325" parent="286" name="idetape">
+    <column id="388" parent="299" name="idetape">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1409</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="326" parent="286" name="idue">
+    <column id="389" parent="299" name="idue">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>1409</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="327" parent="286" name="etapecourante">
+    <column id="390" parent="299" name="etapecourante">
       <DasType>boolean|0s</DasType>
       <DefaultExpression>false</DefaultExpression>
       <NotNull>1</NotNull>
@@ -5276,7 +5765,7 @@ true posixrules
       <StateNumber>1409</StateNumber>
       <TypeId>16</TypeId>
     </column>
-    <foreign-key id="328" parent="286" name="etapeue_idetape_fkey">
+    <foreign-key id="391" parent="299" name="etapeue_idetape_fkey">
       <ColNames>idetape</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17622</ObjectId>
@@ -5284,7 +5773,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17450</RefTableId>
     </foreign-key>
-    <foreign-key id="329" parent="286" name="etapeue_idue_fkey">
+    <foreign-key id="392" parent="299" name="etapeue_idue_fkey">
       <ColNames>idue</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17627</ObjectId>
@@ -5292,7 +5781,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17485</RefTableId>
     </foreign-key>
-    <index id="330" parent="286" name="etapeue_pkey">
+    <index id="393" parent="299" name="etapeue_pkey">
       <ColNames>idetapeue</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17620</ObjectId>
@@ -5301,20 +5790,20 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="331" parent="286" name="etapeue_pkey">
+    <key id="394" parent="299" name="etapeue_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17621</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1409</StateNumber>
       <UnderlyingIndexId>17620</UnderlyingIndexId>
     </key>
-    <check id="332" parent="287" name="etudiant_bloc_check">
+    <check id="395" parent="300" name="etudiant_bloc_check">
       <ColNames>bloc</ColNames>
       <ObjectId>17537</ObjectId>
       <Predicate>(bloc &gt;= 1) AND (bloc &lt;= 5)</Predicate>
       <StateNumber>1404</StateNumber>
     </check>
-    <column id="333" parent="287" name="idetudiant">
+    <column id="396" parent="300" name="idetudiant">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
@@ -5323,21 +5812,21 @@ true posixrules
       <SequenceId>17533</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="334" parent="287" name="bloc">
+    <column id="397" parent="300" name="bloc">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1404</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="335" parent="287" name="idpersonne">
+    <column id="398" parent="300" name="idpersonne">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>1404</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="336" parent="287" name="etudiant_idpersonne_fkey">
+    <foreign-key id="399" parent="300" name="etudiant_idpersonne_fkey">
       <ColNames>idpersonne</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17540</ObjectId>
@@ -5345,7 +5834,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17420</RefTableId>
     </foreign-key>
-    <index id="337" parent="287" name="etudiant_pkey">
+    <index id="400" parent="300" name="etudiant_pkey">
       <ColNames>idetudiant</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17538</ObjectId>
@@ -5354,20 +5843,20 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="338" parent="287" name="etudiant_pkey">
+    <key id="401" parent="300" name="etudiant_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17539</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1404</StateNumber>
       <UnderlyingIndexId>17538</UnderlyingIndexId>
     </key>
-    <check id="339" parent="288" name="fichierdelivrable_note_check">
+    <check id="402" parent="301" name="fichierdelivrable_note_check">
       <ColNames>note</ColNames>
       <ObjectId>17551</ObjectId>
       <Predicate>(note &gt;= 0) AND (note &lt;= 20)</Predicate>
       <StateNumber>1405</StateNumber>
     </check>
-    <column id="340" parent="288" name="idfichier">
+    <column id="403" parent="301" name="idfichier">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
@@ -5376,26 +5865,26 @@ true posixrules
       <SequenceId>17545</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="341" parent="288" name="fichier">
+    <column id="404" parent="301" name="fichier">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1405</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="342" parent="288" name="idetudiant">
+    <column id="405" parent="301" name="idetudiant">
       <DasType>integer|0s</DasType>
       <Position>3</Position>
       <StateNumber>1405</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="343" parent="288" name="iddelivrable">
+    <column id="406" parent="301" name="iddelivrable">
       <DasType>integer|0s</DasType>
       <Position>4</Position>
       <StateNumber>1405</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="344" parent="288" name="estrendu">
+    <column id="407" parent="301" name="estrendu">
       <DasType>boolean|0s</DasType>
       <DefaultExpression>false</DefaultExpression>
       <NotNull>1</NotNull>
@@ -5403,13 +5892,13 @@ true posixrules
       <StateNumber>1405</StateNumber>
       <TypeId>16</TypeId>
     </column>
-    <column id="345" parent="288" name="note">
+    <column id="408" parent="301" name="note">
       <DasType>integer|0s</DasType>
       <Position>6</Position>
       <StateNumber>1405</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="346" parent="288" name="estconfidentiel">
+    <column id="409" parent="301" name="estconfidentiel">
       <DasType>boolean|0s</DasType>
       <DefaultExpression>false</DefaultExpression>
       <NotNull>1</NotNull>
@@ -5417,7 +5906,7 @@ true posixrules
       <StateNumber>1405</StateNumber>
       <TypeId>16</TypeId>
     </column>
-    <foreign-key id="347" parent="288" name="fichierdelivrable_idetudiant_fkey">
+    <foreign-key id="410" parent="301" name="fichierdelivrable_idetudiant_fkey">
       <ColNames>idetudiant</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17556</ObjectId>
@@ -5425,7 +5914,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17534</RefTableId>
     </foreign-key>
-    <foreign-key id="348" parent="288" name="fichierdelivrable_iddelivrable_fkey">
+    <foreign-key id="411" parent="301" name="fichierdelivrable_iddelivrable_fkey">
       <ColNames>iddelivrable</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17561</ObjectId>
@@ -5433,7 +5922,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17435</RefTableId>
     </foreign-key>
-    <index id="349" parent="288" name="fichierdelivrable_pkey">
+    <index id="412" parent="301" name="fichierdelivrable_pkey">
       <ColNames>idfichier</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17554</ObjectId>
@@ -5442,14 +5931,14 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="350" parent="288" name="fichierdelivrable_pkey">
+    <key id="413" parent="301" name="fichierdelivrable_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17555</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1405</StateNumber>
       <UnderlyingIndexId>17554</UnderlyingIndexId>
     </key>
-    <column id="351" parent="289" name="idperiode">
+    <column id="414" parent="302" name="idperiode">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
@@ -5458,14 +5947,14 @@ true posixrules
       <SequenceId>17443</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="352" parent="289" name="annee">
+    <column id="415" parent="302" name="annee">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1398</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <index id="353" parent="289" name="periode_pkey">
+    <index id="416" parent="302" name="periode_pkey">
       <ColNames>idperiode</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17447</ObjectId>
@@ -5474,26 +5963,26 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="354" parent="289" name="periode_pkey">
+    <key id="417" parent="302" name="periode_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17448</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1398</StateNumber>
       <UnderlyingIndexId>17447</UnderlyingIndexId>
     </key>
-    <check id="355" parent="290" name="personne_password_check">
+    <check id="418" parent="303" name="personne_password_check">
       <ColNames>password</ColNames>
       <ObjectId>17427</ObjectId>
       <Predicate>length(password) &gt;= 8</Predicate>
       <StateNumber>1396</StateNumber>
     </check>
-    <check id="356" parent="290" name="personne_mail_check">
+    <check id="419" parent="303" name="personne_mail_check">
       <ColNames>mail</ColNames>
       <ObjectId>17426</ObjectId>
       <Predicate>mail ~* &apos;^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$&apos;::text</Predicate>
       <StateNumber>1396</StateNumber>
     </check>
-    <column id="357" parent="290" name="idpersonne">
+    <column id="420" parent="303" name="idpersonne">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
@@ -5502,69 +5991,69 @@ true posixrules
       <SequenceId>17419</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="358" parent="290" name="nom">
+    <column id="421" parent="303" name="nom">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1396</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="359" parent="290" name="prenom">
+    <column id="422" parent="303" name="prenom">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>1396</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="360" parent="290" name="mail">
+    <column id="423" parent="303" name="mail">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>1396</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="361" parent="290" name="password">
+    <column id="424" parent="303" name="password">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StateNumber>1396</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="362" parent="290" name="role">
+    <column id="425" parent="303" name="role">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StateNumber>1396</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="363" parent="290" name="last_login">
+    <column id="426" parent="303" name="last_login">
       <DasType>text|0s</DasType>
       <Position>7</Position>
       <StateNumber>1396</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="364" parent="290" name="is_superuser">
+    <column id="427" parent="303" name="is_superuser">
       <DasType>boolean|0s</DasType>
       <DefaultExpression>false</DefaultExpression>
       <Position>8</Position>
       <StateNumber>1396</StateNumber>
       <TypeId>16</TypeId>
     </column>
-    <column id="365" parent="290" name="is_staff">
+    <column id="428" parent="303" name="is_staff">
       <DasType>boolean|0s</DasType>
       <DefaultExpression>true</DefaultExpression>
       <Position>9</Position>
       <StateNumber>1396</StateNumber>
       <TypeId>16</TypeId>
     </column>
-    <column id="366" parent="290" name="is_active">
+    <column id="429" parent="303" name="is_active">
       <DasType>boolean|0s</DasType>
       <DefaultExpression>true</DefaultExpression>
       <Position>10</Position>
       <StateNumber>1396</StateNumber>
       <TypeId>16</TypeId>
     </column>
-    <index id="367" parent="290" name="personne_pkey">
+    <index id="430" parent="303" name="personne_pkey">
       <ColNames>idpersonne</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17430</ObjectId>
@@ -5573,7 +6062,7 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="368" parent="290" name="personne_mail_key">
+    <index id="431" parent="303" name="personne_mail_key">
       <ColNames>mail</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17432</ObjectId>
@@ -5584,20 +6073,141 @@ true posixrules
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="369" parent="290" name="personne_pkey">
+    <key id="432" parent="303" name="personne_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17431</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1396</StateNumber>
       <UnderlyingIndexId>17430</UnderlyingIndexId>
     </key>
-    <key id="370" parent="290" name="personne_mail_key">
+    <key id="433" parent="303" name="personne_mail_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17433</ObjectId>
       <StateNumber>1396</StateNumber>
       <UnderlyingIndexId>17432</UnderlyingIndexId>
     </key>
-    <column id="371" parent="291" name="idprof">
+    <column id="434" parent="304" name="iddelivrable">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1460</StateNumber>
+      <SequenceId>17716</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="435" parent="304" name="fichier">
+      <DasType>varchar(100)|0s</DasType>
+      <Position>2</Position>
+      <StateNumber>1460</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="436" parent="304" name="typefichier">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1460</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <index id="437" parent="304" name="polls_delivrable_pkey">
+      <ColNames>iddelivrable</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17722</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1460</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="438" parent="304" name="polls_delivrable_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17723</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1460</StateNumber>
+      <UnderlyingIndexId>17722</UnderlyingIndexId>
+    </key>
+    <column id="439" parent="305" name="idetape">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1460</StateNumber>
+      <SequenceId>17724</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="440" parent="305" name="delai">
+      <DasType>timestamp with time zone|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1460</StateNumber>
+      <TypeId>1184</TypeId>
+    </column>
+    <column id="441" parent="305" name="description">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1460</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="442" parent="305" name="iddelivrable">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1460</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="443" parent="305" name="idperiode">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StateNumber>1460</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <foreign-key id="444" parent="305" name="polls_etape_iddelivrable_53a3fb48_fk_polls_del">
+      <ColNames>iddelivrable</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ObjectId>17732</ObjectId>
+      <StateNumber>1460</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>17717</RefTableId>
+    </foreign-key>
+    <foreign-key id="445" parent="305" name="polls_etape_idperiode_aa62b125_fk_periode_idperiode">
+      <ColNames>idperiode</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ObjectId>17737</ObjectId>
+      <StateNumber>1460</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>17444</RefTableId>
+    </foreign-key>
+    <index id="446" parent="305" name="polls_etape_pkey">
+      <ColNames>idetape</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17730</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1460</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="447" parent="305" name="polls_etape_iddelivrable_53a3fb48">
+      <ColNames>iddelivrable</ColNames>
+      <ObjectId>17742</ObjectId>
+      <StateNumber>1460</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="448" parent="305" name="polls_etape_idperiode_aa62b125">
+      <ColNames>idperiode</ColNames>
+      <ObjectId>17743</ObjectId>
+      <StateNumber>1460</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="449" parent="305" name="polls_etape_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>17731</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1460</StateNumber>
+      <UnderlyingIndexId>17730</UnderlyingIndexId>
+    </key>
+    <column id="450" parent="306" name="idprof">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
@@ -5606,27 +6216,27 @@ true posixrules
       <SequenceId>17467</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="372" parent="291" name="specialite">
+    <column id="451" parent="306" name="specialite">
       <DasType>text|0s</DasType>
       <Position>2</Position>
       <StateNumber>1400</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="373" parent="291" name="idpersonne">
+    <column id="452" parent="306" name="idpersonne">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>1400</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="374" parent="291" name="idperiode">
+    <column id="453" parent="306" name="idperiode">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>1400</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="375" parent="291" name="professeur_idpersonne_fkey">
+    <foreign-key id="454" parent="306" name="professeur_idpersonne_fkey">
       <ColNames>idpersonne</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17475</ObjectId>
@@ -5634,7 +6244,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17420</RefTableId>
     </foreign-key>
-    <foreign-key id="376" parent="291" name="professeur_idperiode_fkey">
+    <foreign-key id="455" parent="306" name="professeur_idperiode_fkey">
       <ColNames>idperiode</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17480</ObjectId>
@@ -5642,7 +6252,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17444</RefTableId>
     </foreign-key>
-    <index id="377" parent="291" name="professeur_pkey">
+    <index id="456" parent="306" name="professeur_pkey">
       <ColNames>idprof</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17473</ObjectId>
@@ -5651,14 +6261,14 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="378" parent="291" name="professeur_pkey">
+    <key id="457" parent="306" name="professeur_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17474</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1400</StateNumber>
       <UnderlyingIndexId>17473</UnderlyingIndexId>
     </key>
-    <column id="379" parent="292" name="idselection">
+    <column id="458" parent="307" name="idselection">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
@@ -5667,21 +6277,21 @@ true posixrules
       <SequenceId>17597</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="380" parent="292" name="idsujet">
+    <column id="459" parent="307" name="idsujet">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1408</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="381" parent="292" name="idetudiant">
+    <column id="460" parent="307" name="idetudiant">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>1408</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="382" parent="292" name="selectionsujet_idsujet_fkey">
+    <foreign-key id="461" parent="307" name="selectionsujet_idsujet_fkey">
       <ColNames>idsujet</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17603</ObjectId>
@@ -5689,7 +6299,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17511</RefTableId>
     </foreign-key>
-    <foreign-key id="383" parent="292" name="selectionsujet_idetudiant_fkey">
+    <foreign-key id="462" parent="307" name="selectionsujet_idetudiant_fkey">
       <ColNames>idetudiant</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17608</ObjectId>
@@ -5697,7 +6307,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17534</RefTableId>
     </foreign-key>
-    <index id="384" parent="292" name="selectionsujet_pkey">
+    <index id="463" parent="307" name="selectionsujet_pkey">
       <ColNames>idselection</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17601</ObjectId>
@@ -5706,14 +6316,14 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="385" parent="292" name="selectionsujet_pkey">
+    <key id="464" parent="307" name="selectionsujet_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17602</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1408</StateNumber>
       <UnderlyingIndexId>17601</UnderlyingIndexId>
     </key>
-    <trigger id="386" parent="292" name="est_reserve">
+    <trigger id="465" parent="307" name="est_reserve">
       <Condition>new.idsujet IS NOT NULL OR new.idetudiant IS NOT NULL</Condition>
       <Events>IU</Events>
       <ObjectId>17637</ObjectId>
@@ -5721,7 +6331,7 @@ true posixrules
       <Turn>before-row</Turn>
       <CallRoutineId>17634</CallRoutineId>
     </trigger>
-    <trigger id="387" parent="292" name="not_below_for_assignation_for_a_subject">
+    <trigger id="466" parent="307" name="not_below_for_assignation_for_a_subject">
       <Condition>new.idsujet IS NOT NULL OR new.idetudiant IS NOT NULL</Condition>
       <Events>IU</Events>
       <ObjectId>17636</ObjectId>
@@ -5729,7 +6339,7 @@ true posixrules
       <Turn>before-row</Turn>
       <CallRoutineId>17633</CallRoutineId>
     </trigger>
-    <column id="388" parent="293" name="idsujet">
+    <column id="467" parent="308" name="idsujet">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
@@ -5738,14 +6348,14 @@ true posixrules
       <SequenceId>17510</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="389" parent="293" name="titre">
+    <column id="468" parent="308" name="titre">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1403</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="390" parent="293" name="descriptif">
+    <column id="469" parent="308" name="descriptif">
       <DasType>text|0s</DasType>
       <DefaultExpression>&apos;NULL&apos;::text</DefaultExpression>
       <NotNull>1</NotNull>
@@ -5753,7 +6363,7 @@ true posixrules
       <StateNumber>1403</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="391" parent="293" name="destination">
+    <column id="470" parent="308" name="destination">
       <DasType>text|0s</DasType>
       <DefaultExpression>&apos;NULL&apos;::text</DefaultExpression>
       <NotNull>1</NotNull>
@@ -5761,7 +6371,7 @@ true posixrules
       <StateNumber>1403</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="392" parent="293" name="estreserve">
+    <column id="471" parent="308" name="estreserve">
       <DasType>boolean|0s</DasType>
       <DefaultExpression>false</DefaultExpression>
       <NotNull>1</NotNull>
@@ -5769,13 +6379,13 @@ true posixrules
       <StateNumber>1403</StateNumber>
       <TypeId>16</TypeId>
     </column>
-    <column id="393" parent="293" name="fichier">
+    <column id="472" parent="308" name="fichier">
       <DasType>text|0s</DasType>
       <Position>6</Position>
       <StateNumber>1403</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="394" parent="293" name="nbpersonnes">
+    <column id="473" parent="308" name="nbpersonnes">
       <DasType>integer|0s</DasType>
       <DefaultExpression>1</DefaultExpression>
       <NotNull>1</NotNull>
@@ -5783,7 +6393,7 @@ true posixrules
       <StateNumber>1403</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="395" parent="293" name="idperiode">
+    <column id="474" parent="308" name="idperiode">
       <DasType>integer|0s</DasType>
       <DefaultExpression>1</DefaultExpression>
       <NotNull>1</NotNull>
@@ -5791,26 +6401,26 @@ true posixrules
       <StateNumber>1403</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="396" parent="293" name="idprofesseur">
+    <column id="475" parent="308" name="idprofesseur">
       <DasType>integer|0s</DasType>
       <Position>9</Position>
       <StateNumber>1403</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="397" parent="293" name="idsuperviseur">
+    <column id="476" parent="308" name="idsuperviseur">
       <DasType>integer|0s</DasType>
       <Position>10</Position>
       <StateNumber>1403</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="398" parent="293" name="idue">
+    <column id="477" parent="308" name="idue">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>11</Position>
       <StateNumber>1403</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <foreign-key id="399" parent="293" name="sujet_idperiode_fkey">
+    <foreign-key id="478" parent="308" name="sujet_idperiode_fkey">
       <ColNames>idperiode</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17523</ObjectId>
@@ -5818,7 +6428,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17444</RefTableId>
     </foreign-key>
-    <foreign-key id="400" parent="293" name="sujet_idprofesseur_fkey">
+    <foreign-key id="479" parent="308" name="sujet_idprofesseur_fkey">
       <ColNames>idprofesseur</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17528</ObjectId>
@@ -5826,7 +6436,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17468</RefTableId>
     </foreign-key>
-    <foreign-key id="401" parent="293" name="sujet_idsuperviseur_fkey">
+    <foreign-key id="480" parent="308" name="sujet_idsuperviseur_fkey">
       <ColNames>idsuperviseur</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17644</ObjectId>
@@ -5834,7 +6444,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17567</RefTableId>
     </foreign-key>
-    <foreign-key id="402" parent="293" name="sujet_idue_fkey">
+    <foreign-key id="481" parent="308" name="sujet_idue_fkey">
       <ColNames>idue</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17649</ObjectId>
@@ -5842,7 +6452,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17485</RefTableId>
     </foreign-key>
-    <index id="403" parent="293" name="sujet_pkey">
+    <index id="482" parent="308" name="sujet_pkey">
       <ColNames>idsujet</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17521</ObjectId>
@@ -5851,14 +6461,14 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="404" parent="293" name="sujet_pkey">
+    <key id="483" parent="308" name="sujet_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17522</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1403</StateNumber>
       <UnderlyingIndexId>17521</UnderlyingIndexId>
     </key>
-    <trigger id="405" parent="293" name="unique_teacher_or_supervisor_for_a_subject">
+    <trigger id="484" parent="308" name="unique_teacher_or_supervisor_for_a_subject">
       <Condition>new.idprofesseur IS NOT NULL OR new.idsuperviseur IS NOT NULL</Condition>
       <Events>IU</Events>
       <ObjectId>17635</ObjectId>
@@ -5866,7 +6476,7 @@ true posixrules
       <Turn>before-row</Turn>
       <CallRoutineId>17632</CallRoutineId>
     </trigger>
-    <column id="406" parent="294" name="idsuperviseur">
+    <column id="485" parent="309" name="idsuperviseur">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
@@ -5875,21 +6485,21 @@ true posixrules
       <SequenceId>17566</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="407" parent="294" name="specialite">
+    <column id="486" parent="309" name="specialite">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1406</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="408" parent="294" name="idpersonne">
+    <column id="487" parent="309" name="idpersonne">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>1406</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="409" parent="294" name="superviseur_idpersonne_fkey">
+    <foreign-key id="488" parent="309" name="superviseur_idpersonne_fkey">
       <ColNames>idpersonne</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17574</ObjectId>
@@ -5897,7 +6507,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17420</RefTableId>
     </foreign-key>
-    <index id="410" parent="294" name="superviseur_pkey">
+    <index id="489" parent="309" name="superviseur_pkey">
       <ColNames>idsuperviseur</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17572</ObjectId>
@@ -5906,14 +6516,14 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="411" parent="294" name="superviseur_pkey">
+    <key id="490" parent="309" name="superviseur_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17573</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1406</StateNumber>
       <UnderlyingIndexId>17572</UnderlyingIndexId>
     </key>
-    <column id="412" parent="295" name="idsupervision">
+    <column id="491" parent="310" name="idsupervision">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
@@ -5922,28 +6532,28 @@ true posixrules
       <SequenceId>17579</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="413" parent="295" name="description">
+    <column id="492" parent="310" name="description">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1407</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="414" parent="295" name="idsuperviseur">
+    <column id="493" parent="310" name="idsuperviseur">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>1407</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="415" parent="295" name="idue">
+    <column id="494" parent="310" name="idue">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>1407</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <foreign-key id="416" parent="295" name="supervision_idsuperviseur_fkey">
+    <foreign-key id="495" parent="310" name="supervision_idsuperviseur_fkey">
       <ColNames>idsuperviseur</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17587</ObjectId>
@@ -5951,7 +6561,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17567</RefTableId>
     </foreign-key>
-    <foreign-key id="417" parent="295" name="supervision_idue_fkey">
+    <foreign-key id="496" parent="310" name="supervision_idue_fkey">
       <ColNames>idue</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17592</ObjectId>
@@ -5959,7 +6569,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17485</RefTableId>
     </foreign-key>
-    <index id="418" parent="295" name="supervision_pkey">
+    <index id="497" parent="310" name="supervision_pkey">
       <ColNames>idsupervision</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17585</ObjectId>
@@ -5968,35 +6578,35 @@ true posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="419" parent="295" name="supervision_pkey">
+    <key id="498" parent="310" name="supervision_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17586</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1407</StateNumber>
       <UnderlyingIndexId>17585</UnderlyingIndexId>
     </key>
-    <column id="420" parent="296" name="idue">
+    <column id="499" parent="311" name="idue">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>1401</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="421" parent="296" name="nom">
+    <column id="500" parent="311" name="nom">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1401</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="422" parent="296" name="idprof">
+    <column id="501" parent="311" name="idprof">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>1401</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="423" parent="296" name="ue_idprof_fkey">
+    <foreign-key id="502" parent="311" name="ue_idprof_fkey">
       <ColNames>idprof</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17492</ObjectId>
@@ -6004,7 +6614,7 @@ true posixrules
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>17468</RefTableId>
     </foreign-key>
-    <index id="424" parent="296" name="ue_pkey">
+    <index id="503" parent="311" name="ue_pkey">
       <ColNames>idue</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17490</ObjectId>
@@ -6016,7 +6626,7 @@ true posixrules
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="425" parent="296" name="ue_pkey">
+    <key id="504" parent="311" name="ue_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>17491</ObjectId>
       <Primary>1</Primary>
