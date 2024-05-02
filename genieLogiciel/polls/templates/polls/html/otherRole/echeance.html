@@ -8,6 +8,9 @@
             <h5>{{ element.periode.annee }}</h5>
         </div>
         {% for delai in element.delais %}
+        <div class="card-header border bgunamur">
+            <h5>{{ delai.delai.titre }}</h5>
+        </div>
         <div class="card-header border bg-white">
             <h5 class="card-title">{{ delai.delai.delai }}</h5>
             <p>{{ delai.delai.description }}</p>
