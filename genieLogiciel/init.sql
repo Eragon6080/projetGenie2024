@@ -46,6 +46,7 @@ CREATE TABLE Etape(
   idEtape INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   dateDebut DATE NOT NULL,
   dateFin DATE NOT NULL,
+  titre TEXT NOT NULL,
   description TEXT NOT NULL,
   idPeriode INT NOT NULL,
   idDelivrable INT,
@@ -205,7 +206,7 @@ BEGIN
 
     IF nbPersonneAffecte = 0 THEN
         -- RAISE NOTICE '%', nbPersonneAffecte; Cette ligne permet d'afficher des informations à la console
-        UPDATE Sujet SET estreserve = TRUE WHERE idSujet = NEW.idSujet;        
+        UPDATE Sujet SET estreserve = TRUE WHERE idSujet = NEW.idSujet;
         RETURN NEW;
     END IF;
     RETURN NEW;
@@ -249,9 +250,11 @@ INSERT INTO Periode (annee)
 INSERT INTO Delivrable (typeFichier)
   VALUES ('pdf'),
         ('docx');
-INSERT INTO Etape (dateDebut, dateFin, description, idPeriode, idDelivrable)
-  VALUES ('2023-09-01','2024-01-01', 'rendre le devoir de IDS', 1, 1),
-        ('2023-09-01','2024-02-01', 'rendre le mémoire', 2, 2);
+INSERT INTO Etape (dateDebut, dateFin, titre, description, idPeriode, idDelivrable)
+  VALUES ('2023-09-01','2024-01-01', 'Délivrable final', 'Rendre le travail final sous forme d un fichier pdf (max 30 pages)', 1, 1),
+        ('2023-09-01','2024-02-01', 'Choisir le mémoire', 'Veuillez choisir un sujet de mémoire (top 5). Si votre sujet est déjà reservé, ne faites rien !', 2, 2),
+         ('2024-02-01','2024-03-01', 'Etat de l''art', 'Rendre l''état de l''art de votre mémoire.', 2, 2),
+         ('2024-03-01','2024-04-01', 'Travail final', 'Rendre le travail final sous forme d un fichier pdf (max 150 pages)', 2, 2);
 
 INSERT INTO Professeur (specialite, idPersonne, idPeriode)
   VALUES ('IA', 5, 1),
@@ -265,7 +268,7 @@ INSERT INTO Cours (idUE, nom)
         ('INFOMA451', 'Mémoire');
 INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProfesseur,estReserve,idSuperviseur,idUE,nbPersonnes)
     VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, NULL,FALSE,1,'INFOB331',1),
-          ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2,1,FALSE,NULL,'INFOMA451',2);
+          ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2,1,TRUE,NULL,'INFOMA451',2);
 INSERT INTO Etudiant (bloc, idPersonne)
   VALUES (1, 1 ),
         (2, 2);
@@ -287,10 +290,12 @@ INSERT INTO Supervision (description, idSuperviseur, idUe)
 INSERT INTO SelectionSujet (idSujet, idEtudiant)
   VALUES
   (2,2);
-  
+
 INSERT INTO EtapeUe (idEtape, idUe, etapeCourante)
   VALUES (1, 'INFOB331', TRUE),
-        (2, 'INFOMA451', TRUE);
+        (2, 'INFOMA451', TRUE),
+        (3, 'INFOMA451', FALSE),
+        (4, 'INFOMA451', FALSE);
 
 
 alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);

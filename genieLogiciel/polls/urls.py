@@ -57,8 +57,9 @@ urlpatterns = [
     path("suivi/", views.yes, name="yes"),
     path("switch_role/<str:role>", views.switchRole, name="switch_role"),
 
-    path("echeance/", views.echeance, name="echeance"),
-    path("echeance/<int:delivrable_id>/<int:idcours>/<int:idperiode>", views.upload_delivrable, name="delivrable"),
+    path("echeance/", views.echeance_and_upload, name="echeance_and_upload"),
+    path("echeance/<int:delivrable_id>/<int:idcours>/<int:idperiode>", views.echeance_and_upload,
+         name="echeance_and_upload"),
     path("sujet/reservation", courseViews.reservation, name="reservation"),
     path("sujet/reservation/<int:idsujet>", courseViews.booking, name="reservation"),
     path("sujet/reservation/confirmation/<int:idsujet>", courseViews.validation_booking, name="confirmation"),

@@ -163,63 +163,57 @@ def switchRole(request, role):
     return HttpResponseRedirect(redirect_to=redirect_url)
 
 
-
-
 @login_required(login_url='/polls')
-def echeance(request):
+def echeance_and_upload(request, idcours=None, idperiode=None, delivrable_id=None):
     user = request.user
-    if "etudiant" in user.role['role']:
-        etudiant = find_student_by_id_personne(user.idpersonne)
-        sujets = find_sujet_by_id_etudiant(etudiant)
-        courses = find_course_by_student(user.idpersonne)
+    if 'etudiant' not in user.role['role']:
+        return HttpResponse("Unauthorized", status=401)
 
+    etudiant = find_student_by_id_personne(user.idpersonne)
+    sujets = find_sujet_by_id_etudiant(etudiant)
+    courses = find_course_by_student(user.idpersonne)
+    elements = []
 
-        elements = []
-        for sujet,course in zip(sujets,courses):
-            delais = []
-            delais_query = find_delais_by_sujet(sujet)
-            for delai in delais_query:
-                delais.append(delai)
-            elements.append({'periode':sujet.idperiode,'course':course,'delais':delais})
-        context = {
-            'elements' : elements,
-            'current_date': datetime.now().date()
-        }
+    for sujet, course in zip(sujets, courses):
+        delais = []
+        delais_query = find_delais_by_sujet(sujet)
+        for delai in delais_query:
+            fichier_delivrable_instance = FichierDelivrable.objects.filter(
+                iddelivrable=delai.iddelivrable,
+                idetudiant=etudiant,
+                rendu=True
+            ).first()
 
-        print(elements)
-        return render(request, 'otherRole/echeance.html', context)
+            form = FichierDelivrableForm(instance=fichier_delivrable_instance) if fichier_delivrable_instance else FichierDelivrableForm()
 
+            if delivrable_id == delai.iddelivrable.iddelivrable and request.method == 'POST':
+                form = FichierDelivrableForm(request.POST, request.FILES, instance=fichier_delivrable_instance)
+                if form.is_valid():
+                    fichier_delivrable = form.save(commit=False)
+                    fichier_delivrable.iddelivrable = get_object_or_404(Delivrable, iddelivrable=delivrable_id)
+                    fichier_delivrable.idetudiant = etudiant
+                    fichier_delivrable.nom_personne = etudiant.idpersonne.nom
+                    fichier_delivrable.nom_cours = course.idue_id
+                    fichier_delivrable.annee_periode = sujet.idperiode.annee
+                    fichier_delivrable.rendu = True
+                    fichier_delivrable.save()
+                    return redirect('echeance_and_upload')
 
-@login_required(login_url='/polls')
-def upload_delivrable(request, delivrable_id, idcours, idperiode):
-    delivrable = get_object_or_404(Delivrable, iddelivrable=delivrable_id)
-    user = request.user
-    if 'etudiant' in user.role['role']:
-        etudiant = find_student_by_id_personne(user.idpersonne)
+            already_submitted = fichier_delivrable_instance is not None
+            delais.append({
+                'delai': delai,
+                'form': form,
+                'already_submitted': already_submitted,
+            })
 
-        if request.method == 'POST':
-            form = FichierDelivrableForm(request.POST, request.FILES)
-            periode = find_periode_by_id(idperiode)
-            cours = find_course_by_id(idcours)
-            if form.is_valid():
-                fichier_delivrable = form.save(commit=False)
-                fichier_delivrable.iddelivrable = delivrable
-                fichier_delivrable.idetudiant = etudiant
-                fichier_delivrable.nom_personne = etudiant.idpersonne.nom
-                fichier_delivrable.nom_cours = cours.idue.nom # a regarder
-                fichier_delivrable.annee_periode = periode.annee
-                fichier_delivrable.rendu = True  # Marquer comme rendu
-                fichier_delivrable.save()
-                return redirect('echeance')
-        else:
-            form = FichierDelivrableForm()
+        elements.append({'periode': sujet.idperiode, 'course': course, 'delais': delais})
 
-        # Vérifier si le délivrable a déjà été rendu
-        already_submitted = FichierDelivrable.objects.filter(iddelivrable=delivrable, idetudiant=etudiant,
-                                                             rendu=True).exists()
+    context = {
+        'elements': elements,
+        'current_date': datetime.now().date(),
+    }
+    return render(request, 'otherRole/echeance.html', context)
 
-        return render(request, 'otherRole/delivrable.html',
-                      {'form': form, 'delivrable': delivrable, 'already_submitted': already_submitted})
 
 
 @login_required(login_url='/polls')
