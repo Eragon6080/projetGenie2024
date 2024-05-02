@@ -41,7 +41,7 @@
   <p>{{ current_etape.description }}</p>
   <hr class="my-4">
   {% if current_etape.iddelivrable %}
-  <p>Box pour rendre le travail</p>
+    {% include "otherRole/echeance_etape.html" %}
   {% else %}
     {% include "otherRole/reservationSujet.html" %}
   {% endif %}
