@@ -28,10 +28,12 @@ urlpatterns = [
     path("admin/role/", adminViews.role, name="role"),
     path("admin/role/<str:view>", adminViews.role, name="roleView"),
     path("admin/courses/", adminViews.courses, name="coursSummary"),
+    path("sujet/history/", courseViews.vue_historique, name="vue_historique"),
+    path("sujet/history/<int:annee>", courseViews.vue_historique_annee, name="vue_historaieAnnee"),
 
-   
-    
-    
+
+
+
     path('sujet/edit/<int:sujet_id>/', courseViews.editTopic, name='edit_topic'),
     path('sujet/delete/<int:sujet_id>/', courseViews.deleteTopic, name='delete_topic'),
     path("course/<str:idue>/steps/", courseViews.afficher_etapes_ue, name="steps"),
@@ -64,7 +66,7 @@ urlpatterns = [
     path("sujet/reservation", courseViews.reservation, name="reservation"),
     path("sujet/reservation/<int:idsujet>", courseViews.booking, name="reservation"),
     path("sujet/reservation/confirmation/<int:idsujet>", courseViews.validation_booking, name="confirmation"),
-    path("essai/", courseViews.vue_historique, name="essaie"),
+
     
     
     

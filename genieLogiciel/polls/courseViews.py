@@ -15,6 +15,7 @@ from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable
 from .queries import *
 
 from .restrictions import *
+from .utils.remove import remove_duplicates
 
 
 @login_required(login_url='/polls')
@@ -368,26 +369,53 @@ def validation_booking(request, idsujet):
         return redirect('../../../ok')
 
 
+from django.db.models import CharField, Value  # cet import, pour gérer l'espace entre pnom et nom
+
+
+@login_required(login_url='/polls')
 def vue_historique(request):
     queryset = (
-        Cours.objects
-        .values(
-            annee_academique=F('sujet__idperiode__annee'),
+        Cours.objects.values(
+            annee_academique=F('idue__idprof__idperiode__annee'),
             nom_cours=F('nom'),
-            titre_sujet=F('sujet__titre'),
-            description_sujet=F('sujet__descriptif'),
-            nom_complet_etudiant=Concat('idetudiant__idpersonne__nom', 'idetudiant__idpersonne__prenom'),
-            nom_complet_professeur=Concat('sujet__idprof__idpersonne__nom',
-                                          'sujet__idprof__idpersonne__prenom'),
-        )
-        .order_by('sujet__idperiode__annee', 'nom')
+            titre_sujet=F('idue__sujet__titre'),
+            description_sujet=F('idue__sujet__descriptif'),
+            nom_complet_etudiant=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
+                                        output_field=CharField()),
+            nom_complet_professeur=Concat('idue__idprof__idpersonne__nom', Value(' '),
+                                          'idue__idprof__idpersonne__prenom', output_field=CharField()),
+        ).order_by('idue__idprof__idperiode__annee')
     )
     queries = []
     for query in queryset:
         queries.append(query)
-    return render(request, "otherRole/ok.html", context={'queryset': queries})
+    annees = []
+    for query in queryset:
+        annees.append(int(query['annee_academique']))
+    annees = remove_duplicates(annees)
+
+    return render(request, "otherRole/historique.html", context={'queryset': queries, 'annees': annees})
 
 
+@login_required(login_url='/polls')
+def vue_historique_annee(request, annee):
+    queryset = (
+        Cours.objects.filter(
+            idue__idprof__idperiode__annee=annee
+        ).values(
+            annee_academique=F('idue__idprof__idperiode__annee'),
+            nom_cours=F('nom'),
+            titre_sujet=F('idue__sujet__titre'),
+            description_sujet=F('idue__sujet__descriptif'),
+            nom_complet_etudiant=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
+                                        output_field=CharField()),
+            nom_complet_professeur=Concat('idue__idprof__idpersonne__nom', Value(' '),
+                                          'idue__idprof__idpersonne__prenom', output_field=CharField()),
+        ).order_by('idue__idprof__idperiode__annee'))
+    querries = []
+    for querry in queryset:
+        querries.append(querry)
+    return render(request, "otherRole/historique.html", context={'queryset': querries})
 @login_required(login_url='polls')
 @is_owner_of_ue_or_admin
 def etape_view(request, idue):
