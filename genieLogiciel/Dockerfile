@@ -11,10 +11,10 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copiez le reste du code de l'application dans le conteneur
-COPY . .
-
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 # Exposez le port sur lequel votre application s'exécute (par exemple, 8000 si votre application Django s'exécute sur ce port)
 EXPOSE 8000
 
 # Définissez la commande pour exécuter votre application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["/entrypoint.sh"]
