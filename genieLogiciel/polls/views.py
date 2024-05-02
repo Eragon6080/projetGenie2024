@@ -166,28 +166,40 @@ def switchRole(request, role):
 
 
 @login_required(login_url='/polls')
-def echeance(request):
+@student_required
+def echeances(request):
     user = request.user
     if "etudiant" in user.role['role']:
         etudiant = find_student_by_id_personne(user.idpersonne)
         sujets = find_sujet_by_id_etudiant(etudiant)
         courses = find_course_by_student(user.idpersonne)
 
+        content = []
+        
+        for cours in courses:
+            etapes_of_ue, etapesue_of_ue = find_etapes_of_ue(cours.idue)
+            print(etapes_of_ue)
+            content.append({'course':cours, 'etapes':etapes_of_ue})
 
-        elements = []
-        for sujet,course in zip(sujets,courses):
-            delais = []
-            delais_query = find_delais_by_sujet(sujet)
-            for delai in delais_query:
-                delais.append(delai)
-            elements.append({'periode':sujet.idperiode,'course':course,'delais':delais})
         context = {
-            'elements' : elements,
+            'content': content,
             'current_date': datetime.now().date()
         }
 
-        print(elements)
-        return render(request, 'otherRole/echeance.html', context)
+
+        # elements = []
+        # for sujet,course in zip(sujets,courses):
+        #     delais = []
+        #     delais_query = find_delais_by_sujet(sujet)
+        #     for delai in delais_query:
+        #         delais.append(delai)
+        #     elements.append({'periode':sujet.idperiode,'course':course,'delais':delais})
+        # context = {
+        #     'elements' : elements,
+        #     'current_date': datetime.now().date()
+        # }
+
+        return render(request, 'otherRole/echeances.html', context)
 
 
 @login_required(login_url='/polls')

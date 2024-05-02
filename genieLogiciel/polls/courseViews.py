@@ -276,25 +276,33 @@ def mycourses(request) -> HttpResponse:
     if courses_query:
         for cours in courses_query:
             courses_ue.append(cours.idue)
+
     context = {
         'courses': courses_ue
     }
     return render(request, "otherRole/home.html", context=context)
 
 @login_required(login_url='/polls')
-@student_required
+@csrf_exempt
 @is_student_of_ue
 def mycourse(request, idue):
     user = request.user
     ue = find_ue(idue)
     etapes, etapes_ue = find_etapes_of_ue(ue)
     current_etape = find_current_etape_of_ue(ue)
+
+    # on part du principe que quand une étape ne contient pas de délivrable, c'est que c'est une étape de choix de sujet
+    context_reservation = None
+    if current_etape is not None and current_etape.iddelivrable_id is None:
+        context_reservation = reservation_subject_student(idue, user.idpersonne)
+
     context = {
         'ue': ue,
         'is_student': True,
         'etapes': etapes,
         'etapes_ue': etapes_ue,
-        'current_etape': current_etape
+        'current_etape': current_etape,
+        'context_reservation': context_reservation
         }
     return render(request, "course.html", context=context)
 
@@ -410,8 +418,33 @@ def etape_view(request, idue):
     return render(request, 'otherRole/commandTimeline.html', {'form': form, 'etapes': etapes, 'ue': ue, 'etapes_ue': etapes_ue})
 
 
-@student_required
-def reservation_subject_student(request, idue, idpersonne):
+# @student_required
+# def reservation_subject_student(request, idue, idpersonne):
+#     etudiant = find_student_by_id_personne(idpersonne)
+#     if count_subject_for_one_student_and_one_ue(etudiant.idetudiant, idue) == 0:
+#         sujets_query = find_sujets_by_idue(idue)
+#         sujets = []
+#         for sujet in sujets_query:
+#             nbPersonnesRestantes = nb_people_keeping_for_a_sujet(sujet)
+#             sujets.append({'sujet':sujet, 'nbPersonnesRestantes':nbPersonnesRestantes, 'nbPersonnes':sujet.nbpersonnes})
+#         if len(sujets) > 0:
+#             context = {
+#                 'titles': ['Titre', 'Description', 'Professeur/Superviseur', 'Nombre de personnes','Réserver'],
+#                 'sujets': sujets,
+#                 'idue': idue
+#             }
+#         else:
+#             context = {
+#                 'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
+#             }
+#     else:
+#         context = {
+#             'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
+#         }
+#     return render(request, "otherRole/reservationSujet.html", context=context)
+
+
+def reservation_subject_student(idue, idpersonne):
     etudiant = find_student_by_id_personne(idpersonne)
     if count_subject_for_one_student_and_one_ue(etudiant.idetudiant, idue) == 0:
         sujets_query = find_sujets_by_idue(idue)
@@ -433,7 +466,7 @@ def reservation_subject_student(request, idue, idpersonne):
         context = {
             'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
         }
-    return render(request, "otherRole/reservationSujet.html", context=context)
+    return context
 
 
 @student_required

@@ -57,7 +57,7 @@ urlpatterns = [
     path("suivi/", views.yes, name="yes"),
     path("switch_role/<str:role>", views.switchRole, name="switch_role"),
 
-    path("echeance/", views.echeance, name="echeance"),
+    path("echeances/", views.echeances, name="echeances"),
     path("echeance/<int:delivrable_id>/<int:idcours>/<int:idperiode>", views.upload_delivrable, name="delivrable"),
     path("sujet/reservation", courseViews.reservation, name="reservation"),
     path("sujet/reservation/<int:idsujet>", courseViews.booking, name="reservation"),

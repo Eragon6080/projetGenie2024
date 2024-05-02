@@ -37,7 +37,14 @@
 
 {% if is_student %}
 <div class="container justify-content-center">
+  <h4>Consignes</h4>
   <p>{{ current_etape.description }}</p>
+  <hr class="my-4">
+  {% if current_etape.iddelivrable %}
+  <p>Box pour rendre le travail</p>
+  {% else %}
+    {% include "otherRole/reservationSujet.html" %}
+  {% endif %}
 </div>
     
 
