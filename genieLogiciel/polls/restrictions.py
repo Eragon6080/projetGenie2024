@@ -87,7 +87,6 @@ def is_owner_of_ue_or_admin(function):
 
 def is_student_of_ue(function):
     def wrap(request, *args, **kwargs):
-        print(request.user.role['role'])
         if "etudiant" in request.user.role['role'] and request.user in find_students_of_ue(find_ue(kwargs['idue'])):
             return function(request, *args, **kwargs)
         else:
