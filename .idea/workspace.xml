@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Ajout de la modif de rosny">
-      <change afterPath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/historique.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/genieLogiciel/polls/utils/remove.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.meta" afterDir="false" />
+    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Ajout de la modif de de yassine&#10;L'historique pour un prof fonctionne. Il a accès à l'histoirique de l'ue">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/navBarOtherRole.html" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/navBarOtherRole.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +164,7 @@
       <workItem from="1714651774938" duration="4705000" />
       <workItem from="1714657402758" duration="1005000" />
       <workItem from="1714660806418" duration="1096000" />
-      <workItem from="1714665345079" duration="1142000" />
+      <workItem from="1714665345079" duration="1533000" />
     </task>
     <task id="LOCAL-00001" summary="Réorganisation des fichiers">
       <option name="closed" value="true" />
@@ -277,7 +270,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714661066210</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Ajout de la modif de de yassine&#10;L'historique pour un prof fonctionne. Il a accès à l'histoirique de l'ue">
+      <option name="closed" value="true" />
+      <created>1714666832763</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1714666832763</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -308,7 +309,8 @@
     <MESSAGE value="Modification du .env" />
     <MESSAGE value="Modification du .sh" />
     <MESSAGE value="Ajout de la modif de rosny" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ajout de la modif de rosny" />
+    <MESSAGE value="Ajout de la modif de de yassine&#10;L'historique pour un prof fonctionne. Il a accès à l'histoirique de l'ue" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ajout de la modif de de yassine&#10;L'historique pour un prof fonctionne. Il a accès à l'histoirique de l'ue" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/genieproj$manage.coverage" NAME="manage Coverage Results" MODIFIED="1714633982340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/genieLogiciel" />
