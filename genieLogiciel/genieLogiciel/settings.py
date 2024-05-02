@@ -15,6 +15,10 @@ from pathlib import Path
 
 import dj_database_url
 from dotenv import load_dotenv
+from django.db import connections
+from django.db.utils import OperationalError
+
+
 
 isLoaded = load_dotenv(dotenv_path="pims.env")
 print(isLoaded)
@@ -78,10 +82,23 @@ WSGI_APPLICATION = 'genieLogiciel.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 AUTH_USER_MODEL = 'polls.Personne'
-print(os.getenv('DATABASE_URL'))
-DATABASES = {
-    'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
-}
+
+if os.getenv('DATABASE_URL'):
+    DATABASES = {
+        'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'admin',
+            'USER': 'admin',
+            'host': 'localhost',
+            'PASSWORD': 'admin',
+            'PORT': os.getenv('DB_PORT')
+        }
+
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

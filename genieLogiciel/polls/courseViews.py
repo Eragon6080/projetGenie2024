@@ -38,8 +38,12 @@ def topics(request, idue) -> HttpResponse:
             etudiants = SelectionSujet.objects.filter(idsujet=sujet.idsujet)
             etudiants_noms = [f"{etudiant.idetudiant.idpersonne.nom} {etudiant.idetudiant.idpersonne.prenom}" for etudiant in etudiants]
             sujet_info['etudiants'] = etudiants_noms
+            print(etudiants_noms)
+
+
 
         sujet_infos.append(sujet_info)
+        print(sujet_info['estPris'])
 
     return render(request, "otherRole/topic.html", {'sujet_infos': sujet_infos, 'ue': ue})
 

@@ -4,10 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Ajout d'un DockerFile">
+    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Modification du .env">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/genieLogiciel/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/genieLogiciel/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/pims.env" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/pims.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +29,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -122,7 +129,9 @@
       <method v="2" />
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
-      <deployment type="dockerfile" />
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
       <method v="2" />
     </configuration>
     <recent_temporary>
@@ -134,8 +143,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-PY-241.14494.241" />
-        <option value="bundled-python-sdk-0509580d9d50-28c9f5db9ffe-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.14494.241" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-PY-241.15989.155" />
+        <option value="bundled-python-sdk-babbdf50b680-7c6932dee5e4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.15989.155" />
       </set>
     </attachedChunks>
   </component>
@@ -153,7 +162,8 @@
       <workItem from="1714491787591" duration="499000" />
       <workItem from="1714633321682" duration="93000" />
       <workItem from="1714633698916" duration="549000" />
-      <workItem from="1714636013323" duration="3749000" />
+      <workItem from="1714636013323" duration="14283000" />
+      <workItem from="1714651774938" duration="1731000" />
     </task>
     <task id="LOCAL-00001" summary="Réorganisation des fichiers">
       <option name="closed" value="true" />
@@ -179,7 +189,71 @@
       <option name="project" value="LOCAL" />
       <updated>1714636434158</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Rectification graphique du formulaire d'inscription">
+      <option name="closed" value="true" />
+      <created>1714642030027</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1714642030027</updated>
+    </task>
+    <task id="LOCAL-00005" summary="On peut de nouveau accéder pour un cours à ce qu'il faut faire">
+      <option name="closed" value="true" />
+      <created>1714642580850</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1714642580850</updated>
+    </task>
+    <task id="LOCAL-00006" summary="A partir d'un cours sélectionné pour un étudiant&#10;On peut accéder à la timeline pour ce cours et la flèche de retour en arrière nous ramène bien à l'endroit prévu">
+      <option name="closed" value="true" />
+      <created>1714643348734</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1714643348734</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Modification mtnt la bd se trouve dans le même conteneur que l'app django">
+      <option name="closed" value="true" />
+      <created>1714647735835</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1714647735835</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Remodification de ma github action pour qu'elle publie sur mon repo">
+      <option name="closed" value="true" />
+      <created>1714647847267</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1714647847267</updated>
+    </task>
+    <task id="LOCAL-00009" summary="La bd est de nouveau sur un conteneur à part pour la pérennité de mon github">
+      <option name="closed" value="true" />
+      <created>1714648261271</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1714648261271</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Git merge effectué">
+      <option name="closed" value="true" />
+      <created>1714648486490</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1714648486490</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Modification du .env">
+      <option name="closed" value="true" />
+      <created>1714648639855</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1714648639855</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,7 +274,15 @@
     <MESSAGE value="Réorganisation des fichiers" />
     <MESSAGE value="Mise à jour des models.py" />
     <MESSAGE value="Ajout d'un DockerFile" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ajout d'un DockerFile" />
+    <MESSAGE value="Rectification graphique du formulaire d'inscription" />
+    <MESSAGE value="On peut de nouveau accéder pour un cours à ce qu'il faut faire" />
+    <MESSAGE value="A partir d'un cours sélectionné pour un étudiant&#10;On peut accéder à la timeline pour ce cours et la flèche de retour en arrière nous ramène bien à l'endroit prévu" />
+    <MESSAGE value="Modification mtnt la bd se trouve dans le même conteneur que l'app django" />
+    <MESSAGE value="Remodification de ma github action pour qu'elle publie sur mon repo" />
+    <MESSAGE value="La bd est de nouveau sur un conteneur à part pour la pérennité de mon github" />
+    <MESSAGE value="Git merge effectué" />
+    <MESSAGE value="Modification du .env" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modification du .env" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/genieproj$manage.coverage" NAME="manage Coverage Results" MODIFIED="1714633982340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/genieLogiciel" />
