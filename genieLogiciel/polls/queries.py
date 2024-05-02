@@ -352,7 +352,12 @@ def find_students_of_ue(ue: Ue) -> list[Personne] | None:
     try:
         courses = Cours.objects.filter(idue=ue)
         students_query = Etudiant.objects.filter(idetudiant__in=courses.values('idetudiant'))
-        personne_query = Personne.objects.filter(idpersonne__in=students_query)
+        print(students_query)
+        students_id = []
+        for student in students_query:
+            students_id.append(student.idpersonne_id)
+        personne_query = Personne.objects.filter(idpersonne__in=students_id)
+
         return personne_query
     except ObjectDoesNotExist:
         return None

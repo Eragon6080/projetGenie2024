@@ -3,7 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.52">
     <root id="1">
       <DateStyle>mdy</DateStyle>
-      <IntrospectionStateNumber>1610</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1750</IntrospectionStateNumber>
       <ServerVersion>16.2</ServerVersion>
       <StartupTime>1714651526</StartupTime>
       <TimeZones>true ACDT
@@ -1396,7 +1396,7 @@ true posixrules
 13212||10|C|G
 13212||-9223372036854775808|U|G
 13212||10|U|G</Grants>
-      <IntrospectionStateNumber>1610</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1750</IntrospectionStateNumber>
       <ObjectId>16389</ObjectId>
       <OwnerName>admin</OwnerName>
     </database>
@@ -4830,1198 +4830,1816 @@ true posixrules
     </schema>
     <schema id="266" parent="2" name="public">
       <Current>1</Current>
-      <IntrospectionStateNumber>1610</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2024-05-02.20:52:16</LastIntrospectionLocalTimestamp>
-      <ObjectId>17753</ObjectId>
-      <StateNumber>1569</StateNumber>
+      <IntrospectionStateNumber>1750</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2024-05-02.21:04:08</LastIntrospectionLocalTimestamp>
+      <ObjectId>18088</ObjectId>
+      <StateNumber>1664</StateNumber>
       <OwnerName>admin</OwnerName>
     </schema>
     <routine id="267" parent="266" name="check_idprof_idsuperviseur">
-      <ObjectId>17967</ObjectId>
+      <ObjectId>18304</ObjectId>
       <PgRoutineKind>pg-trigger</PgRoutineKind>
       <ResultsDefinition>trigger</ResultsDefinition>
       <Rows>0.0</Rows>
       <SourceTextLength>760</SourceTextLength>
-      <StateNumber>1584</StateNumber>
+      <StateNumber>1688</StateNumber>
       <LanguageName>plpgsql</LanguageName>
       <OwnerName>admin</OwnerName>
     </routine>
     <routine id="268" parent="266" name="check_not_below_for_assignation_for_a_subject">
-      <ObjectId>17968</ObjectId>
+      <ObjectId>18305</ObjectId>
       <PgRoutineKind>pg-trigger</PgRoutineKind>
       <ResultsDefinition>trigger</ResultsDefinition>
       <Rows>0.0</Rows>
       <SourceTextLength>754</SourceTextLength>
-      <StateNumber>1585</StateNumber>
+      <StateNumber>1689</StateNumber>
       <LanguageName>plpgsql</LanguageName>
       <OwnerName>admin</OwnerName>
     </routine>
     <routine id="269" parent="266" name="set_reserve_to_true">
-      <ObjectId>17969</ObjectId>
+      <ObjectId>18306</ObjectId>
       <PgRoutineKind>pg-trigger</PgRoutineKind>
       <ResultsDefinition>trigger</ResultsDefinition>
       <Rows>0.0</Rows>
       <SourceTextLength>655</SourceTextLength>
-      <StateNumber>1586</StateNumber>
+      <StateNumber>1690</StateNumber>
       <LanguageName>plpgsql</LanguageName>
       <OwnerName>admin</OwnerName>
     </routine>
-    <sequence id="270" parent="266" name="cours_idcours_seq">
+    <sequence id="270" parent="266" name="auth_group_id_seq">
       <DasType>integer|0s</DasType>
-      <ObjectId>17832</ObjectId>
+      <ObjectId>18347</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>1576</StateNumber>
+      <StateNumber>1717</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="271" parent="266" name="delivrable_iddelivrable_seq">
-      <DasType>integer|0s</DasType>
-      <ObjectId>17769</ObjectId>
+    <sequence id="271" parent="266" name="auth_group_permissions_id_seq">
+      <DasType>bigint|0s</DasType>
+      <ObjectId>18355</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>1571</StateNumber>
+      <StateNumber>1717</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="272" parent="266" name="etape_idetape_seq">
+    <sequence id="272" parent="266" name="auth_permission_id_seq">
       <DasType>integer|0s</DasType>
-      <ObjectId>17784</ObjectId>
+      <ObjectId>18341</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>1573</StateNumber>
+      <StateNumber>1717</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="273" parent="266" name="etapeue_idetapeue_seq">
+    <sequence id="273" parent="266" name="cours_idcours_seq">
       <DasType>integer|0s</DasType>
-      <ObjectId>17948</ObjectId>
+      <ObjectId>18168</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>1583</StateNumber>
+      <StateNumber>1671</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="274" parent="266" name="etudiant_idetudiant_seq">
+    <sequence id="274" parent="266" name="delivrable_iddelivrable_seq">
       <DasType>integer|0s</DasType>
-      <ObjectId>17868</ObjectId>
+      <ObjectId>18104</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>1578</StateNumber>
+      <StateNumber>1666</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="275" parent="266" name="fichierdelivrable_idfichier_seq">
+    <sequence id="275" parent="266" name="django_content_type_id_seq">
       <DasType>integer|0s</DasType>
-      <ObjectId>17880</ObjectId>
+      <ObjectId>18333</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>1579</StateNumber>
+      <StateNumber>1715</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="276" parent="266" name="periode_idperiode_seq">
-      <DasType>integer|0s</DasType>
-      <ObjectId>17778</ObjectId>
+    <sequence id="276" parent="266" name="django_migrations_id_seq">
+      <DasType>bigint|0s</DasType>
+      <ObjectId>18325</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>1572</StateNumber>
+      <StateNumber>1714</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="277" parent="266" name="personne_idpersonne_seq">
+    <sequence id="277" parent="266" name="etape_idetape_seq">
       <DasType>integer|0s</DasType>
-      <ObjectId>17754</ObjectId>
+      <ObjectId>18119</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>1570</StateNumber>
+      <StateNumber>1668</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="278" parent="266" name="professeur_idprof_seq">
+    <sequence id="278" parent="266" name="etapeue_idetapeue_seq">
       <DasType>integer|0s</DasType>
-      <ObjectId>17802</ObjectId>
+      <ObjectId>18285</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>1574</StateNumber>
+      <StateNumber>1687</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="279" parent="266" name="selectionsujet_idselection_seq">
+    <sequence id="279" parent="266" name="etudiant_idetudiant_seq">
       <DasType>integer|0s</DasType>
-      <ObjectId>17932</ObjectId>
+      <ObjectId>18205</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>1582</StateNumber>
+      <StateNumber>1682</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="280" parent="266" name="sujet_idsujet_seq">
+    <sequence id="280" parent="266" name="fichierdelivrable_idfichier_seq">
       <DasType>integer|0s</DasType>
-      <ObjectId>17845</ObjectId>
+      <ObjectId>18217</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>1577</StateNumber>
+      <StateNumber>1683</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="281" parent="266" name="superviseur_idsuperviseur_seq">
+    <sequence id="281" parent="266" name="periode_idperiode_seq">
       <DasType>integer|0s</DasType>
-      <ObjectId>17901</ObjectId>
+      <ObjectId>18113</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>1580</StateNumber>
+      <StateNumber>1667</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <sequence id="282" parent="266" name="supervision_idsupervision_seq">
+    <sequence id="282" parent="266" name="personne_idpersonne_seq">
       <DasType>integer|0s</DasType>
-      <ObjectId>17914</ObjectId>
+      <ObjectId>18089</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>1581</StateNumber>
+      <StateNumber>1665</StateNumber>
       <OwnerName>admin</OwnerName>
     </sequence>
-    <table id="283" parent="266" name="cours">
-      <ObjectId>17833</ObjectId>
-      <StateNumber>1576</StateNumber>
+    <sequence id="283" parent="266" name="polls_delivrable_iddelivrable_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>18387</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1731</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <sequence id="284" parent="266" name="polls_etape_idetape_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>18395</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1731</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <sequence id="285" parent="266" name="professeur_idprof_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>18137</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1669</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <sequence id="286" parent="266" name="selectionsujet_idselection_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>18269</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1686</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <sequence id="287" parent="266" name="sujet_idsujet_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>18182</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1681</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <sequence id="288" parent="266" name="superviseur_idsuperviseur_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>18238</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1684</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <sequence id="289" parent="266" name="supervision_idsupervision_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>18251</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1685</StateNumber>
+      <OwnerName>admin</OwnerName>
+    </sequence>
+    <table id="290" parent="266" name="auth_group">
+      <ObjectId>18348</ObjectId>
+      <StateNumber>1717</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="284" parent="266" name="delivrable">
-      <ObjectId>17770</ObjectId>
-      <StateNumber>1573</StateNumber>
+    <table id="291" parent="266" name="auth_group_permissions">
+      <ObjectId>18356</ObjectId>
+      <StateNumber>1717</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="285" parent="266" name="etape">
-      <ObjectId>17785</ObjectId>
-      <StateNumber>1573</StateNumber>
+    <table id="292" parent="266" name="auth_permission">
+      <ObjectId>18342</ObjectId>
+      <StateNumber>1717</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="286" parent="266" name="etapeue">
-      <ObjectId>17949</ObjectId>
-      <StateNumber>1583</StateNumber>
+    <table id="293" parent="266" name="cours">
+      <ObjectId>18169</ObjectId>
+      <StateNumber>1671</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="287" parent="266" name="etudiant">
-      <ObjectId>17869</ObjectId>
-      <StateNumber>1578</StateNumber>
+    <table id="294" parent="266" name="delivrable">
+      <ObjectId>18105</ObjectId>
+      <StateNumber>1668</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="288" parent="266" name="fichierdelivrable">
-      <ObjectId>17881</ObjectId>
-      <StateNumber>1579</StateNumber>
+    <table id="295" parent="266" name="django_content_type">
+      <ObjectId>18334</ObjectId>
+      <StateNumber>1717</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="289" parent="266" name="periode">
-      <ObjectId>17779</ObjectId>
-      <StateNumber>1573</StateNumber>
+    <table id="296" parent="266" name="django_migrations">
+      <ObjectId>18326</ObjectId>
+      <StateNumber>1714</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="290" parent="266" name="personne">
-      <ObjectId>17755</ObjectId>
-      <StateNumber>1574</StateNumber>
+    <table id="297" parent="266" name="django_session">
+      <ObjectId>18415</ObjectId>
+      <StateNumber>1740</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="291" parent="266" name="professeur">
-      <ObjectId>17803</ObjectId>
-      <StateNumber>1574</StateNumber>
+    <table id="298" parent="266" name="etape">
+      <ObjectId>18120</ObjectId>
+      <StateNumber>1668</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="292" parent="266" name="selectionsujet">
-      <ObjectId>17933</ObjectId>
-      <StateNumber>1582</StateNumber>
+    <table id="299" parent="266" name="etapeue">
+      <ObjectId>18286</ObjectId>
+      <StateNumber>1687</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="293" parent="266" name="sujet">
-      <ObjectId>17846</ObjectId>
-      <StateNumber>1577</StateNumber>
+    <table id="300" parent="266" name="etudiant">
+      <ObjectId>18206</ObjectId>
+      <StateNumber>1682</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="294" parent="266" name="superviseur">
-      <ObjectId>17902</ObjectId>
-      <StateNumber>1580</StateNumber>
+    <table id="301" parent="266" name="fichierdelivrable">
+      <ObjectId>18218</ObjectId>
+      <StateNumber>1683</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="295" parent="266" name="supervision">
-      <ObjectId>17915</ObjectId>
-      <StateNumber>1581</StateNumber>
+    <table id="302" parent="266" name="periode">
+      <ObjectId>18114</ObjectId>
+      <StateNumber>1668</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <table id="296" parent="266" name="ue">
-      <ObjectId>17820</ObjectId>
-      <StateNumber>1575</StateNumber>
+    <table id="303" parent="266" name="personne">
+      <ObjectId>18090</ObjectId>
+      <StateNumber>1669</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>admin</OwnerName>
     </table>
-    <argument id="297" parent="267">
+    <table id="304" parent="266" name="polls_delivrable">
+      <ObjectId>18388</ObjectId>
+      <StateNumber>1731</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="305" parent="266" name="polls_etape">
+      <ObjectId>18396</ObjectId>
+      <StateNumber>1731</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="306" parent="266" name="professeur">
+      <ObjectId>18138</ObjectId>
+      <StateNumber>1669</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="307" parent="266" name="selectionsujet">
+      <ObjectId>18270</ObjectId>
+      <StateNumber>1686</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="308" parent="266" name="sujet">
+      <ObjectId>18183</ObjectId>
+      <StateNumber>1681</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="309" parent="266" name="superviseur">
+      <ObjectId>18239</ObjectId>
+      <StateNumber>1684</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="310" parent="266" name="supervision">
+      <ObjectId>18252</ObjectId>
+      <StateNumber>1685</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="311" parent="266" name="ue">
+      <ObjectId>18155</ObjectId>
+      <StateNumber>1670</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <argument id="312" parent="267">
       <ArgumentDirection>R</ArgumentDirection>
       <DasType>trigger|0s</DasType>
     </argument>
-    <argument id="298" parent="268">
+    <argument id="313" parent="268">
       <ArgumentDirection>R</ArgumentDirection>
       <DasType>trigger|0s</DasType>
     </argument>
-    <argument id="299" parent="269">
+    <argument id="314" parent="269">
       <ArgumentDirection>R</ArgumentDirection>
       <DasType>trigger|0s</DasType>
     </argument>
-    <column id="300" parent="283" name="idcours">
+    <column id="315" parent="290" name="id">
       <DasType>integer|0s</DasType>
-      <IdentityKind>always</IdentityKind>
+      <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>1576</StateNumber>
-      <SequenceId>17832</SequenceId>
+      <StateNumber>1717</StateNumber>
+      <SequenceId>18347</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="301" parent="283" name="idue">
-      <DasType>text|0s</DasType>
-      <Position>2</Position>
-      <StateNumber>1576</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <column id="302" parent="283" name="nom">
-      <DasType>text|0s</DasType>
+    <column id="316" parent="290" name="name">
+      <DasType>varchar(150)|0s</DasType>
       <NotNull>1</NotNull>
-      <Position>3</Position>
-      <StateNumber>1576</StateNumber>
-      <TypeId>25</TypeId>
+      <Position>2</Position>
+      <StateNumber>1727</StateNumber>
+      <TypeId>1043</TypeId>
     </column>
-    <column id="303" parent="283" name="idetudiant">
-      <DasType>integer|0s</DasType>
-      <Position>4</Position>
-      <StateNumber>1576</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <foreign-key id="304" parent="283" name="cours_idue_fkey">
-      <ColNames>idue</ColNames>
+    <index id="317" parent="290" name="auth_group_pkey">
+      <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17840</ObjectId>
-      <StateNumber>1576</StateNumber>
-      <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17820</RefTableId>
-    </foreign-key>
-    <foreign-key id="305" parent="283" name="cours_idetudiant_fkey">
-      <ColNames>idetudiant</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17973</ObjectId>
-      <StateNumber>1605</StateNumber>
-      <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17869</RefTableId>
-    </foreign-key>
-    <index id="306" parent="283" name="cours_pkey">
-      <ColNames>idcours</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17838</ObjectId>
+      <ObjectId>18351</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1576</StateNumber>
+      <StateNumber>1717</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="307" parent="283" name="cours_pkey">
+    <index id="318" parent="290" name="auth_group_name_key">
+      <ColNames>name</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17839</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>1576</StateNumber>
-      <UnderlyingIndexId>17838</UnderlyingIndexId>
-    </key>
-    <check id="308" parent="284" name="delivrable_typefichier_check">
-      <ColNames>typefichier</ColNames>
-      <ObjectId>17773</ObjectId>
-      <Predicate>typefichier = ANY (ARRAY[&apos;pdf&apos;::text, &apos;docx&apos;::text, &apos;pptx&apos;::text, &apos;xlsx&apos;::text, &apos;zip&apos;::text, &apos;rar&apos;::text, &apos;7z&apos;::text, &apos;tar&apos;::text, &apos;gz&apos;::text, &apos;bz2&apos;::text, &apos;xz&apos;::text, &apos;tgz&apos;::text, &apos;tbz2&apos;::text, &apos;txz&apos;::text, &apos;pdf&apos;::text, &apos;docx&apos;::text, &apos;pptx&apos;::text, &apos;xlsx&apos;::text, &apos;zip&apos;::text, &apos;rar&apos;::text, &apos;7z&apos;::text, &apos;tar&apos;::text, &apos;gz&apos;::text, &apos;bz2&apos;::text, &apos;xz&apos;::text, &apos;tgz&apos;::text, &apos;tbz2&apos;::text, &apos;txz&apos;::text])</Predicate>
-      <StateNumber>1571</StateNumber>
-    </check>
-    <column id="309" parent="284" name="iddelivrable">
-      <DasType>integer|0s</DasType>
-      <IdentityKind>always</IdentityKind>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-      <StateNumber>1571</StateNumber>
-      <SequenceId>17769</SequenceId>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="310" parent="284" name="typefichier">
-      <DasType>text|0s</DasType>
-      <Position>2</Position>
-      <StateNumber>1571</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <index id="311" parent="284" name="delivrable_pkey">
-      <ColNames>iddelivrable</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17776</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>1571</StateNumber>
-      <Unique>1</Unique>
-      <AccessMethodId>403</AccessMethodId>
-    </index>
-    <key id="312" parent="284" name="delivrable_pkey">
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17777</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>1571</StateNumber>
-      <UnderlyingIndexId>17776</UnderlyingIndexId>
-    </key>
-    <column id="313" parent="285" name="idetape">
-      <DasType>integer|0s</DasType>
-      <IdentityKind>always</IdentityKind>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-      <StateNumber>1573</StateNumber>
-      <SequenceId>17784</SequenceId>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="314" parent="285" name="datedebut">
-      <DasType>date|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-      <StateNumber>1573</StateNumber>
-      <TypeId>1082</TypeId>
-    </column>
-    <column id="315" parent="285" name="datefin">
-      <DasType>date|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-      <StateNumber>1573</StateNumber>
-      <TypeId>1082</TypeId>
-    </column>
-    <column id="316" parent="285" name="titre">
-      <DasType>text|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>4</Position>
-      <StateNumber>1573</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <column id="317" parent="285" name="description">
-      <DasType>text|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>5</Position>
-      <StateNumber>1573</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <column id="318" parent="285" name="idperiode">
-      <DasType>integer|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>6</Position>
-      <StateNumber>1573</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="319" parent="285" name="iddelivrable">
-      <DasType>integer|0s</DasType>
-      <Position>7</Position>
-      <StateNumber>1573</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <foreign-key id="320" parent="285" name="etape_idperiode_fkey">
-      <ColNames>idperiode</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17792</ObjectId>
-      <StateNumber>1573</StateNumber>
-      <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17779</RefTableId>
-    </foreign-key>
-    <foreign-key id="321" parent="285" name="etape_iddelivrable_fkey">
-      <ColNames>iddelivrable</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17797</ObjectId>
-      <StateNumber>1573</StateNumber>
-      <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17770</RefTableId>
-    </foreign-key>
-    <index id="322" parent="285" name="etape_pkey">
-      <ColNames>idetape</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17790</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>1573</StateNumber>
-      <Unique>1</Unique>
-      <AccessMethodId>403</AccessMethodId>
-    </index>
-    <key id="323" parent="285" name="etape_pkey">
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17791</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>1573</StateNumber>
-      <UnderlyingIndexId>17790</UnderlyingIndexId>
-    </key>
-    <column id="324" parent="286" name="idetapeue">
-      <DasType>integer|0s</DasType>
-      <IdentityKind>always</IdentityKind>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-      <StateNumber>1583</StateNumber>
-      <SequenceId>17948</SequenceId>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="325" parent="286" name="idetape">
-      <DasType>integer|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-      <StateNumber>1583</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="326" parent="286" name="idue">
-      <DasType>text|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-      <StateNumber>1583</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <column id="327" parent="286" name="etapecourante">
-      <DasType>boolean|0s</DasType>
-      <DefaultExpression>false</DefaultExpression>
-      <NotNull>1</NotNull>
-      <Position>4</Position>
-      <StateNumber>1583</StateNumber>
-      <TypeId>16</TypeId>
-    </column>
-    <foreign-key id="328" parent="286" name="etapeue_idetape_fkey">
-      <ColNames>idetape</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17957</ObjectId>
-      <StateNumber>1583</StateNumber>
-      <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17785</RefTableId>
-    </foreign-key>
-    <foreign-key id="329" parent="286" name="etapeue_idue_fkey">
-      <ColNames>idue</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17962</ObjectId>
-      <StateNumber>1583</StateNumber>
-      <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17820</RefTableId>
-    </foreign-key>
-    <index id="330" parent="286" name="etapeue_pkey">
-      <ColNames>idetapeue</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17955</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>1583</StateNumber>
-      <Unique>1</Unique>
-      <AccessMethodId>403</AccessMethodId>
-    </index>
-    <key id="331" parent="286" name="etapeue_pkey">
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17956</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>1583</StateNumber>
-      <UnderlyingIndexId>17955</UnderlyingIndexId>
-    </key>
-    <check id="332" parent="287" name="etudiant_bloc_check">
-      <ColNames>bloc</ColNames>
-      <ObjectId>17872</ObjectId>
-      <Predicate>(bloc &gt;= 1) AND (bloc &lt;= 5)</Predicate>
-      <StateNumber>1578</StateNumber>
-    </check>
-    <column id="333" parent="287" name="idetudiant">
-      <DasType>integer|0s</DasType>
-      <IdentityKind>always</IdentityKind>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-      <StateNumber>1578</StateNumber>
-      <SequenceId>17868</SequenceId>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="334" parent="287" name="bloc">
-      <DasType>integer|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-      <StateNumber>1578</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="335" parent="287" name="idpersonne">
-      <DasType>integer|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-      <StateNumber>1578</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <foreign-key id="336" parent="287" name="etudiant_idpersonne_fkey">
-      <ColNames>idpersonne</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17875</ObjectId>
-      <StateNumber>1578</StateNumber>
-      <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17755</RefTableId>
-    </foreign-key>
-    <index id="337" parent="287" name="etudiant_pkey">
-      <ColNames>idetudiant</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17873</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>1578</StateNumber>
-      <Unique>1</Unique>
-      <AccessMethodId>403</AccessMethodId>
-    </index>
-    <key id="338" parent="287" name="etudiant_pkey">
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17874</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>1578</StateNumber>
-      <UnderlyingIndexId>17873</UnderlyingIndexId>
-    </key>
-    <check id="339" parent="288" name="fichierdelivrable_note_check">
-      <ColNames>note</ColNames>
-      <ObjectId>17886</ObjectId>
-      <Predicate>(note &gt;= 0) AND (note &lt;= 20)</Predicate>
-      <StateNumber>1579</StateNumber>
-    </check>
-    <column id="340" parent="288" name="idfichier">
-      <DasType>integer|0s</DasType>
-      <IdentityKind>always</IdentityKind>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-      <StateNumber>1579</StateNumber>
-      <SequenceId>17880</SequenceId>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="341" parent="288" name="fichier">
-      <DasType>text|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-      <StateNumber>1579</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <column id="342" parent="288" name="idetudiant">
-      <DasType>integer|0s</DasType>
-      <Position>3</Position>
-      <StateNumber>1579</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="343" parent="288" name="iddelivrable">
-      <DasType>integer|0s</DasType>
-      <Position>4</Position>
-      <StateNumber>1579</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="344" parent="288" name="estrendu">
-      <DasType>boolean|0s</DasType>
-      <DefaultExpression>false</DefaultExpression>
-      <NotNull>1</NotNull>
-      <Position>5</Position>
-      <StateNumber>1579</StateNumber>
-      <TypeId>16</TypeId>
-    </column>
-    <column id="345" parent="288" name="note">
-      <DasType>integer|0s</DasType>
-      <Position>6</Position>
-      <StateNumber>1579</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="346" parent="288" name="estconfidentiel">
-      <DasType>boolean|0s</DasType>
-      <DefaultExpression>false</DefaultExpression>
-      <NotNull>1</NotNull>
-      <Position>7</Position>
-      <StateNumber>1579</StateNumber>
-      <TypeId>16</TypeId>
-    </column>
-    <foreign-key id="347" parent="288" name="fichierdelivrable_idetudiant_fkey">
-      <ColNames>idetudiant</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17891</ObjectId>
-      <StateNumber>1579</StateNumber>
-      <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17869</RefTableId>
-    </foreign-key>
-    <foreign-key id="348" parent="288" name="fichierdelivrable_iddelivrable_fkey">
-      <ColNames>iddelivrable</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17896</ObjectId>
-      <StateNumber>1579</StateNumber>
-      <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17770</RefTableId>
-    </foreign-key>
-    <index id="349" parent="288" name="fichierdelivrable_pkey">
-      <ColNames>idfichier</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17889</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>1579</StateNumber>
-      <Unique>1</Unique>
-      <AccessMethodId>403</AccessMethodId>
-    </index>
-    <key id="350" parent="288" name="fichierdelivrable_pkey">
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17890</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>1579</StateNumber>
-      <UnderlyingIndexId>17889</UnderlyingIndexId>
-    </key>
-    <column id="351" parent="289" name="idperiode">
-      <DasType>integer|0s</DasType>
-      <IdentityKind>always</IdentityKind>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-      <StateNumber>1572</StateNumber>
-      <SequenceId>17778</SequenceId>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="352" parent="289" name="annee">
-      <DasType>integer|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-      <StateNumber>1572</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <index id="353" parent="289" name="periode_pkey">
-      <ColNames>idperiode</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17782</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>1572</StateNumber>
-      <Unique>1</Unique>
-      <AccessMethodId>403</AccessMethodId>
-    </index>
-    <key id="354" parent="289" name="periode_pkey">
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17783</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>1572</StateNumber>
-      <UnderlyingIndexId>17782</UnderlyingIndexId>
-    </key>
-    <check id="355" parent="290" name="personne_password_check">
-      <ColNames>password</ColNames>
-      <ObjectId>17762</ObjectId>
-      <Predicate>length(password) &gt;= 8</Predicate>
-      <StateNumber>1570</StateNumber>
-    </check>
-    <check id="356" parent="290" name="personne_mail_check">
-      <ColNames>mail</ColNames>
-      <ObjectId>17761</ObjectId>
-      <Predicate>mail ~* &apos;^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$&apos;::text</Predicate>
-      <StateNumber>1570</StateNumber>
-    </check>
-    <column id="357" parent="290" name="idpersonne">
-      <DasType>integer|0s</DasType>
-      <IdentityKind>always</IdentityKind>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-      <StateNumber>1570</StateNumber>
-      <SequenceId>17754</SequenceId>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="358" parent="290" name="nom">
-      <DasType>text|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-      <StateNumber>1570</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <column id="359" parent="290" name="prenom">
-      <DasType>text|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-      <StateNumber>1570</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <column id="360" parent="290" name="mail">
-      <DasType>text|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>4</Position>
-      <StateNumber>1570</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <column id="361" parent="290" name="password">
-      <DasType>text|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>5</Position>
-      <StateNumber>1570</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <column id="362" parent="290" name="role">
-      <DasType>text|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>6</Position>
-      <StateNumber>1570</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <column id="363" parent="290" name="last_login">
-      <DasType>text|0s</DasType>
-      <Position>7</Position>
-      <StateNumber>1570</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <column id="364" parent="290" name="is_superuser">
-      <DasType>boolean|0s</DasType>
-      <DefaultExpression>false</DefaultExpression>
-      <Position>8</Position>
-      <StateNumber>1570</StateNumber>
-      <TypeId>16</TypeId>
-    </column>
-    <column id="365" parent="290" name="is_staff">
-      <DasType>boolean|0s</DasType>
-      <DefaultExpression>true</DefaultExpression>
-      <Position>9</Position>
-      <StateNumber>1570</StateNumber>
-      <TypeId>16</TypeId>
-    </column>
-    <column id="366" parent="290" name="is_active">
-      <DasType>boolean|0s</DasType>
-      <DefaultExpression>true</DefaultExpression>
-      <Position>10</Position>
-      <StateNumber>1570</StateNumber>
-      <TypeId>16</TypeId>
-    </column>
-    <index id="367" parent="290" name="personne_pkey">
-      <ColNames>idpersonne</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17765</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>1570</StateNumber>
-      <Unique>1</Unique>
-      <AccessMethodId>403</AccessMethodId>
-    </index>
-    <index id="368" parent="290" name="personne_mail_key">
-      <ColNames>mail</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17767</ObjectId>
-      <StateNumber>1570</StateNumber>
+      <ObjectId>18384</ObjectId>
+      <StateNumber>1727</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
       <CollationNames>default</CollationNames>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="369" parent="290" name="personne_pkey">
+    <index id="319" parent="290" name="auth_group_name_a6ea08ec_like">
+      <ColNames>name</ColNames>
+      <ObjectId>18386</ObjectId>
+      <StateNumber>1727</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+      <ClassNames>varchar_pattern_ops</ClassNames>
+      <ClassIds>4218</ClassIds>
+      <ClassParentNames>pg_catalog</ClassParentNames>
+      <CollationNames>default</CollationNames>
+      <CollationIds>100</CollationIds>
+      <CollationParentNames>pg_catalog</CollationParentNames>
+    </index>
+    <key id="320" parent="290" name="auth_group_pkey">
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17766</ObjectId>
+      <ObjectId>18352</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1570</StateNumber>
-      <UnderlyingIndexId>17765</UnderlyingIndexId>
+      <StateNumber>1717</StateNumber>
+      <UnderlyingIndexId>18351</UnderlyingIndexId>
     </key>
-    <key id="370" parent="290" name="personne_mail_key">
+    <key id="321" parent="290" name="auth_group_name_key">
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17768</ObjectId>
-      <StateNumber>1570</StateNumber>
-      <UnderlyingIndexId>17767</UnderlyingIndexId>
+      <ObjectId>18385</ObjectId>
+      <StateNumber>1727</StateNumber>
+      <UnderlyingIndexId>18384</UnderlyingIndexId>
     </key>
-    <column id="371" parent="291" name="idprof">
-      <DasType>integer|0s</DasType>
-      <IdentityKind>always</IdentityKind>
+    <column id="322" parent="291" name="id">
+      <DasType>bigint|0s</DasType>
+      <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>1574</StateNumber>
-      <SequenceId>17802</SequenceId>
+      <StateNumber>1717</StateNumber>
+      <SequenceId>18355</SequenceId>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="323" parent="291" name="group_id">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1717</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="372" parent="291" name="specialite">
-      <DasType>text|0s</DasType>
-      <Position>2</Position>
-      <StateNumber>1574</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <column id="373" parent="291" name="idpersonne">
+    <column id="324" parent="291" name="permission_id">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
-      <StateNumber>1574</StateNumber>
+      <StateNumber>1717</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="374" parent="291" name="idperiode">
-      <DasType>integer|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>4</Position>
-      <StateNumber>1574</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <foreign-key id="375" parent="291" name="professeur_idpersonne_fkey">
-      <ColNames>idpersonne</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17810</ObjectId>
-      <StateNumber>1574</StateNumber>
+    <foreign-key id="325" parent="291" name="auth_group_permissions_group_id_b120cbf9_fk_auth_group_id">
+      <ColNames>group_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ObjectId>18372</ObjectId>
+      <StateNumber>1717</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17755</RefTableId>
+      <RefTableId>18348</RefTableId>
     </foreign-key>
-    <foreign-key id="376" parent="291" name="professeur_idperiode_fkey">
-      <ColNames>idperiode</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17815</ObjectId>
-      <StateNumber>1574</StateNumber>
+    <foreign-key id="326" parent="291" name="auth_group_permissio_permission_id_84c5c92e_fk_auth_perm">
+      <ColNames>permission_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ObjectId>18377</ObjectId>
+      <StateNumber>1717</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17779</RefTableId>
+      <RefTableId>18342</RefTableId>
     </foreign-key>
-    <index id="377" parent="291" name="professeur_pkey">
-      <ColNames>idprof</ColNames>
+    <index id="327" parent="291" name="auth_group_permissions_pkey">
+      <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17808</ObjectId>
+      <ObjectId>18359</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1574</StateNumber>
+      <StateNumber>1717</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="378" parent="291" name="professeur_pkey">
+    <index id="328" parent="291" name="auth_group_permissions_group_id_permission_id_0cd325b0_uniq">
+      <ColNames>group_id
+permission_id</ColNames>
+      <ObjectId>18370</ObjectId>
+      <StateNumber>1717</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="329" parent="291" name="auth_group_permissions_group_id_b120cbf9">
+      <ColNames>group_id</ColNames>
+      <ObjectId>18382</ObjectId>
+      <StateNumber>1717</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="330" parent="291" name="auth_group_permissions_permission_id_84c5c92e">
+      <ColNames>permission_id</ColNames>
+      <ObjectId>18383</ObjectId>
+      <StateNumber>1717</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="331" parent="291" name="auth_group_permissions_pkey">
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17809</ObjectId>
+      <ObjectId>18360</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1574</StateNumber>
-      <UnderlyingIndexId>17808</UnderlyingIndexId>
+      <StateNumber>1717</StateNumber>
+      <UnderlyingIndexId>18359</UnderlyingIndexId>
     </key>
-    <column id="379" parent="292" name="idselection">
+    <key id="332" parent="291" name="auth_group_permissions_group_id_permission_id_0cd325b0_uniq">
+      <ObjectId>18371</ObjectId>
+      <StateNumber>1717</StateNumber>
+      <UnderlyingIndexId>18370</UnderlyingIndexId>
+    </key>
+    <column id="333" parent="292" name="id">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1717</StateNumber>
+      <SequenceId>18341</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="334" parent="292" name="name">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1719</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="335" parent="292" name="content_type_id">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1717</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="336" parent="292" name="codename">
+      <DasType>varchar(100)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1717</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <foreign-key id="337" parent="292" name="auth_permission_content_type_id_2f476e4b_fk_django_co">
+      <ColNames>content_type_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ObjectId>18363</ObjectId>
+      <StateNumber>1717</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18334</RefTableId>
+    </foreign-key>
+    <index id="338" parent="292" name="auth_permission_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18345</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1717</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="339" parent="292" name="auth_permission_content_type_id_codename_01ab375a_uniq">
+      <ColNames>content_type_id
+codename</ColNames>
+      <ObjectId>18361</ObjectId>
+      <StateNumber>1717</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationIds>
+100</CollationIds>
+      <CollationParentNames>
+pg_catalog</CollationParentNames>
+      <CollationNames>
+default</CollationNames>
+    </index>
+    <index id="340" parent="292" name="auth_permission_content_type_id_2f476e4b">
+      <ColNames>content_type_id</ColNames>
+      <ObjectId>18368</ObjectId>
+      <StateNumber>1717</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="341" parent="292" name="auth_permission_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18346</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1717</StateNumber>
+      <UnderlyingIndexId>18345</UnderlyingIndexId>
+    </key>
+    <key id="342" parent="292" name="auth_permission_content_type_id_codename_01ab375a_uniq">
+      <ObjectId>18362</ObjectId>
+      <StateNumber>1717</StateNumber>
+      <UnderlyingIndexId>18361</UnderlyingIndexId>
+    </key>
+    <column id="343" parent="293" name="idcours">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>1582</StateNumber>
-      <SequenceId>17932</SequenceId>
+      <StateNumber>1671</StateNumber>
+      <SequenceId>18168</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="380" parent="292" name="idsujet">
-      <DasType>integer|0s</DasType>
-      <NotNull>1</NotNull>
+    <column id="344" parent="293" name="idue">
+      <DasType>text|0s</DasType>
       <Position>2</Position>
-      <StateNumber>1582</StateNumber>
-      <TypeId>23</TypeId>
+      <StateNumber>1671</StateNumber>
+      <TypeId>25</TypeId>
     </column>
-    <column id="381" parent="292" name="idetudiant">
-      <DasType>integer|0s</DasType>
+    <column id="345" parent="293" name="nom">
+      <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
-      <StateNumber>1582</StateNumber>
+      <StateNumber>1671</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="346" parent="293" name="idetudiant">
+      <DasType>integer|0s</DasType>
+      <Position>4</Position>
+      <StateNumber>1671</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="382" parent="292" name="selectionsujet_idsujet_fkey">
-      <ColNames>idsujet</ColNames>
+    <foreign-key id="347" parent="293" name="cours_idue_fkey">
+      <ColNames>idue</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17938</ObjectId>
-      <StateNumber>1582</StateNumber>
+      <ObjectId>18176</ObjectId>
+      <StateNumber>1671</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17846</RefTableId>
+      <RefTableId>18155</RefTableId>
     </foreign-key>
-    <foreign-key id="383" parent="292" name="selectionsujet_idetudiant_fkey">
+    <foreign-key id="348" parent="293" name="cours_idetudiant_fkey">
       <ColNames>idetudiant</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17943</ObjectId>
-      <StateNumber>1582</StateNumber>
+      <ObjectId>18310</ObjectId>
+      <StateNumber>1708</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17869</RefTableId>
+      <RefTableId>18206</RefTableId>
     </foreign-key>
-    <index id="384" parent="292" name="selectionsujet_pkey">
-      <ColNames>idselection</ColNames>
+    <index id="349" parent="293" name="cours_pkey">
+      <ColNames>idcours</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17936</ObjectId>
+      <ObjectId>18174</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1582</StateNumber>
+      <StateNumber>1671</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="385" parent="292" name="selectionsujet_pkey">
+    <key id="350" parent="293" name="cours_pkey">
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17937</ObjectId>
+      <ObjectId>18175</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1582</StateNumber>
-      <UnderlyingIndexId>17936</UnderlyingIndexId>
+      <StateNumber>1671</StateNumber>
+      <UnderlyingIndexId>18174</UnderlyingIndexId>
     </key>
-    <trigger id="386" parent="292" name="est_reserve">
-      <Condition>new.idsujet IS NOT NULL OR new.idetudiant IS NOT NULL</Condition>
-      <Events>IU</Events>
-      <ObjectId>17972</ObjectId>
-      <StateNumber>1589</StateNumber>
-      <Turn>before-row</Turn>
-      <CallRoutineId>17969</CallRoutineId>
-    </trigger>
-    <trigger id="387" parent="292" name="not_below_for_assignation_for_a_subject">
-      <Condition>new.idsujet IS NOT NULL OR new.idetudiant IS NOT NULL</Condition>
-      <Events>IU</Events>
-      <ObjectId>17971</ObjectId>
-      <StateNumber>1588</StateNumber>
-      <Turn>before-row</Turn>
-      <CallRoutineId>17968</CallRoutineId>
-    </trigger>
-    <column id="388" parent="293" name="idsujet">
+    <check id="351" parent="294" name="delivrable_typefichier_check">
+      <ColNames>typefichier</ColNames>
+      <ObjectId>18108</ObjectId>
+      <Predicate>typefichier = ANY (ARRAY[&apos;pdf&apos;::text, &apos;docx&apos;::text, &apos;pptx&apos;::text, &apos;xlsx&apos;::text, &apos;zip&apos;::text, &apos;rar&apos;::text, &apos;7z&apos;::text, &apos;tar&apos;::text, &apos;gz&apos;::text, &apos;bz2&apos;::text, &apos;xz&apos;::text, &apos;tgz&apos;::text, &apos;tbz2&apos;::text, &apos;txz&apos;::text, &apos;pdf&apos;::text, &apos;docx&apos;::text, &apos;pptx&apos;::text, &apos;xlsx&apos;::text, &apos;zip&apos;::text, &apos;rar&apos;::text, &apos;7z&apos;::text, &apos;tar&apos;::text, &apos;gz&apos;::text, &apos;bz2&apos;::text, &apos;xz&apos;::text, &apos;tgz&apos;::text, &apos;tbz2&apos;::text, &apos;txz&apos;::text])</Predicate>
+      <StateNumber>1666</StateNumber>
+    </check>
+    <column id="352" parent="294" name="iddelivrable">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>1577</StateNumber>
-      <SequenceId>17845</SequenceId>
+      <StateNumber>1666</StateNumber>
+      <SequenceId>18104</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="389" parent="293" name="titre">
+    <column id="353" parent="294" name="typefichier">
+      <DasType>text|0s</DasType>
+      <Position>2</Position>
+      <StateNumber>1666</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <index id="354" parent="294" name="delivrable_pkey">
+      <ColNames>iddelivrable</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18111</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1666</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="355" parent="294" name="delivrable_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18112</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1666</StateNumber>
+      <UnderlyingIndexId>18111</UnderlyingIndexId>
+    </key>
+    <column id="356" parent="295" name="id">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1715</StateNumber>
+      <SequenceId>18333</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="357" parent="295" name="app_label">
+      <DasType>varchar(100)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1715</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="358" parent="295" name="model">
+      <DasType>varchar(100)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1715</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="359" parent="295" name="django_content_type_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18337</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1715</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="360" parent="295" name="django_content_type_app_label_model_76bd3d3b_uniq">
+      <ColNames>app_label
+model</ColNames>
+      <ObjectId>18339</ObjectId>
+      <StateNumber>1715</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationIds>100
+100</CollationIds>
+      <CollationNames>default
+default</CollationNames>
+      <CollationParentNames>pg_catalog
+pg_catalog</CollationParentNames>
+    </index>
+    <key id="361" parent="295" name="django_content_type_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18338</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1715</StateNumber>
+      <UnderlyingIndexId>18337</UnderlyingIndexId>
+    </key>
+    <key id="362" parent="295" name="django_content_type_app_label_model_76bd3d3b_uniq">
+      <ObjectId>18340</ObjectId>
+      <StateNumber>1715</StateNumber>
+      <UnderlyingIndexId>18339</UnderlyingIndexId>
+    </key>
+    <column id="363" parent="296" name="id">
+      <DasType>bigint|0s</DasType>
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1714</StateNumber>
+      <SequenceId>18325</SequenceId>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="364" parent="296" name="app">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1714</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="365" parent="296" name="name">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1714</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="366" parent="296" name="applied">
+      <DasType>timestamp with time zone|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1714</StateNumber>
+      <TypeId>1184</TypeId>
+    </column>
+    <index id="367" parent="296" name="django_migrations_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18331</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1714</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="368" parent="296" name="django_migrations_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18332</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1714</StateNumber>
+      <UnderlyingIndexId>18331</UnderlyingIndexId>
+    </key>
+    <column id="369" parent="297" name="session_key">
+      <DasType>varchar(40)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1740</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="370" parent="297" name="session_data">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
-      <StateNumber>1577</StateNumber>
+      <StateNumber>1740</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="390" parent="293" name="descriptif">
-      <DasType>text|0s</DasType>
-      <DefaultExpression>&apos;NULL&apos;::text</DefaultExpression>
+    <column id="371" parent="297" name="expire_date">
+      <DasType>timestamp with time zone|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
-      <StateNumber>1577</StateNumber>
-      <TypeId>25</TypeId>
+      <StateNumber>1740</StateNumber>
+      <TypeId>1184</TypeId>
     </column>
-    <column id="391" parent="293" name="destination">
+    <index id="372" parent="297" name="django_session_pkey">
+      <ColNames>session_key</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18420</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1740</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationNames>default</CollationNames>
+      <CollationIds>100</CollationIds>
+      <CollationParentNames>pg_catalog</CollationParentNames>
+    </index>
+    <index id="373" parent="297" name="django_session_session_key_c0390e0f_like">
+      <ColNames>session_key</ColNames>
+      <ObjectId>18422</ObjectId>
+      <StateNumber>1740</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+      <ClassNames>varchar_pattern_ops</ClassNames>
+      <ClassIds>4218</ClassIds>
+      <ClassParentNames>pg_catalog</ClassParentNames>
+      <CollationNames>default</CollationNames>
+      <CollationIds>100</CollationIds>
+      <CollationParentNames>pg_catalog</CollationParentNames>
+    </index>
+    <index id="374" parent="297" name="django_session_expire_date_a5c62663">
+      <ColNames>expire_date</ColNames>
+      <ObjectId>18423</ObjectId>
+      <StateNumber>1740</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="375" parent="297" name="django_session_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18421</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1740</StateNumber>
+      <UnderlyingIndexId>18420</UnderlyingIndexId>
+    </key>
+    <column id="376" parent="298" name="idetape">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>always</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1668</StateNumber>
+      <SequenceId>18119</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="377" parent="298" name="datedebut">
+      <DasType>date|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1668</StateNumber>
+      <TypeId>1082</TypeId>
+    </column>
+    <column id="378" parent="298" name="datefin">
+      <DasType>date|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1668</StateNumber>
+      <TypeId>1082</TypeId>
+    </column>
+    <column id="379" parent="298" name="titre">
       <DasType>text|0s</DasType>
-      <DefaultExpression>&apos;NULL&apos;::text</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>4</Position>
-      <StateNumber>1577</StateNumber>
+      <StateNumber>1668</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="392" parent="293" name="estreserve">
+    <column id="380" parent="298" name="description">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StateNumber>1668</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="381" parent="298" name="idperiode">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+      <StateNumber>1668</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="382" parent="298" name="iddelivrable">
+      <DasType>integer|0s</DasType>
+      <Position>7</Position>
+      <StateNumber>1668</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <foreign-key id="383" parent="298" name="etape_idperiode_fkey">
+      <ColNames>idperiode</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18127</ObjectId>
+      <StateNumber>1668</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18114</RefTableId>
+    </foreign-key>
+    <foreign-key id="384" parent="298" name="etape_iddelivrable_fkey">
+      <ColNames>iddelivrable</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18132</ObjectId>
+      <StateNumber>1668</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18105</RefTableId>
+    </foreign-key>
+    <index id="385" parent="298" name="etape_pkey">
+      <ColNames>idetape</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18125</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1668</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="386" parent="298" name="etape_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18126</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1668</StateNumber>
+      <UnderlyingIndexId>18125</UnderlyingIndexId>
+    </key>
+    <column id="387" parent="299" name="idetapeue">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>always</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1687</StateNumber>
+      <SequenceId>18285</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="388" parent="299" name="idetape">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1687</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="389" parent="299" name="idue">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1687</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="390" parent="299" name="etapecourante">
+      <DasType>boolean|0s</DasType>
+      <DefaultExpression>false</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1687</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <foreign-key id="391" parent="299" name="etapeue_idetape_fkey">
+      <ColNames>idetape</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18294</ObjectId>
+      <StateNumber>1687</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18120</RefTableId>
+    </foreign-key>
+    <foreign-key id="392" parent="299" name="etapeue_idue_fkey">
+      <ColNames>idue</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18299</ObjectId>
+      <StateNumber>1687</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18155</RefTableId>
+    </foreign-key>
+    <index id="393" parent="299" name="etapeue_pkey">
+      <ColNames>idetapeue</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18292</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1687</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="394" parent="299" name="etapeue_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18293</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1687</StateNumber>
+      <UnderlyingIndexId>18292</UnderlyingIndexId>
+    </key>
+    <check id="395" parent="300" name="etudiant_bloc_check">
+      <ColNames>bloc</ColNames>
+      <ObjectId>18209</ObjectId>
+      <Predicate>(bloc &gt;= 1) AND (bloc &lt;= 5)</Predicate>
+      <StateNumber>1682</StateNumber>
+    </check>
+    <column id="396" parent="300" name="idetudiant">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>always</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1682</StateNumber>
+      <SequenceId>18205</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="397" parent="300" name="bloc">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1682</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="398" parent="300" name="idpersonne">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1682</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <foreign-key id="399" parent="300" name="etudiant_idpersonne_fkey">
+      <ColNames>idpersonne</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18212</ObjectId>
+      <StateNumber>1682</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18090</RefTableId>
+    </foreign-key>
+    <index id="400" parent="300" name="etudiant_pkey">
+      <ColNames>idetudiant</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18210</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1682</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="401" parent="300" name="etudiant_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18211</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1682</StateNumber>
+      <UnderlyingIndexId>18210</UnderlyingIndexId>
+    </key>
+    <check id="402" parent="301" name="fichierdelivrable_note_check">
+      <ColNames>note</ColNames>
+      <ObjectId>18223</ObjectId>
+      <Predicate>(note &gt;= 0) AND (note &lt;= 20)</Predicate>
+      <StateNumber>1683</StateNumber>
+    </check>
+    <column id="403" parent="301" name="idfichier">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>always</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1683</StateNumber>
+      <SequenceId>18217</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="404" parent="301" name="fichier">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1683</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="405" parent="301" name="idetudiant">
+      <DasType>integer|0s</DasType>
+      <Position>3</Position>
+      <StateNumber>1683</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="406" parent="301" name="iddelivrable">
+      <DasType>integer|0s</DasType>
+      <Position>4</Position>
+      <StateNumber>1683</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="407" parent="301" name="estrendu">
       <DasType>boolean|0s</DasType>
       <DefaultExpression>false</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>5</Position>
-      <StateNumber>1577</StateNumber>
+      <StateNumber>1683</StateNumber>
       <TypeId>16</TypeId>
     </column>
-    <column id="393" parent="293" name="fichier">
-      <DasType>text|0s</DasType>
+    <column id="408" parent="301" name="note">
+      <DasType>integer|0s</DasType>
       <Position>6</Position>
-      <StateNumber>1577</StateNumber>
+      <StateNumber>1683</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="409" parent="301" name="estconfidentiel">
+      <DasType>boolean|0s</DasType>
+      <DefaultExpression>false</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>7</Position>
+      <StateNumber>1683</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <foreign-key id="410" parent="301" name="fichierdelivrable_idetudiant_fkey">
+      <ColNames>idetudiant</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18228</ObjectId>
+      <StateNumber>1683</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18206</RefTableId>
+    </foreign-key>
+    <foreign-key id="411" parent="301" name="fichierdelivrable_iddelivrable_fkey">
+      <ColNames>iddelivrable</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18233</ObjectId>
+      <StateNumber>1683</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18105</RefTableId>
+    </foreign-key>
+    <index id="412" parent="301" name="fichierdelivrable_pkey">
+      <ColNames>idfichier</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18226</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1683</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="413" parent="301" name="fichierdelivrable_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18227</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1683</StateNumber>
+      <UnderlyingIndexId>18226</UnderlyingIndexId>
+    </key>
+    <column id="414" parent="302" name="idperiode">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>always</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1667</StateNumber>
+      <SequenceId>18113</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="415" parent="302" name="annee">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1667</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="416" parent="302" name="periode_pkey">
+      <ColNames>idperiode</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18117</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1667</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="417" parent="302" name="periode_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18118</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1667</StateNumber>
+      <UnderlyingIndexId>18117</UnderlyingIndexId>
+    </key>
+    <check id="418" parent="303" name="personne_password_check">
+      <ColNames>password</ColNames>
+      <ObjectId>18097</ObjectId>
+      <Predicate>length(password) &gt;= 8</Predicate>
+      <StateNumber>1665</StateNumber>
+    </check>
+    <check id="419" parent="303" name="personne_mail_check">
+      <ColNames>mail</ColNames>
+      <ObjectId>18096</ObjectId>
+      <Predicate>mail ~* &apos;^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$&apos;::text</Predicate>
+      <StateNumber>1665</StateNumber>
+    </check>
+    <column id="420" parent="303" name="idpersonne">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>always</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1665</StateNumber>
+      <SequenceId>18089</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="421" parent="303" name="nom">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1665</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="394" parent="293" name="nbpersonnes">
+    <column id="422" parent="303" name="prenom">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1665</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="423" parent="303" name="mail">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1665</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="424" parent="303" name="password">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StateNumber>1665</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="425" parent="303" name="role">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+      <StateNumber>1665</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="426" parent="303" name="last_login">
+      <DasType>text|0s</DasType>
+      <Position>7</Position>
+      <StateNumber>1665</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="427" parent="303" name="is_superuser">
+      <DasType>boolean|0s</DasType>
+      <DefaultExpression>false</DefaultExpression>
+      <Position>8</Position>
+      <StateNumber>1665</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="428" parent="303" name="is_staff">
+      <DasType>boolean|0s</DasType>
+      <DefaultExpression>true</DefaultExpression>
+      <Position>9</Position>
+      <StateNumber>1665</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="429" parent="303" name="is_active">
+      <DasType>boolean|0s</DasType>
+      <DefaultExpression>true</DefaultExpression>
+      <Position>10</Position>
+      <StateNumber>1665</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <index id="430" parent="303" name="personne_pkey">
+      <ColNames>idpersonne</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18100</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1665</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="431" parent="303" name="personne_mail_key">
+      <ColNames>mail</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18102</ObjectId>
+      <StateNumber>1665</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationNames>default</CollationNames>
+      <CollationIds>100</CollationIds>
+      <CollationParentNames>pg_catalog</CollationParentNames>
+    </index>
+    <key id="432" parent="303" name="personne_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18101</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1665</StateNumber>
+      <UnderlyingIndexId>18100</UnderlyingIndexId>
+    </key>
+    <key id="433" parent="303" name="personne_mail_key">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18103</ObjectId>
+      <StateNumber>1665</StateNumber>
+      <UnderlyingIndexId>18102</UnderlyingIndexId>
+    </key>
+    <column id="434" parent="304" name="iddelivrable">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1731</StateNumber>
+      <SequenceId>18387</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="435" parent="304" name="fichier">
+      <DasType>varchar(100)|0s</DasType>
+      <Position>2</Position>
+      <StateNumber>1731</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="436" parent="304" name="typefichier">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1731</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <index id="437" parent="304" name="polls_delivrable_pkey">
+      <ColNames>iddelivrable</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18393</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1731</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="438" parent="304" name="polls_delivrable_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18394</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1731</StateNumber>
+      <UnderlyingIndexId>18393</UnderlyingIndexId>
+    </key>
+    <column id="439" parent="305" name="idetape">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1731</StateNumber>
+      <SequenceId>18395</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="440" parent="305" name="delai">
+      <DasType>timestamp with time zone|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1731</StateNumber>
+      <TypeId>1184</TypeId>
+    </column>
+    <column id="441" parent="305" name="description">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1731</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="442" parent="305" name="iddelivrable">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1731</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="443" parent="305" name="idperiode">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StateNumber>1731</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <foreign-key id="444" parent="305" name="polls_etape_iddelivrable_53a3fb48_fk_polls_del">
+      <ColNames>iddelivrable</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ObjectId>18403</ObjectId>
+      <StateNumber>1731</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18388</RefTableId>
+    </foreign-key>
+    <foreign-key id="445" parent="305" name="polls_etape_idperiode_aa62b125_fk_periode_idperiode">
+      <ColNames>idperiode</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ObjectId>18408</ObjectId>
+      <StateNumber>1731</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18114</RefTableId>
+    </foreign-key>
+    <index id="446" parent="305" name="polls_etape_pkey">
+      <ColNames>idetape</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18401</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1731</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="447" parent="305" name="polls_etape_iddelivrable_53a3fb48">
+      <ColNames>iddelivrable</ColNames>
+      <ObjectId>18413</ObjectId>
+      <StateNumber>1731</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="448" parent="305" name="polls_etape_idperiode_aa62b125">
+      <ColNames>idperiode</ColNames>
+      <ObjectId>18414</ObjectId>
+      <StateNumber>1731</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="449" parent="305" name="polls_etape_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18402</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1731</StateNumber>
+      <UnderlyingIndexId>18401</UnderlyingIndexId>
+    </key>
+    <column id="450" parent="306" name="idprof">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>always</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1669</StateNumber>
+      <SequenceId>18137</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="451" parent="306" name="specialite">
+      <DasType>text|0s</DasType>
+      <Position>2</Position>
+      <StateNumber>1669</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="452" parent="306" name="idpersonne">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1669</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="453" parent="306" name="idperiode">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1669</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <foreign-key id="454" parent="306" name="professeur_idpersonne_fkey">
+      <ColNames>idpersonne</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18145</ObjectId>
+      <StateNumber>1669</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18090</RefTableId>
+    </foreign-key>
+    <foreign-key id="455" parent="306" name="professeur_idperiode_fkey">
+      <ColNames>idperiode</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18150</ObjectId>
+      <StateNumber>1669</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18114</RefTableId>
+    </foreign-key>
+    <index id="456" parent="306" name="professeur_pkey">
+      <ColNames>idprof</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18143</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1669</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="457" parent="306" name="professeur_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18144</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1669</StateNumber>
+      <UnderlyingIndexId>18143</UnderlyingIndexId>
+    </key>
+    <column id="458" parent="307" name="idselection">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>always</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1686</StateNumber>
+      <SequenceId>18269</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="459" parent="307" name="idsujet">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1686</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="460" parent="307" name="idetudiant">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1686</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <foreign-key id="461" parent="307" name="selectionsujet_idsujet_fkey">
+      <ColNames>idsujet</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18275</ObjectId>
+      <StateNumber>1686</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18183</RefTableId>
+    </foreign-key>
+    <foreign-key id="462" parent="307" name="selectionsujet_idetudiant_fkey">
+      <ColNames>idetudiant</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18280</ObjectId>
+      <StateNumber>1686</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18206</RefTableId>
+    </foreign-key>
+    <index id="463" parent="307" name="selectionsujet_pkey">
+      <ColNames>idselection</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18273</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1686</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="464" parent="307" name="selectionsujet_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18274</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1686</StateNumber>
+      <UnderlyingIndexId>18273</UnderlyingIndexId>
+    </key>
+    <trigger id="465" parent="307" name="est_reserve">
+      <Condition>new.idsujet IS NOT NULL OR new.idetudiant IS NOT NULL</Condition>
+      <Events>IU</Events>
+      <ObjectId>18309</ObjectId>
+      <StateNumber>1693</StateNumber>
+      <Turn>before-row</Turn>
+      <CallRoutineId>18306</CallRoutineId>
+    </trigger>
+    <trigger id="466" parent="307" name="not_below_for_assignation_for_a_subject">
+      <Condition>new.idsujet IS NOT NULL OR new.idetudiant IS NOT NULL</Condition>
+      <Events>IU</Events>
+      <ObjectId>18308</ObjectId>
+      <StateNumber>1692</StateNumber>
+      <Turn>before-row</Turn>
+      <CallRoutineId>18305</CallRoutineId>
+    </trigger>
+    <column id="467" parent="308" name="idsujet">
+      <DasType>integer|0s</DasType>
+      <IdentityKind>always</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1681</StateNumber>
+      <SequenceId>18182</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="468" parent="308" name="titre">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1681</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="469" parent="308" name="descriptif">
+      <DasType>text|0s</DasType>
+      <DefaultExpression>&apos;NULL&apos;::text</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>1681</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="470" parent="308" name="destination">
+      <DasType>text|0s</DasType>
+      <DefaultExpression>&apos;NULL&apos;::text</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1681</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="471" parent="308" name="estreserve">
+      <DasType>boolean|0s</DasType>
+      <DefaultExpression>false</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StateNumber>1681</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="472" parent="308" name="fichier">
+      <DasType>text|0s</DasType>
+      <Position>6</Position>
+      <StateNumber>1681</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="473" parent="308" name="nbpersonnes">
       <DasType>integer|0s</DasType>
       <DefaultExpression>1</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>7</Position>
-      <StateNumber>1577</StateNumber>
+      <StateNumber>1681</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="395" parent="293" name="idperiode">
+    <column id="474" parent="308" name="idperiode">
       <DasType>integer|0s</DasType>
       <DefaultExpression>1</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>8</Position>
-      <StateNumber>1577</StateNumber>
+      <StateNumber>1681</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="396" parent="293" name="idprofesseur">
+    <column id="475" parent="308" name="idprofesseur">
       <DasType>integer|0s</DasType>
       <Position>9</Position>
-      <StateNumber>1577</StateNumber>
+      <StateNumber>1681</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="397" parent="293" name="idsuperviseur">
+    <column id="476" parent="308" name="idsuperviseur">
       <DasType>integer|0s</DasType>
       <Position>10</Position>
-      <StateNumber>1577</StateNumber>
+      <StateNumber>1681</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="398" parent="293" name="idue">
+    <column id="477" parent="308" name="idue">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>11</Position>
-      <StateNumber>1577</StateNumber>
+      <StateNumber>1681</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <foreign-key id="399" parent="293" name="sujet_idperiode_fkey">
+    <foreign-key id="478" parent="308" name="sujet_idperiode_fkey">
       <ColNames>idperiode</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17858</ObjectId>
-      <StateNumber>1577</StateNumber>
+      <ObjectId>18195</ObjectId>
+      <StateNumber>1681</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17779</RefTableId>
+      <RefTableId>18114</RefTableId>
     </foreign-key>
-    <foreign-key id="400" parent="293" name="sujet_idprofesseur_fkey">
+    <foreign-key id="479" parent="308" name="sujet_idprofesseur_fkey">
       <ColNames>idprofesseur</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17863</ObjectId>
-      <StateNumber>1577</StateNumber>
+      <ObjectId>18200</ObjectId>
+      <StateNumber>1681</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17803</RefTableId>
+      <RefTableId>18138</RefTableId>
     </foreign-key>
-    <foreign-key id="401" parent="293" name="sujet_idsuperviseur_fkey">
+    <foreign-key id="480" parent="308" name="sujet_idsuperviseur_fkey">
       <ColNames>idsuperviseur</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17978</ObjectId>
-      <StateNumber>1608</StateNumber>
+      <ObjectId>18315</ObjectId>
+      <StateNumber>1711</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17902</RefTableId>
+      <RefTableId>18239</RefTableId>
     </foreign-key>
-    <foreign-key id="402" parent="293" name="sujet_idue_fkey">
+    <foreign-key id="481" parent="308" name="sujet_idue_fkey">
       <ColNames>idue</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17983</ObjectId>
-      <StateNumber>1609</StateNumber>
+      <ObjectId>18320</ObjectId>
+      <StateNumber>1712</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17820</RefTableId>
+      <RefTableId>18155</RefTableId>
     </foreign-key>
-    <index id="403" parent="293" name="sujet_pkey">
+    <index id="482" parent="308" name="sujet_pkey">
       <ColNames>idsujet</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17856</ObjectId>
+      <ObjectId>18193</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1577</StateNumber>
+      <StateNumber>1681</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="404" parent="293" name="sujet_pkey">
+    <key id="483" parent="308" name="sujet_pkey">
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17857</ObjectId>
+      <ObjectId>18194</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1577</StateNumber>
-      <UnderlyingIndexId>17856</UnderlyingIndexId>
+      <StateNumber>1681</StateNumber>
+      <UnderlyingIndexId>18193</UnderlyingIndexId>
     </key>
-    <trigger id="405" parent="293" name="unique_teacher_or_supervisor_for_a_subject">
+    <trigger id="484" parent="308" name="unique_teacher_or_supervisor_for_a_subject">
       <Condition>new.idprofesseur IS NOT NULL OR new.idsuperviseur IS NOT NULL</Condition>
       <Events>IU</Events>
-      <ObjectId>17970</ObjectId>
-      <StateNumber>1587</StateNumber>
+      <ObjectId>18307</ObjectId>
+      <StateNumber>1691</StateNumber>
       <Turn>before-row</Turn>
-      <CallRoutineId>17967</CallRoutineId>
+      <CallRoutineId>18304</CallRoutineId>
     </trigger>
-    <column id="406" parent="294" name="idsuperviseur">
+    <column id="485" parent="309" name="idsuperviseur">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>1580</StateNumber>
-      <SequenceId>17901</SequenceId>
+      <StateNumber>1684</StateNumber>
+      <SequenceId>18238</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="407" parent="294" name="specialite">
+    <column id="486" parent="309" name="specialite">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
-      <StateNumber>1580</StateNumber>
+      <StateNumber>1684</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="408" parent="294" name="idpersonne">
+    <column id="487" parent="309" name="idpersonne">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
-      <StateNumber>1580</StateNumber>
+      <StateNumber>1684</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="409" parent="294" name="superviseur_idpersonne_fkey">
+    <foreign-key id="488" parent="309" name="superviseur_idpersonne_fkey">
       <ColNames>idpersonne</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17909</ObjectId>
-      <StateNumber>1580</StateNumber>
+      <ObjectId>18246</ObjectId>
+      <StateNumber>1684</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17755</RefTableId>
+      <RefTableId>18090</RefTableId>
     </foreign-key>
-    <index id="410" parent="294" name="superviseur_pkey">
+    <index id="489" parent="309" name="superviseur_pkey">
       <ColNames>idsuperviseur</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17907</ObjectId>
+      <ObjectId>18244</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1580</StateNumber>
+      <StateNumber>1684</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="411" parent="294" name="superviseur_pkey">
+    <key id="490" parent="309" name="superviseur_pkey">
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17908</ObjectId>
+      <ObjectId>18245</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1580</StateNumber>
-      <UnderlyingIndexId>17907</UnderlyingIndexId>
+      <StateNumber>1684</StateNumber>
+      <UnderlyingIndexId>18244</UnderlyingIndexId>
     </key>
-    <column id="412" parent="295" name="idsupervision">
+    <column id="491" parent="310" name="idsupervision">
       <DasType>integer|0s</DasType>
       <IdentityKind>always</IdentityKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>1581</StateNumber>
-      <SequenceId>17914</SequenceId>
+      <StateNumber>1685</StateNumber>
+      <SequenceId>18251</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="413" parent="295" name="description">
+    <column id="492" parent="310" name="description">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
-      <StateNumber>1581</StateNumber>
+      <StateNumber>1685</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="414" parent="295" name="idsuperviseur">
+    <column id="493" parent="310" name="idsuperviseur">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
-      <StateNumber>1581</StateNumber>
+      <StateNumber>1685</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="415" parent="295" name="idue">
+    <column id="494" parent="310" name="idue">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
-      <StateNumber>1581</StateNumber>
+      <StateNumber>1685</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <foreign-key id="416" parent="295" name="supervision_idsuperviseur_fkey">
+    <foreign-key id="495" parent="310" name="supervision_idsuperviseur_fkey">
       <ColNames>idsuperviseur</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17922</ObjectId>
-      <StateNumber>1581</StateNumber>
+      <ObjectId>18259</ObjectId>
+      <StateNumber>1685</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17902</RefTableId>
+      <RefTableId>18239</RefTableId>
     </foreign-key>
-    <foreign-key id="417" parent="295" name="supervision_idue_fkey">
+    <foreign-key id="496" parent="310" name="supervision_idue_fkey">
       <ColNames>idue</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17927</ObjectId>
-      <StateNumber>1581</StateNumber>
+      <ObjectId>18264</ObjectId>
+      <StateNumber>1685</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17820</RefTableId>
+      <RefTableId>18155</RefTableId>
     </foreign-key>
-    <index id="418" parent="295" name="supervision_pkey">
+    <index id="497" parent="310" name="supervision_pkey">
       <ColNames>idsupervision</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17920</ObjectId>
+      <ObjectId>18257</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1581</StateNumber>
+      <StateNumber>1685</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="419" parent="295" name="supervision_pkey">
+    <key id="498" parent="310" name="supervision_pkey">
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17921</ObjectId>
+      <ObjectId>18258</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1581</StateNumber>
-      <UnderlyingIndexId>17920</UnderlyingIndexId>
+      <StateNumber>1685</StateNumber>
+      <UnderlyingIndexId>18257</UnderlyingIndexId>
     </key>
-    <column id="420" parent="296" name="idue">
+    <column id="499" parent="311" name="idue">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>1575</StateNumber>
+      <StateNumber>1670</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="421" parent="296" name="nom">
+    <column id="500" parent="311" name="nom">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
-      <StateNumber>1575</StateNumber>
+      <StateNumber>1670</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="422" parent="296" name="idprof">
+    <column id="501" parent="311" name="idprof">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
-      <StateNumber>1575</StateNumber>
+      <StateNumber>1670</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="423" parent="296" name="ue_idprof_fkey">
+    <column id="502" parent="311" name="isopen">
+      <DasType>boolean|0s</DasType>
+      <DefaultExpression>false</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1670</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <foreign-key id="503" parent="311" name="ue_idprof_fkey">
       <ColNames>idprof</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17827</ObjectId>
-      <StateNumber>1575</StateNumber>
+      <ObjectId>18163</ObjectId>
+      <StateNumber>1670</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>17803</RefTableId>
+      <RefTableId>18138</RefTableId>
     </foreign-key>
-    <index id="424" parent="296" name="ue_pkey">
+    <index id="504" parent="311" name="ue_pkey">
       <ColNames>idue</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17825</ObjectId>
+      <ObjectId>18161</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1575</StateNumber>
+      <StateNumber>1670</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
       <CollationNames>default</CollationNames>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="425" parent="296" name="ue_pkey">
+    <key id="505" parent="311" name="ue_pkey">
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>17826</ObjectId>
+      <ObjectId>18162</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1575</StateNumber>
-      <UnderlyingIndexId>17825</UnderlyingIndexId>
+      <StateNumber>1670</StateNumber>
+      <UnderlyingIndexId>18161</UnderlyingIndexId>
     </key>
   </database-model>
 </dataSource>
