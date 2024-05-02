@@ -184,8 +184,9 @@ def echeance(request):
         context = {
             'elements' : elements,
             'current_date': datetime.now().date()
-
         }
+
+        print(elements)
         return render(request, 'otherRole/echeance.html', context)
 
 

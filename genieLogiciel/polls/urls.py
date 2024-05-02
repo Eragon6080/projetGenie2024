@@ -7,6 +7,7 @@ urlpatterns = [
     path("home/", views.accueil, name="accueil"),
     path("profile/", views.profile, name="profile"),
     path("logout/", views.logout, name="logout"),
+    path("back/", courseViews.back, name="back"),
 
     # pages de cours pour un professeur, superviseur ou admin
     path("course/", views.home, name="home"),
@@ -36,11 +37,11 @@ urlpatterns = [
     
 
     # pages de cours pour un étudiant
-    path("course/mycourses", courseViews.mycourses, name="page d'acceuil des cours de l'etudiant"),
-    path("course/mycourses/<str:idue>/", courseViews.mycourse, name="page d'un cours"),
-    path("course/mycourses/<str:idue>/back", courseViews.back, name="back"),
-    path("course/mycourses/<str:idue>/<int:idpersonne>", courseViews.reservation_subject_student, name="subject_student"),
-    path("course/mycourses/reservation-sujet/<str:idue>/<int:idsujet>", courseViews.confirmer_reservation_sujet, name='confirmation_reservation_student'),
+    path("mycourses/", courseViews.mycourses, name="page d'acceuil des cours de l'etudiant"),
+    path("mycourses/<str:idue>/", courseViews.mycourse, name="page d'un cours"),
+    
+    path("mycourses/<str:idue>/<int:idpersonne>", courseViews.reservation_subject_student, name="subject_student"),
+    path("mycourses/reservation-sujet/<str:idue>/<int:idsujet>", courseViews.confirmer_reservation_sujet, name='confirmation_reservation_student'),
 
     # pages de gestion des inscriptions pour les étudiants
     path("inscription/", views.subscription, name="inscription"),

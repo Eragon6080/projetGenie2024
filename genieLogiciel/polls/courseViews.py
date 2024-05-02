@@ -263,8 +263,9 @@ def subscription_validation(request, idue, nom):
 
 
 @login_required(login_url='/polls')
+@csrf_exempt
 @student_required
-def mycourses(request):
+def mycourses(request) -> HttpResponse:
     user = request.user
     courses_query = find_course_for_student(user.idpersonne)
     courses_ue = []
@@ -278,15 +279,18 @@ def mycourses(request):
 
 @login_required(login_url='/polls')
 @student_required
+@is_student_of_ue
 def mycourse(request, idue):
     user = request.user
     ue = find_ue(idue)
     etapes, etapes_ue = find_etapes_of_ue(ue)
+    current_etape = find_current_etape_of_ue(ue)
     context = {
         'ue': ue,
         'is_student': True,
         'etapes': etapes,
-        'etapes_ue': etapes_ue
+        'etapes_ue': etapes_ue,
+        'current_etape': current_etape
         }
     return render(request, "course.html", context=context)
 
@@ -466,5 +470,5 @@ def selectStep(request, idue, idetapeue):
     return JsonResponse({'etapes_ue': json.loads(serialize('json', etapes_ue))})
 
 @login_required(login_url='/polls')
-def back(request,idue):
-    return redirect(f"../../../../polls/course/mycourses",request)
+def back(request):
+    return HttpResponseRedirect("../")

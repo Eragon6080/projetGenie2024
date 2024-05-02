@@ -605,3 +605,16 @@ def find_etapes_of_ue(ue:Ue)->list[Etape]|None:
         return etapes, etapesUe_query.order_by('idetape__datefin')
     except ObjectDoesNotExist:
         return None
+
+def find_current_etape_of_ue(ue:Ue)->Etape|None:
+    """
+    :param ue:
+    :return: l'étape en cours d'une ue
+    """
+    try:
+        etapesUe_query = EtapeUe.objects.filter(idue=ue, etapecourante=True)
+        assert etapesUe_query.count() == 1
+        etape = Etape.objects.get(idetape=etapesUe_query[0].idetape_id)
+        return etape
+    except ObjectDoesNotExist:
+        return None

@@ -58,8 +58,9 @@
     <table class="table table-bordered mt-3">
         <thead>
             <tr>
-                <th>Titre de l'étape</th>
-                <th>Optional?</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Délivrable?</th>
                 <th>Date de début</th>
                 <th>Date de fin</th>
                 <th>Etape en cours</th> <!-- Toggle column -->
@@ -69,8 +70,15 @@
         <tbody>
             {% for etape in etapes_ue %}
             <tr>
+                <td>{{ etape.idetape.titre }}</td>
                 <td>{{ etape.idetape.description }}</td>
-                <td><input type="checkbox"></td>
+                <td>
+                    {% if not etape.idetape.iddelivrable %}
+                    <span class="fa fa-times"></span>
+                    {% else %}
+                    <span class="fa fa-check"></span>
+                    {% endif %}
+                </td>
                 <td>{{ etape.idetape.datedebut }}</td>
                 <td>{{ etape.idetape.datefin }}</td>
                 <td>

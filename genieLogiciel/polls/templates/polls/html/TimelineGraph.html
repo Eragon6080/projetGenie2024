@@ -4,11 +4,11 @@
         {% for etape in etapes_ue %}
           {% if etape.etapecourante %}
           <div id ="{{ etape.idetapeue }}" class="bgunamur progress-bar w-100">
-              <span class="text-dark">Etape {{ forloop.counter }} : {{ etape.idetape.description }}</span>  
+              <span class="text-dark">Etape {{ forloop.counter }} : {{ etape.idetape.titre }}</span>  
           </div>
           {% else %}
           <div id ="{{ etape.idetapeue }}" class="bg-transparent progress-bar w-100">
-              <span class="text-dark">Etape {{ forloop.counter }} : {{ etape.idetape.description }}</span>
+              <span class="text-dark">Etape {{ forloop.counter }} : {{ etape.idetape.titre }}</span>
           </div>
           {% endif %}
         {% endfor %}

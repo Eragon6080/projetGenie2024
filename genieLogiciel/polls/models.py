@@ -87,6 +87,7 @@ class Etape(models.Model):
     idetape = models.AutoField(primary_key=True, db_column='idetape')
     datedebut = models.DateTimeField(db_column='datedebut')
     datefin = models.DateTimeField(db_column='datefin')
+    titre = models.TextField(db_column='titre')
     description = models.TextField(db_column='description')
     idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode')
     iddelivrable = models.ForeignKey(Delivrable, models.DO_NOTHING, db_column='iddelivrable')

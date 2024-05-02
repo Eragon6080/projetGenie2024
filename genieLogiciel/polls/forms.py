@@ -22,9 +22,10 @@ class EtapeForm(forms.ModelForm):
 
     class Meta:
         model = Etape
-        fields = ['description', 'datedebut', 'datefin']
+        fields = ['titre', 'description', 'datedebut', 'datefin']
         widgets = {
-            'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Titre de l\'étape'}),
+            'titre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Titre de l\'étape'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Consignes de l\'étape', 'rows': '3'}),
             'datedebut': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
             'datefin': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'})
         }
