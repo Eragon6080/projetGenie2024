@@ -4,16 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Modification du .env">
+    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Modification du .sh">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/genieLogiciel/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/genieLogiciel/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/pims.env" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/pims.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/echeance.html" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/echeance.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,7 +161,8 @@
       <workItem from="1714633321682" duration="93000" />
       <workItem from="1714633698916" duration="549000" />
       <workItem from="1714636013323" duration="14283000" />
-      <workItem from="1714651774938" duration="1731000" />
+      <workItem from="1714651774938" duration="4705000" />
+      <workItem from="1714657402758" duration="1005000" />
     </task>
     <task id="LOCAL-00001" summary="Réorganisation des fichiers">
       <option name="closed" value="true" />
@@ -253,7 +252,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714648639855</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Modification du .sh">
+      <option name="closed" value="true" />
+      <created>1714653925347</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1714653925347</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -282,7 +289,8 @@
     <MESSAGE value="La bd est de nouveau sur un conteneur à part pour la pérennité de mon github" />
     <MESSAGE value="Git merge effectué" />
     <MESSAGE value="Modification du .env" />
-    <option name="LAST_COMMIT_MESSAGE" value="Modification du .env" />
+    <MESSAGE value="Modification du .sh" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modification du .sh" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/genieproj$manage.coverage" NAME="manage Coverage Results" MODIFIED="1714633982340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/genieLogiciel" />
