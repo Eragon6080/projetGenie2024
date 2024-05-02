@@ -386,7 +386,8 @@ def vue_historique(request):
         nom_cours=F('nom'),
         titre_sujet=F('idue__sujet__titre'),
         description_sujet=F('idue__sujet__descriptif'),
-        nom_complet_etudiant=StringAgg(Subquery(student_names), delimiter=', '),
+    ).annotate(
+        nom_complet_etudiant=StringAgg(Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom', output_field=CharField()), delimiter=', '),
         nom_complet_professeur=Concat('idue__idprof__idpersonne__nom', Value(' '), 'idue__idprof__idpersonne__prenom', output_field=CharField()),
     ).order_by('idue__idprof__idperiode__annee')
 
