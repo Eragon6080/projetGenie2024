@@ -464,3 +464,7 @@ def selectStep(request, idue, idetapeue):
     etapeue_to_select.save()
     etapes, etapes_ue = find_etapes_of_ue(find_ue(idue))
     return JsonResponse({'etapes_ue': json.loads(serialize('json', etapes_ue))})
+
+@login_required(login_url='/polls')
+def back(request,idue):
+    return redirect(f"../../../../polls/course/mycourses",request)

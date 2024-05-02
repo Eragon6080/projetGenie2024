@@ -38,6 +38,7 @@ urlpatterns = [
     # pages de cours pour un étudiant
     path("course/mycourses", courseViews.mycourses, name="page d'acceuil des cours de l'etudiant"),
     path("course/mycourses/<str:idue>/", courseViews.mycourse, name="page d'un cours"),
+    path("course/mycourses/<str:idue>/back", courseViews.back, name="back"),
     path("course/mycourses/<str:idue>/<int:idpersonne>", courseViews.reservation_subject_student, name="subject_student"),
     path("course/mycourses/reservation-sujet/<str:idue>/<int:idsujet>", courseViews.confirmer_reservation_sujet, name='confirmation_reservation_student'),
 
