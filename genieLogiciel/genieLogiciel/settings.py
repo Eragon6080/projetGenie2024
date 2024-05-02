@@ -80,14 +80,7 @@ WSGI_APPLICATION = 'genieLogiciel.wsgi.application'
 AUTH_USER_MODEL = 'polls.Personne'
 print(os.getenv('DATABASE_URL'))
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DATABASE_NAME'),
-        'USER': os.getenv('USER_BD'),
-        'PASSWORD': os.getenv('PASSWORD'),
-        'HOST': os.getenv('DATABASE_HOST'),  # Utilisez le nom du service de la base de données comme hôte
-        'PORT': os.getenv('DATABASE_PORT'),
-    }
+    'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
 }
 
 # Password validation
