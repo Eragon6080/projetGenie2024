@@ -369,53 +369,63 @@ def validation_booking(request, idsujet):
         return redirect('../../../ok')
 
 
-from django.db.models import CharField, Value  # cet import, pour gérer l'espace entre pnom et nom
+from django.db.models import CharField, Value, Subquery, OuterRef # cet import, pour gérer l'espace entre pnom et nom
+from django.contrib.postgres.aggregates import StringAgg
 
 
 @login_required(login_url='/polls')
 def vue_historique(request):
-    queryset = (
-        Cours.objects.values(
-            annee_academique=F('idue__idprof__idperiode__annee'),
-            nom_cours=F('nom'),
-            titre_sujet=F('idue__sujet__titre'),
-            description_sujet=F('idue__sujet__descriptif'),
-            nom_complet_etudiant=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
-                                        output_field=CharField()),
-            nom_complet_professeur=Concat('idue__idprof__idpersonne__nom', Value(' '),
-                                          'idue__idprof__idpersonne__prenom', output_field=CharField()),
-        ).order_by('idue__idprof__idperiode__annee')
-    )
-    queries = []
-    for query in queryset:
-        queries.append(query)
-    annees = []
-    for query in queryset:
-        annees.append(int(query['annee_academique']))
-    annees = remove_duplicates(annees)
+    # Subquery to get the names of students involved in the same topic
+    student_names = Cours.objects.filter(
+        idue__sujet__titre=OuterRef('idue__sujet__titre'),
+        idue__idprof__idperiode__annee=OuterRef('idue__idprof__idperiode__annee')
+    ).annotate(
+        full_name=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom', output_field=CharField())
+    ).values('full_name')
+
+    # Main query
+    queryset = Cours.objects.values(
+        annee_academique=F('idue__idprof__idperiode__annee'),
+        nom_cours=F('nom'),
+        titre_sujet=F('idue__sujet__titre'),
+        description_sujet=F('idue__sujet__descriptif'),
+        nom_complet_etudiant=StringAgg(Subquery(student_names), delimiter=', '),
+        nom_complet_professeur=Concat('idue__idprof__idpersonne__nom', Value(' '), 'idue__idprof__idpersonne__prenom', output_field=CharField()),
+    ).order_by('idue__idprof__idperiode__annee')
+
+    queries = list(queryset)
+    annees = list(set(query['annee_academique'] for query in queryset))
 
     return render(request, "otherRole/historique.html", context={'queryset': queries, 'annees': annees})
 
 
 @login_required(login_url='/polls')
 def vue_historique_annee(request, annee):
-    queryset = (
-        Cours.objects.filter(
-            idue__idprof__idperiode__annee=annee
-        ).values(
-            annee_academique=F('idue__idprof__idperiode__annee'),
-            nom_cours=F('nom'),
-            titre_sujet=F('idue__sujet__titre'),
-            description_sujet=F('idue__sujet__descriptif'),
-            nom_complet_etudiant=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
-                                        output_field=CharField()),
-            nom_complet_professeur=Concat('idue__idprof__idpersonne__nom', Value(' '),
-                                          'idue__idprof__idpersonne__prenom', output_field=CharField()),
-        ).order_by('idue__idprof__idperiode__annee'))
-    querries = []
-    for querry in queryset:
-        querries.append(querry)
-    return render(request, "otherRole/historique.html", context={'queryset': querries})
+    # Subquery to get the names of students involved in the same topic
+    student_names = Cours.objects.filter(
+        idue__sujet__titre=OuterRef('idue__sujet__titre'),
+        idue__idprof__idperiode__annee=OuterRef('idue__idprof__idperiode__annee')
+    ).annotate(
+        full_name=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom', output_field=CharField())
+    ).values('full_name')
+
+    # Main query
+    queryset = Cours.objects.filter(
+        idue__idprof__idperiode__annee=annee
+    ).values(
+        annee_academique=F('idue__idprof__idperiode__annee'),
+        nom_cours=F('nom'),
+        titre_sujet=F('idue__sujet__titre'),
+        description_sujet=F('idue__sujet__descriptif'),
+    ).annotate(
+        nom_complet_etudiant=StringAgg(Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom', output_field=CharField()), delimiter=', '),
+        nom_complet_professeur=Concat('idue__idprof__idpersonne__nom', Value(' '), 'idue__idprof__idpersonne__prenom', output_field=CharField()),
+    ).order_by('idue__idprof__idperiode__annee')
+
+    queries = list(queryset)
+
+    return render(request, "otherRole/historique.html", context={'queryset': queries})
+
 @login_required(login_url='polls')
 @is_owner_of_ue_or_admin
 def etape_view(request, idue):
