@@ -582,7 +582,6 @@ def nb_people_keeping_for_a_sujet(sujet: Sujet) -> int:
 
 def find_selection_by_id_sujet(sujet:Sujet)->list[SelectionSujet]|None:
     """
-
     :param sujet:
     :return: la liste des assignations entre un sujet et un étudiant pour un sujet donné
     """

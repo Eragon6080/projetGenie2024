@@ -171,7 +171,7 @@ class SubscriptionForm(forms.Form):
         label="Prenom",
         max_length=100,
         required=True,
-        widget=TextInput(attrs={'placeholder': 'Prenom'})
+        widget=TextInput(attrs={'class':'form-control','placeholder': 'Prenom'})
     )
     mail = forms.EmailField(
         label="Email",

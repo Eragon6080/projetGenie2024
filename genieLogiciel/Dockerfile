@@ -1,4 +1,4 @@
-# Utilisez une image de base Python 3
+# Utilisez une image de base Python 3.12
 FROM python:3.12
 
 # Définissez l'environnement de travail dans le conteneur
