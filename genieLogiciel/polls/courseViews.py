@@ -5,7 +5,7 @@ from multiprocessing.managers import BaseManager
 from django.core.serializers import serialize
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models import F, CharField, Value, Subquery, OuterRef # cet import, pour gérer l'espace entre pnom et nom
+from django.db.models import F, CharField, Value, Subquery, OuterRef, Case, When
 from django.contrib.postgres.aggregates import StringAgg
 from django.db.models.functions import Concat
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -417,7 +417,7 @@ def vue_historique_annee(request, annee):
         description_sujet=F('idue__sujet__descriptif'),
     ).annotate(
         nom_complet_etudiant=StringAgg(Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom', output_field=CharField()), delimiter=', '),
-        nom_complet_professeur=Concat('idue__idprof__idpersonne__nom', Value(' '), 'idue__idprof__idpersonne__prenom', output_field=CharField()),
+        nom_complet_professeur= Concat('idue__idprof__idpersonne__nom', Value(' '), 'idue__idprof__idpersonne__prenom', output_field=CharField()),
     ).order_by('idue__idprof__idperiode__annee')
 
     queries = list(queryset)
