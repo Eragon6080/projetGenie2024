@@ -114,10 +114,20 @@ class BaseRoleFormSet(BaseFormSet):
 class UpdateForm(SubmitForm):
 
     def __init__(self, *args, **kwargs):
+        list_students = kwargs.pop('list_students', None)
+        list_referent = kwargs.pop('list_referent', None)
+        is_admin = kwargs.pop('is_admin', False)
+        initial_form = kwargs.pop('initial', None)
         super(UpdateForm, self).__init__(*args, **kwargs)
-        self.fields['title'].required = False
-        self.fields['description'].required = False
-        self.fields['destination'].required = False
+        self.fields['student_select'].queryset = list_students
+        self.fields['referent_select'].queryset = list_referent
+        if initial_form is not None:
+            self.fields['title'].required = False
+            self.fields['title'].initial = initial_form['title']
+            self.fields['description'].required = False
+            self.fields['description'].initial = initial_form['description'] if initial_form['description'] != "NULL" else ""
+            self.fields['destination'].required = False
+            self.fields['destination'].initial = initial_form['destination'] if initial_form['destination'] != "NULL" else ""
 
 
 class SubjectReservationForm(forms.ModelForm):

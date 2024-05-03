@@ -32,6 +32,7 @@ def topics(request, idue) -> HttpResponse:
             'id': sujet.idsujet,
             'titre': sujet.titre,
             'description': sujet.descriptif,
+            'referent': sujet.idprof.idpersonne.prenom + " " + sujet.idprof.idpersonne.nom if sujet.idprof is not None else sujet.idsuperviseur.idpersonne.prenom + " " + sujet.idsuperviseur.idpersonne.nom,
             'etudiants': [],
             'estPris': sujet.estpris
         }
@@ -92,6 +93,7 @@ def myTopics(request, idue) -> HttpResponse:
             'id': sujet.idsujet,
             'titre': sujet.titre,
             'description': sujet.descriptif,
+            'referent': sujet.idprof.idpersonne.prenom + " " + sujet.idprof.idpersonne.nom if sujet.idprof is not None else sujet.idsuperviseur.idpersonne.prenom + " " + sujet.idsuperviseur.idpersonne.nom,
             'etudiants': [],
             'estPris': sujet.estpris
         }
@@ -124,27 +126,33 @@ def participants(request, idue) -> HttpResponse:
 @csrf_exempt
 def editTopic(request, sujet_id):
     sujet = get_object_or_404(Sujet, idsujet=sujet_id)
-    id_ue = sujet.idCours.idue.idue
-    if request.method == 'POST':
-        form = UpdateForm(request.POST, request.FILES)
-        if form.is_valid():
-            sujet.titre = form.cleaned_data['title']
-            sujet.descriptif = form.cleaned_data['description']
-            sujet.destination = form.cleaned_data['destination']
-            if 'file' in request.FILES:
-                sujet.file = request.FILES['file']
-            sujet.save()
-            return redirect("topics", code=id_ue)
-    else:
-        form_data = {
+    id_ue = sujet.idue
+    form_data = {
             'title': sujet.titre,
             'description': sujet.descriptif,
             'destination': sujet.destination,
-        }
+            'fichier': sujet.fichier,
+    }
+    if request.method == 'POST':
+        form = UpdateForm(request.POST, request.FILES, list_students=find_students_of_ue(id_ue), list_referent=find_supervisors_of_ue(id_ue).union(Personne.objects.filter(idpersonne = find_owner_of_ue(id_ue).idpersonne)), is_admin=is_user_admin(request.user.idpersonne))
+        student_id = request.POST['student_select']
+        sujet.titre = request.POST['title']
+        sujet.descriptif = request.POST['description']
+        sujet.destination = request.POST['destination']
+        sujet.fichier = request.FILES['file'] if bool(request.FILES) else None
+        sujet.nbpersonnes = request.POST['nb_personnes']
+        subject_is_taken = True if request.POST['student_select'] != '' else False
 
-        form = UpdateForm(initial=form_data)
+        sujet.save()
 
-    return render(request, 'otherRole/edit_sujet.html', {'form': form, 'Ue': sujet.idCours.idue.idue})
+        if subject_is_taken :
+            SelectionSujet(idetudiant=find_student_by_id_personne(student_id), idsujet=sujet).save()
+
+        return HttpResponseRedirect(request.GET.get('next'))
+    else:
+        form = UpdateForm(initial=form_data, list_students=find_students_of_ue(id_ue), list_referent=find_supervisors_of_ue(id_ue).union(Personne.objects.filter(idpersonne = find_owner_of_ue(id_ue).idpersonne)), is_admin=is_user_admin(request.user.idpersonne))
+
+    return render(request, 'otherRole/submitSubject.html', {'form': form, 'ue': id_ue, 'edit':True, 'previous_url': request.GET.get('next')})
 
 
 @login_required(login_url='/polls')
@@ -152,12 +160,11 @@ def editTopic(request, sujet_id):
 @csrf_exempt
 def deleteTopic(request, sujet_id):
     sujet = get_object_or_404(Sujet, idsujet=sujet_id)
-    id_ue = sujet.idCours.idue.idue
     selections = find_selection_by_id_sujet(sujet)
     for selection in selections:
         selection.delete()
     sujet.delete()
-    return redirect("topics", code=id_ue)
+    return HttpResponseRedirect(request.GET.get('next'))
 
 
 @login_required(login_url='/polls')
@@ -224,6 +231,7 @@ def add_topic(request, idue) -> HttpResponse:
         'role': "Etudiant",
         "form": form,
         'is_admin': is_admin,
+        "previous_url": request.GET.get('next')
     }
     return render(request, 'otherRole/submitSubject.html', context)
 
@@ -383,6 +391,7 @@ def vue_historique(request):
     # Subquery to get the names of students involved in the same topic
     student_names = SelectionSujet.objects.filter(
         idsujet__titre=OuterRef('idue__sujet__titre'),
+        is_involved=True,  # Only include students who are involved in the topic
     ).annotate(
         full_name=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
                          output_field=CharField())
@@ -408,9 +417,9 @@ def vue_historique(request):
 
 @login_required(login_url='/polls')
 def vue_historique_annee(request, annee):
-    # Subquery to get the names of students involved in the same topic
     student_names = SelectionSujet.objects.filter(
         idsujet__titre=OuterRef('idue__sujet__titre'),
+        is_involved=True,  # Only include students who are involved in the topic
     ).annotate(
         full_name=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
                          output_field=CharField())

@@ -10,7 +10,7 @@
     <h1>Mise à jour du Sujet</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form }}
         <button type="submit">Mettre à jour</button>
     </form>
 </body>
