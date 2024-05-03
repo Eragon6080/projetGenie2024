@@ -9,7 +9,11 @@
         <form  id="myForm" method="post" enctype="multipart/form-data"> <!-- enctype="multipart/form-data" est nécessaire pou
         récupérer les fichiers dans les requête et est requis pour django -->
             {% csrf_token %}
-            <h2 id="creationTitle">Création d'un sujet</h2>
+            {% if edit %}
+                <h2 id="creationTitle">Modification d'un sujet</h2>
+            {% else %}
+                <h2 id="creationTitle">Création d'un sujet</h2>
+            {% endif %}
             <div class="row py-3 g-3 align-items-center">
                 <div class="col-auto">
                     <label for="{{form.title.id_for_label}}" class="form-label">Titre</label>
@@ -44,6 +48,7 @@
                 </div>
             </div>
             {% endif %}
+            
             <div class="row py-3 g-3 align-items-center">
                 <div class="col-auto">
                     <label for="{{form.student_select.id_for_label}}" class="form-label">{{ form.student_select.label }}</label>
@@ -52,6 +57,7 @@
                     {{ form.student_select }}
                 </div>
             </div>
+            
             <div class="row py-3 g-3 align-items-center">
                 <div class="col-auto">
                     <label for="{{form.file.id_for_label}}" class="form-label">{{ form.file.label }}</label>
@@ -72,7 +78,7 @@
                     </div>
                 <div class="col-12 align-items-center">
                     <button type="submit" class="btn bgunamur text-white" >Validation</button>
-                <a href="../" class="btn text-white bg-danger">Cancel</a>
+                <a href="{{ previous_url }}" class="btn text-white bg-danger">Cancel</a>
             </div>
             </div>
 
@@ -81,5 +87,5 @@
 </div>
 
 
-{% endblock content%}
+{% endblock %}
 
