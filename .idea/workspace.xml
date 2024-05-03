@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Suppression des print dans le file restrictions.py et queries.py">
+    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Réécriture des queries.py pour le typage + suppression de l'échéance dans la sidebar de l'étudiant">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/adminViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/adminViews.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/queries.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/queries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +166,8 @@
       <workItem from="1714657402758" duration="1005000" />
       <workItem from="1714660806418" duration="1096000" />
       <workItem from="1714665345079" duration="3512000" />
-      <workItem from="1714721692191" duration="1043000" />
+      <workItem from="1714721692191" duration="1360000" />
+      <workItem from="1714724689869" duration="2047000" />
     </task>
     <task id="LOCAL-00001" summary="Réorganisation des fichiers">
       <option name="closed" value="true" />
@@ -322,7 +321,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714684909793</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Réécriture des queries.py pour le typage + suppression de l'échéance dans la sidebar de l'étudiant">
+      <option name="closed" value="true" />
+      <created>1714722875490</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1714722875491</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -357,7 +364,8 @@
     <MESSAGE value="Ajout d'un fichier zip" />
     <MESSAGE value="Voilà mtnt même les nouveaux étudiants nouvellement inscrits à un cours peuvent rejoindre la timeline" />
     <MESSAGE value="Suppression des print dans le file restrictions.py et queries.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Suppression des print dans le file restrictions.py et queries.py" />
+    <MESSAGE value="Réécriture des queries.py pour le typage + suppression de l'échéance dans la sidebar de l'étudiant" />
+    <option name="LAST_COMMIT_MESSAGE" value="Réécriture des queries.py pour le typage + suppression de l'échéance dans la sidebar de l'étudiant" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/genieproj$manage.coverage" NAME="manage Coverage Results" MODIFIED="1714633982340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/genieLogiciel" />
