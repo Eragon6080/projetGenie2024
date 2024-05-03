@@ -19,6 +19,7 @@
             <th>Nom cours</th>
             <th>Titre du sujet</th>
             <th>Description sujet</th>
+            <th>Note attribuée</th>
             <th>Etudiant.e.s</th>
             <th>professeur.e.s</th>
         </thead>
@@ -29,6 +30,7 @@
                 <td>{{query.nom_cours}}</td>
                 <td>{{query.titre_sujet}}</td>
                 <td>{{query.description_sujet}}</td>
+                <td>{{query.mark}}</td>
                 <td>{{query.nom_complet_etudiant}}</td>
                 <td>{{query.nom_complet_professeur}}</td>
             {%endfor%}

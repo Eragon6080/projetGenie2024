@@ -5,14 +5,14 @@ from multiprocessing.managers import BaseManager
 from django.core.serializers import serialize
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models import F, CharField, Value, Subquery, OuterRef, Case, When
+from django.db.models import F, CharField, Value, Subquery, OuterRef, Case, When, IntegerField
 from django.contrib.postgres.aggregates import StringAgg
 from django.db.models.functions import Concat
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, ConfirmationSujetReservation
-from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable
+from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable, FichierDelivrable
 from .queries import *
 
 from .restrictions import *
@@ -390,56 +390,66 @@ def validation_booking(request, idue, idsujet):
 def vue_historique(request):
     # Subquery to get the names of students involved in the same topic
     student_names = SelectionSujet.objects.filter(
-        idsujet__titre=OuterRef('idue__sujet__titre'),
+        idsujet__idue=OuterRef('idue'),
         is_involved=True,  # Only include students who are involved in the topic
     ).annotate(
         full_name=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
-                         output_field=CharField())
-    ).values('full_name')
+                         output_field=CharField()),
+        mark=Subquery(FichierDelivrable.objects.filter(idetudiant=OuterRef('idetudiant')).values('note')[:1],
+                      output_field=IntegerField())
+    ).values('full_name', 'mark')
 
     # Main query
-    queryset = Cours.objects.values(
-        annee_academique=F('idue__idprof__idperiode__annee'),
-        nom_cours=F('nom'),
-        titre_sujet=F('idue__sujet__titre'),
-        description_sujet=F('idue__sujet__descriptif'),
+    queryset = SelectionSujet.objects.filter(
+        is_involved=True,  # Only include students who are involved in the subject
+    ).values(
+        annee_academique=F('idsujet__idperiode__annee'),
+        nom_cours=F('idsujet__idue__cours__nom'),
+        titre_sujet=F('idsujet__titre'),
+        description_sujet=F('idsujet__descriptif'),
     ).annotate(
-        nom_complet_etudiant=Subquery(student_names, output_field=CharField()),
-        nom_complet_professeur=Concat('idue__idprof__idpersonne__nom', Value(' '), 'idue__idprof__idpersonne__prenom',
-                                      output_field=CharField()),
-    ).order_by('idue__idprof__idperiode__annee')
+        nom_complet_etudiant=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
+                                    output_field=CharField()),
+        mark=Subquery(FichierDelivrable.objects.filter(idetudiant=OuterRef('idetudiant')).values('note')[:1],
+                    output_field=IntegerField()),
+        nom_complet_professeur=Concat('idsujet__idprof__idpersonne__nom', Value(' '), 'idsujet__idprof__idpersonne__prenom',
+                                    output_field=CharField()),
+    ).order_by('idsujet__idperiode__annee').distinct()
 
     queries = list(queryset)
     annees = list(set(query['annee_academique'] for query in queryset))
-
     return render(request, "otherRole/historique.html", context={'queryset': queries, 'annees': annees})
 
 
 @login_required(login_url='/polls')
 def vue_historique_annee(request, annee):
+    # Subquery to get the names of students involved in the same topic
     student_names = SelectionSujet.objects.filter(
-        idsujet__titre=OuterRef('idue__sujet__titre'),
+        idsujet__idue=OuterRef('idue'),
         is_involved=True,  # Only include students who are involved in the topic
     ).annotate(
         full_name=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
-                         output_field=CharField())
-    ).values('full_name')
+                         output_field=CharField()),
+        mark=Subquery(FichierDelivrable.objects.filter(idetudiant=OuterRef('idetudiant')).values('note')[:1],
+                      output_field=IntegerField())
+    ).values('full_name', 'mark')
 
     # Main query
-    queryset = Cours.objects.filter(
-        idue__idprof__idperiode__annee=annee
+    queryset = SelectionSujet.objects.filter(
+        is_involved=True,  # Only include students who are involved in the subject
     ).values(
-        annee_academique=F('idue__idprof__idperiode__annee'),
-        nom_cours=F('nom'),
-        titre_sujet=F('idue__sujet__titre'),
-        description_sujet=F('idue__sujet__descriptif'),
+        annee_academique=F('idsujet__idperiode__annee'),
+        nom_cours=F('idsujet__idue__cours__nom'),
+        titre_sujet=F('idsujet__titre'),
+        description_sujet=F('idsujet__descriptif'),
     ).annotate(
-        nom_complet_etudiant=StringAgg(
-            Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
-                   output_field=CharField()), delimiter=', '),
-        nom_complet_professeur=Concat('idue__idprof__idpersonne__nom', Value(' '), 'idue__idprof__idpersonne__prenom',
-                                      output_field=CharField()),
-    ).order_by('idue__idprof__idperiode__annee')
+        nom_complet_etudiant=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
+                                    output_field=CharField()),
+        mark=Subquery(FichierDelivrable.objects.filter(idetudiant=OuterRef('idetudiant')).order_by('-iddelivrable').values('note')[:1],
+                    output_field=IntegerField()),
+        nom_complet_professeur=Concat('idsujet__idprof__idpersonne__nom', Value(' '), 'idsujet__idprof__idpersonne__prenom',
+                                    output_field=CharField()),
+    ).order_by('idsujet__idperiode__annee').distinct()
 
     queries = list(queryset)
 
