@@ -19,6 +19,7 @@ class EtapeForm(forms.ModelForm):
     ]
     necessiteDelivrable = forms.ChoiceField(choices=NECESSITE_CHOICES, label='Nécessite un Delivrable',
                                             widget=forms.RadioSelect)
+    typeFichier = forms.CharField(label='Type de fichier', required=False, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Type de fichier'}))
 
     class Meta:
         model = Etape
@@ -27,7 +28,7 @@ class EtapeForm(forms.ModelForm):
             'titre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Titre de l\'étape'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Consignes de l\'étape', 'rows': '3'}),
             'datedebut': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
-            'datefin': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'})
+            'datefin': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
         }
 
 

@@ -241,6 +241,8 @@ class SelectionSujet(models.Model):
     idselection = models.AutoField(primary_key=True, db_column='idselection')
     idetudiant = models.ForeignKey(Etudiant, models.DO_NOTHING, db_column='idetudiant')
     idsujet = models.ForeignKey(Sujet, models.DO_NOTHING, db_column='idsujet')
+    is_involved = models.BooleanField(db_column='is_involved', default=False) 
+
 
     class Meta:
         managed = False

@@ -97,4 +97,13 @@ def is_student_of_ue(function):
     return wrap
 
 
+def is_owner_of_ue_or_admin_or_student(function):
+    def wrap(request, *args, **kwargs):
+        if "admin" in request.user.role['role'] or request.user == find_owner_of_ue(find_ue(kwargs['idue'])) or "etudiant" in request.user.role['role']:
+            return function(request, *args, **kwargs)
+        else:
+            raise PermissionDenied()
 
+    wrap.__doc__ = function.__doc__
+    wrap.__name__ = function.__name__
+    return wrap

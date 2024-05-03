@@ -10,7 +10,7 @@ from django.contrib.postgres.aggregates import StringAgg
 from django.db.models.functions import Concat
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, ConfirmationSujetReservation
 from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable
 from .queries import *
@@ -381,9 +381,9 @@ def validation_booking(request, idsujet):
 @login_required(login_url='/polls')
 def vue_historique(request):
     # Subquery to get the names of students involved in the same topic
-    student_names = Cours.objects.filter(
-        idue__sujet__titre=OuterRef('idue__sujet__titre'),
-        idue__idprof__idperiode__annee=OuterRef('idue__idprof__idperiode__annee')
+    student_names = SelectionSujet.objects.filter(
+        idsujet__titre=OuterRef('idue__sujet__titre'),
+        is_involved=True,  # Only include students who are involved in the topic
     ).annotate(
         full_name=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom', output_field=CharField())
     ).values('full_name')
@@ -395,7 +395,7 @@ def vue_historique(request):
         titre_sujet=F('idue__sujet__titre'),
         description_sujet=F('idue__sujet__descriptif'),
     ).annotate(
-        nom_complet_etudiant=StringAgg(Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom', output_field=CharField()), delimiter=', '),
+        nom_complet_etudiant=Subquery(student_names, output_field=CharField()),
         nom_complet_professeur=Concat('idue__idprof__idpersonne__nom', Value(' '), 'idue__idprof__idpersonne__prenom', output_field=CharField()),
     ).order_by('idue__idprof__idperiode__annee')
 
@@ -407,10 +407,9 @@ def vue_historique(request):
 
 @login_required(login_url='/polls')
 def vue_historique_annee(request, annee):
-    # Subquery to get the names of students involved in the same topic
-    student_names = Cours.objects.filter(
-        idue__sujet__titre=OuterRef('idue__sujet__titre'),
-        idue__idprof__idperiode__annee=OuterRef('idue__idprof__idperiode__annee')
+    student_names = SelectionSujet.objects.filter(
+        idsujet__titre=OuterRef('idue__sujet__titre'),
+        is_involved=True,  # Only include students who are involved in the topic
     ).annotate(
         full_name=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom', output_field=CharField())
     ).values('full_name')
@@ -434,7 +433,7 @@ def vue_historique_annee(request, annee):
 
 @login_required(login_url='polls')
 @is_owner_of_ue_or_admin
-@csrf_exempt
+@csrf_protect
 def etape_view(request, idue):
     ue = find_ue(idue)
     etapes, etapes_ue = find_etapes_of_ue(ue)
