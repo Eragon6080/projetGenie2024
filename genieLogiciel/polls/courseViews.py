@@ -373,9 +373,8 @@ def validation_booking(request, idsujet):
 @login_required(login_url='/polls')
 def vue_historique(request):
     # Subquery to get the names of students involved in the same topic
-    student_names = Cours.objects.filter(
-        idue__sujet__titre=OuterRef('idue__sujet__titre'),
-        idue__idprof__idperiode__annee=OuterRef('idue__idprof__idperiode__annee')
+    student_names = SelectionSujet.objects.filter(
+        idsujet__titre=OuterRef('idue__sujet__titre'),
     ).annotate(
         full_name=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom', output_field=CharField())
     ).values('full_name')
@@ -387,7 +386,7 @@ def vue_historique(request):
         titre_sujet=F('idue__sujet__titre'),
         description_sujet=F('idue__sujet__descriptif'),
     ).annotate(
-        nom_complet_etudiant=StringAgg(Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom', output_field=CharField()), delimiter=', '),
+        nom_complet_etudiant=Subquery(student_names, output_field=CharField()),
         nom_complet_professeur=Concat('idue__idprof__idpersonne__nom', Value(' '), 'idue__idprof__idpersonne__prenom', output_field=CharField()),
     ).order_by('idue__idprof__idperiode__annee')
 
@@ -400,9 +399,8 @@ def vue_historique(request):
 @login_required(login_url='/polls')
 def vue_historique_annee(request, annee):
     # Subquery to get the names of students involved in the same topic
-    student_names = Cours.objects.filter(
-        idue__sujet__titre=OuterRef('idue__sujet__titre'),
-        idue__idprof__idperiode__annee=OuterRef('idue__idprof__idperiode__annee')
+    student_names = SelectionSujet.objects.filter(
+        idsujet__titre=OuterRef('idue__sujet__titre'),
     ).annotate(
         full_name=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom', output_field=CharField())
     ).values('full_name')
