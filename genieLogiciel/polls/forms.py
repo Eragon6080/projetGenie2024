@@ -19,7 +19,7 @@ class EtapeForm(forms.ModelForm):
     ]
     necessiteDelivrable = forms.ChoiceField(choices=NECESSITE_CHOICES, label='Nécessite un Delivrable',
                                             widget=forms.RadioSelect)
-    typeFichier = forms.CharField(label='Type de fichier', required=False, widget=forms.TextInput(attrs={'class': @'form-control', 'placeholder': 'Type de fichier'}))
+    typeFichier = forms.CharField(label='Type de fichier', required=False, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Type de fichier'}))
 
     class Meta:
         model = Etape
