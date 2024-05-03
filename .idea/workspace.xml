@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Ajout d'un tag python pour l'ajout d'une étape">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Suppression du token gestion_etape">
       <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/gestion_etape.html" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/gestion_etape.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/subscribe.html" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/subscribe.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +166,7 @@
       <workItem from="1714660806418" duration="1096000" />
       <workItem from="1714665345079" duration="3512000" />
       <workItem from="1714721692191" duration="1360000" />
-      <workItem from="1714724689869" duration="2451000" />
+      <workItem from="1714724689869" duration="2908000" />
     </task>
     <task id="LOCAL-00001" summary="Réorganisation des fichiers">
       <option name="closed" value="true" />
@@ -338,7 +336,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714726839142</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Suppression du token gestion_etape">
+      <option name="closed" value="true" />
+      <created>1714727200972</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1714727200972</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -375,7 +381,8 @@
     <MESSAGE value="Suppression des print dans le file restrictions.py et queries.py" />
     <MESSAGE value="Réécriture des queries.py pour le typage + suppression de l'échéance dans la sidebar de l'étudiant" />
     <MESSAGE value="Ajout d'un tag python pour l'ajout d'une étape" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ajout d'un tag python pour l'ajout d'une étape" />
+    <MESSAGE value="Suppression du token gestion_etape" />
+    <option name="LAST_COMMIT_MESSAGE" value="Suppression du token gestion_etape" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/genieproj$manage.coverage" NAME="manage Coverage Results" MODIFIED="1714633982340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/genieLogiciel" />

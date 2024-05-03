@@ -1,5 +1,6 @@
 <form method="post">
-    {{ form.as_p }}
+    {% csrf_token %}
+    {{ form }}
     
     <div style="display:none;" id="typeFichierContainer">
         <label for="typeFichier">Type de fichier:</label>
