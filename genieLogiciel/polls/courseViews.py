@@ -478,59 +478,6 @@ def etape_view(request, idue):
                   {'form': form, 'etapes': etapes, 'ue': ue, 'etapes_ue': etapes_ue})
 
 
-# @student_required
-# def reservation_subject_student(request, idue, idpersonne):
-#     etudiant = find_student_by_id_personne(idpersonne)
-#     if count_subject_for_one_student_and_one_ue(etudiant.idetudiant, idue) == 0:
-#         sujets_query = find_sujets_by_idue(idue)
-#         sujets = []
-#         for sujet in sujets_query:
-#             nbPersonnesRestantes = nb_people_keeping_for_a_sujet(sujet)
-#             sujets.append({'sujet':sujet, 'nbPersonnesRestantes':nbPersonnesRestantes, 'nbPersonnes':sujet.nbpersonnes})
-#         if len(sujets) > 0:
-#             context = {
-#                 'titles': ['Titre', 'Description', 'Professeur/Superviseur', 'Nombre de personnes','Réserver'],
-#                 'sujets': sujets,
-#                 'idue': idue
-#             }
-#         else:
-#             context = {
-#                 'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
-#             }
-#     else:
-#         context = {
-#             'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
-#         }
-#     return render(request, "otherRole/reservationSujet.html", context=context)
-
-@login_required(login_url='/polls')
-@is_student_of_ue
-def reservation_subject_student(idue, idpersonne):
-    etudiant = find_student_by_id_personne(idpersonne)
-    if count_subject_for_one_student_and_one_ue(etudiant.idetudiant, idue) == 0:
-        sujets_query = find_sujets_by_idue(idue)
-        sujets = []
-        for sujet in sujets_query:
-            nbPersonnesRestantes = nb_people_keeping_for_a_sujet(sujet)
-            sujets.append(
-                {'sujet': sujet, 'nbPersonnesRestantes': nbPersonnesRestantes, 'nbPersonnes': sujet.nbpersonnes})
-        if len(sujets) > 0:
-            context = {
-                'titles': ['Titre', 'Description', 'Professeur/Superviseur', 'Nombre de personnes', 'Réserver'],
-                'sujets': sujets,
-                'idue': idue
-            }
-        else:
-            context = {
-                'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
-            }
-    else:
-        context = {
-            'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
-        }
-    return context
-
-
 @student_required
 @transaction.atomic
 def confirmer_reservation_sujet(request, idue, idsujet):
@@ -583,3 +530,30 @@ def changeAccess(request, idue, val: bool):
 @login_required(login_url='/polls')
 def back(request):
     return HttpResponseRedirect("../")
+
+
+# ne pas mettre de décorateur pour cette fonction
+def reservation_subject_student(idue, idpersonne):
+    etudiant = find_student_by_id_personne(idpersonne)
+    if count_subject_for_one_student_and_one_ue(etudiant.idetudiant, idue) == 0:
+        sujets_query = find_sujets_by_idue(idue)
+        sujets = []
+        for sujet in sujets_query:
+            nbPersonnesRestantes = nb_people_keeping_for_a_sujet(sujet)
+            sujets.append(
+                {'sujet': sujet, 'nbPersonnesRestantes': nbPersonnesRestantes, 'nbPersonnes': sujet.nbpersonnes})
+        if len(sujets) > 0:
+            context = {
+                'titles': ['Titre', 'Description', 'Professeur/Superviseur', 'Nombre de personnes', 'Réserver'],
+                'sujets': sujets,
+                'idue': idue
+            }
+        else:
+            context = {
+                'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
+            }
+    else:
+        context = {
+            'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
+        }
+    return context
