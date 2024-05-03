@@ -424,7 +424,6 @@ def vue_historique_annee(request, annee):
 
 @login_required(login_url='polls')
 @is_owner_of_ue_or_admin
-@csrf_exempt
 def etape_view(request, idue):
     ue = find_ue(idue)
     etapes, etapes_ue = find_etapes_of_ue(ue)

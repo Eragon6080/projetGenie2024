@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="estprise est devenu est pris dans desincription validation">
+    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Modification du formumlaire d'ajout d'une étape">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/gestion_etape.html" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/gestion_etape.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -167,7 +168,7 @@
       <workItem from="1714660806418" duration="1096000" />
       <workItem from="1714665345079" duration="3512000" />
       <workItem from="1714721692191" duration="1360000" />
-      <workItem from="1714724689869" duration="7623000" />
+      <workItem from="1714724689869" duration="8701000" />
     </task>
     <task id="LOCAL-00001" summary="Réorganisation des fichiers">
       <option name="closed" value="true" />
@@ -377,7 +378,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714731657700</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Modification du formumlaire d'ajout d'une étape">
+      <option name="closed" value="true" />
+      <created>1714732686965</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1714732686965</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -418,7 +427,8 @@
     <MESSAGE value="Rajout du token etapes" />
     <MESSAGE value="La desincription des étudiants n'entrainent plus l'effacement des sujets mais seulement des colonnes correspondantes dans selectionSujet + si le nombre de selection pour un sujet revient à faux" />
     <MESSAGE value="estprise est devenu est pris dans desincription validation" />
-    <option name="LAST_COMMIT_MESSAGE" value="estprise est devenu est pris dans desincription validation" />
+    <MESSAGE value="Modification du formumlaire d'ajout d'une étape" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modification du formumlaire d'ajout d'une étape" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/genieproj$manage.coverage" NAME="manage Coverage Results" MODIFIED="1714633982340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/genieLogiciel" />
