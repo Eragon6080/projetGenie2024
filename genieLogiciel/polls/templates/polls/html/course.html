@@ -40,9 +40,9 @@
 {% if is_student %}
 {% if ue.isopen %}
   <div class="container justify-content-center">
-    <h4>Consignes</h4>
-    <p>{{ current_etape.description }}</p>
-    <hr class="my-4">
+    <h1 class="display-4">{{ current_etape.titre }}</h1>
+    <h1 class="h5"><em><i class="fa fa-clock-o" aria-hidden="true"></i> Jusqu'au {{ current_etape.datefin }}</em></h1>
+    <p class="lead">{{ current_etape.description }}</p>
     {% if current_etape.iddelivrable %}
       {% include "otherRole/echeance_etape.html" %}
     {% else %}

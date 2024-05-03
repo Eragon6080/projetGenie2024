@@ -1,11 +1,5 @@
-<div class="align-items-center text-center" style="font-size: 20pt;
-    font-family: Regular;
-    text-align: center;
-    padding: 10px;
-    text-decoration: underline;">
-        <h1>Réservation d'un sujet en fonction de l'ue</h1>
-    </div>
-<div class="container d-flex flex-column justify-content-center">
+
+<div class="container justify-content-center">
     {% if not context_reservation.failure and context_reservation.sujets|length != 0 %}
 
     <div class="row justify-content-center">
@@ -31,7 +25,7 @@
                                 <td>{{sujet.sujet.idsuperviseur.idpersonne.nom}} {{sujet.idsuperviseur.idpersonne.prenom}}</td>
                                 {% endif %}
                                 <td>{{sujet.nbPersonnesRestantes}}/{{sujet.nbPersonnes}}</td>
-                                <td><a href="../../../../polls/course/mycourses/reservation-sujet/{{idue}}/{{sujet.sujet.idsujet}}" class="btn btn-primary" >Réserver le sujet</a></td>
+                                <td><a href="./reservation-sujet/{{ sujet.sujet.idsujet }}" class="btn btn-primary" >Réserver le sujet</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

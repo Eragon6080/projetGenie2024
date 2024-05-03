@@ -36,10 +36,10 @@ urlpatterns = [
 
 
 
-
+    # gestion des sujets
     path('sujet/edit/<int:sujet_id>/', courseViews.editTopic, name='edit_topic'),
     path('sujet/delete/<int:sujet_id>/', courseViews.deleteTopic, name='delete_topic'),
-    path("course/<str:idue>/steps/", courseViews.afficher_etapes_ue, name="steps"),
+   
     
 
     # pages de cours pour un étudiant
@@ -47,7 +47,7 @@ urlpatterns = [
     path("mycourses/<str:idue>/", courseViews.mycourse, name="page d'un cours"),
     
     path("mycourses/<str:idue>/<int:idpersonne>", courseViews.reservation_subject_student, name="subject_student"),
-    path("mycourses/reservation-sujet/<str:idue>/<int:idsujet>", courseViews.confirmer_reservation_sujet, name='confirmation_reservation_student'),
+    path("mycourses/<str:idue>/reservation-sujet/<int:idsujet>", courseViews.confirmer_reservation_sujet, name='confirmation_reservation_student'),
 
     # pages de gestion des inscriptions pour les étudiants
     path("inscription/", views.subscription, name="inscription"),
@@ -63,6 +63,8 @@ urlpatterns = [
     path("suivi/", views.yes, name="yes"),
     path("switch_role/<str:role>", views.switchRole, name="switch_role"),
 
+    # deprecated
+    path("course/<str:idue>/steps/", courseViews.afficher_etapes_ue, name="steps"),
     path("echeance/", views.echeance_and_upload, name="echeance_and_upload"),
     path("echeance/<int:delivrable_id>/<int:idcours>/<int:idperiode>", views.echeance_and_upload,
          name="echeance_and_upload")

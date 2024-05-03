@@ -477,7 +477,8 @@ def etape_view(request, idue):
     return render(request, 'otherRole/commandTimeline.html',
                   {'form': form, 'etapes': etapes, 'ue': ue, 'etapes_ue': etapes_ue})
 
-
+@login_required(login_url='/polls')
+@is_student_of_ue
 @student_required
 @transaction.atomic
 def confirmer_reservation_sujet(request, idue, idsujet):
