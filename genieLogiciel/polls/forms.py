@@ -147,7 +147,7 @@ class ConfirmationSujetReservation(forms.Form):
     students = forms.ChoiceField(
         label='students',
         required=True,
-        widget=forms.Select(
+        widget=forms.Select(attrs={'class': 'form-control'}
 
         )
     )

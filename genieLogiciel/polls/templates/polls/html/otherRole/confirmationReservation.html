@@ -5,8 +5,8 @@
     <!-- l'enchainement des classes de bootsrap permet d'aligner les éléments au centre -->
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="row align-self-center">
-        <form  id="myForm" action="/polls/sujet/reservation/confirmation/{{form.subject_id.value}}" method="post" > <!-- enctype="multipart/form-data" est nécessaire pou
-        récupérer les fichiers dans les requête et est requis pour django -->
+        <form  id="myForm" action="./{{idsujet}}/confirmation" method="post" > <!-- enctype="multipart/form-data" est nécessaire pou
+        récupérer les fichiers dans les requêtes et est requis pour django -->
             {% csrf_token %}
             <h2 id="creationTitle">Validation d'un sujet</h2>
             <div class="row g-3 align-items-center">

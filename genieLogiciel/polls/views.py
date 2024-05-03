@@ -73,6 +73,7 @@ def home(request) -> HttpResponse:
 def course(request, idue) -> HttpResponse:
     user = request.user
     ue = find_ue(idue)
+    print(idue)
     etapes, etapes_ue = find_etapes_of_ue(ue)
     is_owner = False
     is_admin = False

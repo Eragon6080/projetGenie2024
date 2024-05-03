@@ -12,6 +12,9 @@ urlpatterns = [
     # pages de cours pour un professeur, superviseur ou admin
     path("course/", views.home, name="home"),
     path("course/<str:idue>/", views.course, name="course"),
+    path("course/<str:idue>/sujet/reservation", courseViews.reservation, name="reservation d'un sujet"),
+    path("course/<str:idue>/sujet/reservation/<int:idsujet>", courseViews.booking, name="reservation d'un sujet"),
+    path("course/<str:idue>/sujet/reservation/<int:idsujet>/confirmation", courseViews.validation_booking, name="confirmation"),
     path("course/<str:idue>/topics/", courseViews.topics, name="topics"),
     path("course/<str:idue>/mytopics/", courseViews.myTopics, name="myTopics"),
     path("course/<str:idue>/new/", courseViews.add_topic, name="addTopic"),
@@ -62,13 +65,7 @@ urlpatterns = [
 
     path("echeance/", views.echeance_and_upload, name="echeance_and_upload"),
     path("echeance/<int:delivrable_id>/<int:idcours>/<int:idperiode>", views.echeance_and_upload,
-         name="echeance_and_upload"),
-    path("sujet/reservation", courseViews.reservation, name="reservation"),
-    path("sujet/reservation/<int:idsujet>", courseViews.booking, name="reservation"),
-    path("sujet/reservation/confirmation/<int:idsujet>", courseViews.validation_booking, name="confirmation"),
-
-    
-    
+         name="echeance_and_upload")
     
 
 ]

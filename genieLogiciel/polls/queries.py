@@ -291,6 +291,34 @@ def find_cours_by_id_sujet_and_id_student(idsujet: int, idstudent: int) -> Cours
         return None
 
 
+def find_students_without_subjects_by_teacher(idpersonne: int) -> list[tuple[int, str]] | None:
+    """
+    :param idpersonne:
+    :return:
+    """
+    try:
+
+        students = find_students_by_teacher_without_subject(idpersonne)
+        print(students)
+        if students is not None:
+            idstudents = []
+            for student in students:
+                idstudents.append(student[0])
+            selections = []
+            selections_query = SelectionSujet.objects.all().distinct()
+            for selection in selections_query:
+                selections.append(selection.idetudiant_id)
+            print(selections)
+            newstudents = []
+            new_students_query = Etudiant.objects.filter(idetudiant__in=idstudents).exclude(idetudiant__in=selections)
+            for student in new_students_query:
+                newstudents.append((int(student.idetudiant), f"{student.idpersonne.nom} {student.idpersonne.prenom}"))
+            return newstudents
+
+    except ObjectDoesNotExist:
+        return None
+
+
 def find_students_by_teacher_without_subject(idpersonne: int) -> list[tuple[int, str]] | None:
     """
     :param idpersonne:
@@ -309,7 +337,7 @@ def find_students_by_teacher_without_subject(idpersonne: int) -> list[tuple[int,
             if len(cours) > 0:
                 students = []
                 for cour in cours:
-                    students_query = Etudiant.objects.filter(idetudiant=cour.idetudiant_id, idsujet=None)
+                    students_query = Etudiant.objects.filter(idetudiant=cour.idetudiant_id)
                     for student in students_query:
                         students.append(
                             (int(student.idetudiant), f"{student.idpersonne.nom} {student.idpersonne.prenom}"))
