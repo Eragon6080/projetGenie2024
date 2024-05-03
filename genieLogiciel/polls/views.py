@@ -300,15 +300,19 @@ def desinscription(request) -> HttpResponse:
 
 @login_required(login_url='/polls')
 @student_required
-def desinscriptionValidation(request, idcours: int) -> HttpResponse:
+def desinscription_validation(request, idcours: int) -> HttpResponse:
     user = request.user
+    print("cc")
     if "etudiant" in user.role['role']:
         cours = find_course_by_id(idcours)
-        sujet = find_sujet_by_id_cours(cours)
-        if sujet is not None:
-            sujet.estpris = False
-            sujet.idetudiant = None
-            sujet.save()
+        student = find_student_by_id_personne(user.idpersonne)
+        selections = find_selection_by_id_etudiant(student.idetudiant)
+
+        if selections is not None:
+            for selection in selections:
+                if count_selection_for_one_subject(selection.idsujet_id) == 0:
+                    selections.idsujet.estprise = False
+                selection.delete()
 
         cours.delete()
         return redirect('/polls/home')
@@ -317,7 +321,7 @@ def desinscriptionValidation(request, idcours: int) -> HttpResponse:
 
 @login_required(login_url='/polls')
 @is_owner_of_ue_or_admin
-def desinscriptionEtudiant(request, idpersonne, idue) -> HttpResponse:
+def desinscription_etudiant(request, idpersonne, idue) -> HttpResponse:
     etudiant = find_student_by_id_personne(idpersonne)
     sujets = find_sujets_of_student_of_ue(idpersonne, idue)
     cours = Cours.objects.get(idetudiant=etudiant, idue=idue)
@@ -325,7 +329,7 @@ def desinscriptionEtudiant(request, idpersonne, idue) -> HttpResponse:
     if sujets is not None:
         for sujet in sujets:
             sujet.estpris = False
-            selections = find_selection_by_id_sujet(idsujet=sujet, idetudiant=etudiant.idetudiant)
+            selections = find_selection_by_id_sujet(sujet)
             for selection in selections:
                 selection.delete()
             sujet.save()

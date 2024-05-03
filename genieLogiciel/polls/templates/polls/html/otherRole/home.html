@@ -15,7 +15,7 @@
                             <a href="./{{ cours.idue }}/"> <h5 class="card-title">{{cours.nom}}</h5>
                         {% else %}
                                 {%if desinscription %}
-                                    <a href="./desincription/{{cours.idcours}}"><h5 class="card-title">{{cours.nom}}</h5></a>
+                                    <a href="./desinscription/{{cours.idcours}}"><h5 class="card-title">{{cours.nom}}</h5></a>
                                 {%else%}
                                     <a href="./{{cours.idue}}/"><h5 class="card-title">{{cours.nom}}</h5></a>
                                 {%endif%}
