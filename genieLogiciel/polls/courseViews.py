@@ -10,7 +10,7 @@ from django.contrib.postgres.aggregates import StringAgg
 from django.db.models.functions import Concat
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, ConfirmationSujetReservation
 from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable
 from .queries import *
@@ -424,6 +424,7 @@ def vue_historique_annee(request, annee):
 
 @login_required(login_url='polls')
 @is_owner_of_ue_or_admin
+@csrf_protect
 def etape_view(request, idue):
     ue = find_ue(idue)
     etapes, etapes_ue = find_etapes_of_ue(ue)
