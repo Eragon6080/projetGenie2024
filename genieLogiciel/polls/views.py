@@ -311,7 +311,7 @@ def desinscription_validation(request, idcours: int) -> HttpResponse:
         if selections is not None:
             for selection in selections:
                 if count_selection_for_one_subject(selection.idsujet_id) == 0:
-                    selections.idsujet.estprise = False
+                    selections.idsujet.estpris = False
                 selection.delete()
 
         cours.delete()

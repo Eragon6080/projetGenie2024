@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Rajout du token etapes">
+    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Mise à jour du formulaire des modalités pour un prof ou un admin">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/queries.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/queries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/restrictions.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/restrictions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/navBarOtherRole.html" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/navBarOtherRole.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/gestion_etape.html" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/gestion_etape.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +169,7 @@
       <workItem from="1714660806418" duration="1096000" />
       <workItem from="1714665345079" duration="3512000" />
       <workItem from="1714721692191" duration="1360000" />
-      <workItem from="1714724689869" duration="6369000" />
+      <workItem from="1714724689869" duration="9514000" />
     </task>
     <task id="LOCAL-00001" summary="Réorganisation des fichiers">
       <option name="closed" value="true" />
@@ -358,7 +355,47 @@
       <option name="project" value="LOCAL" />
       <updated>1714727667580</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="La desincription des étudiants n'entrainent plus l'effacement des sujets mais seulement des colonnes correspondantes dans selectionSujet + si le nombre de selection pour un sujet revient à faux">
+      <option name="closed" value="true" />
+      <created>1714731518030</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1714731518030</updated>
+    </task>
+    <task id="LOCAL-00025" summary="estprise est devenu est pris dans desincription validation">
+      <option name="closed" value="true" />
+      <created>1714731598632</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1714731598632</updated>
+    </task>
+    <task id="LOCAL-00026" summary="estprise est devenu est pris dans desincription validation">
+      <option name="closed" value="true" />
+      <created>1714731657700</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1714731657700</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Modification du formumlaire d'ajout d'une étape">
+      <option name="closed" value="true" />
+      <created>1714732686965</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1714732686965</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Mise à jour du formulaire des modalités pour un prof ou un admin">
+      <option name="closed" value="true" />
+      <created>1714733791723</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1714733791723</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -397,7 +434,11 @@
     <MESSAGE value="Ajout d'un tag python pour l'ajout d'une étape" />
     <MESSAGE value="Suppression du token gestion_etape" />
     <MESSAGE value="Rajout du token etapes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rajout du token etapes" />
+    <MESSAGE value="La desincription des étudiants n'entrainent plus l'effacement des sujets mais seulement des colonnes correspondantes dans selectionSujet + si le nombre de selection pour un sujet revient à faux" />
+    <MESSAGE value="estprise est devenu est pris dans desincription validation" />
+    <MESSAGE value="Modification du formumlaire d'ajout d'une étape" />
+    <MESSAGE value="Mise à jour du formulaire des modalités pour un prof ou un admin" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mise à jour du formulaire des modalités pour un prof ou un admin" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/genieproj$manage.coverage" NAME="manage Coverage Results" MODIFIED="1714633982340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/genieLogiciel" />
