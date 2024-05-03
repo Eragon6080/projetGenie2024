@@ -33,9 +33,9 @@ def role(request, view = "admin") -> HttpResponse:
 
         roles = ["admin", "professeur", "etudiant", "superviseur"]  # A priori, on a que 4 roles possibles
 
-        admin_people = find_All_People()
+        admin_people = find_all_People()
         professeur_people = find_Professeur_People()
-        etudiant_people = find_Etudiant_People()
+        etudiant_people = find_etudiant_People()
 
         for i in admin_people:
             if 'admin' in i.role['role']:

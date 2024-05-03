@@ -148,7 +148,6 @@ class Professeur(models.Model):
         db_table = 'professeur'
 
 
-
 class Sujet(models.Model):
     idsujet = models.AutoField(primary_key=True, db_column='idsujet')
     titre = models.TextField(db_column='titre')
@@ -157,7 +156,7 @@ class Sujet(models.Model):
     estpris = models.BooleanField(db_column='estreserve', default=False)
     fichier = models.FileField(upload_to='sujets/', blank=True, null=True, db_column='fichier',
                                validators=[validate_file_extension])
-    nbpersonnes = models.IntegerField(db_column='nbpersonnes',default=1,)
+    nbpersonnes = models.IntegerField(db_column='nbpersonnes', default=1, )
     idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode', default=1)
     idprof = models.ForeignKey(Professeur, models.DO_NOTHING, db_column='idprofesseur')
     idsuperviseur = models.ForeignKey('Superviseur', models.DO_NOTHING, db_column='idsuperviseur')
@@ -177,6 +176,7 @@ class Ue(models.Model):
     class Meta:
         managed = False
         db_table = 'ue'
+
 
 class EtapeUe(models.Model):
     idetapeue = models.AutoField(primary_key=True, db_column='idetapeue')
@@ -245,8 +245,3 @@ class SelectionSujet(models.Model):
     class Meta:
         managed = False
         db_table = 'selectionsujet'
-
-
-
-
-
