@@ -10,6 +10,15 @@ class FichierDelivrableForm(forms.ModelForm):
     class Meta:
         model = FichierDelivrable
         fields = ['fichier','estconfidentiel']
+        labels = {
+            'fichier': 'Fichier',
+            'estconfidentiel': 'Confidentiel',
+        }
+        widgets = {
+            'fichier': forms.FileInput(attrs={'class': 'form-control', 'placeholder': 'Fichier'}),
+            'estconfidentiel': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+
 
 
 class EtapeForm(forms.ModelForm):

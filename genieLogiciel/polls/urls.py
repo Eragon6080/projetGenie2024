@@ -67,7 +67,7 @@ urlpatterns = [
     path("course/<str:idue>/steps/", courseViews.afficher_etapes_ue, name="steps"),
     path("echeance/", views.echeance_and_upload, name="echeance_and_upload"),
     path("echeance/<int:delivrable_id>/<int:idcours>/<int:idperiode>", views.echeance_and_upload,
-         name="echeance_and_upload")
+         name="echeance_and_upload"),
     
 
 ]
