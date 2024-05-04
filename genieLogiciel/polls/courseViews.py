@@ -504,7 +504,7 @@ def confirmer_reservation_sujet(request, idue, idsujet):
     selectionSujet.save()
     sujet.save()
 
-    return redirect('/polls/course/mycourses')
+    return HttpResponseRedirect(request.GET.get('next'))
 
 
 @login_required(login_url='/polls')

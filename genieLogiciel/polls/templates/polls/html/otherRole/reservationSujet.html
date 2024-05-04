@@ -25,7 +25,7 @@
                                 <td>{{sujet.sujet.idsuperviseur.idpersonne.nom}} {{sujet.idsuperviseur.idpersonne.prenom}}</td>
                                 {% endif %}
                                 <td>{{sujet.nbPersonnesRestantes}}/{{sujet.nbPersonnes}}</td>
-                                <td><a href="./reservation-sujet/{{ sujet.sujet.idsujet }}" class="btn btn-primary" >Réserver le sujet</a></td>
+                                <td><a href="./reservation-sujet/{{ sujet.sujet.idsujet }}?next={{ request.path }}" class="btn btn-primary" >Réserver le sujet</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
