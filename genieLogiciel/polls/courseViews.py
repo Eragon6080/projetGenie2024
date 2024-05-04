@@ -311,6 +311,7 @@ def mycourse(request, idue):
     already_submitted = False
     # on part du principe que quand une étape ne contient pas de délivrable, c'est que c'est une étape de choix de sujet
     context_reservation = None
+    topics_of_students = find_sujets_of_student_of_ue(find_student_by_id_personne(user.idpersonne), idue)
     if current_etape is not None and current_etape.iddelivrable_id is None:
         context_reservation = reservation_subject_student(idue, user.idpersonne)
     if current_etape.iddelivrable_id is not None:
@@ -344,7 +345,9 @@ def mycourse(request, idue):
         'current_etape': current_etape,
         'context_reservation': context_reservation,
         'form': form,
-        'already_submitted': already_submitted
+        'already_submitted': already_submitted,
+        'topics_of_student': topics_of_students
+
     }
     return render(request, "course.html", context=context)
 
