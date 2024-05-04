@@ -554,7 +554,7 @@ def find_sujet_by_id_etudiant(etudiant: Etudiant) -> list[Sujet] | None:
         return None
 
 
-def find_sujets_of_student_of_ue(idetudiant: Etudiant, idue: Ue) -> list[Sujet] | None:
+def find_sujets_of_student_of_ue(idetudiant, idue) -> list[Sujet] | None:
     """
     :param idue: l'ue en question
     :param idetudiant: l'étudiant en question
@@ -562,10 +562,10 @@ def find_sujets_of_student_of_ue(idetudiant: Etudiant, idue: Ue) -> list[Sujet] 
     """
     try:
         sujets_of_ue = Sujet.objects.filter(idue=idue)
-        selections_query = SelectionSujet.objects.filter(idetudiant=idetudiant, idsujet__in=sujets_of_ue)
+        selections_query = SelectionSujet.objects.filter(idetudiant=idetudiant, idsujet__in=sujets_of_ue.values('idsujet'))
         sujets = []
         for selection in selections_query:
-            sujets.append(find_sujet_by_id(selection.idsujet))
+            sujets.append(selection.idsujet)
         return sujets
     except:
         return None

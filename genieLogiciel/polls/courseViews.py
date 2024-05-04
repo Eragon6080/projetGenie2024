@@ -309,6 +309,8 @@ def mycourse(request, idue):
     context_reservation = None
     if current_etape is not None and current_etape.iddelivrable_id is None:
         context_reservation = reservation_subject_student(idue, user.idpersonne)
+    
+    topics_of_student = find_sujets_of_student_of_ue(find_student_by_id_personne(user.idpersonne), idue)  
 
     context = {
         'ue': ue,
@@ -316,7 +318,8 @@ def mycourse(request, idue):
         'etapes': etapes,
         'etapes_ue': etapes_ue,
         'current_etape': current_etape,
-        'context_reservation': context_reservation
+        'context_reservation': context_reservation,
+        'topics_of_student': topics_of_student
     }
     return render(request, "course.html", context=context)
 

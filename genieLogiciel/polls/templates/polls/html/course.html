@@ -40,6 +40,27 @@
 {% if is_student %}
 {% if ue.isopen %}
   <div class="container justify-content-center">
+    {% if topics_of_student %}
+        {% for topic in topics_of_student %}
+          <div class="card text-center mb-4">
+            <div class="card-header">
+              Votre sujet
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ topic.titre }}</h5>
+              <p class="card-text">{{ topic.descriptif }}</p>
+            </div>
+            <div class="card-footer text-muted">
+              {% if topic.idprof %}
+                {{ topic.idprof.idpersonne.nom }} {{ topic.idprof.idpersonne.prenom }}
+              {% else %}
+                {{ topic.idsuperviseur.idpersonne.nom }} {{ topic.idsuperviseur.idpersonne.prenom }}
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+    {% endif %}
+
     <h1 class="display-4">{{ current_etape.titre }}</h1>
     <h1 class="h5"><em><i class="fa fa-clock-o" aria-hidden="true"></i> Jusqu'au {{ current_etape.datefin }}</em></h1>
     <p class="lead">{{ current_etape.description }}</p>
