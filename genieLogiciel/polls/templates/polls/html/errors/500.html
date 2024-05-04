@@ -1,1 +1,10 @@
-<h1>Test page 500 error</h1>
+{% extends "errors/error.html" %}
+
+{% block title %}
+    <title>500</title>
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center" style="color:red;"><i class="fa fa-server" aria-hidden="true"></i> Erreur serveur <i class="fa fa-server" aria-hidden="true"></i></h1>
+    <h3 class="text-center"> Erreur 500 : Une erreur est survenue :( </h3>
+{% endblock %}
