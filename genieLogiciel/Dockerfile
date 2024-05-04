@@ -16,6 +16,10 @@ COPY . .
 # Copiez le script entrypoint.sh et rendez-le exécutable
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+# Installez Redis et supervisor dans le conteneur
+
+# Copiez le fichier de configuration supervisord.conf dans le conteneur
+
 
 # Exposez le port sur lequel votre application s'exécute (par exemple, 8000 si votre application Django s'exécute sur ce port)
 EXPOSE 8000
