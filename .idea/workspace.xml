@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Ajout des modifs de rosny sur le dépôt d'un devoir">
-      <change afterPath="$PROJECT_DIR$/genieLogiciel/polls/tasks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/genieLogiciel/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/entrypoint.sh" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/entrypoint.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/genieLogiciel/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/genieLogiciel/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/genieLogiciel/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,6 +78,9 @@
       <recent name="C:\Users\matth\Desktop\genieproj\genieLogiciel" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\matth\Desktop\genieproj\genieLogiciel\polls" />
+      <recent name="C:\Users\matth\Desktop\genieproj\genieLogiciel" />
+      <recent name="C:\Users\matth\Desktop\genieproj\genieLogiciel\genieLogiciel" />
       <recent name="C:\Users\matth\Desktop\genieproj\genieLogiciel\polls\templates\polls\html\otherRole" />
     </key>
   </component>
@@ -180,7 +177,7 @@
       <workItem from="1714824696630" duration="1697000" />
       <workItem from="1714826813355" duration="2420000" />
       <workItem from="1714830294017" duration="5426000" />
-      <workItem from="1714839837293" duration="3959000" />
+      <workItem from="1714839837293" duration="5904000" />
     </task>
     <task id="LOCAL-00001" summary="Réorganisation des fichiers">
       <option name="closed" value="true" />
@@ -438,7 +435,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714835401854</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Ajout des modifs de rosny sur le dépôt d'un devoir">
+      <option name="closed" value="true" />
+      <created>1714846449348</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1714846449348</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
