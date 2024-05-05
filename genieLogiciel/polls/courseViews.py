@@ -346,7 +346,8 @@ def mycourse(request, idue):
         'context_reservation': context_reservation,
         'form': form,
         'already_submitted': already_submitted,
-        'topics_of_student': topics_of_students
+        'topics_of_student': topics_of_students,
+        'no_topic': len(topics_of_students) == 0
 
     }
     return render(request, "course.html", context=context)
