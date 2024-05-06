@@ -307,7 +307,7 @@ INSERT INTO Supervision (description, idSuperviseur, idUe)
 INSERT INTO SelectionSujet (idSujet, idEtudiant, is_involved)
   VALUES
   (2,2, TRUE),
-  (1,3, TRUE);
+  (1,1, TRUE);
   
 INSERT INTO EtapeUe (idEtape, idUe, etapeCourante)
   VALUES (1, 'INFOB331', TRUE),
@@ -315,6 +315,12 @@ INSERT INTO EtapeUe (idEtape, idUe, etapeCourante)
         (3, 'INFOMA451', FALSE),
         (4, 'INFOMA451', FALSE);
 
+INSERT INTO FichierDelivrable (fichier, idEtudiant, idDelivrable, estRendu, note, estConfidentiel)
+VALUES ('file_path', 1, 1, TRUE, 15, FALSE),
+        ('file_path', 2, 2, TRUE, 17, FALSE),
+        ('file_path', 3, 1, TRUE, 14, FALSE),
+        ('file_path', 4, 2, TRUE, 16, FALSE);
+        
 
 alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
 
@@ -323,3 +329,30 @@ UPDATE COURS SET idEtudiant = 2 where idCours = 2;
 
 alter table Sujet ADD FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur);
 alter table Sujet ADD FOREIGN KEY (idue) REFERENCES UE(idue);
+ALTER TABLE Sujet ADD COLUMN mark INT DEFAULT 0;
+
+ALTER TABLE FichierDelivrable
+ADD COLUMN idSujet INT,
+ADD FOREIGN KEY (idSujet) REFERENCES Sujet(idSujet);
+
+-- Create a function that updates the mark column in the Sujet table
+CREATE OR REPLACE FUNCTION update_sujet_mark() RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE Sujet
+  SET mark = (
+    SELECT COALESCE(SUM(FichierDelivrable.note) / NULLIF(COUNT(FichierDelivrable.note), 0), 0)
+    FROM FichierDelivrable
+    INNER JOIN Delivrable ON FichierDelivrable.iddelivrable = Delivrable.iddelivrable
+    INNER JOIN SelectionSujet ON Delivrable.idetudiant = SelectionSujet.idetudiant
+    WHERE SelectionSujet.idsujet = NEW.idsujet
+  )
+  WHERE idsujet = NEW.idsujet;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create a trigger that calls the update_sujet_mark function
+-- after a row in the FichierDelivrable table is inserted or updated
+CREATE TRIGGER update_sujet_mark
+AFTER INSERT OR UPDATE ON FichierDelivrable
+FOR EACH ROW EXECUTE PROCEDURE update_sujet_mark();
