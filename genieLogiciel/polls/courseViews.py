@@ -28,12 +28,13 @@ def topics(request, idue) -> HttpResponse:
     # Récupèrer tous les sujets associés à cette ue
     sujets = Sujet.objects.filter(idue=ue)
     sujet_infos = []
+    
     for sujet in sujets:
         sujet_info = {
             'id': sujet.idsujet,
             'titre': sujet.titre,
             'description': sujet.descriptif,
-            'referent': sujet.idprof.idpersonne.prenom + " " + sujet.idprof.idpersonne.nom if sujet.idprof is not None else sujet.idsuperviseur.idpersonne.prenom + " " + sujet.idsuperviseur.idpersonne.nom,
+            'referent': sujet.idprof.idpersonne.prenom + " " + sujet.idprof.idpersonne.nom if sujet.idprof_id is not None else sujet.idsuperviseur.idpersonne.prenom + " " + sujet.idsuperviseur.idpersonne.nom,
             'etudiants': [],
             'estPris': sujet.estpris
         }
