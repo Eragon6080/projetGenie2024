@@ -166,9 +166,7 @@ class ConfirmationSujetReservation(forms.Form):
     students = forms.ChoiceField(
         label='students',
         required=True,
-        widget=forms.Select(attrs={'class': 'form-control'}
-
-        )
+        widget=forms.Select(attrs={'class': 'form-control'})
     )
     subject_id = forms.IntegerField(label='id', required=False, widget=forms.HiddenInput())
 

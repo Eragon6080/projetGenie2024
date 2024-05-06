@@ -1,5 +1,6 @@
 {% extends "otherRole/otherRoleTemplate.html"%}
 {% block content %}
+{% if not attribution%}
 <div class="container vh-100 d-flex flex-column justify-content-center">
     <div class="row justify-content-center">
         {% if subjects|length > 0  %}
@@ -27,11 +28,53 @@
         </div>
         {% else %}
         <div class="container d-flex justify-content-center align-items-center vh-100">
-            <p>Tous les sujets vous concernant ont été attribués</p>
+            <p>Tous les sujets vous concernant ont déjà été attribués à une personne!</p>
         </div>
             {%endif%}
     </div>
 </div>
+{% else %}
+<div class="container vh-100 d-flex flex-column justify-content-center">
+<div class="row justify-content-center">
+        {% if subjects|length > 0  %}
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-striped text-center">
+                    <thead>
+                        <tr>
+                            {% for title in subject_title %}
+                            <th scope="col">{{ title }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for subject in subjects %}
+                            <tr>
+                                <td>{{subject.sujet.titre}}</td>
+                                <td>{{subject.sujet.descriptif}}</td>
+                                {% if subject.estReserve == False%}
+                                <td>Non</td>
+                                <td>Aucune</td>
+                                {% else %}
+                                <td>Oui</td>
+                                <td>{% for selection in subject.personnesReservees%}
+                                    {{selection.idetudiant.idpersonne.nom}} {{selection.idetudiant.idpersonne.prenom}}<br>
+                                {%endfor%}</td>
+                                {%endif%}
+                            </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</div>
+        {% else %}
+        <div class="container d-flex justify-content-center align-items-center vh-100">
+            <p>Vous n'avez pas de sujet en réserve!</p>
+             </div>
+            {%endif%}
+
+{%endif%}
 
 
 {% endblock %}

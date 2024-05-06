@@ -19,8 +19,7 @@ from dotenv import load_dotenv
 
 
 isLoaded = load_dotenv(dotenv_path="pims.env")
-print(isLoaded)
-print(sys.path)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.getenv('DEBUG'))
 
 ALLOWED_HOSTS = ['*']
 
@@ -155,5 +154,4 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('EMAIL_DEFAULT_RECIPIENT')
 
-# genieLogiciel/settings.py
 

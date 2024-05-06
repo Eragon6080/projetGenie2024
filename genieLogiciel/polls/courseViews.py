@@ -28,7 +28,7 @@ def topics(request, idue) -> HttpResponse:
     # Récupèrer tous les sujets associés à cette ue
     sujets = Sujet.objects.filter(idue=ue)
     sujet_infos = []
-    
+
     for sujet in sujets:
         sujet_info = {
             'id': sujet.idsujet,
@@ -121,6 +121,7 @@ def participants(request, idue) -> HttpResponse:
     return render(request, "otherRole/participants.html",
                   context={"students": students, "professor": professor, "supervisors": supervisors, "ue": ue})
 
+
 @login_required(login_url='/polls')
 @admin_or_professor_or_superviseur_required
 @csrf_exempt
@@ -142,20 +143,22 @@ def NoteTopic(request, sujet_id, idue):
         delivrable = FichierDelivrable.objects.filter(iddelivrable=iddelivrable)
         for deli in delivrable:
             if 'iddeli' in request.GET and 'idetudiant' in request.GET:
-                if int(request.GET['iddeli']) == deli.iddelivrable_id and int(request.GET['idetudiant']) == deli.idetudiant_id:
+                if int(request.GET['iddeli']) == deli.iddelivrable_id and int(
+                        request.GET['idetudiant']) == deli.idetudiant_id:
                     deli.note = request.GET['note']
                     deli.save()
             etape_info = {
-                "titre":etape.titre,
-                "description":etape.description,
-                "fichier":deli.fichier,
-                "note":deli.note,
-                "idetudiant":deli.idetudiant_id,
-                "iddelivrable":deli.iddelivrable_id
+                "titre": etape.titre,
+                "description": etape.description,
+                "fichier": deli.fichier,
+                "note": deli.note,
+                "idetudiant": deli.idetudiant_id,
+                "iddelivrable": deli.iddelivrable_id
             }
             delivrables.append(etape_info)
 
-    return render(request, "otherRole/note_topic.html", {"id": sujet_id,"ue": ue, 'delivrables': delivrables})
+    return render(request, "otherRole/note_topic.html", {"id": sujet_id, "ue": ue, 'delivrables': delivrables})
+
 
 @login_required(login_url='/polls')
 @admin_or_professor_or_superviseur_required
@@ -164,13 +167,16 @@ def editTopic(request, sujet_id):
     sujet = get_object_or_404(Sujet, idsujet=sujet_id)
     id_ue = sujet.idue
     form_data = {
-            'title': sujet.titre,
-            'description': sujet.descriptif,
-            'destination': sujet.destination,
-            'fichier': sujet.fichier,
+        'title': sujet.titre,
+        'description': sujet.descriptif,
+        'destination': sujet.destination,
+        'fichier': sujet.fichier,
     }
     if request.method == 'POST':
-        form = UpdateForm(request.POST, request.FILES, list_students=find_students_of_ue(id_ue), list_referent=find_supervisors_of_ue(id_ue).union(Personne.objects.filter(idpersonne = find_owner_of_ue(id_ue).idpersonne)), is_admin=is_user_admin(request.user.idpersonne))
+        form = UpdateForm(request.POST, request.FILES, list_students=find_students_of_ue(id_ue),
+                          list_referent=find_supervisors_of_ue(id_ue).union(
+                              Personne.objects.filter(idpersonne=find_owner_of_ue(id_ue).idpersonne)),
+                          is_admin=is_user_admin(request.user.idpersonne))
         student_id = request.POST['student_select']
         sujet.titre = request.POST['title']
         sujet.descriptif = request.POST['description']
@@ -181,14 +187,18 @@ def editTopic(request, sujet_id):
 
         sujet.save()
 
-        if subject_is_taken :
+        if subject_is_taken:
             SelectionSujet(idetudiant=find_student_by_id_personne(student_id), idsujet=sujet).save()
 
         return HttpResponseRedirect(request.GET.get('next'))
     else:
-        form = UpdateForm(initial=form_data, list_students=find_students_of_ue(id_ue), list_referent=find_supervisors_of_ue(id_ue).union(Personne.objects.filter(idpersonne = find_owner_of_ue(id_ue).idpersonne)), is_admin=is_user_admin(request.user.idpersonne))
+        form = UpdateForm(initial=form_data, list_students=find_students_of_ue(id_ue),
+                          list_referent=find_supervisors_of_ue(id_ue).union(
+                              Personne.objects.filter(idpersonne=find_owner_of_ue(id_ue).idpersonne)),
+                          is_admin=is_user_admin(request.user.idpersonne))
 
-    return render(request, 'otherRole/submitSubject.html', {'form': form, 'ue': id_ue, 'edit':True, 'previous_url': request.GET.get('next')})
+    return render(request, 'otherRole/submitSubject.html',
+                  {'form': form, 'ue': id_ue, 'edit': True, 'previous_url': request.GET.get('next')})
 
 
 @login_required(login_url='/polls')
@@ -389,16 +399,16 @@ def mycourse(request, idue):
 
 
 @login_required(login_url='polls')
-@prof_or_superviseur_required
+
 def reservation(request, idue):
     user = request.user
     if "professeur" in user.role['role']:
         subjects_query = find_all_subjects_for_a_teacher(user.idpersonne)
+        print(subjects_query)
         sujets = find_students_without_subjects_by_teacher(user.idpersonne)
         subjects = []
         for subject in subjects_query:
             subjects.append(subject)
-        # permet de créer des champs qui sont faux pour le formulaire
 
         context = {
             'subjects': subjects,
@@ -407,6 +417,31 @@ def reservation(request, idue):
         return render(request, "otherRole/reservation.html", context)
     else:
         return redirect('/polls')
+
+
+@login_required(login_url='polls')
+def knows_if_subject_is_booked_for_teacher(request, idue: str):
+    user = request.user
+    if "professeur" in user.role['role']:
+        subjects_query = find_all_subjects_for_a_teacher(user.idpersonne)
+        subjects_reserved = []
+        for subject in subjects_query:
+            nbPersonne = nb_people_keeping_for_a_sujet(subject)
+            print(nbPersonne,subject.nbpersonnes)
+            if nbPersonne < subject.nbpersonnes:
+                personnesReservees = find_selection_by_id_sujet(subject)
+                print(personnesReservees[0].idetudiant.idpersonne.nom)
+                subjects_reserved.append(
+                    {'sujet': subject, 'estReserve': True, 'personnesReservees': personnesReservees})
+            else:
+                subjects_reserved.append({'sujet': subject, 'estReserve': False})
+        context = {
+            'subjects': subjects_reserved,
+            'subject_title': ["Titre", "Descriptif", "Est réservé", 'Nombre de personnes'],
+            "title": "Sujets réservés",
+            'attribution': 'attribution'
+        }
+        return render(request, "otherRole/reservation.html", context)
 
 
 @login_required(login_url='polls')
@@ -424,9 +459,12 @@ def booking(request, idue, idsujet):
             'students': find_students_without_subjects_by_teacher(user.idpersonne)
         }
         form = ConfirmationSujetReservation(initial=initial_data)
+        nbPersonnes = nb_people_keeping_for_a_sujet(sujet)
+        isAvalaible = nbPersonnes > 0
         context = {
             'form': form,
-            'idsujet': idsujet
+            'idsujet': idsujet,
+            'isAvalaible': isAvalaible
         }
         return render(request, "otherRole/confirmationReservation.html", context=context)
     else:
@@ -450,7 +488,7 @@ def validation_booking(request, idue, idsujet):
         sujet.save()
         return redirect('../../../../')
     else:
-        return redirect('../../../../ok',)
+        return redirect('../../../../ok', )
 
 
 @login_required(login_url='/polls')
@@ -478,9 +516,10 @@ def vue_historique(request):
         nom_complet_etudiant=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
                                     output_field=CharField()),
         mark=Subquery(FichierDelivrable.objects.filter(idetudiant=OuterRef('idetudiant')).values('note')[:1],
-                    output_field=IntegerField()),
-        nom_complet_professeur=Concat('idsujet__idprof__idpersonne__nom', Value(' '), 'idsujet__idprof__idpersonne__prenom',
-                                    output_field=CharField()),
+                      output_field=IntegerField()),
+        nom_complet_professeur=Concat('idsujet__idprof__idpersonne__nom', Value(' '),
+                                      'idsujet__idprof__idpersonne__prenom',
+                                      output_field=CharField()),
     ).order_by('idsujet__idperiode__annee').distinct()
 
     queries = list(queryset)
@@ -512,10 +551,13 @@ def vue_historique_annee(request, annee):
     ).annotate(
         nom_complet_etudiant=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
                                     output_field=CharField()),
-        mark=Subquery(FichierDelivrable.objects.filter(idetudiant=OuterRef('idetudiant')).order_by('-iddelivrable').values('note')[:1],
-                    output_field=IntegerField()),
-        nom_complet_professeur=Concat('idsujet__idprof__idpersonne__nom', Value(' '), 'idsujet__idprof__idpersonne__prenom',
-                                    output_field=CharField()),
+        mark=Subquery(
+            FichierDelivrable.objects.filter(idetudiant=OuterRef('idetudiant')).order_by('-iddelivrable').values(
+                'note')[:1],
+            output_field=IntegerField()),
+        nom_complet_professeur=Concat('idsujet__idprof__idpersonne__nom', Value(' '),
+                                      'idsujet__idprof__idpersonne__prenom',
+                                      output_field=CharField()),
     ).order_by('idsujet__idperiode__annee').distinct()
 
     queries = list(queryset)
@@ -553,6 +595,7 @@ def etape_view(request, idue):
 
     return render(request, 'otherRole/commandTimeline.html',
                   {'form': form, 'etapes': etapes, 'ue': ue, 'etapes_ue': etapes_ue})
+
 
 @login_required(login_url='/polls')
 @is_student_of_ue

@@ -13,6 +13,7 @@ urlpatterns = [
     path("course/", views.home, name="home"),
     path("course/<str:idue>/", views.course, name="course"),
     path("course/<str:idue>/sujet/reservation", courseViews.reservation, name="reservation d'un sujet"),
+    path("course/<str:idue>/sujet/attribution", courseViews.knows_if_subject_is_booked_for_teacher, name="attribution d'un sujet"),
     path("course/<str:idue>/sujet/reservation/<int:idsujet>", courseViews.booking, name="reservation d'un sujet"),
     path("course/<str:idue>/sujet/reservation/<int:idsujet>/confirmation", courseViews.validation_booking, name="confirmation"),
     path("course/<str:idue>/topics/", courseViews.topics, name="topics"),
