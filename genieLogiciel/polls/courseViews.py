@@ -11,7 +11,8 @@ from django.db.models.functions import Concat
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, ConfirmationSujetReservation
+from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, ConfirmationSujetReservation, \
+    FichierDelivrableForm
 from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable, FichierDelivrable
 from .queries import *
 
@@ -301,16 +302,40 @@ def mycourses(request) -> HttpResponse:
 @is_student_of_ue
 def mycourse(request, idue):
     user = request.user
+    etudiant = find_student_by_id_personne(user.idpersonne)
     ue = find_ue(idue)
     etapes, etapes_ue = find_etapes_of_ue(ue)
     current_etape = find_current_etape_of_ue(ue)
-
+    fichier_delivrable_instance = None
+    form = None
+    already_submitted = False
     # on part du principe que quand une étape ne contient pas de délivrable, c'est que c'est une étape de choix de sujet
     context_reservation = None
+    topics_of_students = find_sujets_of_student_of_ue(find_student_by_id_personne(user.idpersonne), idue)
     if current_etape is not None and current_etape.iddelivrable_id is None:
         context_reservation = reservation_subject_student(idue, user.idpersonne)
-    
-    topics_of_student = find_sujets_of_student_of_ue(find_student_by_id_personne(user.idpersonne), idue)  
+    if current_etape.iddelivrable_id is not None:
+        fichier_delivrable_instance = FichierDelivrable.objects.filter(
+            iddelivrable=current_etape.iddelivrable_id,
+            idetudiant=etudiant,
+            rendu=True
+        ).first()
+        already_submitted = fichier_delivrable_instance is not None
+        form = FichierDelivrableForm(
+            instance=fichier_delivrable_instance) if fichier_delivrable_instance else FichierDelivrableForm()
+        if request.method == 'POST':
+            form = FichierDelivrableForm(request.POST, request.FILES, instance=fichier_delivrable_instance)
+            if form.is_valid():
+                fichier_delivrable = form.save(commit=False)
+                fichier_delivrable.iddelivrable = get_object_or_404(Delivrable,
+                                                                    iddelivrable=current_etape.iddelivrable_id)
+                fichier_delivrable.idetudiant = etudiant
+                fichier_delivrable.nom_personne = etudiant.idpersonne.nom
+                fichier_delivrable.nom_cours = idue
+                fichier_delivrable.annee_periode = current_etape.idperiode.annee
+                fichier_delivrable.rendu = True
+                fichier_delivrable.save()
+                return redirect("page d'un cours", idue=ue.idue)
 
     context = {
         'ue': ue,
@@ -319,7 +344,11 @@ def mycourse(request, idue):
         'etapes_ue': etapes_ue,
         'current_etape': current_etape,
         'context_reservation': context_reservation,
-        'topics_of_student': topics_of_student
+        'form': form,
+        'already_submitted': already_submitted,
+        'topics_of_student': topics_of_students,
+        'no_topic': len(topics_of_students) == 0
+
     }
     return render(request, "course.html", context=context)
 

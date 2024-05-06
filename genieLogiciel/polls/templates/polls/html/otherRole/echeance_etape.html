@@ -3,14 +3,37 @@
             <div class="card-header border bgunamur">
                 <h4>{{current_etape.titre}}</h4>
             </div>
-            
+
             <div class="card-body border bg-white">
                 <p class="card-text">Date limite : {{current_etape.datefin }}</p>
                 <p class="card-text">Type de fichier : {{current_etape.iddelivrable.typeFichier}}</p>
-        
-                <p class="card-text"><a href="./">Déposer Delivrable</a></p>
+                {% if no_topic %}
+                    <p class="card-text">Vous n'avez pas de sujet.</p>
+                {% else %}
 
+                <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                <label for="{{form.fichier.id_for_label}}" class="form-label">{{form.fichier.label}}  </label>
+                  {{ form.fichier}}
+                {% if form.instance.fichier %}
+                     <p>Fichier actuel : {{ form.instance.fichier.name }}</p>
+                {% endif %}
             </div>
+            <div class="form-group">
+                <label for="{{form.estconfidentiel.id_for_label}}" class="form-label">{{form.estconfidentiel.label}}  </label>
+                 {{ form.estconfidentiel}}
+            </div>
+                        <button type="submit" class="btn btn-primary">
+                                {% if already_submitted %}
+                                    Modifier le fichier
+                                {% else %}
+                                    Déposer le fichier
+                                {% endif %}
+                        </button>
+                    </form>
+            </div>
+            {% endif %}
 
 
         </div>

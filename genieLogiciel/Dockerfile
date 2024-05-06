@@ -17,6 +17,7 @@ COPY . .
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+
 # Exposez le port sur lequel votre application s'exécute (par exemple, 8000 si votre application Django s'exécute sur ce port)
 EXPOSE 8000
 

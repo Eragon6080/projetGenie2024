@@ -1,1 +1,10 @@
-<h1>Test page 404</h1>
+{% extends "errors/error.html" %}
+
+{% block title %}
+    <title>404</title>
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center" style="color:red;"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> OUPS <i class="fa fa-exclamation-circle" aria-hidden="true"></i></h1>
+    <h3 class="text-center"> Erreur 404 : Cette page n'existe pas :( </h3>
+{% endblock %}
