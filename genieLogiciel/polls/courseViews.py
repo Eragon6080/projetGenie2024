@@ -44,10 +44,8 @@ def topics(request, idue) -> HttpResponse:
             etudiants_noms = [f"{etudiant.idetudiant.idpersonne.nom} {etudiant.idetudiant.idpersonne.prenom}" for
                               etudiant in etudiants]
             sujet_info['etudiants'] = etudiants_noms
-            print(etudiants_noms)
 
         sujet_infos.append(sujet_info)
-        print(sujet_info['estPris'])
 
     return render(request, "otherRole/topic.html", {'sujet_infos': sujet_infos, 'ue': ue})
 
@@ -64,6 +62,7 @@ def new(request, idue) -> HttpResponse:
     for sujet in sujets:
         if not sujet.estpris:
             sujet_info = [
+                sujet.idsujet,
                 sujet.titre,
                 sujet.descriptif]
             year_sujet = Periode.objects.filter(idperiode=sujet.idperiode.idperiode).values()[0].get('annee')
@@ -122,6 +121,41 @@ def participants(request, idue) -> HttpResponse:
     return render(request, "otherRole/participants.html",
                   context={"students": students, "professor": professor, "supervisors": supervisors, "ue": ue})
 
+@login_required(login_url='/polls')
+@admin_or_professor_or_superviseur_required
+@csrf_exempt
+def NoteTopic(request, sujet_id, idue):
+    ue = find_ue(idue)
+    etapes = find_etapes_of_ue(ue)[0]
+    current_etape = find_current_etape_of_ue(ue)
+    etapes_passees = []
+    # ajoute les délivrables passés et celui en cours
+    for etape in etapes:
+        if etape.idetape == current_etape.idetape:
+            etapes_passees.append(etape)
+            break
+        else:
+            etapes_passees.append(etape)
+    delivrables = []
+    for etape in etapes_passees:
+        iddelivrable = etape.iddelivrable_id
+        delivrable = FichierDelivrable.objects.filter(iddelivrable=iddelivrable)
+        for deli in delivrable:
+            if 'iddeli' in request.GET and 'idetudiant' in request.GET:
+                if int(request.GET['iddeli']) == deli.iddelivrable_id and int(request.GET['idetudiant']) == deli.idetudiant_id:
+                    deli.note = request.GET['note']
+                    deli.save()
+            etape_info = {
+                "titre":etape.titre,
+                "description":etape.description,
+                "fichier":deli.fichier,
+                "note":deli.note,
+                "idetudiant":deli.idetudiant_id,
+                "iddelivrable":deli.iddelivrable_id
+            }
+            delivrables.append(etape_info)
+
+    return render(request, "otherRole/note_topic.html", {"id": sujet_id,"ue": ue, 'delivrables': delivrables})
 
 @login_required(login_url='/polls')
 @admin_or_professor_or_superviseur_required

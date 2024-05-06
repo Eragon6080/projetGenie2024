@@ -19,6 +19,7 @@ urlpatterns = [
     path("course/<str:idue>/mytopics/", courseViews.myTopics, name="myTopics"),
     path("course/<str:idue>/new/", courseViews.add_topic, name="addTopic"),
     path("course/<str:idue>/ReuseSubject/", courseViews.new, name="ReuseSubject"),
+    path("course/<str:idue>/topics/<int:sujet_id>/note", courseViews.NoteTopic, name="NoteTopic"),
     path("course/<str:idue>/participants/", courseViews.participants, name="participants"),
     path("course/<str:idue>/timeline/", courseViews.etape_view, name="gestion timeline"),
     path("course/<str:idue>/timeline/delete/<int:idetape>", courseViews.deleteStep, name="deleteStep"),

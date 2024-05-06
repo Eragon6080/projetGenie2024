@@ -1,0 +1,58 @@
+{% extends "course.html" %}
+
+{%block content%}
+    <div class="container d-flex flex-column justify-content-center">
+        <div class="row justify-content-center mb-4">
+            <div class="col-8 text-right"> 
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <div class="progress-container vh-25 d-flex" id="barContainer">
+                    <!-- Votre code pour la barre de progression reste inchangé -->
+                </div>
+            </div>
+        </div>
+        {% if delivrables|length != 0 %}
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <div class="table-container d-flex justify-content-center">
+                    <div class="">
+                        <table class="table table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Titre</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Fichier</th>
+                                    <th scope="col">Note</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for deli in delivrables %}
+                                <tr>
+                                    <td>{{ deli.titre }}</td>
+                                    <td>{{ deli.description }}</td>
+                                    <td>{{ deli.fichier }}</td>
+                                    <td>
+                                    <form>
+                                        <input hidden type="integer" id="iddeli" name="iddeli" value = {{deli.iddelivrable}}>
+                                        <input hidden type="integer" id="idetudiant" name="idetudiant" value = {{deli.idetudiant}}>
+                                        <input type="integer" id= "note" name="note" value= {{deli.note}}>
+                                        <input type="submit" value="Confirmer">
+                                    </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                    </div>
+                </div>
+            </div>
+            
+            {% else %} 
+                <p class="text-center text-muted">
+                    Il n'y a aucun délivrable à corriger.
+                </p>
+            {% endif %}
+        </div>
+    
+{%endblock%}

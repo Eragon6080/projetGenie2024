@@ -9,11 +9,12 @@
 
     <div class="collapse show" id="collapse{{year}}">
         {% for subject in subjects%}
-            {%for titre, desc in subject%}
+            {%for id, titre, desc in subject%}
                 <div class="list-group">
                     <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                         <a>{{titre}} : {{desc}}</a>
-                        <a class="btn btn-success" href="../new"> Proposer</a>
+                        <a class="btn btn-success"  href="{% url 'edit_topic' id %}?next={{ request.path }}"> Proposer</a>
+                        </form>
                     </div>
                 </div>
             {% endfor %}
