@@ -683,3 +683,14 @@ def find_selection_by_id_etudiant(idetudiant: int) -> list[SelectionSujet] | Non
         return selections
     except ObjectDoesNotExist:
         return None
+
+def find_periode_by_year(year:int)->Periode|None:
+    """
+
+    :param year:
+    :return:
+    """
+    try:
+        return Periode.objects.get(annee=year)
+    except ObjectDoesNotExist:
+        return None

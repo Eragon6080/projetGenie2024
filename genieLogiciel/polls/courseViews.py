@@ -233,28 +233,29 @@ def add_topic(request, idue) -> HttpResponse:
         nb_personnes = request.POST['nb_personnes']
         logger.info("form is valid")
         subject_is_taken = True if student_id != '' else False
+        year = find_periode_by_year(get_today_year())
         if 'admin' in user.role['role']:
             referent_id = request.POST['referent_select']
             is_prof = True if find_owner_of_ue(ue) == find_personne_by_id(referent_id) else False
             if is_prof:
                 prof = find_prof_by_id_personne(referent_id)
                 sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier, idprof=prof,
-                              estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue)
+                              estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue,idperiode=year)
             else:
                 sup = find_superviseur_by_id_personne(referent_id)
                 sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier,
-                              idsuperviseur=sup, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue)
+                              idsuperviseur=sup, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue,idperiode=year)
 
         elif 'professeur' in user.role['role']:
             prof = find_prof_by_id_personne(user.idpersonne)
             sujet = Sujet(titre=titre, descriptif=descriptif,
                           destination=destination, fichier=fichier,
-                          idprof=prof, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue)
+                          idprof=prof, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue,idperiode=year)
         else:
             superviseur = find_superviseur_by_id_personne(user.idpersonne)
             sujet = Sujet(titre=titre, descriptif=descriptif,
                           destination=destination, fichier=fichier,
-                          idsuperviseur=superviseur, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue)
+                          idsuperviseur=superviseur, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue,idperiode=year)
 
         sujet.save()
 

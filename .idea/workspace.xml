@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="La notation d'un sujet fonctionne">
       <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/queries.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/queries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/note_topic.html" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/note_topic.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,7 +185,7 @@
       <workItem from="1714983879068" duration="2560000" />
       <workItem from="1715004004245" duration="4304000" />
       <workItem from="1715073389278" duration="10526000" />
-      <workItem from="1715087547455" duration="8227000" />
+      <workItem from="1715087547455" duration="9072000" />
     </task>
     <task id="LOCAL-00001" summary="Réorganisation des fichiers">
       <option name="closed" value="true" />
@@ -529,7 +531,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715096229907</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="La notation d'un sujet fonctionne">
+      <option name="closed" value="true" />
+      <created>1715096567587</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1715096567587</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
