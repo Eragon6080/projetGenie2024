@@ -66,11 +66,18 @@
                 <td>{{query.nom_complet_etudiant}}</td>
                 <td>{{query.nom_complet_professeur}}</td>
                     {% load static templatetags %}
-                    <td>{% if query.delivrable_links|is_list %}
+                    <td>{% if query.delivrable_links%}
+                        {% if query.delivrable_links|is_list %}
                         {% for lien in query.delivrable_links%} <a href="{{lien}}">{{lien}}</a>{%endfor%}
                     {%else%}
-
-        <a href="{% url 'deliverablefile' query.delivrable_links %}">Lien vers le délivrable</a>                  {%endif%}</td>
+                        {%if query.delivrable_links == 'file_path'%}
+                        Aucun fichier est disponible pour ce sujet
+                        {%else%}
+                        <a href="{% url 'deliverablefile' query.delivrable_links %}">Lien vers le délivrable</a>{%endif%}
+                        {%endif%}
+                        {%else%}Aucun fichier est disponible pour le sujet
+                        {%endif%}
+                    </td>
             {%endfor%}
         </tbody>
     </table>
