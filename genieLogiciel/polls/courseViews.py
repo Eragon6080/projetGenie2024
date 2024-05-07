@@ -79,18 +79,22 @@ def new(request, idue) -> HttpResponse:
 def myTopics(request, idue) -> HttpResponse:
     user = request.user
     ue = find_ue(idue=idue)
+    year = find_periode_by_year(get_today_year())
     if 'professeur' in user.role['role']:
+
         # Récupèrer tous les sujets associés à ces cours
-        sujets = Sujet.objects.filter(idue=ue, idprof=find_prof_by_id_personne(user.idpersonne).idprof)
+        sujets = Sujet.objects.filter(idue=ue,idprof=find_prof_by_id_personne(user.idpersonne),idperiode=year)
+        sujet2 = Sujet.objects.filter(idue=ue,idperiode=year,idsuperviseur__idpersonne=user.idpersonne)
+        sujets = sujets.union(sujet2)
     else:
-        sujets = find_subject_for_a_superviseur(user.idpersonne)
+        sujets = find_subject_for_a_superviseur(user.idpersonne,year)
     sujet_infos = []
     for sujet in sujets:
         sujet_info = {
             'id': sujet.idsujet,
             'titre': sujet.titre,
             'description': sujet.descriptif,
-            'referent': sujet.idprof.idpersonne.prenom + " " + sujet.idprof.idpersonne.nom if sujet.idprof is not None else sujet.idsuperviseur.idpersonne.prenom + " " + sujet.idsuperviseur.idpersonne.nom,
+            'referent': sujet.idprof.idpersonne.prenom + " " + sujet.idprof.idpersonne.nom if sujet.idprof_id is not None else sujet.idsuperviseur.idpersonne.prenom + " " + sujet.idsuperviseur.idpersonne.nom,
             'etudiants': [],
             'estPris': sujet.estpris
         }

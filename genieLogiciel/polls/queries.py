@@ -405,14 +405,14 @@ def find_supervisors_of_ue(ue: Ue) -> list[Personne] | None:
         return None
 
 
-def find_subject_for_a_superviseur(idpersonne: int) -> list[Sujet] | None:
+def find_subject_for_a_superviseur(idpersonne: int,year:Periode) -> list[Sujet] | None:
     """
     :param idpersonne:
     :return: les sujets pour un superviseur donné
     """
     try:
         superviseur = Supervision.objects.get(idpersonne_id=idpersonne)
-        sujets_query = Sujet.objects.filter(idsuperviseur_id=superviseur.idsuperviseur)
+        sujets_query = Sujet.objects.filter(idsuperviseur_id=superviseur.idsuperviseur,idperiode=year)
         sujets = []
         for sujet in sujets_query:
             sujets.append(sujet)
