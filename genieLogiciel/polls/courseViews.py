@@ -125,6 +125,7 @@ def NoteTopic(request, sujet_id, idue):
     etapes = find_etapes_of_ue(ue)[0]
     current_etape = find_current_etape_of_ue(ue)
     etapes_passees = []
+    sujet = find_sujet_by_id(sujet_id)
     # ajoute les délivrables passés et celui en cours
     for etape in etapes:
         if etape.idetape == current_etape.idetape:
@@ -133,9 +134,11 @@ def NoteTopic(request, sujet_id, idue):
         else:
             etapes_passees.append(etape)
     delivrables = []
+
     for etape in etapes_passees:
         iddelivrable = etape.iddelivrable_id
         delivrable = FichierDelivrable.objects.filter(iddelivrable=iddelivrable)
+        print(delivrable)
         for deli in delivrable:
             if 'iddeli' in request.GET and 'idetudiant' in request.GET:
                 if int(request.GET['iddeli']) == deli.iddelivrable_id and int(
@@ -147,12 +150,12 @@ def NoteTopic(request, sujet_id, idue):
                 "description": etape.description,
                 "fichier": deli.fichier,
                 "note": deli.note,
-                "idetudiant": deli.idetudiant_id,
+                "idetudiant": deli.idetudiant,
                 "iddelivrable": deli.iddelivrable_id
             }
             delivrables.append(etape_info)
-
-    return render(request, "otherRole/note_topic.html", {"id": sujet_id, "ue": ue, 'delivrables': delivrables})
+    print(delivrables)
+    return render(request, "otherRole/note_topic.html", {"sujet": sujet, "ue": ue, 'delivrables': delivrables})
 
 
 @login_required(login_url='/polls')
