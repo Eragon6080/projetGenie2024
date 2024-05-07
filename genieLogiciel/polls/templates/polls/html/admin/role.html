@@ -32,7 +32,7 @@
     
         {% if current_view == "admin" %}
 
-        <button class="btn bgunamur" type="button" data-bs-toggle="modal" data-bs-target="#addRoleModal">Ajouter un admin</button>
+        <button class="btn bgunamur" type="button" data-bs-toggle="modal" data-bs-target="#addRoleModal">Ajouter admin</button>
 
         <!-- Modal -->
         <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
@@ -41,7 +41,7 @@
                     <form method="post">
                     {% csrf_token %}
                         <div class="modal-header">
-                        <h5 class="modal-title">Add new admin</h5>
+                        <h5 class="modal-title">Ajouter un nouvel administrateur</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
