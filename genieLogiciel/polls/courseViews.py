@@ -8,7 +8,7 @@ from django.db import transaction
 from django.db.models import F, CharField, Value, Subquery, OuterRef, Case, When, IntegerField
 from django.contrib.postgres.aggregates import StringAgg
 from django.db.models.functions import Concat
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, FileResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, ConfirmationSujetReservation, \
@@ -562,8 +562,9 @@ def vue_historique_annee(request, annee):
     ).order_by('idsujet__idperiode__annee').filter(annee_academique=annee).distinct()
 
     queries = list(queryset)
+    context={'queryset': queries, 'title': f"Historique des sujets pour l\'année {str(annee)}",'archivage':False}
 
-    return render(request, "otherRole/historique.html", context={'queryset': queries})
+    return render(request, "otherRole/historique.html", context=context)
 
 
 @login_required(login_url='polls')
@@ -679,3 +680,38 @@ def reservation_subject_student(idue, idpersonne):
             'failure': "Vous ne pouvez plus réserver de sujet pour ce cours"
         }
     return context
+
+def archivage(request,idue):
+    # Main query
+    queryset = SelectionSujet.objects.filter(
+        is_involved=True,  # Only include students who are involved in the subject
+    ).values(
+        annee_academique=F('idsujet__idperiode__annee'),
+        nom_cours=F('idsujet__idue__cours__nom'),
+        titre_sujet=F('idsujet__titre'),
+        description_sujet=F('idsujet__descriptif'),
+    ).annotate(
+        nom_complet_etudiant=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
+                                    output_field=CharField()),
+        mark=Subquery(
+            FichierDelivrable.objects.filter(idetudiant=OuterRef('idetudiant')).order_by('-iddelivrable').values(
+                'note')[:1],
+            output_field=IntegerField()),
+        nom_complet_professeur=Concat('idsujet__idprof__idpersonne__nom', Value(' '),
+                                      'idsujet__idprof__idpersonne__prenom',
+                                      output_field=CharField()),
+        delivrable_links=Subquery(
+            FichierDelivrable.objects.filter(idetudiant=OuterRef('idetudiant')).order_by('-iddelivrable').values(
+                'fichier').values('fichier')),
+    ).order_by('idsujet__idperiode__annee').distinct()
+
+    queries = list(queryset)
+    print(queries)
+    titles = ['Année académique', 'Nom du cours', 'Titre du sujet', 'Description du sujet', 'Note Attribuée', 'Nom complet de l\'étudiant', 'Professeur.e.s','Lien vers le délivrable' ]
+    context = {'queryset': queries, 'title': f"Archivage des sujets",'archivage' : True,'titles': titles}
+    return render(request, "otherRole/historique.html", context=context)
+
+@login_required(login_url='/polls')
+def deliverable_file(request, idue,path):
+    deliverable = get_object_or_404(FichierDelivrable, fichier=path)
+    return FileResponse(deliverable.fichier)

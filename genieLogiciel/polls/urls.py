@@ -1,5 +1,6 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views, courseViews, adminViews
+
 
 urlpatterns = [
     # pages communes
@@ -27,16 +28,15 @@ urlpatterns = [
     path("course/<str:idue>/timeline/select/step/<int:idetapeue>", courseViews.selectStep, name="selectStep"),
     path("course/<str:idue>/timeline/access/<str:val>", courseViews.changeAccess, name="active ou désactive la timeline d'une ue"),
     path("fiche/<int:idpersonne>", views.fiche, name="fiche"),
-    
-    # pages spécifiques aux admins 
+
+    # pages spécifiques aux admins
     path("admin/", adminViews.admin, name="admin"),
     path("admin/role/", adminViews.role, name="role"),
     path("admin/role/<str:view>", adminViews.role, name="roleView"),
     path("admin/courses/", adminViews.courses, name="coursSummary"),
     path("sujet/history/", courseViews.vue_historique, name="vue_historique"),
     path("sujet/history/<int:annee>", courseViews.vue_historique_annee, name="vue_historaieAnnee"),
-
-
+    path("course/<str:idue>/sujet/archivage", courseViews.archivage, name="archivage"),
 
     # gestion des sujets
     path('sujet/edit/<int:sujet_id>/', courseViews.editTopic, name='edit_topic'),
@@ -70,6 +70,6 @@ urlpatterns = [
     path("echeance/", views.echeance_and_upload, name="echeance_and_upload"),
     path("echeance/<int:delivrable_id>/<int:idcours>/<int:idperiode>", views.echeance_and_upload,
          name="echeance_and_upload"),
-    
+    re_path(r'^deliverables/(?P<path>.*)$', views.deliverable_file, name='deliverablefile'),
 
 ]

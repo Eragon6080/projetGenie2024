@@ -8,20 +8,22 @@
         <title>Historique</title>
     </head>
     <div>
-        <h1 style="text-align: center; color: rgb(105,190,40);">Historique</h1>
+        <h1 style="text-align: center; color: rgb(105,190,40);">{{title}}</h1>
     </div>
+{% if archivage == False %}
     {% if annees|length == 0 %}
     <body>
-        <table>
+    <<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+
+        <table class="table-striped mt-3 mb-3">
             <thead>
             <tr>
-            <th>Année académique</th>
-            <th>Nom cours</th>
-            <th>Titre du sujet</th>
-            <th>Description sujet</th>
-            <th>Note attribuée</th>
-            <th>Etudiant.e.s</th>
-            <th>professeur.e.s</th>
+            {% for title in titles%}
+                <th>{{title}}</th>
+            {%endfor%}
+            </tr>
         </thead>
         <tbody>
             {% for query in queryset%}
@@ -36,31 +38,49 @@
             {%endfor%}
         </tbody>
     </table>
-    {%else%}
-    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
-        <div class="col-8"></div>
-        <div class="col-12">
-        <div class="row">
-            <!-- code html + django pour l'affichage des cartes-->
-            {% for annee in annees %}
-                <div class="justify-content-between w-25 vh-100">
-                <div class="card text-center myCard">
-                    <div class="card-body myBodyCard">
-                        <a href="./{{annee}}"> <h5 class="card-title">{{annee}}</h5>
-                        </a>
-                    </div>
-
-                </div>
             </div>
-            {% endfor %}
-        </div>
+    </div>
+</div>
+{%endif%}
+{%else%}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+
+        <table class="table-striped mt-3 mb-3">
+            <thead>
+            <tr>
+            {% for title in titles%}
+                <th>{{title}}</th>
+            {%endfor%}
+            </tr>
+        </thead>
+        <tbody>
+            {% for query in queryset%}
+                <tr>
+                <td>{{query.annee_academique}}</td>
+                <td>{{query.nom_cours}}</td>
+                <td>{{query.titre_sujet}}</td>
+                <td>{{query.description_sujet}}</td>
+                <td>{{query.mark}}</td>
+                <td>{{query.nom_complet_etudiant}}</td>
+                <td>{{query.nom_complet_professeur}}</td>
+                    {% load static templatetags %}
+                    <td>{% if query.delivrable_links|is_list %}
+                        {% for lien in query.delivrable_links%} <a href="{{lien}}">{{lien}}</a>{%endfor%}
+                    {%else%}
+
+        <a href="{% url 'deliverablefile' query.delivrable_links %}">Lien vers le délivrable</a>                  {%endif%}</td>
+            {%endfor%}
+        </tbody>
+    </table>
     </div>
     </div>
-    <div class="col-auto"></div>
+</div>
     {%endif%}
+
     
-    
-</body>
+
 
 
 {% endblock content%}

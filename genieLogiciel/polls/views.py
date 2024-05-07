@@ -8,7 +8,7 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
-from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
+from django.http import HttpResponse, HttpResponseRedirect, HttpRequest, FileResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Delivrable, Etudiant, FichierDelivrable
 from .queries import *
@@ -23,8 +23,10 @@ from .mailNotification import sendMail
 def page_not_found(request, exception=None):
     return render(request, 'errors/404.html', status=404)
 
+
 def server_error(request, exception=None):
     return render(request, 'errors/500.html', status=500)
+
 
 def permission_denied(request, exception=None):
     return render(request, 'errors/403.html', status=403)
@@ -185,7 +187,8 @@ def echeance_and_upload(request, idcours=None, idperiode=None, delivrable_id=Non
                 rendu=True
             ).first()
 
-            form = FichierDelivrableForm(instance=fichier_delivrable_instance) if fichier_delivrable_instance else FichierDelivrableForm()
+            form = FichierDelivrableForm(
+                instance=fichier_delivrable_instance) if fichier_delivrable_instance else FichierDelivrableForm()
 
             if delivrable_id == delai.iddelivrable.iddelivrable and request.method == 'POST':
                 form = FichierDelivrableForm(request.POST, request.FILES, instance=fichier_delivrable_instance)
@@ -193,7 +196,7 @@ def echeance_and_upload(request, idcours=None, idperiode=None, delivrable_id=Non
                     fichier_delivrable = form.save(commit=False)
                     fichier_delivrable.iddelivrable = get_object_or_404(Delivrable, iddelivrable=delivrable_id)
                     fichier_delivrable.idetudiant = etudiant
-                    fichier_delivrable.nom_personne = etudiant.idpersonne.nom
+                    fichier_delivrable.nom_personne = find_ue(course.idue).idprof.idpersonne.nom
                     fichier_delivrable.nom_cours = course.idue_id
                     fichier_delivrable.annee_periode = sujet.idperiode.annee
                     fichier_delivrable.rendu = True
@@ -214,7 +217,6 @@ def echeance_and_upload(request, idcours=None, idperiode=None, delivrable_id=Non
         'current_date': datetime.now().date(),
     }
     return render(request, 'otherRole/echeance.html', context)
-
 
 
 @login_required(login_url='/polls')
@@ -320,6 +322,7 @@ def desinscription_validation(request, idcours: int) -> HttpResponse:
     else:
         return redirect('/polls/home')
 
+
 @login_required(login_url='/polls')
 @is_owner_of_ue_or_admin
 def desinscription_etudiant(request, idpersonne, idue) -> HttpResponse:
@@ -339,3 +342,9 @@ def desinscription_etudiant(request, idpersonne, idue) -> HttpResponse:
     return redirect('/polls/course/' + idue + '/participants/')
 
 
+@login_required(login_url='/polls')
+def deliverable_file(request,path):
+    base_path = 'C:\\Users\\matth\\Desktop\\genieproj\\genieLogiciel'
+    relative_path = path.replace(base_path, '')
+    deliverable = get_object_or_404(FichierDelivrable, fichier=relative_path)
+    return FileResponse(deliverable.fichier)
