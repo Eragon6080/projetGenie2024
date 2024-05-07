@@ -198,6 +198,7 @@ class FichierDelivrable(models.Model):
     iddelivrable = models.ForeignKey(Delivrable, models.DO_NOTHING, db_column='iddelivrable')
     note = models.IntegerField(db_column='note', null=True)
     estconfidentiel = models.BooleanField(db_column='estconfidentiel', default=False)
+    idsujet = models.ForeignKey(Sujet, models.DO_NOTHING, db_column='idsujet')
 
     nom_personne: str
     nom_cours: str

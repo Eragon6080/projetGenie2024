@@ -137,8 +137,7 @@ def NoteTopic(request, sujet_id, idue):
 
     for etape in etapes_passees:
         iddelivrable = etape.iddelivrable_id
-        delivrable = FichierDelivrable.objects.filter(iddelivrable=iddelivrable)
-        print(delivrable)
+        delivrable = FichierDelivrable.objects.filter(iddelivrable=iddelivrable,idsujet=sujet_id)
         for deli in delivrable:
             if 'iddeli' in request.GET and 'idetudiant' in request.GET:
                 if int(request.GET['iddeli']) == deli.iddelivrable_id and int(
