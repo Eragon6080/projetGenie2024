@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="container">
+    {% if years == '[]' %}
     {% for year, subjects in years%}
     <button class="container mt-4 mx-0 btn text-white" style="background-color:rgb(105, 105, 105);" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{year}}"   aria-expanded="false" aria-controls="collapseExample">
       {{year}} ({{subjects|length}})
@@ -19,10 +20,16 @@
                 </div>
             {% endfor %}
         {% endfor %}
-        
-    </div>
     {% endfor %}
+    {% else %}
+    <div class="container d-flex flex-column justify-content-center">
+        <p class="text-center text-muted">
+            Il n'y a aucun sujet à reproposer.
+        </p>
+    </div>
+    {% endif %}
     
+    </div>
 </div>
 
 {% endblock %}
