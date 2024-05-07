@@ -17,6 +17,7 @@ from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable, FichierDelivr
 from .queries import *
 
 from .restrictions import *
+from .utils.date import get_today_date, get_today_year
 from .utils.remove import remove_duplicates
 
 
@@ -56,24 +57,18 @@ def topics(request, idue) -> HttpResponse:
 def new(request, idue) -> HttpResponse:
     ue = find_ue(idue=idue)
     # Récupérer tous les sujets associés à cette ue
-    sujets = Sujet.objects.filter(idue=ue)
-    # exemple of years: [(2023,[[S1],[S2]]),(2024,[S3])]
+    year_sujet = Periode.objects.filter(annee__lt=get_today_year()).distinct()
+
     years = []
-    for sujet in sujets:
-        if not sujet.estpris:
-            sujet_info = [
-                sujet.idsujet,
-                sujet.titre,
-                sujet.descriptif]
-            year_sujet = Periode.objects.filter(idperiode=sujet.idperiode.idperiode).values()[0].get('annee')
-            is_year = False
-            for year in years:
-                if year_sujet == year[0]:
-                    year[1].append([sujet_info])
-                    is_year = True
-                    break
-            if not is_year:
-                years.append((year_sujet, [[sujet_info]]))
+    for year in year_sujet:
+        sujet_query = Sujet.objects.filter(idue=ue,estpris=False,idperiode__annee=year.annee)
+        sujets = []
+        for sujet in sujet_query:
+            sujets.append(sujet)
+        years.append({'year':year, 'sujets':sujets})
+    print(years)
+
+
     return render(request, "otherRole/ReuseSubject.html", {'years': years, 'ue': ue})
 
 
@@ -399,7 +394,6 @@ def mycourse(request, idue):
 
 
 @login_required(login_url='polls')
-
 def reservation(request, idue):
     user = request.user
     if "professeur" in user.role['role']:
@@ -427,7 +421,7 @@ def knows_if_subject_is_booked_for_teacher(request, idue: str):
         subjects_reserved = []
         for subject in subjects_query:
             nbPersonne = nb_people_keeping_for_a_sujet(subject)
-            print(nbPersonne,subject.nbpersonnes)
+            print(nbPersonne, subject.nbpersonnes)
             if nbPersonne < subject.nbpersonnes:
                 personnesReservees = find_selection_by_id_sujet(subject)
                 print(personnesReservees[0].idetudiant.idpersonne.nom)
@@ -562,7 +556,7 @@ def vue_historique_annee(request, annee):
     ).order_by('idsujet__idperiode__annee').filter(annee_academique=annee).distinct()
 
     queries = list(queryset)
-    context={'queryset': queries, 'title': f"Historique des sujets pour l\'année {str(annee)}",'archivage':False}
+    context = {'queryset': queries, 'title': f"Historique des sujets pour l\'année {str(annee)}", 'archivage': False}
 
     return render(request, "otherRole/historique.html", context=context)
 
@@ -681,7 +675,8 @@ def reservation_subject_student(idue, idpersonne):
         }
     return context
 
-def archivage(request,idue):
+
+def archivage(request, idue):
     # Main query
     queryset = SelectionSujet.objects.filter(
         is_involved=True,  # Only include students who are involved in the subject
@@ -707,11 +702,13 @@ def archivage(request,idue):
 
     queries = list(queryset)
     print(queries)
-    titles = ['Année académique', 'Nom du cours', 'Titre du sujet', 'Description du sujet', 'Note Attribuée', 'Nom complet de l\'étudiant', 'Professeur.e.s','Lien vers le délivrable' ]
-    context = {'queryset': queries, 'title': f"Archivage des sujets",'archivage' : True,'titles': titles}
+    titles = ['Année académique', 'Nom du cours', 'Titre du sujet', 'Description du sujet', 'Note Attribuée',
+              'Nom complet de l\'étudiant', 'Professeur.e.s', 'Lien vers le délivrable']
+    context = {'queryset': queries, 'title': f"Archivage des sujets", 'archivage': True, 'titles': titles}
     return render(request, "otherRole/historique.html", context=context)
 
+
 @login_required(login_url='/polls')
-def deliverable_file(request, idue,path):
+def deliverable_file(request, idue, path):
     deliverable = get_object_or_404(FichierDelivrable, fichier=path)
     return FileResponse(deliverable.fichier)
