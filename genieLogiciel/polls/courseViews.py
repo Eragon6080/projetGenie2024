@@ -530,7 +530,7 @@ def vue_historique(request):
 @login_required(login_url='/polls')
 def vue_historique_annee(request, annee):
     # Subquery to get the names of students involved in the same topic
-    student_names = SelectionSujet.objects.filter(
+    """student_names = SelectionSujet.objects.filter(
         idsujet__idue=OuterRef('idue'),
         is_involved=True,  # Only include students who are involved in the topic
     ).annotate(
@@ -539,6 +539,7 @@ def vue_historique_annee(request, annee):
         mark=Subquery(FichierDelivrable.objects.filter(idetudiant=OuterRef('idetudiant')).values('note')[:1],
                       output_field=IntegerField())
     ).values('full_name', 'mark')
+    """
 
     # Main query
     queryset = SelectionSujet.objects.filter(
@@ -558,7 +559,7 @@ def vue_historique_annee(request, annee):
         nom_complet_professeur=Concat('idsujet__idprof__idpersonne__nom', Value(' '),
                                       'idsujet__idprof__idpersonne__prenom',
                                       output_field=CharField()),
-    ).order_by('idsujet__idperiode__annee').distinct()
+    ).order_by('idsujet__idperiode__annee').filter(annee_academique=annee).distinct()
 
     queries = list(queryset)
 

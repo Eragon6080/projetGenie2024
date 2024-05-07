@@ -4,20 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Mise à jour du models sujet pour correspondre au besoin de Yassine">
+    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Ajout de la fonction pour voir si les attributions pour un prof">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad/storage_v2/_src_/database/admin_8u5u.zaHoKA/schema/public.abK9xQ.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/Procfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/genieLogiciel/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/genieLogiciel/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/queries.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/queries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/course.html" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/course.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/reservation.html" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/reservation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/runtime.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,7 +182,8 @@
       <workItem from="1714921323550" duration="14000" />
       <workItem from="1714982617821" duration="661000" />
       <workItem from="1714983879068" duration="2560000" />
-      <workItem from="1715004004245" duration="3380000" />
+      <workItem from="1715004004245" duration="4304000" />
+      <workItem from="1715073389278" duration="345000" />
     </task>
     <task id="LOCAL-00001" summary="Réorganisation des fichiers">
       <option name="closed" value="true" />
@@ -466,7 +457,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714918871105</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Ajout de la fonction pour voir si les attributions pour un prof">
+      <option name="closed" value="true" />
+      <created>1715007756852</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1715007756852</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -484,7 +483,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="A partir d'un cours sélectionné pour un étudiant&#10;On peut accéder à la timeline pour ce cours et la flèche de retour en arrière nous ramène bien à l'endroit prévu" />
     <MESSAGE value="Modification mtnt la bd se trouve dans le même conteneur que l'app django" />
     <MESSAGE value="Remodification de ma github action pour qu'elle publie sur mon repo" />
     <MESSAGE value="La bd est de nouveau sur un conteneur à part pour la pérennité de mon github" />
@@ -509,7 +507,19 @@
     <MESSAGE value="La réservation d'un sujet par un prof fonctionne" />
     <MESSAGE value="Ajout des modifs de rosny sur le dépôt d'un devoir" />
     <MESSAGE value="Mise à jour du models sujet pour correspondre au besoin de Yassine" />
-    <option name="LAST_COMMIT_MESSAGE" value="Mise à jour du models sujet pour correspondre au besoin de Yassine" />
+    <MESSAGE value="Ajout de la fonction pour voir si les attributions pour un prof" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ajout de la fonction pour voir si les attributions pour un prof" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/genieLogiciel/polls/courseViews.py</url>
+          <line>442</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/genieproj$manage.coverage" NAME="manage Coverage Results" MODIFIED="1714633982340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/genieLogiciel" />
