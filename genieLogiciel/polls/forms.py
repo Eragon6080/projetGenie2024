@@ -43,16 +43,14 @@ class EtapeForm(forms.ModelForm):
 
 class SubmitForm(forms.Form):
     nbPersonneMax = 2
-    student_select = forms.ModelChoiceField(queryset=None, label='Lier le sujet à un étudiant', required=False, widget=forms.Select(attrs={'class': 'form-control'}))
-    
+
     referent_select = forms.ModelChoiceField(queryset=None, label='Lier le sujet à un professeur/superviseur', required=False, widget=forms.Select(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
-        list_students = kwargs.pop('list_students', None)
+
         list_referent = kwargs.pop('list_referent', None)
         is_admin = kwargs.pop('is_admin', False)
         super().__init__()
-        self.fields['student_select'].queryset = list_students
         self.fields['referent_select'].queryset = list_referent
         if is_admin:
             self.fields['referent_select'].required = True

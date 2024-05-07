@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Mise en ligne de la dernière version du site">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/historique.html" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/historique.html" afterDir="false" />
+    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="rectification de différents éléments graphiques">
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/forms.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,7 +185,7 @@
       <workItem from="1715004004245" duration="4304000" />
       <workItem from="1715073389278" duration="10526000" />
       <workItem from="1715087547455" duration="10386000" />
-      <workItem from="1715113245799" duration="2786000" />
+      <workItem from="1715113245799" duration="3425000" />
     </task>
     <task id="LOCAL-00001" summary="Réorganisation des fichiers">
       <option name="closed" value="true" />
@@ -571,7 +571,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715115055837</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="rectification de différents éléments graphiques">
+      <option name="closed" value="true" />
+      <created>1715116249356</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1715116249356</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -589,7 +597,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Suppression des print dans le file restrictions.py et queries.py" />
     <MESSAGE value="Réécriture des queries.py pour le typage + suppression de l'échéance dans la sidebar de l'étudiant" />
     <MESSAGE value="Ajout d'un tag python pour l'ajout d'une étape" />
     <MESSAGE value="Suppression du token gestion_etape" />
@@ -614,7 +621,8 @@
     <MESSAGE value="La vue dezs sujets d'un cours ne concernent qaue les sujets de cette année" />
     <MESSAGE value="Si un prof est superviseur , les 2 sont affichéss pour les sujets" />
     <MESSAGE value="Mise en ligne de la dernière version du site" />
-    <option name="LAST_COMMIT_MESSAGE" value="Mise en ligne de la dernière version du site" />
+    <MESSAGE value="rectification de différents éléments graphiques" />
+    <option name="LAST_COMMIT_MESSAGE" value="rectification de différents éléments graphiques" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/genieproj$manage.coverage" NAME="manage Coverage Results" MODIFIED="1714633982340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/genieLogiciel" />

@@ -216,7 +216,6 @@ def deleteTopic(request, sujet_id):
 @csrf_exempt
 @admin_or_professor_or_superviseur_required
 def add_topic(request, idue) -> HttpResponse:
-    logger = logging.getLogger()
     user = request.user
     is_admin = is_user_admin(user.idpersonne)
     ue = find_ue(idue)
@@ -231,10 +230,7 @@ def add_topic(request, idue) -> HttpResponse:
         descriptif = request.POST['description']
         destination = request.POST['destination']
         fichier = request.FILES['file'] if bool(request.FILES) else None
-        student_id = request.POST['student_select']
         nb_personnes = request.POST['nb_personnes']
-        logger.info("form is valid")
-        subject_is_taken = True if student_id != '' else False
         year = find_periode_by_year(get_today_year())
         if 'admin' in user.role['role']:
             referent_id = request.POST['referent_select']
@@ -242,27 +238,24 @@ def add_topic(request, idue) -> HttpResponse:
             if is_prof:
                 prof = find_prof_by_id_personne(referent_id)
                 sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier, idprof=prof,
-                              estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue,idperiode=year)
+                              nbpersonnes=nb_personnes, idue=ue,idperiode=year)
             else:
                 sup = find_superviseur_by_id_personne(referent_id)
                 sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier,
-                              idsuperviseur=sup, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue,idperiode=year)
+                              idsuperviseur=sup, nbpersonnes=nb_personnes, idue=ue,idperiode=year)
 
         elif 'professeur' in user.role['role']:
             prof = find_prof_by_id_personne(user.idpersonne)
             sujet = Sujet(titre=titre, descriptif=descriptif,
                           destination=destination, fichier=fichier,
-                          idprof=prof, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue,idperiode=year)
+                          idprof=prof, nbpersonnes=nb_personnes, idue=ue,idperiode=year)
         else:
             superviseur = find_superviseur_by_id_personne(user.idpersonne)
             sujet = Sujet(titre=titre, descriptif=descriptif,
                           destination=destination, fichier=fichier,
-                          idsuperviseur=superviseur, estpris=subject_is_taken, nbpersonnes=nb_personnes, idue=ue,idperiode=year)
+                          idsuperviseur=superviseur, nbpersonnes=nb_personnes, idue=ue, idperiode=year)
 
         sujet.save()
-
-        if subject_is_taken:
-            SelectionSujet(idetudiant=find_student_by_id_personne(student_id), idsujet=sujet).save()
 
         return HttpResponseRedirect("../")
 
