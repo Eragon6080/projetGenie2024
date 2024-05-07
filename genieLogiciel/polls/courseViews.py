@@ -27,7 +27,8 @@ from .utils.remove import remove_duplicates
 def topics(request, idue) -> HttpResponse:
     ue = find_ue(idue=idue)
     # Récupèrer tous les sujets associés à cette ue
-    sujets = Sujet.objects.filter(idue=ue)
+    year = find_periode_by_year(get_today_year())
+    sujets = Sujet.objects.filter(idue=ue,idperiode=year)
     sujet_infos = []
 
     for sujet in sujets:
