@@ -128,7 +128,7 @@ class UpdateForm(SubmitForm):
         is_admin = kwargs.pop('is_admin', False)
         initial_form = kwargs.pop('initial', None)
         super(UpdateForm, self).__init__(*args, **kwargs)
-        self.fields['student_select'].queryset = list_students
+
         self.fields['referent_select'].queryset = list_referent
         if initial_form is not None:
             self.fields['title'].required = False

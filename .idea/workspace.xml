@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="La vue dezs sujets d'un cours ne concernent qaue les sujets de cette année">
+    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Si un prof est superviseur , les 2 sont affichéss pour les sujets">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8d59117a-1337-4401-b25f-e9748bbfc2ad.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/queries.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/queries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/submitSubject.html" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/templates/polls/html/otherRole/submitSubject.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,7 +187,8 @@
       <workItem from="1714983879068" duration="2560000" />
       <workItem from="1715004004245" duration="4304000" />
       <workItem from="1715073389278" duration="10526000" />
-      <workItem from="1715087547455" duration="10098000" />
+      <workItem from="1715087547455" duration="10386000" />
+      <workItem from="1715113245799" duration="1362000" />
     </task>
     <task id="LOCAL-00001" summary="Réorganisation des fichiers">
       <option name="closed" value="true" />
@@ -555,7 +558,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715097659481</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Si un prof est superviseur , les 2 sont affichéss pour les sujets">
+      <option name="closed" value="true" />
+      <created>1715098487067</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1715098487067</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -573,7 +584,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Ajout d'un fichier zip" />
     <MESSAGE value="Voilà mtnt même les nouveaux étudiants nouvellement inscrits à un cours peuvent rejoindre la timeline" />
     <MESSAGE value="Suppression des print dans le file restrictions.py et queries.py" />
     <MESSAGE value="Réécriture des queries.py pour le typage + suppression de l'échéance dans la sidebar de l'étudiant" />
@@ -598,7 +608,8 @@
     <MESSAGE value="La notation d'un sujet fonctionne" />
     <MESSAGE value="L'attribution de l'enregistrement des dates fonctionnent correctement" />
     <MESSAGE value="La vue dezs sujets d'un cours ne concernent qaue les sujets de cette année" />
-    <option name="LAST_COMMIT_MESSAGE" value="La vue dezs sujets d'un cours ne concernent qaue les sujets de cette année" />
+    <MESSAGE value="Si un prof est superviseur , les 2 sont affichéss pour les sujets" />
+    <option name="LAST_COMMIT_MESSAGE" value="Si un prof est superviseur , les 2 sont affichéss pour les sujets" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/genieproj$manage.coverage" NAME="manage Coverage Results" MODIFIED="1714633982340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/genieLogiciel" />

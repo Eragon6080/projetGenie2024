@@ -175,22 +175,19 @@ def editTopic(request, sujet_id):
         'fichier': sujet.fichier,
     }
     if request.method == 'POST':
+        year = find_periode_by_year(get_today_year())
         form = UpdateForm(request.POST, request.FILES, list_students=find_students_of_ue(id_ue),
                           list_referent=find_supervisors_of_ue(id_ue).union(
                               Personne.objects.filter(idpersonne=find_owner_of_ue(id_ue).idpersonne)),
                           is_admin=is_user_admin(request.user.idpersonne))
-        student_id = request.POST['student_select']
         sujet.titre = request.POST['title']
         sujet.descriptif = request.POST['description']
         sujet.destination = request.POST['destination']
         sujet.fichier = request.FILES['file'] if bool(request.FILES) else None
         sujet.nbpersonnes = request.POST['nb_personnes']
-        subject_is_taken = True if request.POST['student_select'] != '' else False
-
+        sujet.idperiode = year
         sujet.save()
 
-        if subject_is_taken:
-            SelectionSujet(idetudiant=find_student_by_id_personne(student_id), idsujet=sujet).save()
 
         return HttpResponseRedirect(request.GET.get('next'))
     else:
