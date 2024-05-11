@@ -284,36 +284,39 @@ def add_topic(request: HttpRequest, idue: str) -> HttpResponse:
         year: Periode = find_periode_by_year(get_today_year())
         if 'admin' in user.role['role']:
             referent_id: int = request.POST['referent_select']
-            is_prof:bool = True if find_owner_of_ue(ue) == find_personne_by_id(referent_id) else False
+            is_prof: bool = True if find_owner_of_ue(ue) == find_personne_by_id(referent_id) else False
             if is_prof:
                 prof: Professeur = find_prof_by_id_personne(referent_id)
-                sujet: Sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier, idprof=prof,
-                              nbpersonnes=nb_personnes, idue=ue, idperiode=year)
+                sujet: Sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier,
+                                     idprof=prof,
+                                     nbpersonnes=nb_personnes, idue=ue, idperiode=year)
             else:
                 sup: Superviseur = find_superviseur_by_id_personne(referent_id)
                 sujet: Sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier,
-                              idsuperviseur=sup, nbpersonnes=nb_personnes, idue=ue, idperiode=year)
+                                     idsuperviseur=sup, nbpersonnes=nb_personnes, idue=ue, idperiode=year)
 
         elif 'professeur' in user.role['role']:
             prof: Professeur = find_prof_by_id_personne(user.idpersonne)
             sujet: Sujet = Sujet(titre=titre, descriptif=descriptif,
-                          destination=destination, fichier=fichier,
-                          idprof=prof, nbpersonnes=nb_personnes, idue=ue, idperiode=year)
+                                 destination=destination, fichier=fichier,
+                                 idprof=prof, nbpersonnes=nb_personnes, idue=ue, idperiode=year)
         else:
-            superviseur:Superviseur = find_superviseur_by_id_personne(user.idpersonne)
-            sujet:Sujet = Sujet(titre=titre, descriptif=descriptif,
-                          destination=destination, fichier=fichier,
-                          idsuperviseur=superviseur, nbpersonnes=nb_personnes, idue=ue, idperiode=year)
+            superviseur: Superviseur = find_superviseur_by_id_personne(user.idpersonne)
+            sujet: Sujet = Sujet(titre=titre, descriptif=descriptif,
+                                 destination=destination, fichier=fichier,
+                                 idsuperviseur=superviseur, nbpersonnes=nb_personnes, idue=ue, idperiode=year)
 
         sujet.save()
 
         return HttpResponseRedirect("../")
 
     else:
-        form: SubmitForm = SubmitForm(list_students=find_students_of_ue(ue), list_referent=find_supervisors_of_ue(ue).union(
-            Personne.objects.filter(idpersonne=find_owner_of_ue(ue).idpersonne)), is_admin=is_admin)
+        form: SubmitForm = SubmitForm(list_students=find_students_of_ue(ue),
+                                      list_referent=find_supervisors_of_ue(ue).union(
+                                          Personne.objects.filter(idpersonne=find_owner_of_ue(ue).idpersonne)),
+                                      is_admin=is_admin)
 
-    context:dict[str,Any] = {
+    context: dict[str, Any] = {
         'ue': ue,
         'title': 'Cours',
         'prenom': "Matthys",
@@ -327,30 +330,49 @@ def add_topic(request: HttpRequest, idue: str) -> HttpResponse:
 
 @login_required(login_url="/polls")
 @csrf_exempt
-def ok(request) -> HttpResponse:
+def ok(request: HttpRequest) -> HttpResponse:
+    """
+    Affichage de la page servant à valider une opération
+    :param request: La requête courante
+    :return: la page servant à afficher un message en cas de réussite d'une opération
+    """
     return render(request, "otherRole/ok.html", context={ok: 'Votre sujet a été validé'})
 
 
 @login_required(login_url='/polls')
 @csrf_exempt
-def afficher_etapes_ue(request, idue) -> HttpResponse:
-    ue = get_object_or_404(Ue, idue=idue)
-    professeur = ue.idprof
-    periode = professeur.idperiode
-    etapes = Etape.objects.filter(idperiode=periode).order_by('delai')
-
-    return render(request, 'otherRole/afficher_etapes_ue.html', {'etapes': etapes, 'Ue': idue})
+def afficher_etapes_ue(request: HttpRequest, idue: str) -> HttpResponse:
+    """
+    Affichage des différentes étapes de l'ue en cours
+    :param request: La requête http courante
+    :param idue: l'id de l'ue dont le professeur est en charge
+    :return:
+    """
+    ue: Ue = get_object_or_404(Ue, idue=idue)
+    professeur: Professeur = ue.idprof
+    periode: Periode = professeur.idperiode
+    etapes: list[Etape] = Etape.objects.filter(idperiode=periode).order_by('delai')
+    context = {
+        'etapes': etapes,
+        'Ue': idue
+    }
+    return render(request, 'otherRole/afficher_etapes_ue.html', context=context)
 
 
 @login_required(login_url='/polls')
-def subscription(request) -> HttpResponse:
+def subscription_courses(request) -> HttpResponse:
+    """
+    Affichage des cours auxquels l'utilisateur n'est pas encore inscrit
+    :param request: Requête http courante
+    :return: La page html qui sert à afficher lesdits cours
+    """
     user = request.user
     if 'etudiant' in user.role['role']:
-        cours = find_course_for_student_for_subscription(user.idpersonne)
+        cours: list[Cours] = find_course_for_student_for_subscription(user.idpersonne)
         courses = []
         for cours in cours:
             courses.append(cours)
-        context = {
+        context: dict[str, list[list[Cours]]] = {
             'courses': courses
         }
         return render(request, 'otherRole/inscription.html', context)
@@ -359,11 +381,18 @@ def subscription(request) -> HttpResponse:
 
 
 @login_required(login_url='/polls')
-def subscription_validation(request, idue, nom):
+def subscription_validation(request, idue: str, nom: str) -> HttpResponse:
+    """
+
+    :param request: La requête http courante
+    :param idue: id de l'ue auquel l'étudiant veut s'inscrire
+    :param nom: nom de l'ue
+    :return: La page auquel l'étudiant retourne quand l'inscription a eu lieu
+    """
     user = request.user
-    etudiant = Etudiant.objects.get(idpersonne=user.idpersonne)
-    ue = Ue.objects.get(idue=idue)
-    cours = Cours(idetudiant=etudiant, idue=ue, nom=nom)
+    etudiant: Etudiant = Etudiant.objects.get(idpersonne=user.idpersonne)
+    ue: Ue = Ue.objects.get(idue=idue)
+    cours: Cours = Cours(idetudiant=etudiant, idue=ue, nom=nom)
     cours.save()
     return redirect("../../../home/")
 
@@ -372,14 +401,19 @@ def subscription_validation(request, idue, nom):
 @csrf_exempt
 @student_required
 def mycourses(request) -> HttpResponse:
+    """
+    Renvoie la page qui affiche les cours auxquels l'étudiant est inscrit
+    :param request:
+    :return: La page html avec comme context les cours auxquels l'étudiant est inscrit
+    """
     user = request.user
-    courses_query = find_course_for_student(user.idpersonne)
-    courses_ue = []
+    courses_query: list[Cours] = find_course_for_student(user.idpersonne)
+    courses_ue: list[Cours] = []
     if courses_query:
         for cours in courses_query:
             courses_ue.append(cours.idue)
 
-    context = {
+    context: dict[str, list[Cours]] = {
         'courses': courses_ue
     }
     return render(request, "otherRole/home.html", context=context)

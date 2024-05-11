@@ -53,7 +53,7 @@ urlpatterns = [
 
     # pages de gestion des inscriptions pour les étudiants
     path("inscription/", views.subscription, name="inscription"),
-    path("course/inscription", courseViews.subscription, name="inscription"),
+    path("course/inscription", courseViews.subscription_courses, name="inscription"),
     path("course/inscription/<str:idue>/<str:nom>", courseViews.subscription_validation, name="inscription"),
     path("course/desincription", views.desinscription, name="desinscription"),
     path("course/desinscription/<int:idcours>", views.desinscription_validation, name="desinscription_validation"),
