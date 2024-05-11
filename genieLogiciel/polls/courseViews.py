@@ -1,38 +1,41 @@
-import logging, json
+import json
 from multiprocessing import Value
-from multiprocessing.managers import BaseManager
 
 from django.core.serializers import serialize
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models import F, CharField, Value, Subquery, OuterRef, Case, When, IntegerField
-from django.contrib.postgres.aggregates import StringAgg
+from django.db.models import F, CharField, Value, Subquery, OuterRef, IntegerField, QuerySet
+
 from django.db.models.functions import Concat
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, FileResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, FileResponse, HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from .forms import SubmitForm, UpdateForm, EtapeForm, SubjectReservationForm, ConfirmationSujetReservation, \
+from .forms import SubmitForm, UpdateForm, EtapeForm, ConfirmationSujetReservation, \
     FichierDelivrableForm
-from .models import Sujet, Etudiant, Ue, Cours, Etape, Delivrable, FichierDelivrable
+from .models import FichierDelivrable
 from .queries import *
 
 from .restrictions import *
-from .utils.date import get_today_date, get_today_year
-from .utils.remove import remove_duplicates
+from .utils.date import get_today_year
 
 
 @login_required(login_url='/polls')
 @csrf_exempt
 @admin_or_professor_required
-def topics(request, idue) -> HttpResponse:
-    ue = find_ue(idue=idue)
+def topics(request: HttpRequest, idue: str) -> HttpResponse:
+    """
+    :param request: La requête courante
+    :param idue: L'id d'une ue
+    :return: La page html affichant les sujets dédiés pour un cours ainsi que la requête http
+    """
+    ue: Ue = find_ue(idue=idue)
     # Récupèrer tous les sujets associés à cette ue
-    year = find_periode_by_year(get_today_year())
-    sujets = Sujet.objects.filter(idue=ue,idperiode=year)
-    sujet_infos = []
+    year: Periode = find_periode_by_year(get_today_year())
+    sujets: list[Sujet] = Sujet.objects.filter(idue=ue, idperiode=year)
+    sujet_infos: list[dict[str, list | Any]] = []
 
     for sujet in sujets:
-        sujet_info = {
+        sujet_info: dict[str, Any] = {
             'id': sujet.idsujet,
             'titre': sujet.titre,
             'description': sujet.descriptif,
@@ -55,20 +58,24 @@ def topics(request, idue) -> HttpResponse:
 @login_required(login_url='/polls')
 @csrf_exempt
 @admin_or_professor_or_superviseur_required
-def new(request, idue) -> HttpResponse:
-    ue = find_ue(idue=idue)
+def new(request: HttpRequest, idue: str) -> HttpResponse:
+    """
+    Fonction renvoyant la page pour enregistrer un nouveau sujet
+    :param request: Requête http courante
+    :param idue: l'idue
+    :return:
+    """
+    ue: Ue = find_ue(idue=idue)
     # Récupérer tous les sujets associés à cette ue
-    year_sujet = Periode.objects.filter(annee__lt=get_today_year()).distinct()
+    year_sujet: list[Periode] = Periode.objects.filter(annee__lt=get_today_year()).distinct()
 
-    years = []
+    years: list[dict[str, Periode | list[Sujet]]] = []
     for year in year_sujet:
-        sujet_query = Sujet.objects.filter(idue=ue,estpris=False,idperiode__annee=year.annee)
-        sujets = []
+        sujet_query: list[Sujet] = Sujet.objects.filter(idue=ue, estpris=False, idperiode__annee=year.annee)
+        sujets: list[Sujet] = []
         for sujet in sujet_query:
             sujets.append(sujet)
-        years.append({'year':year, 'sujets':sujets})
-    print(years)
-
+        years.append({'year': year, 'sujets': sujets})
 
     return render(request, "otherRole/ReuseSubject.html", {'years': years, 'ue': ue})
 
@@ -76,19 +83,28 @@ def new(request, idue) -> HttpResponse:
 @login_required(login_url='/polls')
 @csrf_exempt
 @prof_or_superviseur_required
-def myTopics(request, idue) -> HttpResponse:
+def myTopics(request, idue: str) -> HttpResponse:
+    """
+    Affichage des sujets d'un prof ou d'un superviseur
+    :param request: La requête http courante
+    :param idue: l'id de l'ue à rechercher
+    :return: la page html pour afficher les sujets liés à un prof ou un superviseur
+    """
     user = request.user
-    ue = find_ue(idue=idue)
-    year = find_periode_by_year(get_today_year())
+    ue: Ue = find_ue(idue=idue)
+    year: Periode = find_periode_by_year(get_today_year())
     if 'professeur' in user.role['role']:
 
         # Récupèrer tous les sujets associés à ces cours
-        sujets = Sujet.objects.filter(idue=ue,idprof=find_prof_by_id_personne(user.idpersonne),idperiode=year)
-        sujet2 = Sujet.objects.filter(idue=ue,idperiode=year,idsuperviseur__idpersonne=user.idpersonne)
-        sujets = sujets.union(sujet2)
+        sujets: QuerySet[Sujet] | list[Sujet] = Sujet.objects.filter(idue=ue,
+                                                                     idprof=find_prof_by_id_personne(user.idpersonne),
+                                                                     idperiode=year)
+        sujet2: QuerySet[Sujet] = Sujet.objects.filter(idue=ue, idperiode=year,
+                                                       idsuperviseur__idpersonne=user.idpersonne)
+        sujets: list[Sujet] = sujets.union(sujet2)
     else:
-        sujets = find_subject_for_a_superviseur(user.idpersonne,year)
-    sujet_infos = []
+        sujets = find_subject_for_a_superviseur(user.idpersonne, year)
+    sujet_infos: list[dict[str, Any]] = []
     for sujet in sujets:
         sujet_info = {
             'id': sujet.idsujet,
@@ -113,24 +129,43 @@ def myTopics(request, idue) -> HttpResponse:
 @csrf_exempt
 @admin_or_professor_or_superviseur_required
 @is_owner_of_ue_or_admin
-def participants(request, idue) -> HttpResponse:
-    ue = find_ue(idue)
-    students = find_students_of_ue(ue)
-    professor = find_owner_of_ue(ue)
-    supervisors = find_supervisors_of_ue(ue)
+def participants(request: HttpRequest, idue: str) -> HttpResponse:
+    """
+    Affiche tous les participants d'une ue
+    :param request: La requête courante
+    :param idue: l'id de l'ue concernée
+    :return: la page html affichant les participants
+    """
+    ue: Ue = find_ue(idue)
+    students: list[Personne] = find_students_of_ue(ue)
+    professor: Personne = find_owner_of_ue(ue)
+    supervisors: list[Personne] = find_supervisors_of_ue(ue)
+    context: dict[str, list[Personne] | Personne] = {
+        'students': students,
+        'professor': professor,
+        'supervisors': supervisors,
+        'ue': Ue
+    }
     return render(request, "otherRole/participants.html",
-                  context={"students": students, "professor": professor, "supervisors": supervisors, "ue": ue})
+                  context=context)
 
 
 @login_required(login_url='/polls')
 @admin_or_professor_or_superviseur_required
 @csrf_exempt
-def NoteTopic(request, sujet_id, idue):
-    ue = find_ue(idue)
-    etapes = find_etapes_of_ue(ue)[0]
-    current_etape = find_current_etape_of_ue(ue)
-    etapes_passees = []
-    sujet = find_sujet_by_id(sujet_id)
+def NoteTopic(request: HttpRequest, sujet_id: int, idue: str) -> HttpResponse:
+    """
+    Affiche la page pour noter un délivrable
+    :param request: La requête http courante
+    :param sujet_id: l'id du sujet a évalué
+    :param idue: l'id de l'ue auquel le sujet est rattaché.
+    :return:
+    """
+    ue: Ue = find_ue(idue)
+    etapes: Etape | EtapeUe = find_etapes_of_ue(ue)[0]
+    current_etape: Etape = find_current_etape_of_ue(ue)
+    etapes_passees: list[Etape] = []
+    sujet: Sujet = find_sujet_by_id(sujet_id)
     # ajoute les délivrables passés et celui en cours
     for etape in etapes:
         if etape.idetape == current_etape.idetape:
@@ -138,18 +173,19 @@ def NoteTopic(request, sujet_id, idue):
             break
         else:
             etapes_passees.append(etape)
-    delivrables = []
+    delivrables: list[dict[str, Any]] = []
 
     for etape in etapes_passees:
-        iddelivrable = etape.iddelivrable_id
-        delivrable = FichierDelivrable.objects.filter(iddelivrable=iddelivrable,idsujet=sujet_id)
+        iddelivrable: int = etape.iddelivrable_id
+        delivrable: list[FichierDelivrable] = FichierDelivrable.objects.filter(iddelivrable=iddelivrable,
+                                                                               idsujet=sujet_id)
         for deli in delivrable:
             if 'iddeli' in request.GET and 'idetudiant' in request.GET:
                 if int(request.GET['iddeli']) == deli.iddelivrable_id and int(
                         request.GET['idetudiant']) == deli.idetudiant_id:
                     deli.note = request.GET['note']
                     deli.save()
-            etape_info = {
+            etape_info: dict[str, Any] = {
                 "titre": etape.titre,
                 "description": etape.description,
                 "fichier": deli.fichier,
@@ -158,24 +194,29 @@ def NoteTopic(request, sujet_id, idue):
                 "iddelivrable": deli.iddelivrable_id
             }
             delivrables.append(etape_info)
-    print(delivrables)
     return render(request, "otherRole/note_topic.html", {"sujet": sujet, "ue": ue, 'delivrables': delivrables})
 
 
 @login_required(login_url='/polls')
 @admin_or_professor_or_superviseur_required
 @csrf_exempt
-def editTopic(request, sujet_id):
-    sujet = get_object_or_404(Sujet, idsujet=sujet_id)
-    id_ue = sujet.idue
-    form_data = {
+def editTopic(request, sujet_id) -> HttpResponse:
+    """
+    Page affichant un formulaire pour modifier un sujet
+    :param request: Requête http courante
+    :param sujet_id: l'id du sujet
+    :return: page pour modifier le sujet
+    """
+    sujet: Sujet = get_object_or_404(Sujet, idsujet=sujet_id)
+    id_ue: int = sujet.idue
+    form_data: dict[str, str] = {
         'title': sujet.titre,
         'description': sujet.descriptif,
         'destination': sujet.destination,
         'fichier': sujet.fichier,
     }
     if request.method == 'POST':
-        year = find_periode_by_year(get_today_year())
+        year: Periode = find_periode_by_year(get_today_year())
         form = UpdateForm(request.POST, request.FILES, list_students=find_students_of_ue(id_ue),
                           list_referent=find_supervisors_of_ue(id_ue).union(
                               Personne.objects.filter(idpersonne=find_owner_of_ue(id_ue).idpersonne)),
@@ -187,7 +228,6 @@ def editTopic(request, sujet_id):
         sujet.nbpersonnes = request.POST['nb_personnes']
         sujet.idperiode = year
         sujet.save()
-
 
         return HttpResponseRedirect(request.GET.get('next'))
     else:
@@ -203,9 +243,15 @@ def editTopic(request, sujet_id):
 @login_required(login_url='/polls')
 @admin_or_professor_or_superviseur_required
 @csrf_exempt
-def deleteTopic(request, sujet_id):
-    sujet = get_object_or_404(Sujet, idsujet=sujet_id)
-    selections = find_selection_by_id_sujet(sujet)
+def deleteTopic(request: HttpRequest, sujet_id: int) -> HttpResponse:
+    """
+    Efface le sujet défini par sujet_id
+    :param request: La requête courante
+    :param sujet_id: l'id du sujet à effacer
+    :return:
+    """
+    sujet: Sujet = get_object_or_404(Sujet, idsujet=sujet_id)
+    selections: list[SelectionSujet] = find_selection_by_id_sujet(sujet)
     for selection in selections:
         selection.delete()
     sujet.delete()
@@ -215,43 +261,47 @@ def deleteTopic(request, sujet_id):
 @login_required(login_url='/polls')
 @csrf_exempt
 @admin_or_professor_or_superviseur_required
-def add_topic(request, idue) -> HttpResponse:
+def add_topic(request: HttpRequest, idue: str) -> HttpResponse:
+    """
+    Affiche la page pour ajouter un sujet
+    :param request: Requête http courante
+    :param idue: l'id de l'ue auquel le sujet doit être rattaché
+    :return: La page contenant le formulaire pour ajouter un sujet
+    """
     user = request.user
-    is_admin = is_user_admin(user.idpersonne)
+    is_admin: bool = is_user_admin(user.idpersonne)
     ue = find_ue(idue)
     if request.method == 'POST':
         form = SubmitForm(request.POST, request.FILES, list_students=find_students_of_ue(ue),
                           list_referent=find_supervisors_of_ue(ue).union(
                               Personne.objects.filter(idpersonne=find_owner_of_ue(ue).idpersonne)), is_admin=is_admin)
 
-        #print(request.FILES['file'])
-
-        titre = request.POST['title']
-        descriptif = request.POST['description']
-        destination = request.POST['destination']
-        fichier = request.FILES['file'] if bool(request.FILES) else None
-        nb_personnes = request.POST['nb_personnes']
-        year = find_periode_by_year(get_today_year())
+        titre: str = request.POST['title']
+        descriptif: str = request.POST['description']
+        destination: str = request.POST['destination']
+        fichier: str = request.FILES['file'] if bool(request.FILES) else None
+        nb_personnes: int = request.POST['nb_personnes']
+        year: Periode = find_periode_by_year(get_today_year())
         if 'admin' in user.role['role']:
-            referent_id = request.POST['referent_select']
-            is_prof = True if find_owner_of_ue(ue) == find_personne_by_id(referent_id) else False
+            referent_id: int = request.POST['referent_select']
+            is_prof:bool = True if find_owner_of_ue(ue) == find_personne_by_id(referent_id) else False
             if is_prof:
-                prof = find_prof_by_id_personne(referent_id)
-                sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier, idprof=prof,
-                              nbpersonnes=nb_personnes, idue=ue,idperiode=year)
+                prof: Professeur = find_prof_by_id_personne(referent_id)
+                sujet: Sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier, idprof=prof,
+                              nbpersonnes=nb_personnes, idue=ue, idperiode=year)
             else:
-                sup = find_superviseur_by_id_personne(referent_id)
-                sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier,
-                              idsuperviseur=sup, nbpersonnes=nb_personnes, idue=ue,idperiode=year)
+                sup: Superviseur = find_superviseur_by_id_personne(referent_id)
+                sujet: Sujet = Sujet(titre=titre, descriptif=descriptif, destination=destination, fichier=fichier,
+                              idsuperviseur=sup, nbpersonnes=nb_personnes, idue=ue, idperiode=year)
 
         elif 'professeur' in user.role['role']:
-            prof = find_prof_by_id_personne(user.idpersonne)
-            sujet = Sujet(titre=titre, descriptif=descriptif,
+            prof: Professeur = find_prof_by_id_personne(user.idpersonne)
+            sujet: Sujet = Sujet(titre=titre, descriptif=descriptif,
                           destination=destination, fichier=fichier,
-                          idprof=prof, nbpersonnes=nb_personnes, idue=ue,idperiode=year)
+                          idprof=prof, nbpersonnes=nb_personnes, idue=ue, idperiode=year)
         else:
-            superviseur = find_superviseur_by_id_personne(user.idpersonne)
-            sujet = Sujet(titre=titre, descriptif=descriptif,
+            superviseur:Superviseur = find_superviseur_by_id_personne(user.idpersonne)
+            sujet:Sujet = Sujet(titre=titre, descriptif=descriptif,
                           destination=destination, fichier=fichier,
                           idsuperviseur=superviseur, nbpersonnes=nb_personnes, idue=ue, idperiode=year)
 
@@ -260,10 +310,10 @@ def add_topic(request, idue) -> HttpResponse:
         return HttpResponseRedirect("../")
 
     else:
-        form = SubmitForm(list_students=find_students_of_ue(ue), list_referent=find_supervisors_of_ue(ue).union(
+        form: SubmitForm = SubmitForm(list_students=find_students_of_ue(ue), list_referent=find_supervisors_of_ue(ue).union(
             Personne.objects.filter(idpersonne=find_owner_of_ue(ue).idpersonne)), is_admin=is_admin)
 
-    context = {
+    context:dict[str,Any] = {
         'ue': ue,
         'title': 'Cours',
         'prenom': "Matthys",

@@ -1,5 +1,6 @@
-def remove_duplicates(lst):
+def remove_duplicates(lst: list) -> list:
+    """
+    :param lst: Une liste quelconque
+    :return: Renvoie cette même liste sans les doublons.
+    """
     return list(set(lst))
-
-# Test
-  # [1, 2, 3, 4, 5]

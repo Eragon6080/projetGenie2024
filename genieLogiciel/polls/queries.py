@@ -16,7 +16,7 @@ def find_all_ue() -> list[Ue] | None:
         return None
 
 
-def find_ue(idue: int) -> Ue | None:
+def find_ue(idue: str) -> Ue | None:
     """
     Retourne une UE
     """
