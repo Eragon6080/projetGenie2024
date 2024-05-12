@@ -1,16 +1,23 @@
+from typing import Any
 
 from django import forms
 from django.forms import BaseFormSet, TextInput, EmailInput
 
-
 from .models import Etape, Sujet, FichierDelivrable
+
+"""
+Cette page contient les différentes classes reflétant différents formulaires des pages html
+"""
 
 
 class FichierDelivrableForm(forms.ModelForm):
+    """
+    Formulaire permettant l'ajout des références d'un fichier en Bd en collaboration avec le stockage du fichier dans le système django.
+    """
     class Meta:
-        model = FichierDelivrable
-        fields = ['fichier','estconfidentiel']
-        labels = {
+        model:FichierDelivrable = FichierDelivrable
+        fields:list[str] = ['fichier', 'estconfidentiel']
+        labels:dict[str,str] = {
             'fichier': 'Fichier',
             'estconfidentiel': 'Confidentiel',
         }
@@ -20,36 +27,43 @@ class FichierDelivrableForm(forms.ModelForm):
         }
 
 
-
 class EtapeForm(forms.ModelForm):
+    """
+    Définition du formulaire servant à créer des étapes pour une période donnée.
+    """
     NECESSITE_CHOICES = [
         (True, 'Oui'),
         (False, 'Non'),
     ]
     necessiteDelivrable = forms.ChoiceField(choices=NECESSITE_CHOICES, label='Nécessite un Delivrable',
                                             widget=forms.RadioSelect)
-    typeFichier = forms.CharField(label='Type de fichier', required=False, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Type de fichier'}))
+    typeFichier = forms.CharField(label='Type de fichier', required=False, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Type de fichier'}))
 
     class Meta:
-        model = Etape
-        fields = ['titre', 'description', 'datedebut', 'datefin']
-        widgets = {
+        model:Etape= Etape
+        fields:list[str] = ['titre', 'description', 'datedebut', 'datefin']
+        widgets:dict[str,Any] = {
             'titre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Titre de l\'étape'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Consignes de l\'étape', 'rows': '3'}),
+            'description': forms.Textarea(
+                attrs={'class': 'form-control', 'placeholder': 'Consignes de l\'étape', 'rows': '3'}),
             'datedebut': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
             'datefin': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
         }
 
 
 class SubmitForm(forms.Form):
-    nbPersonneMax = 2
+    """
+    Formulaire permettant d'encoder un nouveau sujet en base de données
+    """
+    nbPersonneMax:int = 2
 
-    referent_select = forms.ModelChoiceField(queryset=None, label='Lier le sujet à un professeur/superviseur', required=False, widget=forms.Select(attrs={'class': 'form-control'}))
+    referent_select = forms.ModelChoiceField(queryset=None, label='Lier le sujet à un professeur/superviseur',
+                                             required=False, widget=forms.Select(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
-
         list_referent = kwargs.pop('list_referent', None)
-        is_admin = kwargs.pop('is_admin', False)
+        is_admin:bool = kwargs.pop('is_admin', False)
         super().__init__()
         self.fields['referent_select'].queryset = list_referent
         if is_admin:
@@ -78,10 +92,14 @@ class SubmitForm(forms.Form):
         required=False,
         widget=forms.FileInput(attrs={'class': 'form-control', 'type': 'file', 'placeholder': 'Fichier'})
     )
-    nb_personnes = forms.ChoiceField(choices=[(i, i) for i in range(1, nbPersonneMax+1)], label='Nombre de personnes', required=True, widget=forms.Select(attrs={'class': 'form-control'}))
+    nb_personnes = forms.ChoiceField(choices=[(i, i) for i in range(1, nbPersonneMax + 1)], label='Nombre de personnes',
+                                     required=True, widget=forms.Select(attrs={'class': 'form-control'}))
 
 
 class ConnectForm(forms.Form):
+    """
+    Formulaire de connexion pour assurer l'authentification
+    """
     email = forms.CharField(label="email", max_length=100, required=True,
                             widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'email'}))
     password = forms.CharField(label="password", max_length=100, required=True,
@@ -89,11 +107,17 @@ class ConnectForm(forms.Form):
 
 
 class AddAdminForm(forms.Form):
+    """
+    Formulaire pour ajouter yn nouvel administrateur
+    """
     email = forms.CharField(label="Enter user email", max_length=100, required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'email'}))
 
 
 class AdminRoleForm(forms.Form):
+    """
+    Formulaire permettant à l'administrateur d'encoder de nouveaux rôles ou d'en supprimer
+    """
     # Dynamic form created in adminViews.py
     def __init__(self, idpersonne, pers, *args, **kwargs):
         self.idpersonne = idpersonne
@@ -132,12 +156,17 @@ class UpdateForm(SubmitForm):
             self.fields['title'].required = False
             self.fields['title'].initial = initial_form['title']
             self.fields['description'].required = False
-            self.fields['description'].initial = initial_form['description'] if initial_form['description'] != "NULL" else ""
+            self.fields['description'].initial = initial_form['description'] if initial_form[
+                                                                                    'description'] != "NULL" else ""
             self.fields['destination'].required = False
-            self.fields['destination'].initial = initial_form['destination'] if initial_form['destination'] != "NULL" else ""
+            self.fields['destination'].initial = initial_form['destination'] if initial_form[
+                                                                                    'destination'] != "NULL" else ""
 
 
 class SubjectReservationForm(forms.ModelForm):
+    """
+    Formulaire permettant de réserver un sujet
+    """
     # permet de récupérer des valeurs qui ne sont pas inclus dans le model
     subject_id = forms.IntegerField(widget=forms.HiddenInput())
 
@@ -178,6 +207,9 @@ class ConfirmationSujetReservation(forms.Form):
 
 
 class SubscriptionForm(forms.Form):
+    """
+    Formulaire permettant à un nouvel étudiant de s'inscrire
+    """
     nom = forms.CharField(
         label="Nom",
         max_length=100,
@@ -188,7 +220,7 @@ class SubscriptionForm(forms.Form):
         label="Prenom",
         max_length=100,
         required=True,
-        widget=TextInput(attrs={'class':'form-control','placeholder': 'Prenom'})
+        widget=TextInput(attrs={'class': 'form-control', 'placeholder': 'Prenom'})
     )
     mail = forms.EmailField(
         label="Email",
