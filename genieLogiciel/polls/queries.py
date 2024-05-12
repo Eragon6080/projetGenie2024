@@ -90,7 +90,7 @@ def find_etape_by_id(idetape: int) -> Etape | None:
         return None
 
 
-def find_etapeue_by_idetape_and_ue(idetape: int, idue: int) -> EtapeUe | None:
+def find_etapeue_by_idetape_and_ue(idetape: int, idue: str) -> EtapeUe | None:
     """
     Retourne l'étape ue
     """

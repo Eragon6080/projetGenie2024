@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Suite des commentaires de courseViews.py" />
+    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Suite des commentaires de courseViews.py">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/queries.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/queries.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -185,15 +189,8 @@
       <workItem from="1715113245799" duration="4336000" />
       <workItem from="1715164849314" duration="212000" />
       <workItem from="1715410737947" duration="4652000" />
-      <workItem from="1715431311936" duration="744000" />
-    </task>
-    <task id="LOCAL-00004" summary="Rectification graphique du formulaire d'inscription">
-      <option name="closed" value="true" />
-      <created>1714642030027</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1714642030027</updated>
+      <workItem from="1715431311936" duration="823000" />
+      <workItem from="1715434660008" duration="2934000" />
     </task>
     <task id="LOCAL-00005" summary="On peut de nouveau accéder pour un cours à ce qu'il faut faire">
       <option name="closed" value="true" />
@@ -579,7 +576,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715432044871</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Suite des commentaires de courseViews.py">
+      <option name="closed" value="true" />
+      <created>1715432125680</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1715432125680</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

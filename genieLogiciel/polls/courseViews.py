@@ -404,7 +404,7 @@ def mycourses(request) -> HttpResponse:
     """
     Renvoie la page qui affiche les cours auxquels l'étudiant est inscrit
     :param request:
-    :return: La page html avec comme context les cours auxquels l'étudiant est inscrit
+    :return: La page html avec comme context les cours auxquels l'étudiant eszt inscrit
     """
     user = request.user
     courses_query: list[Cours] = find_course_for_student(user.idpersonne)
@@ -422,33 +422,40 @@ def mycourses(request) -> HttpResponse:
 @login_required(login_url='/polls')
 @csrf_exempt
 @is_student_of_ue
-def mycourse(request, idue):
+def mycourse(request, idue: str) -> HttpResponse:
+    """
+    Description du cours sélectionné
+    :param request: Requête http courante
+    :param idue: id de l'ue entrée en paramètre
+    :return:
+    """
     user = request.user
-    etudiant = find_student_by_id_personne(user.idpersonne)
-    ue = find_ue(idue)
+    etudiant: Etudiant = find_student_by_id_personne(user.idpersonne)
+    ue: Ue = find_ue(idue)
     etapes, etapes_ue = find_etapes_of_ue(ue)
-    current_etape = find_current_etape_of_ue(ue)
-    fichier_delivrable_instance = None
-    form = None
-    already_submitted = False
+    current_etape: Etape = find_current_etape_of_ue(ue)
+    fichier_delivrable_instance: FichierDelivrable | None = None
+    form: FichierDelivrableForm | None = None
+    already_submitted: bool = False
     # on part du principe que quand une étape ne contient pas de délivrable, c'est que c'est une étape de choix de sujet
     context_reservation = None
-    topics_of_students = find_sujets_of_student_of_ue(find_student_by_id_personne(user.idpersonne), idue)
+    topics_of_students: list[Sujet] = find_sujets_of_student_of_ue(find_student_by_id_personne(user.idpersonne), idue)
     if current_etape is not None and current_etape.iddelivrable_id is None:
         context_reservation = reservation_subject_student(idue, user.idpersonne)
     if current_etape.iddelivrable_id is not None:
-        fichier_delivrable_instance = FichierDelivrable.objects.filter(
+        fichier_delivrable_instance: FichierDelivrable = FichierDelivrable.objects.filter(
             iddelivrable=current_etape.iddelivrable_id,
             idetudiant=etudiant,
             rendu=True
         ).first()
         already_submitted = fichier_delivrable_instance is not None
-        form = FichierDelivrableForm(
+        form: FichierDelivrableForm = FichierDelivrableForm(
             instance=fichier_delivrable_instance) if fichier_delivrable_instance else FichierDelivrableForm()
         if request.method == 'POST':
-            form = FichierDelivrableForm(request.POST, request.FILES, instance=fichier_delivrable_instance)
+            form: FichierDelivrableForm = FichierDelivrableForm(request.POST, request.FILES,
+                                                                instance=fichier_delivrable_instance)
             if form.is_valid():
-                fichier_delivrable = form.save(commit=False)
+                fichier_delivrable: FichierDelivrableForm = form.save(commit=False)
                 fichier_delivrable.iddelivrable = get_object_or_404(Delivrable,
                                                                     iddelivrable=current_etape.iddelivrable_id)
                 fichier_delivrable.idetudiant = etudiant
@@ -459,7 +466,7 @@ def mycourse(request, idue):
                 fichier_delivrable.save()
                 return redirect("page d'un cours", idue=ue.idue)
 
-    context = {
+    context: dict[str, Any] = {
         'ue': ue,
         'is_student': True,
         'etapes': etapes,
@@ -476,17 +483,21 @@ def mycourse(request, idue):
 
 
 @login_required(login_url='polls')
-def reservation(request, idue):
+def reservation(request, idue: str) -> HttpResponse:
+    """
+    Affichage de la page de réservation pour un prof en particulier
+    :param request:  la requête http courante
+    :param idue: l'id de l'ue en courante
+    :return: la page html décrivant les sujets qui sont à réserver
+    """
     user = request.user
     if "professeur" in user.role['role']:
-        subjects_query = find_all_subjects_for_a_teacher(user.idpersonne)
-        print(subjects_query)
-        sujets = find_students_without_subjects_by_teacher(user.idpersonne)
-        subjects = []
+        subjects_query: list[Sujet] = find_all_subjects_for_a_teacher(user.idpersonne)
+        subjects: list[Sujet] = []
         for subject in subjects_query:
             subjects.append(subject)
 
-        context = {
+        context: dict[str, list[str] | list[Sujet]] = {
             'subjects': subjects,
             'subject_title': ["Titre", "Descriptif", "Á réserver"]
         }
@@ -496,22 +507,26 @@ def reservation(request, idue):
 
 
 @login_required(login_url='polls')
-def knows_if_subject_is_booked_for_teacher(request, idue: str):
+def knows_if_subject_is_booked_for_teacher(request, idue: str) -> HttpResponse:
+    """
+    La fonction sert à connaître si le sujet est réservé par un prof en particulier
+    :param request: la requête http courante
+    :param idue: l'ue en charge du professeur
+    :return:
+    """
     user = request.user
     if "professeur" in user.role['role']:
-        subjects_query = find_all_subjects_for_a_teacher(user.idpersonne)
-        subjects_reserved = []
+        subjects_query: list[Sujet] = find_all_subjects_for_a_teacher(user.idpersonne)
+        subjects_reserved: list[dict[str, Sujet | list[SelectionSujet] | bool] | dict[str, Sujet | bool]] = []
         for subject in subjects_query:
-            nbPersonne = nb_people_keeping_for_a_sujet(subject)
-            print(nbPersonne, subject.nbpersonnes)
+            nbPersonne: int = nb_people_keeping_for_a_sujet(subject)
             if nbPersonne < subject.nbpersonnes:
-                personnesReservees = find_selection_by_id_sujet(subject)
-                print(personnesReservees[0].idetudiant.idpersonne.nom)
+                personnesReservees: list[SelectionSujet] = find_selection_by_id_sujet(subject)
                 subjects_reserved.append(
                     {'sujet': subject, 'estReserve': True, 'personnesReservees': personnesReservees})
             else:
                 subjects_reserved.append({'sujet': subject, 'estReserve': False})
-        context = {
+        context: dict[str, Any] = {
             'subjects': subjects_reserved,
             'subject_title': ["Titre", "Descriptif", "Est réservé", 'Nombre de personnes'],
             "title": "Sujets réservés",
@@ -524,20 +539,27 @@ def knows_if_subject_is_booked_for_teacher(request, idue: str):
 @prof_or_superviseur_required
 @csrf_exempt
 # pas besoin de validation vu que le formulaire est supposé correcte suit à l'envoi précédent
-def booking(request, idue, idsujet):
+def booking(request, idue: str, idsujet: int) -> HttpResponse:
+    """
+
+    :param request: Requête http courante
+    :param idue: id de l'ue
+    :param idsujet: id du sujet pour la réservation en cours.
+    :return: La page confirmant la réservation ou alors on effectue un retour à la page réservation
+    """
     user = request.user
     if 'professeur' in user.role['role']:
-        sujet = find_sujet_by_id(idsujet)
-        initial_data = {
+        sujet: Sujet = find_sujet_by_id(idsujet)
+        initial_data: dict[str, str | int | list[Etudiant]] = {
             'title': sujet.titre,
             'description': sujet.descriptif,
             'subject_id': idsujet,
             'students': find_students_without_subjects_by_teacher(user.idpersonne)
         }
-        form = ConfirmationSujetReservation(initial=initial_data)
-        nbPersonnes = nb_people_keeping_for_a_sujet(sujet)
-        isAvalaible = nbPersonnes > 0
-        context = {
+        form: ConfirmationSujetReservation = ConfirmationSujetReservation(initial=initial_data)
+        nbPersonnes: int = nb_people_keeping_for_a_sujet(sujet)
+        isAvalaible: bool = nbPersonnes > 0
+        context: dict[str, ConfirmationSujetReservation | int | bool] = {
             'form': form,
             'idsujet': idsujet,
             'isAvalaible': isAvalaible
@@ -547,13 +569,21 @@ def booking(request, idue, idsujet):
         return redirect('../reservation')
 
 
-def validation_booking(request, idue, idsujet):
+@login_required(login_url='polls/')
+def validation_booking(request, idue: str, idsujet: int) -> HttpResponse:
+    """
+    Méthode confirmant la réservation d'un sujet par un étudiant
+    :param request: la requête http courante
+    :param idue: id de l'ue du sujet
+    :param idsujet: :l'id du sujet à réserver
+    :return:
+    """
     user = request.user
     if request.method == "POST" and "professeur" in user.role['role']:
-        idstudent = request.POST.get('students')
-        etudiant = find_student_by_id_etudiant(int(idstudent))
-        sujet = find_sujet_by_id(idsujet)
-        selectionSujet = SelectionSujet(idsujet=sujet, idetudiant=etudiant)
+        idstudent: int = request.POST.get('students')
+        etudiant: Etudiant = find_student_by_id_etudiant(int(idstudent))
+        sujet: Sujet = find_sujet_by_id(idsujet)
+        selectionSujet: SelectionSujet = SelectionSujet(idsujet=sujet, idetudiant=etudiant)
         selectionSujet.save()
         sujet = find_sujet_by_id(idsujet)
         if sujet.nbpersonnes == 1:
@@ -568,20 +598,14 @@ def validation_booking(request, idue, idsujet):
 
 
 @login_required(login_url='/polls')
-def vue_historique(request):
-    # Subquery to get the names of students involved in the same topic
-    student_names = SelectionSujet.objects.filter(
-        idsujet__idue=OuterRef('idue'),
-        is_involved=True,  # Only include students who are involved in the topic
-    ).annotate(
-        full_name=Concat('idetudiant__idpersonne__nom', Value(' '), 'idetudiant__idpersonne__prenom',
-                         output_field=CharField()),
-        mark=Subquery(FichierDelivrable.objects.filter(idetudiant=OuterRef('idetudiant')).values('note')[:1],
-                      output_field=IntegerField())
-    ).values('full_name', 'mark')
-
+def vue_historique(request: HttpRequest) -> HttpResponse:
+    """
+    Affiche l'historique
+    :param request: Requête courante
+    :return: Retourne la page html affichant l'historique
+    """
     # Main query
-    queryset = SelectionSujet.objects.filter(
+    queryset: QuerySet[SelectionSujet] = SelectionSujet.objects.filter(
         is_involved=True,  # Only include students who are involved in the subject
     ).values(
         annee_academique=F('idsujet__idperiode__annee'),
@@ -598,8 +622,11 @@ def vue_historique(request):
                                       output_field=CharField()),
     ).order_by('idsujet__idperiode__annee').distinct()
 
-    queries = list(queryset)
+    queries: list[SelectionSujet] = list(queryset)
     annees = list(set(query['annee_academique'] for query in queryset))
+    context: dict[str, QuerySet[SelectionSujet] | list[int]] = {
+        'queryset': queries,
+        'annees': annees}
     return render(request, "otherRole/historique.html", context={'queryset': queries, 'annees': annees})
 
 
@@ -646,20 +673,26 @@ def vue_historique_annee(request, annee):
 @login_required(login_url='polls')
 @is_owner_of_ue_or_admin
 @csrf_protect
-def etape_view(request, idue):
-    ue = find_ue(idue)
+def etape_view(request: HttpRequest, idue: str) -> HttpResponse:
+    """
+    Affiche une vue correspondant aux différentes étapes
+    :param request: La requête http courante
+    :param idue: l'id de l'ue en cours
+    :return: La page html permettant de paramétrer la timeline
+    """
+    ue: Ue = find_ue(idue)
     etapes, etapes_ue = find_etapes_of_ue(ue)
 
     if request.method == 'POST':
-        form = EtapeForm(request.POST)
+        form: EtapeForm = EtapeForm(request.POST)
         if form.is_valid():
-            etape = form.save(commit=False)
+            etape: Etape = form.save(commit=False)
             etape.idperiode = ue.idprof.idperiode
-            delivrable = None
+            delivrable: Delivrable | None = None
             if 'typeFichier' in request.POST and request.POST['typeFichier'].strip():
-                delivrable = find_delivrable_by_type(request.POST['typeFichier'])
+                delivrable: Delivrable = find_delivrable_by_type(request.POST['typeFichier'])
                 if delivrable is None:
-                    delivrable = Delivrable()
+                    delivrable: Delivrable = Delivrable()
                     typeFichier = request.POST['typeFichier']
                     delivrable.typeFichier = typeFichier
                     delivrable.save()
@@ -669,23 +702,30 @@ def etape_view(request, idue):
             EtapeUe(idue=ue, idetape=etape).save()
             return HttpResponseRedirect(request.path)
     else:
-        form = EtapeForm()
-
+        form: EtapeForm = EtapeForm()
+    context = {'form': form, 'etapes': etapes, 'ue': ue, 'etapes_ue': etapes_ue}
     return render(request, 'otherRole/commandTimeline.html',
-                  {'form': form, 'etapes': etapes, 'ue': ue, 'etapes_ue': etapes_ue})
+                  context=context)
 
 
 @login_required(login_url='/polls')
 @is_student_of_ue
 @student_required
 @transaction.atomic
-def confirmer_reservation_sujet(request, idue, idsujet):
+def confirmer_reservation_sujet(request, idue: str, idsujet: int):
+    """
+    Confirme la réservation d'un sujet
+    :param request: Requête http courante
+    :param idue: id de l'ue pour la réservation d'un sujet
+    :param idsujet: id sujet à réserver
+    :return: renvoie vers la requête suivante.
+    """
     user = request.user
-    etudiant = find_student_by_id_personne(user.idpersonne)
-    sujet = get_subject_by_id(idsujet)
+    etudiant: Etudiant = find_student_by_id_personne(user.idpersonne)
+    sujet: Sujet = get_subject_by_id(idsujet)
     if nb_people_keeping_for_a_sujet(sujet) == 1:
         sujet.estpris = True
-    selectionSujet = SelectionSujet(idetudiant=etudiant, idsujet=sujet)
+    selectionSujet: SelectionSujet = SelectionSujet(idetudiant=etudiant, idsujet=sujet)
     selectionSujet.save()
     sujet.save()
 
@@ -694,9 +734,16 @@ def confirmer_reservation_sujet(request, idue, idsujet):
 
 @login_required(login_url='/polls')
 @is_owner_of_ue_or_admin
-def deleteStep(request, idue, idetape):
-    etape = find_etape_by_id(idetape)
-    etapeue = find_etapeue_by_idetape_and_ue(idetape, idue)
+def deleteStep(request: HttpRequest, idue: str, idetape: int) -> HttpResponse:
+    """
+    Efface l'étape correspondante à idEtape
+    :param request: Requête http courante
+    :param idue: id de l'ue
+    :param idetape: id de l'étape envoyé par le formulaire
+    :return: Renvoie vers la page précédente
+    """
+    etape: Etape = find_etape_by_id(idetape)
+    etapeue: EtapeUe = find_etapeue_by_idetape_and_ue(idetape, idue)
     if etapeue is not None and etape is not None:
         etapeue.delete()
         etape.delete()
@@ -705,8 +752,8 @@ def deleteStep(request, idue, idetape):
 
 @login_required(login_url='/polls')
 @is_owner_of_ue_or_admin
-def selectStep(request, idue, idetapeue):
-    etapeue_to_select = find_etapeue_by_idetape_and_ue(idetapeue, idue)
+def selectStep(request: HttpRequest, idue: str, idetapeue: int) -> JsonResponse:
+    etapeue_to_select: EtapeUe = find_etapeue_by_idetape_and_ue(idetapeue, idue)
     etapes, etapes_ue = find_etapes_of_ue(find_ue(idue))
     for etape in etapes_ue:
         etape.etapecourante = False
@@ -719,30 +766,41 @@ def selectStep(request, idue, idetapeue):
 
 @login_required(login_url='/polls')
 @is_owner_of_ue_or_admin
-def changeAccess(request, idue, val: bool):
-    ue = find_ue(idue)
+def changeAccess(request, idue: str, val: bool):
+    ue: Ue = find_ue(idue)
     ue.isopen = val
     ue.save()
     return JsonResponse({'succes': "ok"})
 
 
 @login_required(login_url='/polls')
-def back(request):
+def back(request: HttpRequest) -> HttpResponse:
+    """
+    Fonction servant à retourner à la page précédente dans certains
+    :param request:
+    :return:
+    """
     return HttpResponseRedirect("../")
 
 
 # ne pas mettre de décorateur pour cette fonction
-def reservation_subject_student(idue, idpersonne):
-    etudiant = find_student_by_id_personne(idpersonne)
+def reservation_subject_student(idue: str, idpersonne: int) -> dict[str, list[str] | list[Sujet] | int | str] | None:
+    """
+    Retourne les sujets d'un étudiantpour une ue
+    :param idue: id de l'ue courante
+    :param idpersonne: idpersonne de l'étudiant
+    :return: toutes les informations nécessaires.
+    """
+    etudiant: Etudiant = find_student_by_id_personne(idpersonne)
     if count_subject_for_one_student_and_one_ue(etudiant.idetudiant, idue) == 0:
-        sujets_query = find_sujets_by_idue(idue)
-        sujets = []
+        sujets_query: list[Sujet] = find_sujets_by_idue(idue)
+        sujets: list[dict[str, list[Sujet] | list[str] | int]] = []
         for sujet in sujets_query:
             nbPersonnesRestantes = nb_people_keeping_for_a_sujet(sujet)
             sujets.append(
                 {'sujet': sujet, 'nbPersonnesRestantes': nbPersonnesRestantes, 'nbPersonnes': sujet.nbpersonnes})
         if len(sujets) > 0:
-            context = {
+            context: dict[str, list[str] | list[Sujet] | int | str] = {
                 'titles': ['Titre', 'Description', 'Professeur/Superviseur', 'Nombre de personnes', 'Réserver'],
                 'sujets': sujets,
                 'idue': idue
@@ -758,9 +816,16 @@ def reservation_subject_student(idue, idpersonne):
     return context
 
 
-def archivage(request, idue):
+@login_required(login_url='/polls')
+def archivage(request:HttpRequest, idue:str)->HttpResponse:
+    """
+    Affiche l'archivage des sujets par année à partir de l'année précédente de celle actuelle
+    :param request: La requête Http courante
+    :param idue: id de l'ue courante
+    :return: L'état de l'archivage des sujets pour par année et par cours
+    """
     # Main query
-    queryset = SelectionSujet.objects.filter(
+    queryset:QuerySet[SelectionSujet] = SelectionSujet.objects.filter(
         is_involved=True,  # Only include students who are involved in the subject
     ).values(
         annee_academique=F('idsujet__idperiode__annee'),
@@ -782,15 +847,21 @@ def archivage(request, idue):
                 'fichier').values('fichier')),
     ).order_by('idsujet__idperiode__annee').distinct()
 
-    queries = list(queryset)
-    print(queries)
-    titles = ['Année académique', 'Nom du cours', 'Titre du sujet', 'Description du sujet', 'Note Attribuée',
+    queries:list = list(queryset)
+    titles:list[str] = ['Année académique', 'Nom du cours', 'Titre du sujet', 'Description du sujet', 'Note Attribuée',
               'Nom complet de l\'étudiant', 'Professeur.e.s', 'Lien vers le délivrable']
-    context = {'queryset': queries, 'title': f"Archivage des sujets", 'archivage': True, 'titles': titles}
+    context:dict[str,QuerySet[SelectionSujet]|str|bool|list[str]] = {'queryset': queries, 'title': f"Archivage des sujets", 'archivage': True, 'titles': titles}
     return render(request, "otherRole/historique.html", context=context)
 
 
 @login_required(login_url='/polls')
-def deliverable_file(request, idue, path):
-    deliverable = get_object_or_404(FichierDelivrable, fichier=path)
+def deliverable_file(request:HttpRequest, idue:str, path:str)->FileResponse:
+    """
+    Renvoi le fichier référencé par path
+    :param request: la requête courante
+    :param idue: l'id de l'ue auquel est rattaché le fichier
+    :param path: le chemin d'accès au fichier
+    :return: Le fichier en question
+    """
+    deliverable:FichierDelivrable = get_object_or_404(FichierDelivrable, fichier=path)
     return FileResponse(deliverable.fichier)
