@@ -11,79 +11,116 @@ from django.db import models
 
 
 # Function to validate file extension
-def validate_file_extension(value):
+def validate_file_extension(value: str):
+    """
+    La fonction dit si le fichier contient une extension correct
+    :param value: Le nom du fichier
+    :return: Le fichier si celui-ci contient un nom d'extension correct
+    """
     import os
     ext = os.path.splitext(value.name)[1]  # [0] returns path+filename
-    valid_extensions = ['.pdf', '.doc', '.docx', '.jpg', '.png', '.xlsx', '.xls', '.zip']
+    valid_extensions: list[str] = ['.pdf', '.doc', '.docx', '.jpg', '.png', '.xlsx', '.xls', '.zip']
     if not ext.lower() in valid_extensions:
-        raise ValidationError(u'Unsupported file extension.')
+        raise ValidationError(u'L\' extension du fichier n\'est pas supporté.')
 
 
 # fonction pour valider l'email
-def validate_email(value):
+def validate_email(value: str):
+    """
+    Fonction regardant si l'adresse mail est valide ou non
+    :param value: une adresse mail
+    :return: une exception si le mail n'est pas valide
+    """
     import re
     if not re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', value):
-        raise ValidationError(u'Invalid email address.')
+        raise ValidationError(u'L\'adresse mail n\'est pas valide.')
 
 
-def validate_block(value):
+def validate_block(value: int):
+    """
+    Regarde si le numéro de bloc est valide
+    :param value:
+    :return: le numéro d'un block
+    """
     if value < 1 or value > 6:
         raise ValidationError(u'Invalid block number.')
 
 
 # fonction pour définir le chemin de dépôt des fichiers pour un délivrable
-def get_upload_path(instance, filename):
+def get_upload_path(instance, filename:str):
+    """
+    Donne le nom complet de l'adresse du fichier dans django
+    :param instance:
+    :param filename: le nom du fichier
+    :return:
+    """
     # Récupérer le nom de la personne
-    nom_personne = instance.nom_personne
+    nom_personne:str = instance.nom_personne
     # Récupérer le nom du cours
-    nom_cours = instance.nom_cours
+    nom_cours:str = instance.nom_cours
     # Récupérer le numéro de la période
-    num_periode = instance.annee_periode
+    num_periode:int = instance.annee_periode
     # Construire le chemin de dépôt
     return f'delivrables/{nom_personne}/{nom_cours}/{num_periode}/{filename}'
 
 
 # models
 class Cours(models.Model):
+    """
+    Représentation de la table cours en BD
+    """
     idcours = models.AutoField(primary_key=True)
     idue = models.ForeignKey('Ue', models.DO_NOTHING, db_column='idue')
     nom = models.TextField(db_column='nom')
     idetudiant = models.ForeignKey('Etudiant', models.DO_NOTHING, db_column='idetudiant')
 
     class Meta:
-        managed = False
-        db_table = 'cours'
+        managed:bool = False
+        db_table:str = 'cours'
 
 
 class Etudiant(models.Model):
+    """
+    Représentation en python de la table étudiant en BD
+    """
     idetudiant = models.AutoField(primary_key=True, db_column='idetudiant')
     bloc = models.IntegerField(db_column='bloc', validators=[validate_block])
     idpersonne = models.ForeignKey('Personne', models.DO_NOTHING, db_column='idpersonne')
 
     class Meta:
-        managed = False
-        db_table = 'etudiant'
+        managed:bool = False
+        db_table:str = 'etudiant'
 
 
 class Periode(models.Model):
+    """
+    Représentation de la table période de la base de données
+    """
     idperiode = models.AutoField(primary_key=True, db_column='idperiode')
     annee = models.IntegerField(db_column='annee')
 
     class Meta:
-        managed = False
-        db_table = 'periode'
+        managed:bool = False
+        db_table:str = 'periode'
 
 
 class Delivrable(models.Model):
+    """
+    Représentation d'un délivrable dans la base de données
+    Un délivrable est ici un devoir à rendre. Le type de fichier correspond à l'extension du fichier accepté en BD
+    """
     iddelivrable = models.AutoField(primary_key=True, db_column='iddelivrable')
     typeFichier = models.TextField(db_column='typefichier', validators=[validate_file_extension])
 
     class Meta:
-        managed = False
-        db_table = 'delivrable'
+        managed:bool = False
+        db_table:str = 'delivrable'
 
 
 class Etape(models.Model):
+    """
+    Classe représentant la table Etape de la base de données
+    """
     idetape = models.AutoField(primary_key=True, db_column='idetape')
     datedebut = models.DateTimeField(db_column='datedebut')
     datefin = models.DateTimeField(db_column='datefin')
@@ -93,11 +130,14 @@ class Etape(models.Model):
     iddelivrable = models.ForeignKey(Delivrable, models.DO_NOTHING, db_column='iddelivrable')
 
     class Meta:
-        managed = False
-        db_table = 'etape'
+        managed:bool = False
+        db_table:str = 'etape'
 
 
 class PersonneManager(BaseUserManager):
+    """
+    Une classe représentant un moyen d'incorporer une classe avec l'authentification propre à django
+    """
     def create_user(self, mail, password=None, **extra_fields):
         if not mail:
             raise ValueError('The Email field must be set')
@@ -114,6 +154,10 @@ class PersonneManager(BaseUserManager):
 
 
 class Personne(AbstractBaseUser, PermissionsMixin):
+    """
+    Représentation de la table personne en BD
+    Cette table est mélangée avec le système d'authentification de django
+    """
     idpersonne = models.AutoField(primary_key=True, db_column='idpersonne')
     nom = models.TextField(db_column='nom')
     prenom = models.TextField(db_column='prenom')
@@ -130,25 +174,31 @@ class Personne(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'mail'
     PASSWORD_FIELD = 'password'
 
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS:list[str] = []
 
     class Meta:
-        managed = False
-        db_table = 'personne'
+        managed:bool= False
+        db_table:str = 'personne'
 
 
 class Professeur(models.Model):
+    """
+    Classe représentant la table Professeur en base de données.
+    """
     idprof = models.AutoField(primary_key=True, db_column='idprof')
     specialite = models.TextField(db_column='specialite')
     idpersonne = models.ForeignKey(Personne, models.DO_NOTHING, db_column='idpersonne')
     idperiode = models.ForeignKey(Periode, models.DO_NOTHING, db_column='idperiode')
 
     class Meta:
-        managed = False
-        db_table = 'professeur'
+        managed:bool = False
+        db_table:str = 'professeur'
 
 
 class Sujet(models.Model):
+    """
+    Classe représentant la table sujet de la base de données
+    """
     idsujet = models.AutoField(primary_key=True, db_column='idsujet')
     titre = models.TextField(db_column='titre')
     descriptif = models.TextField(db_column='descriptif')
@@ -164,30 +214,37 @@ class Sujet(models.Model):
     idue = models.ForeignKey('Ue', models.DO_NOTHING, db_column='idue')
 
     class Meta:
-        managed = False
-        db_table = 'sujet'
+        managed:bool = False
+        db_table:str = 'sujet'
 
 
 class Ue(models.Model):
+    """
+    Classe représentant une ue, un cours dans l'enseignement supérieur de Belgique
+    """
     idue = models.TextField(primary_key=True, db_column='idue')
     nom = models.TextField(db_column='nom', default="Matthys")
     idprof = models.ForeignKey(Professeur, models.DO_NOTHING, db_column='idprof')
     isopen = models.BooleanField(db_column='isopen', default=False)
 
     class Meta:
-        managed = False
-        db_table = 'ue'
+        managed:bool = False
+        db_table:str = 'ue'
 
 
 class EtapeUe(models.Model):
+    """
+    Représentation de la table étape ue de la base de données. Elle permet
+    de savoir dans quel étape on se trouve en BD.
+    """
     idetapeue = models.AutoField(primary_key=True, db_column='idetapeue')
     idue = models.ForeignKey(Ue, models.DO_NOTHING, db_column='idue')
     idetape = models.ForeignKey(Etape, models.DO_NOTHING, db_column='idetape')
     etapecourante = models.BooleanField(db_column='etapecourante', default=False)
 
     class Meta:
-        managed = False
-        db_table = 'etapeue'
+        managed:bool = False
+        db_table:str = 'etapeue'
 
 
 class FichierDelivrable(models.Model):
@@ -243,8 +300,7 @@ class SelectionSujet(models.Model):
     idselection = models.AutoField(primary_key=True, db_column='idselection')
     idetudiant = models.ForeignKey(Etudiant, models.DO_NOTHING, db_column='idetudiant')
     idsujet = models.ForeignKey(Sujet, models.DO_NOTHING, db_column='idsujet')
-    is_involved = models.BooleanField(db_column='is_involved', default=False) 
-
+    is_involved = models.BooleanField(db_column='is_involved', default=False)
 
     class Meta:
         managed = False

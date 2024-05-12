@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Suite des commentaires de courseViews.py">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/courseViews.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genieLogiciel/polls/queries.py" beforeDir="false" afterPath="$PROJECT_DIR$/genieLogiciel/polls/queries.py" afterDir="false" />
-    </list>
+    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Fin des commentaires dans la partie email" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -190,31 +186,7 @@
       <workItem from="1715164849314" duration="212000" />
       <workItem from="1715410737947" duration="4652000" />
       <workItem from="1715431311936" duration="823000" />
-      <workItem from="1715434660008" duration="2934000" />
-    </task>
-    <task id="LOCAL-00005" summary="On peut de nouveau accéder pour un cours à ce qu'il faut faire">
-      <option name="closed" value="true" />
-      <created>1714642580850</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1714642580850</updated>
-    </task>
-    <task id="LOCAL-00006" summary="A partir d'un cours sélectionné pour un étudiant&#10;On peut accéder à la timeline pour ce cours et la flèche de retour en arrière nous ramène bien à l'endroit prévu">
-      <option name="closed" value="true" />
-      <created>1714643348734</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1714643348734</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Modification mtnt la bd se trouve dans le même conteneur que l'app django">
-      <option name="closed" value="true" />
-      <created>1714647735835</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1714647735835</updated>
+      <workItem from="1715434660008" duration="4298000" />
     </task>
     <task id="LOCAL-00008" summary="Remodification de ma github action pour qu'elle publie sur mon repo">
       <option name="closed" value="true" />
@@ -584,7 +556,31 @@
       <option name="project" value="LOCAL" />
       <updated>1715432125680</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Fin des commentaires dans la partie courseViews.py">
+      <option name="closed" value="true" />
+      <created>1715524336103</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1715524336104</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Début des commentaires pour le fichier forms.py">
+      <option name="closed" value="true" />
+      <created>1715525110530</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1715525110530</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Fin des commentaires dans la partie email">
+      <option name="closed" value="true" />
+      <created>1715525267155</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1715525267155</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -602,9 +598,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Rajout du token etapes" />
-    <MESSAGE value="La desincription des étudiants n'entrainent plus l'effacement des sujets mais seulement des colonnes correspondantes dans selectionSujet + si le nombre de selection pour un sujet revient à faux" />
-    <MESSAGE value="estprise est devenu est pris dans desincription validation" />
     <MESSAGE value="Modification du formumlaire d'ajout d'une étape" />
     <MESSAGE value="Mise à jour du formulaire des modalités pour un prof ou un admin" />
     <MESSAGE value="Modification de la protection du formulaire d'ajout d'étape" />
@@ -627,7 +620,10 @@
     <MESSAGE value="Rectification sur l'attribution de personnes. Elle est totalement supprimée" />
     <MESSAGE value="Début des commentaires" />
     <MESSAGE value="Suite des commentaires de courseViews.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Suite des commentaires de courseViews.py" />
+    <MESSAGE value="Fin des commentaires dans la partie courseViews.py" />
+    <MESSAGE value="Début des commentaires pour le fichier forms.py" />
+    <MESSAGE value="Fin des commentaires dans la partie email" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fin des commentaires dans la partie email" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/genieproj$manage.coverage" NAME="manage Coverage Results" MODIFIED="1714633982340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/genieLogiciel" />
