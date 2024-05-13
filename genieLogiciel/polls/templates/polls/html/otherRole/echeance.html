@@ -1,6 +1,7 @@
 {% extends "otherRole/otherRoleTemplate.html" %}
 {% block content %}
 <div class="container d-flex flex-column justify-content-center align-items-center vh-100">
+    {% if elements|length > 0 %}
     {% for element in elements %}
     <div class="card" style="width:40vw">
         <div class="card-header border bgunamur">
@@ -29,5 +30,8 @@
         {% endfor %}
     </div>
     {% endfor %}
+    {% else %}
+    <p class="vw-100">Vous n'avez pas de cours</p>
+    {% endif %}
 </div>
 {% endblock %}

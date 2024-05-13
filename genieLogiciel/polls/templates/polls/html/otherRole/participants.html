@@ -19,9 +19,13 @@
     
     <div class="collapse" id="collapseSuperviseur">
         <div class="list-group">
+            {% if supervisors|length > 0 %}
             {% for sup in supervisors %}
             <a href="/polls/fiche/{{ sup.idpersonne }}" class="list-group-item list-group-item-action">{{ sup.nom }} {{ sup.prenom }} - {{ sup.mail }}</a>
             {% endfor %}
+            {% else %}
+            <a href="#" class="list-group-item list-group-item-action">Aucun superviseur</a>
+            {% endif %}
         </div>
     </div>
 
@@ -31,12 +35,16 @@
     
     <div class="collapse" id="collapseEtudiant">
         <div class="list-group">
+            {% if students|length > 0 %}
             {% for stud in students %}
             <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                 <a class="list-group-item-action text-black" href="/polls/fiche/{{ stud.idpersonne }}">{{ stud.nom }} {{ stud.prenom }} - {{ stud.mail }} </a>
                 <a class="btn bg-danger text-white fa fa-trash-o" href="../../desinscription/{{ ue.idue }}/{{ stud.idpersonne }}"></a>
             </div>
             {% endfor %}
+            {% else %}
+            <a href="#" class="list-group-item list-group-item-action">Aucun étudiant</a>
+            {% endif %}
         </div>
     </div>
 </div>

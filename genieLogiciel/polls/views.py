@@ -294,7 +294,7 @@ def profile(request) -> HttpResponse:
 
 
 @csrf_exempt
-def subscription(request:HttpRequest) -> HttpResponse:
+def subscription(request: HttpRequest) -> HttpResponse:
     """
     Page d'inscription pour un nouvel étudiant
     :param request: La requête http courante
@@ -371,8 +371,8 @@ def desinscription_course(request) -> HttpResponse:
     """
     user = request.user
     if "etudiant" in user.role['role']:
-        courses_query:list[Cours] = find_course_for_student(user.idpersonne)
-        courses:list[Cours] = []
+        courses_query: list[Cours] = find_course_for_student(user.idpersonne)
+        courses: list[Cours] = []
         for course in courses_query:
             courses.append(course)
         if len(courses) == 0:
@@ -400,9 +400,9 @@ def desinscription_validation(request, idcours: int) -> HttpResponse:
     """
     user = request.user
     if "etudiant" in user.role['role']:
-        cours:Cours = find_course_by_id(idcours)
-        student:Etudiant = find_student_by_id_personne(user.idpersonne)
-        selections:list[SelectionSujet] = find_selection_by_id_etudiant(student.idetudiant)
+        cours: Cours = find_course_by_id(idcours)
+        student: Etudiant = find_student_by_id_personne(user.idpersonne)
+        selections: list[SelectionSujet] = find_selection_by_id_etudiant(student.idetudiant)
 
         if selections is not None:
             for selection in selections:
@@ -418,7 +418,7 @@ def desinscription_validation(request, idcours: int) -> HttpResponse:
 
 @login_required(login_url='/polls')
 @is_owner_of_ue_or_admin
-def desinscription_etudiant_from_course(request:HttpRequest, idpersonne:int, idue:str) -> HttpResponse:
+def desinscription_etudiant_from_course(request: HttpRequest, idpersonne: int, idue: str) -> HttpResponse:
     """
     Désinscription d'un étudiant d'un cours par un prof ou un admin
     :param request: La requête http courante
@@ -426,14 +426,14 @@ def desinscription_etudiant_from_course(request:HttpRequest, idpersonne:int, idu
     :param idue: l'id de l'ue du cours
     :return:
     """
-    etudiant:Etudiant = find_student_by_id_personne(idpersonne)
-    sujets:list[Sujet] = find_sujets_of_student_of_ue(idpersonne, idue)
-    cours:Cours = Cours.objects.get(idetudiant=etudiant, idue=idue)
+    etudiant: Etudiant = find_student_by_id_personne(idpersonne)
+    sujets: list[Sujet] = find_sujets_of_student_of_ue(idpersonne, idue)
+    cours: Cours = Cours.objects.get(idetudiant=etudiant, idue=idue)
     # On libère les sujets réservés par l'étudiant
     if sujets is not None:
         for sujet in sujets:
             sujet.estpris = False
-            selections:list[SelectionSujet] = find_selection_by_id_sujet(sujet)
+            selections: list[SelectionSujet] = find_selection_by_id_sujet(sujet)
             for selection in selections:
                 selection.delete()
             sujet.save()
@@ -443,7 +443,7 @@ def desinscription_etudiant_from_course(request:HttpRequest, idpersonne:int, idu
 
 
 @login_required(login_url='/polls')
-def deliverable_file(request:HttpRequest, path:str)->FileResponse:
+def deliverable_file(request: HttpRequest, path: str) -> FileResponse:
     """
     Obtention d'un fichier délivrable
     :param request:La requête http courante
