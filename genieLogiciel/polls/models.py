@@ -16,9 +16,9 @@ des différentes opérations CRUD sur les tables de la base de données grâce �
 
 
 # Function to validate file extension
-def validate_file_extension(value: str):
+def validate_file_extension(value):
     """
-    La fonction dit si le fichier contient une extension correct
+    La fonction dit si le fichier contient une extension correcte
     :param value: Le nom du fichier
     :return: Le fichier si celui-ci contient un nom d'extension correct
     """
