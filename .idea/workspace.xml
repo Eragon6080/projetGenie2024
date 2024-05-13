@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Fin des commentaires dans la partie email" />
+    <list default="true" id="1a16f3bd-148f-4670-9f12-e2f664e41fa0" name="Changes" comment="Début des commentaires&#10;pour les models.py" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -186,15 +186,7 @@
       <workItem from="1715164849314" duration="212000" />
       <workItem from="1715410737947" duration="4652000" />
       <workItem from="1715431311936" duration="823000" />
-      <workItem from="1715434660008" duration="4298000" />
-    </task>
-    <task id="LOCAL-00008" summary="Remodification de ma github action pour qu'elle publie sur mon repo">
-      <option name="closed" value="true" />
-      <created>1714647847267</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1714647847267</updated>
+      <workItem from="1715434660008" duration="5796000" />
     </task>
     <task id="LOCAL-00009" summary="La bd est de nouveau sur un conteneur à part pour la pérennité de mon github">
       <option name="closed" value="true" />
@@ -580,7 +572,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715525267155</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="Début des commentaires&#10;pour les models.py">
+      <option name="closed" value="true" />
+      <created>1715527275316</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1715527275316</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -598,7 +598,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Modification du formumlaire d'ajout d'une étape" />
     <MESSAGE value="Mise à jour du formulaire des modalités pour un prof ou un admin" />
     <MESSAGE value="Modification de la protection du formulaire d'ajout d'étape" />
     <MESSAGE value="Correction de l'erreur syntaxique" />
@@ -623,7 +622,8 @@
     <MESSAGE value="Fin des commentaires dans la partie courseViews.py" />
     <MESSAGE value="Début des commentaires pour le fichier forms.py" />
     <MESSAGE value="Fin des commentaires dans la partie email" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fin des commentaires dans la partie email" />
+    <MESSAGE value="Début des commentaires&#10;pour les models.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Début des commentaires&#10;pour les models.py" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/genieproj$manage.coverage" NAME="manage Coverage Results" MODIFIED="1714633982340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/genieLogiciel" />
