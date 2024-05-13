@@ -2,7 +2,15 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ImproperlyConfigured
 
+"""
+Script de test utlisant la librairie Django pour tester les fonctionnalités de la classe User
+"""
+
+
 class UserTest(TestCase):
+    """
+    Classe de test pour tester les fonctionnalités de la classe User
+    """
     def setUp(self):
         self.user_data = {
             'mail': 'john.doe@gmail.com',

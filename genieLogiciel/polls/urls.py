@@ -1,7 +1,9 @@
 from django.urls import path, re_path
 from . import views, courseViews, adminViews
-
-
+"""
+Variable permettant de définir les urls de l'application polls
+"""
+# tableau contenant les urls de l'application 'polls'
 urlpatterns = [
     # pages communes
     path("", views.login, name="login"),
@@ -57,12 +59,11 @@ urlpatterns = [
     path("course/inscription/<str:idue>/<str:nom>", courseViews.subscription_validation, name="inscription"),
     path("course/desincription", views.desinscription, name="desinscription"),
     path("course/desinscription/<int:idcours>", views.desinscription_validation, name="desinscription_validation"),
-    path("course/desinscription/<str:idue>/<int:idpersonne>", views.desinscription_etudiant, name="desinscription d'un etudiant d'une ue"),
+    path("course/desinscription/<str:idue>/<int:idpersonne>", views.desinscription_etudiant_from_course, name="desinscription d'un etudiant d'une ue"),
     
 
     # utils
     path("ok/", courseViews.ok, name="ok"),
-    path("suivi/", views.yes, name="yes"),
     path("switch_role/<str:role>", views.switchRole, name="switch_role"),
 
     # deprecated
